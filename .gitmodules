@@ -1,0 +1,6 @@
+[submodule "lib/neflibx"]
+	path = lib/neflibx
+	url = https://github.com/Asventi/42-neflibx.git
+[submodule "lib/libft"]
+	path = lib/libft
+	url = https://github.com/Asventi/42-libft.git
