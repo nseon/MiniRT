@@ -2,7 +2,6 @@
 
 .idea/
 .make/
-*_test.c
 minirt
 
 # Prerequisites

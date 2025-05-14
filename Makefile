@@ -68,7 +68,7 @@ MAKEFLAGS	+=	--no-print-directory
 
 # ================MODES================ #
 
-MODES		:= debug fsanitize optimize full-optimize
+MODES		:= debug fsanitize optimize full-optimize test
 
 MODE_TRACE	:= $(BUILD_DIR).mode_trace
 LAST_MODE	:= $(shell cat $(MODE_TRACE) 2>/dev/null)
@@ -89,6 +89,11 @@ else ifeq ($(MODE), optimize)
 	CFLAGS += -O3
 else ifeq ($(MODE), full-optimize)
 	CFLAGS += -Ofast
+else ifeq ($(MODE), test)
+	CFLAGS = -g3 -D UNITY_OUTPUT_COLOR
+	SRC := $(filter-out $(NAME).c, $(SRC))
+	SRC += $(NAME)_test.c
+	TEST = /home/pjarnac/unit_tests/Unity/src/unity.c
 else ifneq ($(MODE),)
 	ERROR = MODE
 endif
@@ -104,7 +109,7 @@ all: $(NAME)
 
 $(NAME): $(LIBS_PATH) $(OBJS)
 	@echo $(MODE) > $(MODE_TRACE)
-	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) $(LDLIBS) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) $(TEST) $(LDFLAGS) $(LDLIBS) -o $(NAME)
 
 $(BUILD_DIR)%.o: $(SRC_DIR)%.c
 	@mkdir -p $(@D)
