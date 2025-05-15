@@ -35,6 +35,13 @@ SRC 		=	minirt.c \
 #SAMPLE_DIR =		sample/
 #SAMPLE_SRC =		sample_src.c \
 
+# ===============PARSING================ #
+
+SRC += $(addprefix $(PARSING_DIR), $(PARSING_SRC))
+
+PARSING_DIR =		parsing/
+PARSING_SRC =		parse.c \
+
 # ==========LIBS / INCLUDES============ #
 
 LIBS_DIR	=	lib/
@@ -43,7 +50,7 @@ LIBS_PATH	=	libft/libft.a neflibx/libneflibx.a
 LIBS_PATH	:=	$(addprefix $(LIBS_DIR), $(LIBS_PATH))
 LIBS		=	$(patsubst lib%.a, %, $(notdir $(LIBS_PATH)))
 #SYS_LIBS	=	readline
-SYS_LIBS	=	m
+SYS_LIBS	=	m X11 Xext
 SYS_LIBS	:=	$(addprefix -l, $(SYS_LIBS))
 
 INCS_DIR	=	includes/
@@ -93,7 +100,7 @@ else ifeq ($(MODE), test)
 	CFLAGS = -g3 -D UNITY_OUTPUT_COLOR
 	SRC := $(filter-out $(NAME).c, $(SRC))
 	SRC += $(NAME)_test.c
-	TEST = /home/pjarnac/unit_tests/Unity/src/unity.c
+	TEST = /sgoinfre/pjarnac/public/unit_tests/Unity/src/unity.c
 else ifneq ($(MODE),)
 	ERROR = MODE
 endif

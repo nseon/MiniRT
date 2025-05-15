@@ -11,9 +11,22 @@
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "neflibx.h"
+#include "../lib/neflibx/lib/minilibx/mlx.h"
+
+void	end(void *p)
+{
+	t_window	*win = (t_window *)p;
+	end_loop(win);
+}
 
 int	main(int c, char **args)
 {
-	ft_printf("Ca commence hein\n");
+	t_window	win;
+
+	init_window(&win, 1920, 1080, "MiniRT");
+	register_destroy(win.events, end, &win);
+	loop(&win);
+	destroy_window(&win);
 	return (0);
 }
