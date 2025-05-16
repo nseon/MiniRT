@@ -42,6 +42,14 @@ SRC += $(addprefix $(PARSING_DIR), $(PARSING_SRC))
 PARSING_DIR =		parsing/
 PARSING_SRC =		parse.c \
 
+# ===============MESH================ #
+
+SRC += $(addprefix $(MESH_DIR), $(MESH_SRC))
+
+MESH_DIR =		mesh/
+MESH_SRC =		triangle.c \
+				mesh.c \
+
 # ==========LIBS / INCLUDES============ #
 
 LIBS_DIR	=	lib/
@@ -97,7 +105,7 @@ else ifeq ($(MODE), optimize)
 else ifeq ($(MODE), full-optimize)
 	CFLAGS += -Ofast
 else ifeq ($(MODE), test)
-	CFLAGS = -g3 -D UNITY_OUTPUT_COLOR
+	CFLAGS = -g3 -D UNITY_OUTPUT_COLOR -D UNITY_INCLUDE_DOUBLE -D UNITY_INCLUDE_EXEC_TIME
 	SRC := $(filter-out $(NAME).c, $(SRC))
 	SRC += $(NAME)_test.c
 	TEST = /sgoinfre/pjarnac/public/unit_tests/Unity/src/unity.c

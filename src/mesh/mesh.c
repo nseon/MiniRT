@@ -1,34 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minirt.c                                           :+:      :+:    :+:   */
+/*   mesh.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/14 16:22:55 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/05/14 16:22:55 by pjarnac          ###   ########.fr       */
+/*   Created: 2025/05/15 16:08:32 by pjarnac           #+#    #+#             */
+/*   Updated: 2025/05/15 16:08:32 by pjarnac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "mesh.h"
+#include "errors.h"
 #include "libft.h"
-#include "neflibx.h"
-#include "../lib/neflibx/lib/minilibx/mlx.h"
 
-void	end(void *p)
+int8_t	new_mesh(t_mesh	*mesh)
 {
-	t_window	*win = (t_window *)p;
-	end_loop(win);
+	mesh->vertices = vct_create(sizeof (t_point3), NULL, 0);
+	if (!mesh->vertices)
+		return (FATAL);
+	return (SUCCESS);
 }
 
-int	main(int c, char **args)
+// Using free_vct for performance, use vct_destroy if custom deletion is needed
+int8_t	delete_mesh(t_mesh	*mesh)
 {
-	t_window	win;
+	free_vct(mesh->vertices);
+	return (SUCCESS);
+}
 
-	(void)c;
-	(void)args;
-	init_window(&win, 1920, 1080, "MiniRT");
-	register_destroy(win.events, end, &win);
-	loop(&win);
-	destroy_window(&win);
-	return (0);
+size_t	mesh_tri_count(t_mesh *mesh)
+{
+	return (vct_size(mesh->vertices) / 3);
 }
