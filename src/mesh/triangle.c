@@ -11,23 +11,34 @@
 /* ************************************************************************** */
 
 #include "mesh.h"
-#include "libft.h"
+#include "neflibx.h"
 #include "errors.h"
 
-t_triangle	*get_triangle(t_mesh *mesh, uint32_t i)
+t_triangle	get_triangle(t_mesh *mesh, uint32_t i)
 {
-	return ((t_triangle *)&mesh->vertices[i * 3]);
+	return ((t_triangle){mesh->vertices + mesh->v_indexes[3 * i],
+		mesh->vertices + mesh->v_indexes[3 * i + 1],
+		mesh->vertices + mesh->v_indexes[3 * i + 2]});
 }
 
-t_triangle	new_triangle(t_point3 v1, t_point3 v2, t_point3 v3)
+int8_t	add_triangle(t_mesh *mesh, t_triangle triangle)
 {
-	return ((t_triangle){v1, v2, v3});
-}
+	const size_t	v_size = vct_size(mesh->vertices);
 
-int8_t	add_triangle(t_mesh *mesh, t_triangle *triangle)
-{
-	vct_add(&mesh->vertices, (t_point3 *)triangle);
-	vct_add(&mesh->vertices, (t_point3 *)triangle + 1);
-	vct_add(&mesh->vertices, (t_point3 *)triangle + 2);
+	vct_add(&mesh->vertices, triangle.vertices[0]);
+	vct_add(&mesh->vertices, triangle.vertices[1]);
+	vct_add(&mesh->vertices, triangle.vertices[2]);
+	vct_add(&mesh->v_indexes, &(uint32_t){v_size});
+	vct_add(&mesh->v_indexes, &(uint32_t){v_size + 1});
+	vct_add(&mesh->v_indexes, &(uint32_t){v_size + 2});
 	return (SUCCESS);
 }
+
+int8_t	add_itriangle(t_mesh *mesh, uint32_t idx[3])
+{
+	vct_add(&mesh->v_indexes, idx);
+	vct_add(&mesh->v_indexes, idx + 1);
+	vct_add(&mesh->v_indexes, idx + 2);
+	return (SUCCESS);
+}
+

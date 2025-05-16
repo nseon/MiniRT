@@ -1,34 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minirt.c                                           :+:      :+:    :+:   */
+/*   objects.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/14 16:22:55 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/05/14 16:22:55 by pjarnac          ###   ########.fr       */
+/*   Created: 2025/05/16 17:21:56 by pjarnac           #+#    #+#             */
+/*   Updated: 2025/05/16 17:21:56 by pjarnac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
+#ifndef OBJECTS_H
+# define OBJECTS_H
 
-#include "mesh.h"
-#include "neflibx.h"
+# include "mesh.h"
 
-void	end(void *p)
-{
-	t_window	*win = (t_window *)p;
-	end_loop(win);
-}
+t_mesh	*new_cube(t_point3 pos, t_point3 dim);
 
-int	main(int c, char **args)
-{
-	t_mesh		mesh;
-	t_triangle	triangle;
-	new_mesh(&mesh);
-	for (uint32_t i = 0; i < 1000000; i++)
-	{
-		add_triangle(&mesh, &triangle);
-	}
-	return (0);
-}
+#endif

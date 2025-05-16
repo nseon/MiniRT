@@ -11,25 +11,41 @@
 /* ************************************************************************** */
 
 #include "mesh.h"
-#include "errors.h"
-#include "libft.h"
 
-int8_t	new_mesh(t_mesh	*mesh)
+#include <stdio.h>
+#include <stdlib.h>
+
+#include "errors.h"
+#include "neflibx.h"
+
+t_mesh	*new_mesh(void)
 {
+	t_mesh	*mesh;
+
+	mesh = malloc(sizeof (t_mesh));
 	mesh->vertices = vct_create(sizeof (t_point3), NULL, 0);
 	if (!mesh->vertices)
-		return (FATAL);
-	return (SUCCESS);
+		return (NULL);
+	mesh->v_indexes = vct_create(sizeof (uint32_t), NULL, 0);
+	if (!mesh->v_indexes)
+	{
+		free_vct(mesh->vertices);
+		return (NULL);
+	}
+	return (mesh);
 }
 
 // Using free_vct for performance, use vct_destroy if custom deletion is needed
 int8_t	delete_mesh(t_mesh	*mesh)
 {
+	printf("%zu + %zu\n", vct_size(mesh->vertices) * sizeof (t_point3), vct_size(mesh->v_indexes) * sizeof (uint32_t));
 	free_vct(mesh->vertices);
+	free_vct(mesh->v_indexes);
+	free(mesh);
 	return (SUCCESS);
 }
 
 uint32_t	mesh_tri_count(t_mesh *mesh)
 {
-	return (vct_size(mesh->vertices) / 3);
+	return (vct_size(mesh->v_indexes) / 3);
 }

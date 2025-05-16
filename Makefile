@@ -50,11 +50,18 @@ MESH_DIR =		mesh/
 MESH_SRC =		triangle.c \
 				mesh.c \
 
+# =============MESH/OBJECTS================ #
+
+SRC += $(addprefix $(MESH_DIR)$(OBJECTS_DIR), $(OBJECTS_SRC))
+
+OBJECTS_DIR =	objects/
+OBJECTS_SRC =	cube.c \
+
 # ==========LIBS / INCLUDES============ #
 
 LIBS_DIR	=	lib/
 #LIBS_PATH	=	libft/libft.a
-LIBS_PATH	=	libft/libft.a neflibx/libneflibx.a
+LIBS_PATH	=	neflibx/libneflibx.a
 LIBS_PATH	:=	$(addprefix $(LIBS_DIR), $(LIBS_PATH))
 LIBS		=	$(patsubst lib%.a, %, $(notdir $(LIBS_PATH)))
 #SYS_LIBS	=	readline
