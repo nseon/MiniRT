@@ -11,8 +11,8 @@
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "mesh.h"
 #include "neflibx.h"
-#include "../lib/neflibx/lib/minilibx/mlx.h"
 
 void	end(void *p)
 {
@@ -22,13 +22,12 @@ void	end(void *p)
 
 int	main(int c, char **args)
 {
-	t_window	win;
-
-	(void)c;
-	(void)args;
-	init_window(&win, 1920, 1080, "MiniRT");
-	register_destroy(win.events, end, &win);
-	loop(&win);
-	destroy_window(&win);
+	t_mesh		mesh;
+	t_triangle	triangle;
+	new_mesh(&mesh);
+	for (uint32_t i = 0; i < 1000000; i++)
+	{
+		add_triangle(&mesh, &triangle);
+	}
 	return (0);
 }

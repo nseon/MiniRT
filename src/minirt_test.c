@@ -12,6 +12,7 @@
 
 #include "/sgoinfre/pjarnac/public/unit_tests/Unity/src/unity.h"
 #include "../includes/mesh.h"
+#include "../lib/libft/src/vector/vector.h"
 
 void	setUp()
 {
@@ -39,15 +40,15 @@ void	test_mesh()
 	t_mesh	mesh;
 	t_triangle	triangle = {0.5, -1, 1.5, 2, 2, 2, 3, 3, 3};
 	TEST_ASSERT_EQUAL_INT8_MESSAGE(0, new_mesh(&mesh), "Mesh initialization error :'(");
-	TEST_ASSERT_EQUAL_size_t(0, mesh_tri_count(&mesh));
+	TEST_ASSERT_EQUAL_UINT32(0, mesh_tri_count(&mesh));
 	TEST_ASSERT_EQUAL_INT8(0, add_triangle(&mesh, &triangle));
-	TEST_ASSERT_EQUAL_size_t(1, mesh_tri_count(&mesh));
+	TEST_ASSERT_EQUAL_UINT32(1, mesh_tri_count(&mesh));
 	TEST_ASSERT_EQUAL_MEMORY(&triangle, get_triangle(&mesh, 0), sizeof (t_triangle));
 	TEST_ASSERT_EQUAL_INT8(0, add_triangle(&mesh, &triangle));
 	TEST_ASSERT_EQUAL_INT8(0, add_triangle(&mesh, &triangle));
 	TEST_ASSERT_EQUAL_INT8(0, add_triangle(&mesh, &triangle));
 	TEST_ASSERT_EQUAL_INT8(0, add_triangle(&mesh, &triangle));
-	TEST_ASSERT_EQUAL_size_t(5, mesh_tri_count(&mesh));
+	TEST_ASSERT_EQUAL_UINT32(5, mesh_tri_count(&mesh));
 	TEST_ASSERT_EQUAL_MEMORY(&triangle, get_triangle(&mesh, 4), sizeof (t_triangle));
 	get_triangle(&mesh, 3)->vertices[1].y = -0.007;
 	TEST_ASSERT_EQUAL_FLOAT(-0.007, mesh.vertices[3 * 3 + 1].y);
@@ -55,7 +56,8 @@ void	test_mesh()
 	{
 		TEST_ASSERT_EQUAL_INT8(0, add_triangle(&mesh, &triangle));
 	}
-	TEST_ASSERT_EQUAL_size_t(1000005, mesh_tri_count(&mesh));
+	TEST_ASSERT_EQUAL_UINT32(1000005, mesh_tri_count(&mesh));
+	printf("Vertices count: %llu\n", vct_size(mesh.vertices));
 	TEST_ASSERT_EQUAL_INT8(0, delete_mesh(&mesh));
 }
 

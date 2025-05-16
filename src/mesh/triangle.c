@@ -14,7 +14,7 @@
 #include "libft.h"
 #include "errors.h"
 
-t_triangle	*get_triangle(t_mesh *mesh, size_t i)
+t_triangle	*get_triangle(t_mesh *mesh, uint32_t i)
 {
 	return ((t_triangle *)&mesh->vertices[i * 3]);
 }

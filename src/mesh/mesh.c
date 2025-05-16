@@ -29,7 +29,7 @@ int8_t	delete_mesh(t_mesh	*mesh)
 	return (SUCCESS);
 }
 
-size_t	mesh_tri_count(t_mesh *mesh)
+uint32_t	mesh_tri_count(t_mesh *mesh)
 {
 	return (vct_size(mesh->vertices) / 3);
 }
