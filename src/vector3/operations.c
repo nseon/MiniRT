@@ -1,37 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minirt.c                                           :+:      :+:    :+:   */
+/*   operations.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/14 16:22:55 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/05/14 16:22:55 by pjarnac          ###   ########.fr       */
+/*   Created: 2025/05/19 17:26:09 by pjarnac           #+#    #+#             */
+/*   Updated: 2025/05/19 17:26:09 by pjarnac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
+#include <math.h>
 
-#include "mesh.h"
+#include "vector3.h"
 #include "render.h"
-#include "neflibx.h"
 
-void	end(void *p)
+float	v3_magnitude(t_vec3 vec)
 {
-	t_window	*win = (t_window *)p;
-	end_loop(win);
+	return (sqrt(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z));
 }
 
-int	main(int c, char **args)
+t_vec3	get_vec3(t_point3 pt1, t_point3 pt2)
 {
-	const t_camera	camera = {.pos = {400, 400, 0}, .orient = {0, 0, 1},
-		.vp = {800, 800, 800}};
-	t_window		win;
-	t_image			img;
+	return ((t_vec3){pt2.x - pt1.x, pt2.y - pt1.y, pt2.z - pt1.z});
+}
 
-	init_window(&win, 800, 800, "MiniRT");
-	create_image(&img, 800, 800, &win);
-	register_destroy(win.events, end, &win);
-	loop(&win);
-	return (0);
+t_vec3	v3_add(t_point3 pt1, t_point3 pt2)
+{
+	return ((t_vec3){pt1.x + pt2.x, pt1.y + pt2.y, pt1.z + pt2.z});
 }

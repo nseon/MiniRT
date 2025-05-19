@@ -38,7 +38,6 @@ t_mesh	*new_mesh(void)
 // Using free_vct for performance, use vct_destroy if custom deletion is needed
 int8_t	delete_mesh(t_mesh	*mesh)
 {
-	printf("%zu + %zu\n", vct_size(mesh->vertices) * sizeof (t_point3), vct_size(mesh->v_indexes) * sizeof (uint32_t));
 	free_vct(mesh->vertices);
 	free_vct(mesh->v_indexes);
 	free(mesh);
