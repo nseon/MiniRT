@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:22:55 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/05/14 16:22:55 by pjarnac          ###   ########.fr       */
+/*   Updated: 2025/05/19 18:36:54 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,18 @@ void	end(void *p)
 
 int	main(int c, char **args)
 {
-	t_mesh		mesh;
-	t_triangle	triangle;
-	new_mesh(&mesh);
-	for (uint32_t i = 0; i < 1000000; i++)
-	{
-		add_triangle(&mesh, &triangle);
-	}
+	t_window	win;
+	t_image		img;
+	int			i;
+	int			r;
+	int			g;
+	int			b;
+	int			check;
+
+	init_window(&win, 1098, 800, "TEST");
+	create_image(&img, 1098, 800, &win);
+	put_img(&img, 0, 0);
+	register_destroy(win.events, end, &win);
+	loop(&win);
 	return (0);
 }

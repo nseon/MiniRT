@@ -3,6 +3,7 @@
 .idea/
 .make/
 minirt
+neflibx
 
 # Prerequisites
 *.d
