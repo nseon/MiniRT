@@ -16,6 +16,7 @@
 
 static int8_t	add_indexes(t_mesh *mesh)
 {
+	vct_allocate(&mesh->v_indexes, 36);
 	add_itriangle(mesh, (uint32_t[3]){0, 1, 2});
 	add_itriangle(mesh, (uint32_t[3]){0, 2, 3});
 	add_itriangle(mesh, (uint32_t[3]){1, 5, 6});
@@ -38,6 +39,7 @@ t_mesh	*new_cube(t_point3 pos, t_point3 dim)
 	mesh = new_mesh();
 	if (!mesh)
 		return (NULL);
+	vct_allocate(&mesh->vertices, 8);
 	vct_add(&mesh->vertices, &(t_point3){pos.x, pos.y, pos.z});
 	vct_add(&mesh->vertices, &(t_point3){pos.x + dim.x, pos.y, pos.z});
 	vct_add(&mesh->vertices, &(t_point3){pos.x + dim.x, pos.y + dim.y, pos.z});

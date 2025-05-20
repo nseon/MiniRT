@@ -16,14 +16,9 @@
 # include <stdint.h>
 # include <stddef.h>
 
-typedef uint32_t	*t_uint32_vct;
+# include "render.h"
 
-typedef struct s_point3
-{
-	float	x;
-	float	y;
-	float	z;
-}	t_point3;
+typedef uint32_t	*t_uint32_vct;
 
 typedef t_point3	*t_point3_vct;
 

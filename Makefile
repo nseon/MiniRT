@@ -57,6 +57,22 @@ SRC += $(addprefix $(MESH_DIR)$(OBJECTS_DIR), $(OBJECTS_SRC))
 OBJECTS_DIR =	objects/
 OBJECTS_SRC =	cube.c \
 
+# ===============VECTOR3================ #
+
+SRC += $(addprefix $(VECTOR3_DIR), $(VECTOR3_SRC))
+
+VECTOR3_DIR =	vector3/
+VECTOR3_SRC =	operations.c \
+				multiplications.c \
+
+# ===============VECTOR2================ #
+
+SRC += $(addprefix $(VECTOR2_DIR), $(VECTOR2_SRC))
+
+VECTOR2_DIR =	vector2/
+VECTOR2_SRC =	operations.c \
+				multiplications.c \
+
 # ==========LIBS / INCLUDES============ #
 
 LIBS_DIR	=	lib/
