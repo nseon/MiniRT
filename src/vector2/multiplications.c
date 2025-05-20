@@ -1,30 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   operations.c                                       :+:      :+:    :+:   */
+/*   multiplications.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/19 17:28:27 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/05/19 17:28:27 by pjarnac          ###   ########.fr       */
+/*   Created: 2025/05/20 14:40:04 by pjarnac           #+#    #+#             */
+/*   Updated: 2025/05/20 14:40:04 by pjarnac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <math.h>
-
 #include "vector2.h"
 
-float	v2_magnitude(t_vec2 vec)
+t_vec2	v2_multiply(t_vec2 vec, float k)
 {
-	return (sqrtf(vec.x * vec.x + vec.y * vec.y));
+	return ((t_vec2){vec.x * k, vec.y * k});
 }
 
-t_vec2	get_vec2(t_point2 pt1, t_point2 pt2)
+t_vec2	v2_normalize(t_vec2 vec)
 {
-	return ((t_vec2){pt2.x - pt1.x, pt2.y - pt1.y});
+	return (v2_multiply(vec, 1 / v2_magnitude(vec)));
 }
 
-t_vec2	v2_add(t_point2 pt1, t_point2 pt2)
+float	v2_dotproduct(t_vec2 v1, t_vec2 v2)
 {
-	return ((t_vec2){pt1.x + pt2.x, pt1.y + pt2.y});
+	return (v1.x * v2.x + v1.y * v2.y);
 }

@@ -71,6 +71,7 @@ SRC += $(addprefix $(VECTOR2_DIR), $(VECTOR2_SRC))
 
 VECTOR2_DIR =	vector2/
 VECTOR2_SRC =	operations.c \
+				multiplications.c \
 
 # ==========LIBS / INCLUDES============ #
 

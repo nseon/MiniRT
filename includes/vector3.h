@@ -15,16 +15,12 @@
 
 # include "points.h"
 
-typedef struct s_vec3
-{
-	float	x;
-	float	y;
-	float	z;
-}	t_vec3;
+typedef t_point3	t_vec3;
 
 float	v3_magnitude(t_vec3 vec);
 t_vec3	get_vec3(t_point3 pt1, t_point3 pt2);
 t_vec3	v3_add(t_point3 pt1, t_point3 pt2);
+t_vec3	v3_sub(t_point3 pt1, t_point3 pt2);
 t_vec3	v3_multiply(t_vec3 vec, float k);
 t_vec3	v3_normalize(t_vec3 vec);
 float	v3_dotproduct(t_vec3 v1, t_vec3 v2);

@@ -30,4 +30,10 @@ typedef struct s_camera
 	t_vieuport	vp;
 }	t_camera;
 
+typedef struct s_sphere
+{
+	t_point3	pos;
+	float		radius;
+}	t_sphere;
+
 #endif
