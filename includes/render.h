@@ -43,9 +43,10 @@ typedef	struct s_ctx
 	t_camera	cam;
 	t_image		img;
 	t_window	win;
+	t_sphere	*spheres;
 }	t_ctx;
 
-void	render(t_camera const camera, t_image *img);
+void	render(t_ctx ctx);
 
 
 #endif
