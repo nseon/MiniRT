@@ -10,15 +10,23 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
+
 #include "inputs.h"
 #include "image.h"
 #include "render.h"
 #include <unistd.h>
+#include <X11/X.h>
+#include <X11/Xlib.h>
+
+#include "lib/minilibx/mlx_int.h"
 
 void	move_cam(int keycode, void *args)
 {
 	t_ctx	*ctx;
+	static int	x;
 
+	x++;
 	ctx = (t_ctx *)args;
 	if (keycode == ARROW_UP)
 		ctx->cam.pos.y += 10;
@@ -29,6 +37,6 @@ void	move_cam(int keycode, void *args)
 	else if (keycode == ARROW_LEFT)
 		ctx->cam.pos.x -= 10;
 	clear_image(&ctx->img);
-	render(ctx->cam, &ctx->img);
+	render(*ctx);
 	put_img(&ctx->img, 0, 0);
 }

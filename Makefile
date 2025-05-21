@@ -49,6 +49,13 @@ SRC += $(addprefix $(PARSING_DIR), $(PARSING_SRC))
 PARSING_DIR =		parsing/
 PARSING_SRC =		parse.c \
 
+# ===============RAYTRACER================ #
+
+SRC += $(addprefix $(RAYTRACER_DIR), $(RAYTRACER_SRC))
+
+RAYTRACER_DIR =		raytracer/
+RAYTRACER_SRC =		render.c \
+
 # ===============MESH================ #
 
 SRC += $(addprefix $(MESH_DIR), $(MESH_SRC))
@@ -84,7 +91,7 @@ VECTOR2_SRC =	operations.c \
 
 LIBS_DIR	=	lib/
 #LIBS_PATH	=	libft/libft.a
-LIBS_PATH	=	neflibx/libneflibx.a
+LIBS_PATH	=	neflibx/libneflibx.a minilibx/libmlx.a
 LIBS_PATH	:=	$(addprefix $(LIBS_DIR), $(LIBS_PATH))
 LIBS		=	$(patsubst lib%.a, %, $(notdir $(LIBS_PATH)))
 #SYS_LIBS	=	readline
@@ -127,7 +134,7 @@ else
 endif
 
 ifeq ($(MODE), debug)
-	CFLAGS = -g3
+	CFLAGS = -g3 -D DEBUG
 else ifeq ($(MODE), fsanitize)
 	CFLAGS = -g3 -fsanitize=address
 else ifeq ($(MODE), optimize)
