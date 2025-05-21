@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:22:55 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/05/20 17:53:42 by nseon            ###   ########.fr       */
+/*   Updated: 2025/05/21 12:09:03 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "mesh.h"
 #include "render.h"
 #include "neflibx.h"
+#include "inputs.h"
 
 void	end(void *p)
 {
@@ -44,7 +45,7 @@ float		get_cercle_pt(t_camera const camera, t_sphere const sphere, t_point3 vp)
 
 void		render(t_camera const camera, t_image *img)
 {
-	const t_sphere		sphere = {{400, 400, 1000}, 100};
+	const t_sphere		sphere = {{960, 540, 1000}, 100};
 	float				t;
 	t_point3			render_point;
 
@@ -68,7 +69,7 @@ void		render(t_camera const camera, t_image *img)
 
 int	main(int c, char **args)
 {
-	const t_camera	camera = {.pos = {800, 400, 0}, .orient = {0, 0, 1},
+	t_camera	camera = {.pos = {960, 540, 0}, .orient = {0, 0, 1},
 		.vp = {1920, 1080, 1500}};
 
 	t_point3			render_point;
@@ -81,6 +82,7 @@ int	main(int c, char **args)
 	render(camera, &img);
 	put_img(&img, 0, 0);
 	register_destroy(win.events, end, &win);
+	register_keypress(win.events, move_cam, &((t_ctx){camera, img, win}));
 	loop(&win);
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 16:10:47 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/05/19 16:10:47 by pjarnac          ###   ########.fr       */
+/*   Updated: 2025/05/21 12:11:09 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # include "vector3.h"
 # include "points.h"
+# include "window.h"
+# include "image.h"
 
 typedef struct s_vieuport
 {
@@ -35,5 +37,15 @@ typedef struct s_sphere
 	t_point3	pos;
 	float		radius;
 }	t_sphere;
+
+typedef	struct s_ctx
+{
+	t_camera	cam;
+	t_image		img;
+	t_window	win;
+}	t_ctx;
+
+void	render(t_camera const camera, t_image *img);
+
 
 #endif

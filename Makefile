@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+         #
+#    By: nseon <nseon@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/19 11:53:22 by pjarnac           #+#    #+#              #
-#    Updated: 2025/04/02 11:56:43 by nseon            ###   ########.fr        #
+#    Updated: 2025/05/21 12:08:44 by nseon            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,13 @@ SRC 		=	minirt.c \
 #
 #SAMPLE_DIR =		sample/
 #SAMPLE_SRC =		sample_src.c \
+
+# ===============INPUTS================= #
+
+SRC += $(addprefix $(INPUTS_DIR), $(INPUTS_SRC))
+
+INPUTS_DIR	=		inputs/
+INPUTS_SRC	=		camera.c\
 
 # ===============PARSING================ #
 
