@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 16:10:47 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/05/21 12:11:09 by nseon            ###   ########.fr       */
+/*   Updated: 2025/05/21 16:35:39 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,12 @@ typedef	struct s_ctx
 	t_window	win;
 	t_sphere	*spheres;
 }	t_ctx;
+
+typedef struct	s_form
+{
+	int		type;
+	void	*data;
+}	t_form;
 
 void	render(t_ctx ctx);
 

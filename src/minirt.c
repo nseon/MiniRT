@@ -6,12 +6,13 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:22:55 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/05/21 16:20:56 by nseon            ###   ########.fr       */
+/*   Updated: 2025/05/21 16:41:22 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "render.h"
 #include "neflibx.h"
+#include "inputs.h"
 
 void	end(void *p)
 {
@@ -31,6 +32,7 @@ int	main(int c, char **args)
 	render(ctx);
 	put_img(&ctx.img, 0, 0);
 	register_destroy(ctx.win.events, end, &ctx.win);
+	register_keypress(ctx.win.events, move_cam, &ctx);
 	loop(&ctx.win);
 	return (0);
 }

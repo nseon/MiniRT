@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:52:26 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/05/21 14:52:26 by pjarnac          ###   ########.fr       */
+/*   Updated: 2025/05/21 16:47:10 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ float		get_cercle_pt(t_camera const camera, t_sphere const sphere, t_vec3 d)
 	return ((- b - sqrtf(dis)) / (2 * a));
 }
 
-void		render(t_ctx ctx)
+void		render(t_ctx ctx, t_form *forms)
 {
 	int16_t			x;
 	int16_t			y;
@@ -62,11 +62,7 @@ void		render(t_ctx ctx)
 		{
 			d = win_to_vp(ctx, x, y);
 			t = get_cercle_pt(ctx.cam, sphere, win_to_vp(ctx, x, y));
-			if (t < 1)
-			{
-				put_pixel_img(&ctx.img, (t_point){x, y, argb(0, 245, 222, 179)});
-			}
-			else
+			if (t > 1)
 			{
 				render_point = render_equation(ctx.cam, d, t);
 				put_pixel_img(&ctx.img, (t_point){x, y, argb(0, 245 * (1 - (render_point.z - 900) / 250), 0, 0)});
