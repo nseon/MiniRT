@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 12:06:54 by nseon             #+#    #+#             */
-/*   Updated: 2025/05/21 12:32:36 by nseon            ###   ########.fr       */
+/*   Updated: 2025/05/21 14:47:15 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ void	move_cam(int keycode, void *args)
 	t_ctx	*ctx;
 
 	ctx = (t_ctx *)args;
-	if (keycode == ARROW_UP)
+	if (keycode == ARROW_DOWN)
 		ctx->cam.pos.y += 10;
 	else if (keycode == ARROW_RIGHT)
 		ctx->cam.pos.x += 10;
-	else if (keycode == ARROW_DOWN)
+	else if (keycode == ARROW_UP)
 		ctx->cam.pos.y -= 10;
 	else if (keycode == ARROW_LEFT)
 		ctx->cam.pos.x -= 10;

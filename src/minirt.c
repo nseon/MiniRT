@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:22:55 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/05/21 12:09:03 by nseon            ###   ########.fr       */
+/*   Updated: 2025/05/21 13:49:05 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,11 @@ float		get_cercle_pt(t_camera const camera, t_sphere const sphere, t_point3 vp)
 	return ((- b - sqrtf(dis)) / (2 * a));
 }
 
+t_point3	get_vp_place(t_camera const camera)
+{
+	return ((t_point3){camera.pos.x - camera.vp.vw / 2, camera.pos.y - camera.vp.vh / 2, camera.pos.z + camera.vp.d});
+}
+
 void		render(t_camera const camera, t_image *img)
 {
 	const t_sphere		sphere = {{960, 540, 1000}, 100};
@@ -53,14 +58,14 @@ void		render(t_camera const camera, t_image *img)
 	{
 		for (int y = 0; y < camera.vp.vh; y++)
 		{
-			t = get_cercle_pt(camera, sphere, (t_point3){x, y, camera.vp.d});
+			t = get_cercle_pt(camera, sphere, v3_add(get_vp_place(camera), (t_point3){x, y, 0}));
 			if (t == 0)
 			{
 				put_pixel_img(img, (t_point){x, y, argb(0, 245, 222, 179)});
 			}
 			else
 			{
-				render_point = render_equation(camera, (t_point3){x, y, camera.vp.d}, t);
+				render_point = render_equation(camera, v3_add(get_vp_place(camera), (t_point3){x, y, 0}), t);
 				put_pixel_img(img, (t_point){x, y, argb(0, 245 * (1 - (render_point.z - 900) / 250), 0, 0)});
 			}
 		}
