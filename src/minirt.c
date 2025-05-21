@@ -10,8 +10,23 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "inputs.h"
 #include "render.h"
 #include "neflibx.h"
+
+#include <unistd.h>
+
+#include "mlx.h"
+
+void	loop2(void *p)
+{
+	t_ctx	*ctx;
+
+	ctx = (t_ctx *)p;
+	render(*ctx);
+	put_img(&ctx->img, 0, 0);
+	// mlx_do_sync(ctx->win.mlx);
+}
 
 void	end(void *p)
 {
@@ -25,12 +40,16 @@ int	main(int c, char **args)
 		.vp = {1920, 1080, 800}};
 	t_ctx		ctx;
 
+	(void)c;
+	(void)args;
 	init_window(&ctx.win, 960, 540, "MiniRT");
 	create_image(&ctx.img, 960, 540, &ctx.win);
 	ctx.cam = camera;
 	render(ctx);
 	put_img(&ctx.img, 0, 0);
+	register_keypress(ctx.win.events, move_cam, &ctx);
 	register_destroy(ctx.win.events, end, &ctx.win);
+	register_loop(ctx.win.events, loop2, &ctx);
 	loop(&ctx.win);
 	return (0);
 }
