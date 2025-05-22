@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:52:26 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/05/21 16:47:10 by nseon            ###   ########.fr       */
+/*   Updated: 2025/05/22 11:45:50 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 
 #include <math.h>
 #include <stdint.h>
+#include <limits.h>
 
 t_vec3	win_to_vp(t_ctx const ctx, int16_t const x, int16_t const y)
 {
@@ -45,14 +46,32 @@ float		get_cercle_pt(t_camera const camera, t_sphere const sphere, t_vec3 d)
 	return ((- b - sqrtf(dis)) / (2 * a));
 }
 
-void		render(t_ctx ctx, t_form *forms)
+float	get_closer_sphere_pt(t_camera const camera, t_sphere *spheres, t_vec3 d)
+{
+	float	t1;
+	float	t2;
+	size_t	i;
+	const size_t	size = vct_size(spheres);
+
+	i = -1;
+	t1 = __FLT_MAX__;
+	while (++i < size)
+	{
+		t2 = get_cercle_pt(camera, spheres[i], d);
+		if (t2 < t1 && t2 > 1)
+			t1 = t2;
+	}
+	return (t1);
+}
+
+void		render(t_ctx ctx)
 {
 	int16_t			x;
 	int16_t			y;
 	float			t;
 	t_vec3			d;
 	t_point3		render_point;
-	const t_sphere	sphere = {{0, 0, 1000}, 100};
+	
 
 	x = -1;
 	while (++x < ctx.win.x)
@@ -61,12 +80,14 @@ void		render(t_ctx ctx, t_form *forms)
 		while (++y < ctx.win.y)
 		{
 			d = win_to_vp(ctx, x, y);
-			t = get_cercle_pt(ctx.cam, sphere, win_to_vp(ctx, x, y));
+			t = get_closer_sphere_pt(ctx.cam, ctx.spheres, d);
 			if (t > 1)
 			{
 				render_point = render_equation(ctx.cam, d, t);
 				put_pixel_img(&ctx.img, (t_point){x, y, argb(0, 245 * (1 - (render_point.z - 900) / 250), 0, 0)});
 			}
+			else
+				put_pixel_img(&ctx.img, (t_point){x, y, argb(0, 0, 0, 0)});
 		}
 	}
 }
