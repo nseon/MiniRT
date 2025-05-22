@@ -25,8 +25,39 @@ void	loop2(void *p)
 
 	ctx = (t_ctx *)p;
 	render(*ctx);
-	put_img(&ctx->img, 0, 0);
-	mlx_do_sync(ctx->win.mlx);
+	put_img(&ctx->img, 0, 0, true);
+}
+
+void	btn1(void *p)
+{
+	t_ctx	*ctx;
+	static int x = 1;
+
+	ctx = (t_ctx *)p;
+	if (x)
+	{
+		set_vct_size(ctx->lights, 0);
+		x = 0;
+	}
+	else
+	{
+		set_vct_size(ctx->lights, 1);
+		x = 1;
+	}
+}
+
+void	init_btn(t_window *win, t_image *img, t_ctx *ctx)
+{
+	t_guielem	btn;
+
+	create_button(img, &btn, btn1, ctx);
+	btn.x = 10;
+	btn.y = 10;
+	btn.w = 70;
+	btn.h = 15;
+	btn.label = "lights";
+	btn.color = argb(0, 182, 190, 204);
+	add_gui_elem(win, &btn);
 }
 
 void	end(void *p)
@@ -45,13 +76,18 @@ int	main(int c, char **args)
 	(void)args;
 	init_window(&ctx.win, 960, 540, "MiniRT");
 	create_image(&ctx.img, 960, 540, &ctx.win);
+	init_btn(&ctx.win, &ctx.img, &ctx);
 	ctx.cam = camera;
-	ctx.spheres = vct_create(sizeof(t_sphere), 0, 0);
+	ctx.spheres = vct_create(sizeof (t_sphere), 0, 0);
+	ctx.lights = vct_create(sizeof (t_light), 0, 0);
+	ctx.amb_light = (t_amb_light){0.2};
+	vct_add(&ctx.lights, &(t_light){POINT, {0, -2000, 200}, 0.7});
+	vct_add(&ctx.lights, &(t_light){POINT, {-1200, 0, 2400}, 1});
+	// vct_add(&ctx.lights, &(t_light){DIR, {200, 100, 100}, 1});
 	vct_add(&ctx.spheres, &(t_sphere){{0, 0, 2400}, 500, 255});
 	vct_add(&ctx.spheres, &(t_sphere){{600, 400, 2600}, 500, 65280});
 	vct_add(&ctx.spheres, &(t_sphere){{-600, -400, 2800}, 500, 16711680});
 	render(ctx);
-	put_img(&ctx.img, 0, 0);
 	register_keypress(ctx.win.events, move_cam, &ctx);
 	register_destroy(ctx.win.events, end, &ctx.win);
 	register_btnpress(ctx.win.events, move_wheel, &ctx);
