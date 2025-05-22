@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 16:10:47 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/05/21 16:35:39 by nseon            ###   ########.fr       */
+/*   Updated: 2025/05/22 17:28:43 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "points.h"
 # include "window.h"
 # include "image.h"
+# include "inputs.h"
 
 # include <limits.h>
 
@@ -50,6 +51,7 @@ typedef	struct s_ctx
 	t_camera	cam;
 	t_image		img;
 	t_window	win;
+	t_mouse		mouse;
 	t_sphere	*spheres;
 }	t_ctx;
 
