@@ -18,6 +18,12 @@
 # include "window.h"
 # include "image.h"
 
+# include <limits.h>
+
+# define T_MAX 3.402823466e+38
+# define T_MIN 1
+# define BACKGROUND_COLOR 0x000000
+
 typedef struct s_vieuport
 {
 	float	vw;
@@ -36,6 +42,7 @@ typedef struct s_sphere
 {
 	t_point3	pos;
 	float		radius;
+	int32_t		color;
 }	t_sphere;
 
 typedef	struct s_ctx

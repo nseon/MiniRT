@@ -16,6 +16,8 @@
 #include "image.h"
 #include "render.h"
 #include <unistd.h>
+#include <X11/keysymdef.h>
+
 #include "mlx.h"
 
 void	move_cam(int keycode, void *args)
@@ -33,4 +35,17 @@ void	move_cam(int keycode, void *args)
 		ctx->cam.pos.y -= 10;
 	else if (keycode == ARROW_LEFT)
 		ctx->cam.pos.x -= 10;
+}
+
+void	move_wheel(int keycode, int x, int y, void *args)
+{
+	t_ctx	*ctx;
+
+	(void)x;
+	(void)y;
+	ctx = (t_ctx *)args;
+	if (keycode == 4)
+		ctx->cam.pos.z += 30;
+	else if (keycode == 5)
+		ctx->cam.pos.z -= 30;
 }

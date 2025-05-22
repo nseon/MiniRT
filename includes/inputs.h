@@ -19,5 +19,6 @@
 # define ARROW_LEFT 65361
 
 void	move_cam(int keycode, void *args);
+void	move_wheel(int keycode, int x, int y, void *args);
 
 #endif

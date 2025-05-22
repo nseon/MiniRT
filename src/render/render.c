@@ -36,42 +36,48 @@ t_point3	render_equation(t_camera const camera, t_vec3 d, float t)
 float		get_cercle_pt(t_camera const camera, t_sphere const sphere, t_vec3 d)
 {
 	const t_vec3	CO = get_vec3(sphere.pos, camera.pos);
-	const float	b = 2 * v3_dotproduct(CO, d);
-	const float a = v3_dotproduct(d, d);
-	const float c = v3_dotproduct(CO, CO) - sphere.radius * sphere.radius;
-	const float dis = b * b - 4 * a * c;
+	const float		b = 2 * v3_dotproduct(CO, d);
+	const float 	a = v3_dotproduct(d, d);
+	const float 	c = v3_dotproduct(CO, CO) - sphere.radius * sphere.radius;
+	float 			dis[2] = {b * b - 4 * a * c};
 
-	if (dis < 0)
+	if (dis[0] < 0)
 		return (0);
-	return ((- b - sqrtf(dis)) / (2 * a));
+	dis[1] = sqrtf(dis[0]);
+	if ((- b - dis[1]) / (2 * a) < 1)
+		return ((- b + dis[1]) / (2 * a));
+	return ((- b - dis[1]) / (2 * a));
 }
 
-float	get_closer_sphere_pt(t_camera const camera, t_sphere *spheres, t_vec3 d)
+int32_t	get_closer_sphere_pt(t_camera const camera, t_sphere *spheres, t_vec3 d)
 {
-	float	t1;
-	float	t2;
-	size_t	i;
-	const size_t	size = vct_size(spheres);
+	float		t_min;
+	float		t;
+	size_t		i;
+	t_sphere	closest_sphere;
 
 	i = -1;
-	t1 = __FLT_MAX__;
-	while (++i < size)
+	t_min = T_MAX;
+	closest_sphere = (t_sphere){0};
+	while (++i < vct_size(spheres))
 	{
-		t2 = get_cercle_pt(camera, spheres[i], d);
-		if (t2 < t1 && t2 > 1)
-			t1 = t2;
+		t = get_cercle_pt(camera, spheres[i], d);
+		if (t < t_min && t >= T_MIN)
+		{
+			t_min = t;
+			closest_sphere = spheres[i];
+		}
 	}
-	return (t1);
+	if (closest_sphere.radius == 0)
+		return (BACKGROUND_COLOR);
+	return (closest_sphere.color);
 }
 
 void		render(t_ctx ctx)
 {
 	int16_t			x;
 	int16_t			y;
-	float			t;
 	t_vec3			d;
-	t_point3		render_point;
-	
 
 	x = -1;
 	while (++x < ctx.win.x)
@@ -80,14 +86,8 @@ void		render(t_ctx ctx)
 		while (++y < ctx.win.y)
 		{
 			d = win_to_vp(ctx, x, y);
-			t = get_closer_sphere_pt(ctx.cam, ctx.spheres, d);
-			if (t > 1)
-			{
-				render_point = render_equation(ctx.cam, d, t);
-				put_pixel_img(&ctx.img, (t_point){x, y, argb(0, 245 * (1 - (render_point.z - 900) / 250), 0, 0)});
-			}
-			else
-				put_pixel_img(&ctx.img, (t_point){x, y, argb(0, 0, 0, 0)});
+			put_pixel_img(&ctx.img, (t_point){x, y,
+				get_closer_sphere_pt(ctx.cam, ctx.spheres, d)});
 		}
 	}
 }
