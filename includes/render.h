@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 16:10:47 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/05/21 16:35:39 by nseon            ###   ########.fr       */
+/*   Updated: 2025/05/23 15:41:16 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "points.h"
 # include "window.h"
 # include "image.h"
+# include "inputs.h"
 
 # include <limits.h>
 
@@ -57,6 +58,7 @@ typedef struct s_sphere
 	t_point3	pos;
 	float		radius;
 	int32_t		color;
+	int32_t		specular;
 }	t_sphere;
 
 typedef struct s_light
@@ -86,6 +88,7 @@ typedef	struct s_ctx
 	t_camera	cam;
 	t_image		img;
 	t_window	win;
+	t_mouse		mouse;
 	t_sphere	*spheres;
 	t_light		*lights;
 	bool		lights_off;

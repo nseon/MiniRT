@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:52:26 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/05/22 11:45:50 by nseon            ###   ########.fr       */
+/*   Updated: 2025/05/23 13:30:59 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int32_t	get_closer_sphere_pt(t_ctx const ctx, t_vec3 d)
 		return (BACKGROUND_COLOR);
 	p = v3_add(ctx.cam.pos, v3_multiply(d, t_min));
 	return (multi_color(closest_sphere.color,
-		get_diffuse(ctx,	p,
+		get_diffuse(ctx, p,
 			v3_normalize(get_vec3(closest_sphere.pos, p)))));
 }
 
