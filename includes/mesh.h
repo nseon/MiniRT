@@ -15,8 +15,7 @@
 
 # include <stdint.h>
 # include <stddef.h>
-
-# include "render.h"
+# include "vector3.h"
 
 typedef uint32_t	*t_uint32_vct;
 

@@ -16,19 +16,19 @@
 #include <stddef.h>
 #include <math.h>
 
-float	get_specular(t_ctx const ctx, t_ren_calc ren)
+float	get_specular(t_graphic_ctx const gctx, t_ren_calc ren)
 {
 	t_vec3	r;
 	t_vec3	v;
 
 	r = v3_sub(v3_multiply(v3_multiply(ren.n, 2),
 				v3_dotproduct(ren.n, ren.l)), ren.l);
-	v = get_vec3(ren.p, ctx.cam.pos);
+	v = get_vec3(ren.p, gctx.cam.pos);
 	return (powf(v3_dotproduct(r, v)
 			/ (v3_magnitude(r) * v3_magnitude(v)), ren.s));
 }
 
-float	get_light(t_ctx const ctx, t_ren_calc ren)
+float	get_light(t_graphic_ctx const gctx, t_ren_calc ren)
 {
 	size_t	i;
 	float	lum;
@@ -36,20 +36,20 @@ float	get_light(t_ctx const ctx, t_ren_calc ren)
 
 	i = -1;
 	lum = 0;
-	lum += ctx.amb_light.i;
-	if (ctx.lights_off)
+	lum += gctx.amb_light.i;
+	if (gctx.lights_off)
 		return (lum);
-	while (++i < vct_size(ctx.lights))
+	while (++i < vct_size(gctx.lights))
 	{
-		if (ctx.lights[i].type == POINT)
-			ren.l = get_vec3(ren.p, ctx.lights[i].pos);
+		if (gctx.lights[i].type == POINT)
+			ren.l = get_vec3(ren.p, gctx.lights[i].pos);
 		else
-			ren.l = v3_multiply(ctx.lights[i].pos, -1);
+			ren.l = v3_multiply(gctx.lights[i].pos, -1);
 		dot_n_l = v3_dotproduct(ren.n, ren.l);
 		if (dot_n_l <= 0)
 			continue ;
-		lum += ctx.lights[i].i * (dot_n_l / (v3_magnitude(ren.n)
-					* v3_magnitude(ren.l)) + get_specular(ctx, ren));
+		lum += gctx.lights[i].i * (dot_n_l / (v3_magnitude(ren.n)
+					* v3_magnitude(ren.l)) + get_specular(gctx, ren));
 	}
 	if (lum > 1)
 		lum = 1;

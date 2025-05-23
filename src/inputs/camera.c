@@ -15,26 +15,24 @@
 #include "inputs.h"
 #include "image.h"
 #include "render.h"
-#include <unistd.h>
+#include "minirt.h"
 #include <X11/keysym.h>
-
-#include "mlx.h"
 
 void	move_cam(int keycode, void *args)
 {
-	t_ctx	*ctx;
+	t_graphic_ctx	*gctx;
 	static int	x;
 
 	x++;
-	ctx = (t_ctx *)args;
+	gctx = (t_graphic_ctx *)args;
 	if (keycode == XK_Down)
-		ctx->cam.pos.y += 10;
+		gctx->cam.pos.y += 10;
 	else if (keycode == XK_Right)
-		ctx->cam.pos.x += 10;
+		gctx->cam.pos.x += 10;
 	else if (keycode == XK_Up)
-		ctx->cam.pos.y -= 10;
+		gctx->cam.pos.y -= 10;
 	else if (keycode == XK_Left)
-		ctx->cam.pos.x -= 10;
+		gctx->cam.pos.x -= 10;
 	// if (keycode == XK_Down)
 	// 	ctx->lights[0].pos.y += 100;
 	// else if (keycode == ARROW_RIGHT)
@@ -53,13 +51,13 @@ void	mouse_move(int x, int y, void *args)
 	if (ctx->mouse.click == true)
 	{
 		if (x > ctx->mouse.x)
-			ctx->cam.pos.x -= x - ctx->mouse.x;
+			ctx->gctx.cam.pos.x -= x - ctx->mouse.x;
 		if (x < ctx->mouse.x)
-			ctx->cam.pos.x += ctx->mouse.x - x;
+			ctx->gctx.cam.pos.x += ctx->mouse.x - x;
 		if (y > ctx->mouse.y)
-			ctx->cam.pos.y -= y - ctx->mouse.y;
+			ctx->gctx.cam.pos.y -= y - ctx->mouse.y;
 		if (y < ctx->mouse.y)
-			ctx->cam.pos.y += ctx->mouse.y - y;
+			ctx->gctx.cam.pos.y += ctx->mouse.y - y;
 	}
 }
 
@@ -89,11 +87,11 @@ void	mouse_unclick(int keycode, int x, int y, void *args)
 
 void	move_wheel(int keycode, int x, int y, void *args)
 {
-	t_ctx	*ctx;
+	t_graphic_ctx	*ctx;
 
 	(void)x;
 	(void)y;
-	ctx = (t_ctx *)args;
+	ctx = (t_graphic_ctx *)args;
 	if (keycode == 4)
 		ctx->lights[0].pos.z += 100;
 	else if (keycode == 5)

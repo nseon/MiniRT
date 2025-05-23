@@ -1,42 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   objects.h                                          :+:      :+:    :+:   */
+/*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/16 17:21:56 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/05/16 17:21:56 by pjarnac          ###   ########.fr       */
+/*   Created: 2025/05/23 18:37:03 by pjarnac           #+#    #+#             */
+/*   Updated: 2025/05/23 18:37:03 by pjarnac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef OBJECTS_H
-# define OBJECTS_H
+#ifndef MINIRT_H
+# define MINIRT_H
 
-# include "mesh.h"
-# include "vector3.h"
+# include "neflibx.h"
+# include "render.h"
+# include "inputs.h"
 
-typedef enum e_obj_type
+typedef struct s_ctx
 {
-	SPHERE,
-	PLANE,
-	CYLINDER,
-}	t_obj_type;
-
-typedef struct s_sphere
-{
-	t_point3	pos;
-	float		radius;
-	int32_t		color;
-	int32_t		specular;
-}	t_sphere;
-
-typedef struct s_obj
-{
-	int		type;
-
-}	t_obj;
-
-t_mesh	*new_cube(t_point3 pos, t_point3 dim);
+	t_image			img;
+	t_window		win;
+	t_mouse			mouse;
+	t_graphic_ctx	gctx;
+}	t_ctx;
 
 #endif
