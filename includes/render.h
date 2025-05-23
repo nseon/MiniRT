@@ -25,6 +25,13 @@
 # define T_MIN 1
 # define BACKGROUND_COLOR 0x000000
 
+typedef enum e_light_type
+{
+	NONE,
+	POINT,
+	DIR
+}	t_light_type;
+
 typedef struct s_vieuport
 {
 	float	vw;
@@ -46,6 +53,18 @@ typedef struct s_sphere
 	int32_t		color;
 }	t_sphere;
 
+typedef struct s_light
+{
+	t_light_type	type;
+	t_point3		pos;
+	float			i;
+}	t_light;
+
+typedef struct s_amb_light
+{
+	float	i;
+}	t_amb_light;
+
 typedef	struct s_ctx
 {
 	t_camera	cam;
@@ -53,6 +72,8 @@ typedef	struct s_ctx
 	t_window	win;
 	t_mouse		mouse;
 	t_sphere	*spheres;
+	t_light		*lights;
+	t_amb_light	amb_light;
 }	t_ctx;
 
 typedef struct	s_form
@@ -62,6 +83,6 @@ typedef struct	s_form
 }	t_form;
 
 void	render(t_ctx ctx);
-
+float	get_diffuse(t_ctx ctx, t_point3 p, t_vec3 n);
 
 #endif

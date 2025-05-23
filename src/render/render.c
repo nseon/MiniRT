@@ -49,28 +49,39 @@ float		get_cercle_pt(t_camera const camera, t_sphere const sphere, t_vec3 d)
 	return ((- b - dis[1]) / (2 * a));
 }
 
-int32_t	get_closer_sphere_pt(t_camera const camera, t_sphere *spheres, t_vec3 d)
+int32_t	multi_color(int32_t color, float m)
+{
+	return (((int32_t)(((color >> 16) & 0xFF) * m) << 16) |
+		((int32_t)(((color >> 8) & 0xFF) * m) << 8) |
+		((int32_t)(((color) & 0xFF) * m)));
+}
+
+int32_t	get_closer_sphere_pt(t_ctx const ctx, t_vec3 d)
 {
 	float		t_min;
 	float		t;
+	t_point3	p;
 	size_t		i;
 	t_sphere	closest_sphere;
 
 	i = -1;
 	t_min = T_MAX;
 	closest_sphere = (t_sphere){0};
-	while (++i < vct_size(spheres))
+	while (++i < vct_size(ctx.spheres))
 	{
-		t = get_cercle_pt(camera, spheres[i], d);
+		t = get_cercle_pt(ctx.cam, ctx.spheres[i], d);
 		if (t < t_min && t >= T_MIN)
 		{
 			t_min = t;
-			closest_sphere = spheres[i];
+			closest_sphere = ctx.spheres[i];
 		}
 	}
 	if (closest_sphere.radius == 0)
 		return (BACKGROUND_COLOR);
-	return (closest_sphere.color);
+	p = v3_add(ctx.cam.pos, v3_multiply(d, t_min));
+	return (multi_color(closest_sphere.color,
+		get_diffuse(ctx,	p,
+			v3_normalize(get_vec3(closest_sphere.pos, p)))));
 }
 
 void		render(t_ctx ctx)
@@ -87,7 +98,7 @@ void		render(t_ctx ctx)
 		{
 			d = win_to_vp(ctx, x, y);
 			put_pixel_img(&ctx.img, (t_point){x, y,
-				get_closer_sphere_pt(ctx.cam, ctx.spheres, d)});
+				get_closer_sphere_pt(ctx, d)});
 		}
 	}
 }

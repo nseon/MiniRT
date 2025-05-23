@@ -27,14 +27,22 @@ void	move_cam(int keycode, void *args)
 
 	x++;
 	ctx = (t_ctx *)args;
+	// if (keycode == ARROW_DOWN)
+	// 	ctx->cam.pos.y += 10;
+	// else if (keycode == ARROW_RIGHT)
+	// 	ctx->cam.pos.x += 10;
+	// else if (keycode == ARROW_UP)
+	// 	ctx->cam.pos.y -= 10;
+	// else if (keycode == ARROW_LEFT)
+	// 	ctx->cam.pos.x -= 10;
 	if (keycode == ARROW_DOWN)
-		ctx->cam.pos.y += 10;
+		ctx->lights[0].pos.y += 100;
 	else if (keycode == ARROW_RIGHT)
-		ctx->cam.pos.x += 10;
+		ctx->lights[0].pos.x += 100;
 	else if (keycode == ARROW_UP)
-		ctx->cam.pos.y -= 10;
+		ctx->lights[0].pos.y -= 100;
 	else if (keycode == ARROW_LEFT)
-		ctx->cam.pos.x -= 10;
+		ctx->lights[0].pos.x -= 100;
 }
 
 void	mouse_move(int x, int y, void *args)
@@ -88,7 +96,7 @@ void	move_wheel(int keycode, int x, int y, void *args)
 	(void)y;
 	ctx = (t_ctx *)args;
 	if (keycode == 4)
-		ctx->cam.pos.z += 30;
+		ctx->lights[0].pos.z += 100;
 	else if (keycode == 5)
-		ctx->cam.pos.z -= 30;
+		ctx->lights[0].pos.z -= 100;
 }
