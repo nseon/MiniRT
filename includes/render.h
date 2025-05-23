@@ -67,7 +67,7 @@ typedef struct s_ren_calc
 	t_vec3		v;
 	t_vec3		r;
 	t_vec3		l;
-	float		s;
+	int32_t		s;
 }	t_ren_calc;
 
 typedef struct s_graphic_ctx
