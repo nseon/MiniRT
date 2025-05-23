@@ -46,7 +46,8 @@ t_mesh	*new_cube(t_point3 pos, t_point3 dim)
 	vct_add(&mesh->vertices, &(t_point3){pos.x, pos.y + dim.y, pos.z});
 	vct_add(&mesh->vertices, &(t_point3){pos.x, pos.y, pos.z + dim.z});
 	vct_add(&mesh->vertices, &(t_point3){pos.x + dim.x, pos.y, pos.z + dim.z});
-	vct_add(&mesh->vertices, &(t_point3){pos.x + dim.x, pos.y + dim.y, pos.z + dim.z});
+	vct_add(&mesh->vertices, &(t_point3){pos.x + dim.x,
+		pos.y + dim.y, pos.z + dim.z});
 	vct_add(&mesh->vertices, &(t_point3){pos.x, pos.y + dim.y, pos.z + dim.z});
 	add_indexes(mesh);
 	return (mesh);

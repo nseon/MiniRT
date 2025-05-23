@@ -34,4 +34,3 @@ t_vec3	v3_sub(t_point3 pt1, t_point3 pt2)
 {
 	return ((t_vec3){pt1.x - pt2.x, pt1.y - pt2.y, pt1.z - pt2.z});
 }
-

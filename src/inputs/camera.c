@@ -16,7 +16,7 @@
 #include "image.h"
 #include "render.h"
 #include <unistd.h>
-#include <X11/keysymdef.h>
+#include <X11/keysym.h>
 
 #include "mlx.h"
 
@@ -27,15 +27,15 @@ void	move_cam(int keycode, void *args)
 
 	x++;
 	ctx = (t_ctx *)args;
-	if (keycode == ARROW_DOWN)
+	if (keycode == XK_Down)
 		ctx->cam.pos.y += 10;
-	else if (keycode == ARROW_RIGHT)
+	else if (keycode == XK_Right)
 		ctx->cam.pos.x += 10;
-	else if (keycode == ARROW_UP)
+	else if (keycode == XK_Up)
 		ctx->cam.pos.y -= 10;
-	else if (keycode == ARROW_LEFT)
+	else if (keycode == XK_Left)
 		ctx->cam.pos.x -= 10;
-	// if (keycode == ARROW_DOWN)
+	// if (keycode == XK_Down)
 	// 	ctx->lights[0].pos.y += 100;
 	// else if (keycode == ARROW_RIGHT)
 	// 	ctx->lights[0].pos.x += 100;
@@ -72,8 +72,7 @@ void	mouse_click(int keycode, int x, int y, void *args)
 	{
 		mouse->x = x;
 		mouse->y = y;
-		if (keycode == 1)
-			mouse->click = true;
+		mouse->click = true;
 	}
 }
 

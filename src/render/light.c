@@ -16,19 +16,20 @@
 #include <stddef.h>
 #include <math.h>
 
-float	get_shine(t_ctx const ctx, t_point3 p, t_vec3 n, t_vec3 l, int s)
+float	get_specular(t_ctx const ctx, t_ren_calc ren)
 {
 	t_vec3	r;
 	t_vec3	v;
-	
-	r = v3_sub(v3_multiply(v3_multiply(n, 2), v3_dotproduct(n, l)), l);
-	v = get_vec3(p, ctx.cam.pos);
-	return (powf(v3_dotproduct(r, v) / (v3_magnitude(r) * v3_magnitude(v)), s));
+
+	r = v3_sub(v3_multiply(v3_multiply(ren.n, 2),
+				v3_dotproduct(ren.n, ren.l)), ren.l);
+	v = get_vec3(ren.p, ctx.cam.pos);
+	return (powf(v3_dotproduct(r, v)
+			/ (v3_magnitude(r) * v3_magnitude(v)), ren.s));
 }
 
-float	get_diffuse(t_ctx const ctx, t_point3 p, t_vec3 n)
+float	get_light(t_ctx const ctx, t_ren_calc ren)
 {
-	t_vec3	l;
 	size_t	i;
 	float	lum;
 	float	dot_n_l;
@@ -41,14 +42,14 @@ float	get_diffuse(t_ctx const ctx, t_point3 p, t_vec3 n)
 	while (++i < vct_size(ctx.lights))
 	{
 		if (ctx.lights[i].type == POINT)
-			l = get_vec3(p, ctx.lights[i].pos);
+			ren.l = get_vec3(ren.p, ctx.lights[i].pos);
 		else
-			l = v3_multiply(ctx.lights[i].pos, -1);
-		dot_n_l = v3_dotproduct(n, l);
+			ren.l = v3_multiply(ctx.lights[i].pos, -1);
+		dot_n_l = v3_dotproduct(ren.n, ren.l);
 		if (dot_n_l <= 0)
 			continue ;
-		lum += ctx.lights[i].i * (dot_n_l / (v3_magnitude(n) * v3_magnitude(l))
-			+ get_shine(ctx, p, n, l, 200));
+		lum += ctx.lights[i].i * (dot_n_l / (v3_magnitude(ren.n)
+					* v3_magnitude(ren.l)) + get_specular(ctx, ren));
 	}
 	if (lum > 1)
 		lum = 1;

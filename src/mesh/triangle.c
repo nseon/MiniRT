@@ -41,4 +41,3 @@ int8_t	add_itriangle(t_mesh *mesh, uint32_t idx[3])
 	vct_add(&mesh->v_indexes, idx + 2);
 	return (SUCCESS);
 }
-

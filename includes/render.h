@@ -19,8 +19,6 @@
 # include "image.h"
 # include "inputs.h"
 
-# include <limits.h>
-
 # define T_MAX 3.402823466e+38
 # define T_MIN 1
 # define BACKGROUND_COLOR 0x000001
@@ -36,7 +34,6 @@ typedef enum e_obj_type
 	SPHERE,
 	PLANE,
 	CYLINDER,
-
 }	t_obj_type;
 
 typedef struct s_vieuport
@@ -73,17 +70,18 @@ typedef struct s_amb_light
 	float	i;
 }	t_amb_light;
 
-typedef struct s_light_calc
+typedef struct s_ren_calc
 {
 	t_point3	p;
 	t_vec3		n;
+	t_vec3		d;
 	t_vec3		v;
 	t_vec3		r;
 	t_vec3		l;
 	float		s;
-}	t_light_calc;
+}	t_ren_calc;
 
-typedef	struct s_ctx
+typedef struct s_ctx
 {
 	t_camera	cam;
 	t_image		img;
@@ -95,13 +93,13 @@ typedef	struct s_ctx
 	t_amb_light	amb_light;
 }	t_ctx;
 
-typedef struct	s_obj
+typedef struct s_obj
 {
 	int		type;
 
 }	t_obj;
 
 void	render(t_ctx ctx);
-float	get_diffuse(t_ctx ctx, t_point3 p, t_vec3 n);
+float	get_light(t_ctx ctx, t_ren_calc ren);
 
 #endif
