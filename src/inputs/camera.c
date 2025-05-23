@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 12:06:54 by nseon             #+#    #+#             */
-/*   Updated: 2025/05/22 17:38:06 by nseon            ###   ########.fr       */
+/*   Updated: 2025/05/23 17:26:58 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,22 +27,22 @@ void	move_cam(int keycode, void *args)
 
 	x++;
 	ctx = (t_ctx *)args;
-	// if (keycode == ARROW_DOWN)
-	// 	ctx->cam.pos.y += 10;
-	// else if (keycode == ARROW_RIGHT)
-	// 	ctx->cam.pos.x += 10;
-	// else if (keycode == ARROW_UP)
-	// 	ctx->cam.pos.y -= 10;
-	// else if (keycode == ARROW_LEFT)
-	// 	ctx->cam.pos.x -= 10;
 	if (keycode == ARROW_DOWN)
-		ctx->lights[0].pos.y += 100;
+		ctx->cam.pos.y += 10;
 	else if (keycode == ARROW_RIGHT)
-		ctx->lights[0].pos.x += 100;
+		ctx->cam.pos.x += 10;
 	else if (keycode == ARROW_UP)
-		ctx->lights[0].pos.y -= 100;
+		ctx->cam.pos.y -= 10;
 	else if (keycode == ARROW_LEFT)
-		ctx->lights[0].pos.x -= 100;
+		ctx->cam.pos.x -= 10;
+	// if (keycode == ARROW_DOWN)
+	// 	ctx->lights[0].pos.y += 100;
+	// else if (keycode == ARROW_RIGHT)
+	// 	ctx->lights[0].pos.x += 100;
+	// else if (keycode == ARROW_UP)
+	// 	ctx->lights[0].pos.y -= 100;
+	// else if (keycode == ARROW_LEFT)
+	// 	ctx->lights[0].pos.x -= 100;
 }
 
 void	mouse_move(int x, int y, void *args)

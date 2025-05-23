@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 16:10:47 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/05/22 17:28:43 by nseon            ###   ########.fr       */
+/*   Updated: 2025/05/23 15:41:16 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ typedef struct s_sphere
 	t_point3	pos;
 	float		radius;
 	int32_t		color;
+	int32_t		specular;
 }	t_sphere;
 
 typedef struct s_light
