@@ -25,6 +25,8 @@ float	get_diffuse(t_ctx const ctx, t_point3 p, t_vec3 n)
 	i = -1;
 	lum = 0;
 	lum += ctx.amb_light.i;
+	if (ctx.lights_off)
+		return (lum);
 	while (++i < vct_size(ctx.lights))
 	{
 		if (ctx.lights[i].type == POINT)

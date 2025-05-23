@@ -22,14 +22,21 @@
 
 # define T_MAX 3.402823466e+38
 # define T_MIN 1
-# define BACKGROUND_COLOR 0x000000
+# define BACKGROUND_COLOR 0x000001
 
 typedef enum e_light_type
 {
-	NONE,
 	POINT,
 	DIR
 }	t_light_type;
+
+typedef enum e_obj_type
+{
+	SPHERE,
+	PLANE,
+	CYLINDER,
+
+}	t_obj_type;
 
 typedef struct s_vieuport
 {
@@ -64,6 +71,16 @@ typedef struct s_amb_light
 	float	i;
 }	t_amb_light;
 
+typedef struct s_light_calc
+{
+	t_point3	p;
+	t_vec3		n;
+	t_vec3		v;
+	t_vec3		r;
+	t_vec3		l;
+	float		s;
+}	t_light_calc;
+
 typedef	struct s_ctx
 {
 	t_camera	cam;
@@ -71,14 +88,15 @@ typedef	struct s_ctx
 	t_window	win;
 	t_sphere	*spheres;
 	t_light		*lights;
+	bool		lights_off;
 	t_amb_light	amb_light;
 }	t_ctx;
 
-typedef struct	s_form
+typedef struct	s_obj
 {
 	int		type;
-	void	*data;
-}	t_form;
+
+}	t_obj;
 
 void	render(t_ctx ctx);
 float	get_diffuse(t_ctx ctx, t_point3 p, t_vec3 n);
