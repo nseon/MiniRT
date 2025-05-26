@@ -75,12 +75,13 @@ int	main(int c, char **args)
 	ctx.gctx.spheres = vct_create(sizeof (t_sphere), 0, 0);
 	ctx.gctx.lights = vct_create(sizeof (t_light), 0, 0);
 	ctx.gctx.amb_light = (t_amb_light){0.2};
-	vct_add(&ctx.gctx.lights, &(t_light){POINT, {0, -2000, 200}, 0.7});
-	vct_add(&ctx.gctx.lights, &(t_light){POINT, {-1200, 0, 2400}, 1});
+	vct_add(&ctx.gctx.lights, &(t_light){POINT, {0, -2000, 200}, 1.2});
+	vct_add(&ctx.gctx.lights, &(t_light){POINT, {-1200, 0, 2400}, 0.3});
 	// vct_add(&ctx.lights, &(t_light){DIR, {200, 100, 100}, 1});
-	vct_add(&ctx.gctx.spheres, &(t_sphere){{0, 0, 2400}, 500, 255, 500});
-	vct_add(&ctx.gctx.spheres, &(t_sphere){{600, 400, 2600}, 500, 65280, 500});
-	vct_add(&ctx.gctx.spheres, &(t_sphere){{-600, -400, 2800}, 500, 16711680, 10});
+	vct_add(&ctx.gctx.spheres, &(t_sphere){{0, 0, 2400}, 500, 255, -1});
+	vct_add(&ctx.gctx.spheres, &(t_sphere){{600, 400, 2600}, 500, 65280, -1});
+	vct_add(&ctx.gctx.spheres, &(t_sphere){{-600, -400, 2800}, 500, 16711680, -1});
+	vct_add(&ctx.gctx.spheres, &(t_sphere){{0, 11600, 2800}, 11000, 0xd9d77e, -1});
 	render(ctx.gctx, &ctx.img);
 	register_keypress(ctx.win.events, move_cam, &ctx.gctx);
 	register_destroy(ctx.win.events, end, &ctx.win);

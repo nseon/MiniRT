@@ -33,8 +33,14 @@ typedef struct s_sphere
 
 typedef struct s_obj
 {
-	int		type;
-
+	t_obj_type	type;
+	t_vec3		pos;
+	t_vec3		ori;
+	int32_t		color;
+	int32_t		specular;
+	float		w;
+	float		l;
+	float		h;
 }	t_obj;
 
 t_mesh	*new_cube(t_point3 pos, t_point3 dim);

@@ -18,14 +18,18 @@
 
 float	get_specular(t_graphic_ctx const gctx, t_ren_calc ren)
 {
-	t_vec3	r;
-	t_vec3	v;
+	float	dot_r_v;
 
-	r = v3_sub(v3_multiply(v3_multiply(ren.n, 2),
+	if (ren.s < 0)
+		return (0);
+	ren.r = v3_sub(v3_multiply(v3_multiply(ren.n, 2),
 				v3_dotproduct(ren.n, ren.l)), ren.l);
-	v = get_vec3(ren.p, gctx.cam.pos);
-	return (powf(v3_dotproduct(r, v)
-			/ (v3_magnitude(r) * v3_magnitude(v)), ren.s));
+	ren.v = get_vec3(ren.p, gctx.cam.pos);
+	dot_r_v = v3_dotproduct(ren.r, ren.v);
+	if (dot_r_v < 0)
+		return (0);
+	return (powf(dot_r_v
+		/ (v3_magnitude(ren.r) * v3_magnitude(ren.v)), ren.s));
 }
 
 float	get_light(t_graphic_ctx const gctx, t_ren_calc ren)
