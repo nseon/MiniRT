@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 17:58:10 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/05/23 17:25:21 by nseon            ###   ########.fr       */
+/*   Updated: 2025/05/26 14:20:28 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,22 @@
 
 #include <stddef.h>
 #include <math.h>
+#include <stdio.h>
+
+bool	is_in_shadow(t_light light, t_sphere *spheres, t_ren_calc ren)
+{
+	size_t	i;
+	float	t;
+
+	i = -1;
+	while (++i < vct_size(spheres))
+	{
+		t = get_cercle_pt(ren.p, spheres[i], ren.l);
+		if ((light.type == POINT && 0.01 < t && t < 1) || (light.type == DIR && t > 0.01))
+			return (1);
+	}
+	return (0);
+}
 
 float	get_specular(t_graphic_ctx const gctx, t_ren_calc ren)
 {
@@ -50,7 +66,7 @@ float	get_light(t_graphic_ctx const gctx, t_ren_calc ren)
 		else
 			ren.l = v3_multiply(gctx.lights[i].pos, -1);
 		dot_n_l = v3_dotproduct(ren.n, ren.l);
-		if (dot_n_l <= 0)
+		if (dot_n_l <= 0 || is_in_shadow(gctx.lights[i], gctx.spheres, ren))
 			continue ;
 		lum += gctx.lights[i].i * (dot_n_l / (v3_magnitude(ren.n)
 					* v3_magnitude(ren.l)) + get_specular(gctx, ren));
