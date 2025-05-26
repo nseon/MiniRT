@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:52:26 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/05/23 13:30:59 by nseon            ###   ########.fr       */
+/*   Updated: 2025/05/26 12:55:11 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,10 @@ static t_vec3	win_to_vp(t_graphic_ctx const gctx, int16_t const x,
 	return (get_vec3(gctx.cam.pos, vp_point));
 }
 
-float	get_cercle_pt(t_camera const camera,
+float	get_cercle_pt(t_point3 const origin,
 	t_sphere const sphere, t_vec3 const d)
 {
-	const t_vec3	co = get_vec3(sphere.pos, camera.pos);
+	const t_vec3	co = get_vec3(sphere.pos, origin);
 	const float		b = 2 * v3_dotproduct(co, d);
 	const float		a = v3_dotproduct(d, d);
 	const float		c = v3_dotproduct(co, co) - sphere.radius * sphere.radius;
@@ -68,7 +68,7 @@ static int32_t	get_render_pt(t_graphic_ctx const gctx, t_ren_calc ren)
 	closest_sphere = (t_sphere){0};
 	while (++i < vct_size(gctx.spheres))
 	{
-		t = get_cercle_pt(gctx.cam, gctx.spheres[i], ren.d);
+		t = get_cercle_pt(gctx.cam.pos, gctx.spheres[i], ren.d);
 		if (t < t_min && t >= T_MIN)
 		{
 			t_min = t;

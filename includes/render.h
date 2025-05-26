@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 16:10:47 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/05/23 15:41:16 by nseon            ###   ########.fr       */
+/*   Updated: 2025/05/26 12:57:00 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,5 +82,7 @@ typedef struct s_graphic_ctx
 
 void	render(t_graphic_ctx gctx, t_image *img);
 float	get_light(t_graphic_ctx gctx, t_ren_calc ren);
-
+float	get_cercle_pt(t_point3 const origin,
+	t_sphere const sphere, t_vec3 const d);
+	
 #endif
