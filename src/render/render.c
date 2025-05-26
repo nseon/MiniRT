@@ -51,9 +51,26 @@ float	get_cercle_pt(t_camera const camera,
 
 int32_t	multi_color(int32_t color, float m)
 {
-	return (((int32_t)(((color >> 16) & 0xFF) * m) << 16) |
-		((int32_t)(((color >> 8) & 0xFF) * m) << 8) |
-		((int32_t)(((color) & 0xFF) * m)));
+	t_color		ncolor;
+	uint32_t	rgb[3];
+
+	ncolor.argb = color;
+	rgb[0] = ncolor.r * m;
+	if (rgb[0] > 255)
+		ncolor.r = 255;
+	else
+		ncolor.r = rgb[0];
+	rgb[1] = ncolor.g * m;
+	if (rgb[1] > 255)
+		ncolor.g = 255;
+	else
+		ncolor.g = rgb[1];
+	rgb[1] = ncolor.b * m;
+	if (rgb[1] > 255)
+		ncolor.b = 255;
+	else
+		ncolor.b = rgb[1];
+	return (ncolor.argb);
 }
 
 static int32_t	get_render_pt(t_graphic_ctx const gctx, t_ren_calc ren)

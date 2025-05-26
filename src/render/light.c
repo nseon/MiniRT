@@ -55,7 +55,5 @@ float	get_light(t_graphic_ctx const gctx, t_ren_calc ren)
 		lum += gctx.lights[i].i * (dot_n_l / (v3_magnitude(ren.n)
 					* v3_magnitude(ren.l)) + get_specular(gctx, ren));
 	}
-	if (lum > 1)
-		lum = 1;
 	return (lum);
 }
