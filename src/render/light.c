@@ -25,7 +25,7 @@ bool	is_in_shadow(t_light light, t_sphere *spheres, t_ren_calc ren)
 	i = -1;
 	while (++i < vct_size(spheres))
 	{
-		t = get_cercle_pt(ren.p, spheres[i], ren.l);
+		t = sphere_intersect(spheres[i], ren.p, ren.l);
 		if ((light.type == POINT && 0.01 < t && t < 1) || (light.type == DIR && t > 0.01))
 			return (1);
 	}

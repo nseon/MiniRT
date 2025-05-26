@@ -56,6 +56,7 @@ SRC += $(addprefix $(RENDER_DIR), $(RENDER_SRC))
 RENDER_DIR	=		render/
 RENDER_SRC	=		render.c \
 					light.c \
+					ray.c \
 
 # ===============MESH================ #
 

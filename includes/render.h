@@ -22,7 +22,7 @@
 # include "neflibx.h"
 
 # define T_MAX 3.402823466e+38
-# define T_MIN 0.1
+# define T_MIN 0.01
 # define BACKGROUND_COLOR 0x000001
 # define RAY_NUM 2
 
@@ -84,7 +84,9 @@ typedef struct s_graphic_ctx
 
 void	render(t_graphic_ctx gctx, t_image *img);
 float	get_light(t_graphic_ctx gctx, t_ren_calc ren);
-float	get_cercle_pt(t_point3 const origin,
-	t_sphere const sphere, t_vec3 const d);
+float	sphere_intersect(t_sphere sphere,
+	t_point3 origin, t_vec3 d);
+uint32_t	trace_ray(t_graphic_ctx gctx,
+	t_ren_calc ren, uint8_t n);
 
 #endif
