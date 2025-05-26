@@ -14,7 +14,7 @@
 
 #include <math.h>
 
-static float	get_cercle_intersec(t_sphere const sphere,
+float	sphere_intersect(t_sphere const sphere,
 	t_point3 const origin, t_vec3 const d)
 {
 	const t_vec3	co = get_vec3(sphere.pos, origin);
@@ -33,7 +33,7 @@ static float	get_cercle_intersec(t_sphere const sphere,
 }
 
 static t_sphere	get_sphere(t_graphic_ctx const gctx,
-	t_point3 const origin, t_vec3 const d, float const t_min2)
+	t_point3 const origin, t_vec3 const d, float *const t_ptr)
 {
 	float		t_min;
 	float		t;
@@ -45,10 +45,11 @@ static t_sphere	get_sphere(t_graphic_ctx const gctx,
 	closest_sphere = (t_sphere){0};
 	while (++i < vct_size(gctx.spheres))
 	{
-		t = get_cercle_intersec(gctx.spheres[i], origin, d);
-		if (t < t_min && t >= t_min2)
+		t = sphere_intersect(gctx.spheres[i], origin, d);
+		if (t < t_min && t >= T_MIN)
 		{
 			t_min = t;
+			*t_ptr = t;
 			closest_sphere = gctx.spheres[i];
 		}
 	}
@@ -56,13 +57,11 @@ static t_sphere	get_sphere(t_graphic_ctx const gctx,
 }
 
 uint32_t	trace_ray(t_graphic_ctx const gctx,
-	t_ren_calc ren, uint8_t n, float t_min2)
+	t_ren_calc ren, uint8_t n)
 {
-	float			t;
-	size_t			i;
-	t_sphere const	closest_sphere = get_sphere(gctx, ren.o, ren.d, t_min2);
+	float			t_min;
+	t_sphere const	closest_sphere = get_sphere(gctx, ren.o, ren.d, &t_min);
 	t_vec3			refl_dir;
-
 
 	if (closest_sphere.radius == 0)
 		return (BACKGROUND_COLOR);
@@ -76,5 +75,5 @@ uint32_t	trace_ray(t_graphic_ctx const gctx,
 	ren.o = ren.p;
 	ren.d = refl_dir;
 	return (colorp(colorx(colorx(closest_sphere.color, get_light(gctx, ren)), 1 - closest_sphere.reflective)
-		, colorx(trace_ray(gctx, ren, n + 1, T_MIN_REFL), closest_sphere.reflective)));
+		, colorx(trace_ray(gctx, ren, n + 1), closest_sphere.reflective)));
 }

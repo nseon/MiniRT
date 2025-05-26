@@ -48,7 +48,7 @@ void	render(t_graphic_ctx const gctx, t_image *img)
 			ren.d = win_to_vp(gctx, x, y, img);
 			ren.o = gctx.cam.pos;
 			put_pixel_img(img, (t_point){x, y,
-				trace_ray(gctx, ren, 0, T_MIN)});
+				trace_ray(gctx, ren, 0)});
 		}
 	}
 }
