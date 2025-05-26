@@ -27,8 +27,11 @@ void	loop2(void *p)
 	// if (ctx->gctx.lights[0].pos.x > -400)
 	// ctx->gctx.lights[0].pos.x -= 20;
 	// usleep(1000);
-	render(ctx->gctx, &ctx->img);
-	put_img(&ctx->img, 0, 0, true);
+	if (ctx->render)
+	{
+		render(ctx->gctx, &ctx->img);
+		put_img(&ctx->img, 0, 0, true);
+	}
 }
 
 void	btn1(void *p)
@@ -73,6 +76,7 @@ int	main(int c, char **args)
 	init_window(&ctx.win, 960, 540, "MiniRT");
 	create_image(&ctx.img, 960, 540, &ctx.win);
 	init_btn(&ctx.win, &ctx.img, &ctx);
+	ctx.render = false;
 	ctx.gctx.cam = camera;
 	ctx.gctx.lights_off = false;
 	ctx.gctx.spheres = vct_create(sizeof (t_sphere), 0, 0);
@@ -86,7 +90,9 @@ int	main(int c, char **args)
 	vct_add(&ctx.gctx.spheres, &(t_sphere){{-600, -400, 2800}, 500, 16711680, 20, 0});
 	vct_add(&ctx.gctx.spheres, &(t_sphere){{0, 11600, 2800}, 11000, 0xd9d77e, -1, 0.5});
 	render(ctx.gctx, &ctx.img);
-	register_keypress(ctx.win.events, move_cam, &ctx.gctx);
+	put_img(&ctx.img, 0, 0, true);
+	register_keypress(ctx.win.events, move_cam, &ctx);
+	register_keyrelease(ctx.win.events, release, &ctx);
 	register_destroy(ctx.win.events, end, &ctx.win);
 	register_btnpress(ctx.win.events, move_wheel, &ctx.gctx);
 	register_btnpress(ctx.win.events, mouse_click, &ctx);
