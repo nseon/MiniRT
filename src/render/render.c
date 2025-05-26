@@ -16,6 +16,7 @@
 
 #include <math.h>
 #include <stdint.h>
+#include <stdio.h>
 
 #include "minirt.h"
 
@@ -44,12 +45,12 @@ float	get_cercle_pt(t_point3 const origin,
 	if (dis[0] < 0)
 		return (0);
 	dis[1] = sqrtf(dis[0]);
-	if ((0 - b - dis[1]) / (2 * a) < 1)
+	if ((0 - b - dis[1]) / (2 * a) < T_MIN)
 		return ((0 - b + dis[1]) / (2 * a));
 	return ((0 - b - dis[1]) / (2 * a));
 }
 
-int32_t	multi_color(int32_t color, float m)
+uint32_t	multi_color(int32_t color, float m)
 {
 	t_color		ncolor;
 	uint32_t	rgb[3];
@@ -73,19 +74,47 @@ int32_t	multi_color(int32_t color, float m)
 	return (ncolor.argb);
 }
 
-static int32_t	get_render_pt(t_graphic_ctx const gctx, t_ren_calc ren)
+uint32_t	add_color(uint32_t color, uint32_t color2)
+{
+	t_color		ncolor;
+	t_color		ncolor2;
+	uint32_t	rgb[3];
+
+	ncolor.argb = color;
+	ncolor2.argb = color2;
+	rgb[0] = ncolor.r + ncolor2.r;
+	if (rgb[0] > 255)
+		ncolor.r = 255;
+	else
+		ncolor.r = rgb[0];
+	rgb[1] = ncolor.g + ncolor2.g;
+	if (rgb[1] > 255)
+		ncolor.g = 255;
+	else
+		ncolor.g = rgb[1];
+	rgb[1] = ncolor.b + ncolor2.b;
+	if (rgb[1] > 255)
+		ncolor.b = 255;
+	else
+		ncolor.b = rgb[1];
+	return (ncolor.argb);
+}
+
+static int32_t	trace_ray(t_graphic_ctx const gctx,
+	t_ren_calc ren, uint8_t n)
 {
 	float		t_min;
 	float		t;
 	size_t		i;
 	t_sphere	closest_sphere;
+	t_vec3		refl_dir;
 
 	i = -1;
 	t_min = T_MAX;
 	closest_sphere = (t_sphere){0};
 	while (++i < vct_size(gctx.spheres))
 	{
-		t = get_cercle_pt(gctx.cam.pos, gctx.spheres[i], ren.d);
+		t = get_cercle_pt(ren.o, gctx.spheres[i], ren.d);
 		if (t < t_min && t >= T_MIN)
 		{
 			t_min = t;
@@ -94,10 +123,17 @@ static int32_t	get_render_pt(t_graphic_ctx const gctx, t_ren_calc ren)
 	}
 	if (closest_sphere.radius == 0)
 		return (BACKGROUND_COLOR);
-	ren.p = v3_add(gctx.cam.pos, v3_multiply(ren.d, t_min));
+	ren.p = v3_add(ren.o, v3_multiply(ren.d, t_min));
 	ren.n = v3_normalize(get_vec3(closest_sphere.pos, ren.p));
 	ren.s = closest_sphere.specular;
-	return (multi_color(closest_sphere.color, get_light(gctx, ren)));
+	if (n == RAY_NUM || closest_sphere.reflective <= 0)
+		return (multi_color(closest_sphere.color, get_light(gctx, ren)));
+	refl_dir = v3_sub(v3_multiply(v3_multiply(ren.n, 2),
+				v3_dotproduct(ren.n, v3_multiply(ren.d, -1))), v3_multiply(ren.d, -1));
+	ren.o = ren.p;
+	ren.d = refl_dir;
+	return (add_color(multi_color(multi_color(closest_sphere.color, get_light(gctx, ren)), 1 - closest_sphere.reflective)
+		, trace_ray(gctx, ren, n + 1)));
 }
 
 void	render(t_graphic_ctx const gctx, t_image *img)
@@ -114,8 +150,9 @@ void	render(t_graphic_ctx const gctx, t_image *img)
 		{
 			ren = (t_ren_calc){0};
 			ren.d = win_to_vp(gctx, x, y, img);
+			ren.o = gctx.cam.pos;
 			put_pixel_img(img, (t_point){x, y,
-				get_render_pt(gctx, ren)});
+				trace_ray(gctx, ren, 0)});
 		}
 	}
 }

@@ -27,8 +27,9 @@ typedef struct s_sphere
 {
 	t_point3	pos;
 	float		radius;
-	int32_t		color;
+	uint32_t		color;
 	int32_t		specular;
+	float		reflective;
 }	t_sphere;
 
 typedef struct s_obj
@@ -36,7 +37,7 @@ typedef struct s_obj
 	t_obj_type	type;
 	t_vec3		pos;
 	t_vec3		ori;
-	int32_t		color;
+	uint32_t		color;
 	int32_t		specular;
 	float		w;
 	float		l;

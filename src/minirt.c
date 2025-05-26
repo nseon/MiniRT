@@ -24,8 +24,9 @@ void	loop2(void *p)
 	t_ctx	*ctx;
 
 	ctx = (t_ctx *)p;
-	ctx->gctx.lights[0].pos.x -= 20;
-	usleep(1000);
+	// if (ctx->gctx.lights[0].pos.x > -400)
+	// ctx->gctx.lights[0].pos.x -= 20;
+	// usleep(1000);
 	render(ctx->gctx, &ctx->img);
 	put_img(&ctx->img, 0, 0, true);
 }
@@ -64,7 +65,7 @@ void	end(void *p)
 int	main(int c, char **args)
 {
 	t_camera	camera = {.pos = {0, 0, -500}, .orient = {0, 0, 1},
-		.vp = {1920, 1080, 2000}};
+		.vp = {1920, 1080, 1200}};
 	t_ctx		ctx;
 
 	(void)c;
@@ -76,21 +77,20 @@ int	main(int c, char **args)
 	ctx.gctx.lights_off = false;
 	ctx.gctx.spheres = vct_create(sizeof (t_sphere), 0, 0);
 	ctx.gctx.lights = vct_create(sizeof (t_light), 0, 0);
-	ctx.gctx.amb_light = (t_amb_light){0.2};
-	// vct_add(&ctx.gctx.lights, &(t_light){POINT, {0, -2000, 200}, 0.7});
-	vct_add(&ctx.gctx.lights, &(t_light){DIR, {2000, 300, 0}, 0.3});
+	ctx.gctx.amb_light = (t_amb_light){0.12};
+	vct_add(&ctx.gctx.lights, &(t_light){POINT, {-500, -500, -2000}, 0.6});
+	vct_add(&ctx.gctx.lights, &(t_light){DIR, {2000, 300, 0}, 0.6});
 	// vct_add(&ctx.lights, &(t_light){DIR, {200, 100, 100}, 1});
-	vct_add(&ctx.gctx.spheres, &(t_sphere){{0, 0, 2400}, 500, 255, -1});
-	vct_add(&ctx.gctx.spheres, &(t_sphere){{600, 400, 2600}, 500, 65380, -1});
-	vct_add(&ctx.gctx.spheres, &(t_sphere){{-600, -400, 2800}, 500, 16711680, 20});
-	vct_add(&ctx.gctx.spheres, &(t_sphere){{0, 11600, 2800}, 11000, 0xd9d77e, -1});
+	vct_add(&ctx.gctx.spheres, &(t_sphere){{0, 0, 2400}, 500, 255, 20, 0});
+	vct_add(&ctx.gctx.spheres, &(t_sphere){{600, 400, 2600}, 500, 65380, 20, 0});
+	vct_add(&ctx.gctx.spheres, &(t_sphere){{-600, -400, 2800}, 500, 16711680, 20, 0});
+	vct_add(&ctx.gctx.spheres, &(t_sphere){{0, 11600, 2800}, 11000, 0xd9d77e, -1, 0.5});
 	render(ctx.gctx, &ctx.img);
 	register_keypress(ctx.win.events, move_cam, &ctx.gctx);
 	register_destroy(ctx.win.events, end, &ctx.win);
 	register_btnpress(ctx.win.events, move_wheel, &ctx.gctx);
-	register_btnpress(ctx.win.events, mouse_click, &ctx.mouse);
+	register_btnpress(ctx.win.events, mouse_click, &ctx);
 	register_btnrelease(ctx.win.events, mouse_unclick, &ctx.mouse);
-	register_pointer(ctx.win.events, mouse_move,&ctx);
 	register_loop(ctx.win.events, loop2, &ctx);
 	loop(&ctx.win);
 	return (0);

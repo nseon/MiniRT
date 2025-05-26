@@ -17,6 +17,9 @@
 #include "render.h"
 #include "minirt.h"
 #include <X11/keysym.h>
+#include <stdlib.h>
+
+
 
 void	move_cam(int keycode, void *args)
 {
@@ -25,14 +28,18 @@ void	move_cam(int keycode, void *args)
 
 	x++;
 	gctx = (t_graphic_ctx *)args;
-	if (keycode == XK_Down)
-		gctx->cam.pos.y += 10;
-	else if (keycode == XK_Right)
-		gctx->cam.pos.x += 10;
-	else if (keycode == XK_Up)
-		gctx->cam.pos.y -= 10;
-	else if (keycode == XK_Left)
-		gctx->cam.pos.x -= 10;
+	if (keycode == XK_w)
+		gctx->cam.pos.z += 20;
+	else if (keycode == XK_d)
+		gctx->cam.pos.x += 20;
+	else if (keycode == XK_s)
+		gctx->cam.pos.z -= 20;
+	else if (keycode == XK_a)
+		gctx->cam.pos.x -= 20;
+	else if (keycode == XK_space)
+		gctx->cam.pos.y -= 20;
+	else if (keycode == XK_c)
+		gctx->cam.pos.y += 20;
 	// if (keycode == XK_Down)
 	// 	ctx->lights[0].pos.y += 100;
 	// else if (keycode == ARROW_RIGHT)
@@ -43,34 +50,49 @@ void	move_cam(int keycode, void *args)
 	// 	ctx->lights[0].pos.x -= 100;
 }
 
-void	mouse_move(int x, int y, void *args)
+static t_vec3	win_to_vp(t_graphic_ctx const gctx, int16_t const x,
+	int16_t const y, t_image *img)
 {
-	t_ctx *ctx;
+	const float		vx = x * gctx.cam.vp.vw / img->w + gctx.cam.pos.x
+		- gctx.cam.vp.vw / 2;
+	const float		vy = y * gctx.cam.vp.vh / img->h + gctx.cam.pos.y
+		- gctx.cam.vp.vh / 2;
+	const t_vec3	vp_point = {vx, vy, gctx.cam.vp.d + gctx.cam.pos.z};
 
-	ctx = (t_ctx *)args;
-	if (ctx->mouse.click == true)
-	{
-		if (x > ctx->mouse.x)
-			ctx->gctx.cam.pos.x -= x - ctx->mouse.x;
-		if (x < ctx->mouse.x)
-			ctx->gctx.cam.pos.x += ctx->mouse.x - x;
-		if (y > ctx->mouse.y)
-			ctx->gctx.cam.pos.y -= y - ctx->mouse.y;
-		if (y < ctx->mouse.y)
-			ctx->gctx.cam.pos.y += ctx->mouse.y - y;
-	}
+	return (get_vec3(gctx.cam.pos, vp_point));
+}
+
+static t_vec3	get_vp(t_graphic_ctx const gctx, int16_t const x,
+	int16_t const y, t_image *img)
+{
+	const float		vx = x * gctx.cam.vp.vw / img->w + gctx.cam.pos.x
+		- gctx.cam.vp.vw / 2;
+	const float		vy = y * gctx.cam.vp.vh / img->h + gctx.cam.pos.y
+		- gctx.cam.vp.vh / 2;
+	const t_vec3	vp_point = {vx, vy, gctx.cam.vp.d + gctx.cam.pos.z};
+
+	return (vp_point);
 }
 
 void	mouse_click(int keycode, int x, int y, void *args)
 {
-	t_mouse *mouse;
+	t_ctx	*ctx;
+	t_color			color;
+	t_vec3			pos;
+	t_vec3			d;
 
-	mouse = (t_mouse *)args;
+	ctx = (t_ctx *)args;
+	d = win_to_vp(ctx->gctx, x, y, &ctx->img);
 	if (keycode == 1)
 	{
-		mouse->x = x;
-		mouse->y = y;
-		mouse->click = true;
+		color.r = rand() % (255 - 0 + 1) + 0;
+		color.g = rand() % (255 - 0 + 1) + 0;
+		color.b = rand() % (255 - 0 + 1) + 0;
+		color.a = 0;
+		pos = get_vp(ctx->gctx, x, y, &ctx->img);
+		pos = v3_add(pos, v3_multiply(d, 6));
+		vct_add(&ctx->gctx.spheres, &(t_sphere){pos, 500, color.argb, 20, 1});
+
 	}
 }
 
@@ -93,7 +115,7 @@ void	move_wheel(int keycode, int x, int y, void *args)
 	(void)y;
 	ctx = (t_graphic_ctx *)args;
 	if (keycode == 4)
-		ctx->lights[0].pos.z += 100;
+		ctx->cam.pos.z += 100;
 	else if (keycode == 5)
-		ctx->lights[0].pos.z -= 100;
+		ctx->cam.pos.z -= 100;
 }
