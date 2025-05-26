@@ -133,7 +133,7 @@ static int32_t	trace_ray(t_graphic_ctx const gctx,
 	ren.o = ren.p;
 	ren.d = refl_dir;
 	return (add_color(multi_color(multi_color(closest_sphere.color, get_light(gctx, ren)), 1 - closest_sphere.reflective)
-		, trace_ray(gctx, ren, n + 1)));
+		, multi_color(trace_ray(gctx, ren, n + 1), closest_sphere.reflective)));
 }
 
 void	render(t_graphic_ctx const gctx, t_image *img)
