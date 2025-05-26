@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 17:58:10 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/05/26 14:06:56 by nseon            ###   ########.fr       */
+/*   Updated: 2025/05/26 14:20:28 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,7 @@ bool	is_in_shadow(t_light light, t_sphere *spheres, t_ren_calc ren)
 	while (++i < vct_size(spheres))
 	{
 		t = get_cercle_pt(ren.p, spheres[i], ren.l);
-		t = 0;
-		if ((light.type == POINT && 0 < t && t < 1) || (light.type == DIR && t > 0))
+		if ((light.type == POINT && 0.01 < t && t < 1) || (light.type == DIR && t > 0.01))
 			return (1);
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:22:55 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/05/23 16:04:26 by nseon            ###   ########.fr       */
+/*   Updated: 2025/05/26 14:27:18 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,10 +75,11 @@ int	main(int c, char **args)
 	ctx.gctx.spheres = vct_create(sizeof (t_sphere), 0, 0);
 	ctx.gctx.lights = vct_create(sizeof (t_light), 0, 0);
 	ctx.gctx.amb_light = (t_amb_light){0.2};
-	vct_add(&ctx.gctx.lights, &(t_light){POINT, {0, -2000, 200}, 0.7});
+	vct_add(&ctx.gctx.lights, &(t_light){DIR, {0, 2000, 2600}, 0.7});
 	vct_add(&ctx.gctx.lights, &(t_light){POINT, {-1200, 0, 2400}, 1});
 	// vct_add(&ctx.lights, &(t_light){DIR, {200, 100, 100}, 1});
 	vct_add(&ctx.gctx.spheres, &(t_sphere){{0, 0, 2400}, 500, 255, 500});
+	    vct_add(&ctx.gctx.spheres, &(t_sphere){{0, 11600, 2400}, 11000, 0xd9d77e, 0});
 	vct_add(&ctx.gctx.spheres, &(t_sphere){{600, 400, 2600}, 500, 65280, 500});
 	vct_add(&ctx.gctx.spheres, &(t_sphere){{-600, -400, 2800}, 500, 16711680, 10});
 	render(ctx.gctx, &ctx.img);
