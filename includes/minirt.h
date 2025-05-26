@@ -20,6 +20,7 @@
 typedef struct s_ctx
 {
 	t_image			img;
+	bool			render;
 	t_window		win;
 	t_mouse			mouse;
 	t_graphic_ctx	gctx;

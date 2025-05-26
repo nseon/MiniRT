@@ -23,23 +23,24 @@
 
 void	move_cam(int keycode, void *args)
 {
-	t_graphic_ctx	*gctx;
+	t_ctx	*ctx;
 	static int	x;
 
 	x++;
-	gctx = (t_graphic_ctx *)args;
+	ctx = (t_ctx *)args;
+	ctx->render = true;
 	if (keycode == XK_w)
-		gctx->cam.pos.z += 20;
+		ctx->gctx.cam.pos.z += 20;
 	else if (keycode == XK_d)
-		gctx->cam.pos.x += 20;
+		ctx->gctx.cam.pos.x += 20;
 	else if (keycode == XK_s)
-		gctx->cam.pos.z -= 20;
+		ctx->gctx.cam.pos.z -= 20;
 	else if (keycode == XK_a)
-		gctx->cam.pos.x -= 20;
+		ctx->gctx.cam.pos.x -= 20;
 	else if (keycode == XK_space)
-		gctx->cam.pos.y -= 20;
+		ctx->gctx.cam.pos.y -= 20;
 	else if (keycode == XK_c)
-		gctx->cam.pos.y += 20;
+		ctx->gctx.cam.pos.y += 20;
 	// if (keycode == XK_Down)
 	// 	ctx->lights[0].pos.y += 100;
 	// else if (keycode == ARROW_RIGHT)
@@ -48,6 +49,12 @@ void	move_cam(int keycode, void *args)
 	// 	ctx->lights[0].pos.y -= 100;
 	// else if (keycode == ARROW_LEFT)
 	// 	ctx->lights[0].pos.x -= 100;
+}
+
+void	release(int keycode, void *args)
+{
+	(void)keycode;
+	((t_ctx *)args)->render = false;
 }
 
 static t_vec3	win_to_vp(t_graphic_ctx const gctx, int16_t const x,

@@ -27,5 +27,6 @@ void	move_wheel(int keycode, int x, int y, void *args);
 void	mouse_click(int keycode, int x, int y, void *args);
 void	mouse_unclick(int keycode, int x, int y, void *args);
 void	mouse_move(int x, int y, void *args);
+void	release(int keycode, void *args);
 
 #endif
