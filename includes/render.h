@@ -32,8 +32,6 @@ typedef enum e_light_type
 	DIR
 }	t_light_type;
 
-
-
 typedef struct s_vieuport
 {
 	float	vw;

@@ -49,6 +49,13 @@ SRC += $(addprefix $(PARSING_DIR), $(PARSING_SRC))
 PARSING_DIR =		parsing/
 PARSING_SRC =		parse.c \
 
+# ===============HOOKS================ #
+
+SRC += $(addprefix $(HOOKS_DIR), $(HOOKS_SRC))
+
+HOOKS_DIR =		hooks/
+HOOKS_SRC =		loop.c \
+
 # ===============RENDER================= #
 
 SRC += $(addprefix $(RENDER_DIR), $(RENDER_SRC))

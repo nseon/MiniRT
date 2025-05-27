@@ -1,28 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
+/*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/14 17:45:33 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/05/14 17:45:33 by pjarnac          ###   ########.fr       */
+/*   Created: 2025/05/27 13:24:10 by pjarnac           #+#    #+#             */
+/*   Updated: 2025/05/27 13:24:10 by pjarnac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
+#ifndef PARSING_H
+# define PARSING_H
 
-#include "errors.h"
-#include "minirt.h"
+# include "minirt.h"
 
-int8_t	parse(t_ctx *const ctx)
-{
-	static int x;
+int8_t	parse(t_ctx *ctx);
 
-	x++;
-	while (true)
-	{
-		printf("ok: %d\n", x);
-	}
-	return (SUCCESS);
-}
+#endif

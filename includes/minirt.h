@@ -21,8 +21,9 @@ typedef struct s_ctx
 {
 	t_image			img;
 	bool			render;
+	bool			parsing;
+	char			*map_name;
 	t_window		win;
-	t_mouse			mouse;
 	t_graphic_ctx	gctx;
 }	t_ctx;
 

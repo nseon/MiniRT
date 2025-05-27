@@ -1,28 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
+/*   loop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/14 17:45:33 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/05/14 17:45:33 by pjarnac          ###   ########.fr       */
+/*   Created: 2025/05/27 12:15:25 by pjarnac           #+#    #+#             */
+/*   Updated: 2025/05/27 12:15:25 by pjarnac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 
-#include "errors.h"
 #include "minirt.h"
+#include "parsing.h"
 
-int8_t	parse(t_ctx *const ctx)
+void	main_loop(void *p)
 {
-	static int x;
+	t_ctx *const	ctx = p;
 
-	x++;
-	while (true)
+	printf("Rendering\n");
+	if (!ctx->parsing)
 	{
-		printf("ok: %d\n", x);
+		parse(ctx);
 	}
-	return (SUCCESS);
+	else if (ctx->render)
+	{
+		render(ctx->gctx, &ctx->img);
+	}
+	put_img(&ctx->img, 0, 0, true);
+}
+
+void	end_main_loop(void *p)
+{
+	t_window *const	win = p;
+
+	end_loop(win);
 }

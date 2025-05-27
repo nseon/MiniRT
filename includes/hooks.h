@@ -1,28 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
+/*   hooks.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/14 17:45:33 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/05/14 17:45:33 by pjarnac          ###   ########.fr       */
+/*   Created: 2025/05/27 12:24:20 by pjarnac           #+#    #+#             */
+/*   Updated: 2025/05/27 12:24:20 by pjarnac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
+#ifndef HOOKS_H
+# define HOOKS_H
 
-#include "errors.h"
-#include "minirt.h"
+void	main_loop(void *p);
+void	end_main_loop(void *p);
 
-int8_t	parse(t_ctx *const ctx)
-{
-	static int x;
-
-	x++;
-	while (true)
-	{
-		printf("ok: %d\n", x);
-	}
-	return (SUCCESS);
-}
+#endif
