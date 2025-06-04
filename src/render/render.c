@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:52:26 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/05/26 12:55:11 by nseon            ###   ########.fr       */
+/*   Updated: 2025/06/03 14:23:44 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,13 @@
 #include <math.h>
 #include <stdint.h>
 #include <stdio.h>
+#include <fcntl.h>
+#include <unistd.h>
 
 #include "minirt.h"
 
-static t_vec3	win_to_vp(t_graphic_ctx const gctx, int16_t const x,
-	int16_t const y, t_image *img)
+static t_point3	win_to_vp(t_graphic_ctx const gctx, float const x,
+	float const y, t_image *img)
 {
 	const float		vx = x * gctx.cam.vp.vw / img->w + gctx.cam.pos.x
 		- gctx.cam.vp.vw / 2;
@@ -29,26 +31,39 @@ static t_vec3	win_to_vp(t_graphic_ctx const gctx, int16_t const x,
 		- gctx.cam.vp.vh / 2;
 	const t_vec3	vp_point = {vx, vy, gctx.cam.vp.d + gctx.cam.pos.z};
 
-	return (get_vec3(gctx.cam.pos, vp_point));
+	return (vp_point);
 }
 
-void	render(t_graphic_ctx const gctx, t_image *img)
+void	render(t_graphic_ctx const gctx, t_image *img, uint8_t const random[2 * RAY_NBR])
 {
 	int16_t			x;
 	int16_t			y;
 	t_ren_calc		ren;
+	uint32_t		i;
+	t_point3		vp;
 
-	x = -1;
-	while (++x < img->w)
+	i = -1;
+	while (++i < RAY_NBR)
 	{
-		y = -1;
-		while (++y < img->h)
+		x = -1;
+		while (++x < img->w)
 		{
-			ren = (t_ren_calc){0};
-			ren.d = win_to_vp(gctx, x, y, img);
-			ren.o = gctx.cam.pos;
-			put_pixel_img(img, (t_point){x, y,
-				trace_ray(gctx, ren, 0)});
+			y = -1;
+			while (++y < img->h)
+			{
+				ren = (t_ren_calc){0};
+				if (!i)
+					vp = win_to_vp(gctx, x, y, img);
+				else
+					vp = win_to_vp(gctx, x + frandom(random), y + frandom(random), img);
+				ren.d = get_vec3(gctx.cam.pos, vp);
+				ren.o = gctx.cam.pos;
+				if (!i)
+					put_pixel_img(img, (t_point){x, y, trace_ray(gctx, ren, 0)});
+				else
+					put_pixel_img(img, (t_point){x, y, supersampling(get_pixel_color(img, x, y), trace_ray(gctx, ren, 0), i)});
+			}
 		}
+		put_img(img, 0, 0, true);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 16:10:47 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/05/26 12:57:00 by nseon            ###   ########.fr       */
+/*   Updated: 2025/06/04 11:52:42 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,15 @@
 
 # define T_MAX 3.402823466e+38
 # define T_MIN 0.01
-# define BACKGROUND_COLOR 0x000001
+# define BACKGROUND_COLOR 0x272E33
 # define RAY_NUM 2
+# define RAY_NBR 10
 
 typedef enum e_light_type
 {
 	POINT,
 	DIR
 }	t_light_type;
-
-
 
 typedef struct s_vieuport
 {
@@ -82,11 +81,12 @@ typedef struct s_graphic_ctx
 	bool		lights_off;
 }	t_graphic_ctx;
 
-void	render(t_graphic_ctx gctx, t_image *img);
-float	get_light(t_graphic_ctx gctx, t_ren_calc ren);
-float	sphere_intersect(t_sphere sphere,
-	t_point3 origin, t_vec3 d);
-uint32_t	trace_ray(t_graphic_ctx gctx,
-	t_ren_calc ren, uint8_t n);
+void		render(t_graphic_ctx const gctx, t_image *img, uint8_t const random[2 * RAY_NBR]);
+float		get_light(t_graphic_ctx gctx, t_ren_calc ren);
+float		sphere_intersect(t_sphere sphere, t_point3 origin, t_vec3 d);
+uint32_t	trace_ray(t_graphic_ctx gctx, t_ren_calc ren, uint8_t n);
+float 		frandom(uint8_t const random[2 * RAY_NBR]);
+uint32_t	get_pixel_color(t_image *image, int x, int y);
+uint32_t	supersampling(float old_color, float mix_color, uint32_t i);
 
 #endif

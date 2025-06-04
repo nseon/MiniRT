@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   objects.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:21:56 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/05/16 17:21:56 by pjarnac          ###   ########.fr       */
+/*   Updated: 2025/05/27 13:01:26 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ typedef struct s_sphere
 {
 	t_point3	pos;
 	float		radius;
-	uint32_t		color;
+	uint32_t	color;
 	int32_t		specular;
 	float		reflective;
 }	t_sphere;

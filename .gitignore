@@ -4,6 +4,7 @@
 .make/
 minirt
 neflibx
+.vscode/
 
 # Prerequisites
 *.d

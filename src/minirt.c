@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:22:55 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/05/26 14:27:18 by nseon            ###   ########.fr       */
+/*   Updated: 2025/06/04 11:51:30 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "neflibx.h"
 
 #include <unistd.h>
+#include <fcntl.h>
 
 #include "mlx.h"
 
@@ -29,7 +30,8 @@ void	loop2(void *p)
 	// usleep(1000);
 	if (ctx->render)
 	{
-		render(ctx->gctx, &ctx->img);
+		read(ctx->fd, &ctx->random, 2 * RAY_NBR);
+		render(ctx->gctx, &ctx->img, ctx->random);
 		put_img(&ctx->img, 0, 0, true);
 	}
 }
@@ -73,9 +75,11 @@ int	main(int c, char **args)
 
 	(void)c;
 	(void)args;
-	init_window(&ctx.win, 960, 540, "MiniRT");
-	create_image(&ctx.img, 960, 540, &ctx.win);
+	init_window(&ctx.win, 3840, 2160, "MiniRT");
+	create_image(&ctx.img, 3840, 2160, &ctx.win);
 	init_btn(&ctx.win, &ctx.img, &ctx);
+	ctx.fd = open("/dev/urandom", O_RDONLY);
+	read(ctx.fd, &ctx.random, 2 * RAY_NBR);
 	ctx.render = false;
 	ctx.gctx.cam = camera;
 	ctx.gctx.lights_off = false;
@@ -89,7 +93,8 @@ int	main(int c, char **args)
 	vct_add(&ctx.gctx.spheres, &(t_sphere){{600, 400, 2600}, 500, 65380, 20, 0});
 	vct_add(&ctx.gctx.spheres, &(t_sphere){{-600, -400, 2800}, 500, 16711680, 20, 0});
 	vct_add(&ctx.gctx.spheres, &(t_sphere){{0, 11600, 2800}, 11000, 0xd9d77e, -1, 0.5});
-	render(ctx.gctx, &ctx.img);
+	// vct_add(&ctx.gctx.spheres, &(t_sphere){{-2500, -1500, 3000}, 1500, 16711680, -1, 0});
+	render(ctx.gctx, &ctx.img, ctx.random);
 	put_img(&ctx.img, 0, 0, true);
 	register_keypress(ctx.win.events, move_cam, &ctx);
 	register_keyrelease(ctx.win.events, release, &ctx);
@@ -99,5 +104,6 @@ int	main(int c, char **args)
 	register_btnrelease(ctx.win.events, mouse_unclick, &ctx.mouse);
 	register_loop(ctx.win.events, loop2, &ctx);
 	loop(&ctx.win);
+	close(ctx.fd);
 	return (0);
 }
