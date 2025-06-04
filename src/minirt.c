@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:22:55 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/06/04 11:51:30 by nseon            ###   ########.fr       */
+/*   Updated: 2025/06/04 12:02:23 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,8 @@ int	main(int c, char **args)
 
 	(void)c;
 	(void)args;
-	init_window(&ctx.win, 3840, 2160, "MiniRT");
-	create_image(&ctx.img, 3840, 2160, &ctx.win);
+	init_window(&ctx.win, 1920, 1080, "MiniRT");
+	create_image(&ctx.img, 1920, 1080, &ctx.win);
 	init_btn(&ctx.win, &ctx.img, &ctx);
 	ctx.fd = open("/dev/urandom", O_RDONLY);
 	read(ctx.fd, &ctx.random, 2 * RAY_NBR);
@@ -92,7 +92,7 @@ int	main(int c, char **args)
 	vct_add(&ctx.gctx.spheres, &(t_sphere){{0, 0, 2400}, 500, 255, 20, 0});
 	vct_add(&ctx.gctx.spheres, &(t_sphere){{600, 400, 2600}, 500, 65380, 20, 0});
 	vct_add(&ctx.gctx.spheres, &(t_sphere){{-600, -400, 2800}, 500, 16711680, 20, 0});
-	vct_add(&ctx.gctx.spheres, &(t_sphere){{0, 11600, 2800}, 11000, 0xd9d77e, -1, 0.5});
+	vct_add(&ctx.gctx.spheres, &(t_sphere){{0, 11600, 2800}, 11000, 0xd9d77e, -1, 0});
 	// vct_add(&ctx.gctx.spheres, &(t_sphere){{-2500, -1500, 3000}, 1500, 16711680, -1, 0});
 	render(ctx.gctx, &ctx.img, ctx.random);
 	put_img(&ctx.img, 0, 0, true);
