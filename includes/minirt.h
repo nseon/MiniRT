@@ -22,9 +22,13 @@ typedef struct s_ctx
 	t_image			img;
 	bool			render;
 	bool			parsing;
-	char			*map_name;
+	int32_t			error;
+	char			*filename;
+	int32_t			file;
 	t_window		win;
 	t_graphic_ctx	gctx;
 }	t_ctx;
+
+int8_t	init_gui(t_ctx *ctx);
 
 #endif

@@ -48,6 +48,7 @@ SRC += $(addprefix $(PARSING_DIR), $(PARSING_SRC))
 
 PARSING_DIR =		parsing/
 PARSING_SRC =		parse.c \
+					parse_map.c \
 
 # ===============HOOKS================ #
 
@@ -72,6 +73,13 @@ SRC += $(addprefix $(MESH_DIR), $(MESH_SRC))
 MESH_DIR =		mesh/
 MESH_SRC =		triangle.c \
 				mesh.c \
+
+# ===============GUI================ #
+
+SRC += $(addprefix $(GUI_DIR), $(GUI_SRC))
+
+GUI_DIR =		gui/
+GUI_SRC =		init.c \
 
 # =============MESH/OBJECTS================ #
 
@@ -213,7 +221,7 @@ norminette:
 
 .PHONY: valgrind
 valgrind: debug
-	@valgrind --suppressions=.valgrindignore.txt -s --leak-check=full --track-fds=yes ./minishell
+	@valgrind  --leak-check=full --track-fds=yes ./minirt
 
 -include $(DEPS)
 

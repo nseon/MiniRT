@@ -13,6 +13,8 @@
 #ifndef ERRORS_H
 # define ERRORS_H
 
+# define PARSE_INVAL_TYPE -2
+# define PARSE_INVAL_TYPE_MSG "Invalid object type: %s\n"
 # define FATAL -1
 # define SUCCESS 0
 

@@ -1,9 +1,10 @@
-### C template
+    ### C template
 
 .idea/
 .make/
 minirt
 neflibx
+test*
 
 # Prerequisites
 *.d
