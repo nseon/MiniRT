@@ -21,17 +21,19 @@
 
 static int8_t	is_element(char const *const str)
 {
-	char *const	*split = ft_split(str, ELEMENTS);
+	char *const	*split = ft_split(ELEMENTS, WHITESPACES);
 	int32_t		i;
 
-	if (!split)
-		return (FATAL);
 	i = -1;
 	while (split[++i])
 	{
 		if (ft_strcmp(str, split[i]) == 0)
+		{
+			free_split(split);
 			return (SUCCESS);
+		}
 	}
+	free_split(split);
 	return (PARSE_INVAL_TYPE);
 }
 
@@ -39,7 +41,13 @@ static int8_t	parse_line(t_ctx *const ctx, char **split)
 {
 	int8_t	res;
 
+	if (split[0] == NULL)
+		return (SUCCESS);
 	res = is_element(split[0]);
+	if (res == SUCCESS)
+	{
+		printf("Is an element: %s\n", split[0]);
+	}
 	return (SUCCESS);
 }
 

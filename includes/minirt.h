@@ -17,6 +17,9 @@
 # include "render.h"
 # include "inputs.h"
 
+# define WIN_W 960
+# define WIN_H 540
+
 typedef struct s_ctx
 {
 	t_image			img;

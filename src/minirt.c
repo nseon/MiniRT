@@ -24,9 +24,9 @@
 
 static int8_t	init(t_ctx *const ctx)
 {
-	if (init_window(&ctx->win, 1920, 1080, "MiniRT") != SUCCESS)
+	if (init_window(&ctx->win, WIN_W, WIN_H, "MiniRT") != SUCCESS)
 		return (FATAL);
-	if (create_image(&ctx->img, 1920, 1080, &ctx->win) != SUCCESS)
+	if (create_image(&ctx->img, WIN_W, WIN_H, &ctx->win) != SUCCESS)
 	{
 		destroy_window(&ctx->win);
 		return (FATAL);

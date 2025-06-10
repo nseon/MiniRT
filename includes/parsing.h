@@ -15,7 +15,7 @@
 
 # define FILENAME "Map filename:"
 # define LOADED "Map loaded !"
-# define WHITESPACES "\t\n\v\f\r  "
+# define WHITESPACES "\t\n\v\f\r "
 
 # ifdef BONUS
 # define ELEMENTS "a lpt ldir C sp pl cy"

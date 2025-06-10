@@ -79,7 +79,7 @@ MESH_SRC =		triangle.c \
 SRC += $(addprefix $(GUI_DIR), $(GUI_SRC))
 
 GUI_DIR =		gui/
-GUI_SRC =		init.c \
+GUI_SRC =		gui_init.c \
 
 # =============MESH/OBJECTS================ #
 

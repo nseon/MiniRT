@@ -41,7 +41,7 @@ void	filename_input_cb(char *str, void *p)
 void	draw_status(t_ctx *const ctx)
 {
 	const t_guielem *const	filename = get_by_label(&ctx->win, FILENAME);
-	t_point			draw_pt;
+	t_point					draw_pt;
 
 	draw_pt = (t_point){filename->x, filename->y + 12 + filename->h};
 	if (ctx->error != 0)
