@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:52:26 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/06/03 14:23:44 by nseon            ###   ########.fr       */
+/*   Updated: 2025/06/11 14:31:37 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,36 +34,31 @@ static t_point3	win_to_vp(t_graphic_ctx const gctx, float const x,
 	return (vp_point);
 }
 
-void	render(t_graphic_ctx const gctx, t_image *img, uint8_t const random[2 * RAY_NBR])
+void	render(t_graphic_ctx const gctx, t_image *img, uint8_t const random[2 * RAY_NBR], int nb_ray)
 {
 	int16_t			x;
 	int16_t			y;
 	t_ren_calc		ren;
-	uint32_t		i;
 	t_point3		vp;
 
-	i = -1;
-	while (++i < RAY_NBR)
+	x = -1;
+	while (++x < img->w)
 	{
-		x = -1;
-		while (++x < img->w)
+		y = -1;
+		while (++y < img->h)
 		{
-			y = -1;
-			while (++y < img->h)
-			{
-				ren = (t_ren_calc){0};
-				if (!i)
-					vp = win_to_vp(gctx, x, y, img);
-				else
-					vp = win_to_vp(gctx, x + frandom(random), y + frandom(random), img);
-				ren.d = get_vec3(gctx.cam.pos, vp);
-				ren.o = gctx.cam.pos;
-				if (!i)
-					put_pixel_img(img, (t_point){x, y, trace_ray(gctx, ren, 0)});
-				else
-					put_pixel_img(img, (t_point){x, y, supersampling(get_pixel_color(img, x, y), trace_ray(gctx, ren, 0), i)});
-			}
+			ren = (t_ren_calc){0};
+			if (nb_ray <= 1)
+				vp = win_to_vp(gctx, x, y, img);
+			else
+				vp = win_to_vp(gctx, x + frandom(random), y + frandom(random), img);
+			ren.d = get_vec3(gctx.cam.pos, vp);
+			ren.o = gctx.cam.pos;
+			if (nb_ray <= 1)
+				put_pixel_img(img, (t_point){x, y, trace_ray(gctx, ren, 0)});
+			else
+				put_pixel_img(img, (t_point){x, y, supersampling(get_pixel_color(img, x, y), trace_ray(gctx, ren, 0), nb_ray)});
 		}
-		put_img(img, 0, 0, true);
 	}
+	put_img(img, 0, 0, true);
 }

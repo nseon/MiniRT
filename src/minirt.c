@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:22:55 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/06/04 12:02:23 by nseon            ###   ########.fr       */
+/*   Updated: 2025/06/11 14:32:29 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,28 @@
 
 #include <unistd.h>
 #include <fcntl.h>
+#include <stdlib.h>
 
 #include "mlx.h"
 
 void	loop2(void *p)
 {
-	t_ctx	*ctx;
+	t_ctx		*ctx;
+	static int	ray;
 
 	ctx = (t_ctx *)p;
 	// if (ctx->gctx.lights[0].pos.x > -400)
 	// ctx->gctx.lights[0].pos.x -= 20;
 	// usleep(1000);
-	if (ctx->render)
+	if (ray < RAY_NBR || ctx->render == true)
 	{
-		read(ctx->fd, &ctx->random, 2 * RAY_NBR);
-		render(ctx->gctx, &ctx->img, ctx->random);
+		if (ctx->render)
+			ray = 0;
+		render(ctx->gctx, &ctx->img, ctx->random, ray);
 		put_img(&ctx->img, 0, 0, true);
+		ctx->render = false;
 	}
+	ray++;
 }
 
 void	btn1(void *p)
@@ -75,8 +80,8 @@ int	main(int c, char **args)
 
 	(void)c;
 	(void)args;
-	init_window(&ctx.win, 1920, 1080, "MiniRT");
-	create_image(&ctx.img, 1920, 1080, &ctx.win);
+	init_window(&ctx.win, W_WIDTH, W_HEIGHT, "MiniRT");
+	create_image(&ctx.img, W_WIDTH, W_HEIGHT, &ctx.win);
 	init_btn(&ctx.win, &ctx.img, &ctx);
 	ctx.fd = open("/dev/urandom", O_RDONLY);
 	read(ctx.fd, &ctx.random, 2 * RAY_NBR);
@@ -94,8 +99,6 @@ int	main(int c, char **args)
 	vct_add(&ctx.gctx.spheres, &(t_sphere){{-600, -400, 2800}, 500, 16711680, 20, 0});
 	vct_add(&ctx.gctx.spheres, &(t_sphere){{0, 11600, 2800}, 11000, 0xd9d77e, -1, 0});
 	// vct_add(&ctx.gctx.spheres, &(t_sphere){{-2500, -1500, 3000}, 1500, 16711680, -1, 0});
-	render(ctx.gctx, &ctx.img, ctx.random);
-	put_img(&ctx.img, 0, 0, true);
 	register_keypress(ctx.win.events, move_cam, &ctx);
 	register_keyrelease(ctx.win.events, release, &ctx);
 	register_destroy(ctx.win.events, end, &ctx.win);

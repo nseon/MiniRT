@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 16:10:47 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/06/04 12:03:22 by nseon            ###   ########.fr       */
+/*   Updated: 2025/06/11 15:53:51 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # define T_MIN 0.01
 # define BACKGROUND_COLOR 0x272E33
 # define RAY_NUM 2
-# define RAY_NBR 10
+# define RAY_NBR 100
 
 typedef enum e_light_type
 {
@@ -81,7 +81,7 @@ typedef struct s_graphic_ctx
 	bool		lights_off;
 }	t_graphic_ctx;
 
-void		render(t_graphic_ctx const gctx, t_image *img, uint8_t const random[2 * RAY_NBR]);
+void		render(t_graphic_ctx const gctx, t_image *img, uint8_t const random[2 * RAY_NBR], int nb_ray);
 float		get_light(t_graphic_ctx gctx, t_ren_calc ren);
 float		sphere_intersect(t_sphere sphere, t_point3 origin, t_vec3 d);
 uint32_t	trace_ray(t_graphic_ctx gctx, t_ren_calc ren, uint8_t n);

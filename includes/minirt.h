@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 18:37:03 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/06/03 14:02:09 by nseon            ###   ########.fr       */
+/*   Updated: 2025/06/11 14:32:21 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
 # include "neflibx.h"
 # include "render.h"
 # include "inputs.h"
+
+# define W_WIDTH 1920
+# define W_HEIGHT 1080
 
 typedef struct s_ctx
 {

@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 12:06:54 by nseon             #+#    #+#             */
-/*   Updated: 2025/05/26 17:48:51 by nseon            ###   ########.fr       */
+/*   Updated: 2025/06/04 16:03:06 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@
 #include "minirt.h"
 #include <X11/keysym.h>
 #include <stdlib.h>
-
-
 
 void	move_cam(int keycode, void *args)
 {
@@ -99,7 +97,7 @@ void	mouse_click(int keycode, int x, int y, void *args)
 		pos = get_vp(ctx->gctx, x, y, &ctx->img);
 		pos = v3_add(pos, v3_multiply(d, 6));
 		vct_add(&ctx->gctx.spheres, &(t_sphere){pos, 500, color.argb, 20, 0.3});
-
+		ctx->render = true;
 	}
 }
 
