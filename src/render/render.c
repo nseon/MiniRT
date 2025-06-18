@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:52:26 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/06/11 14:31:37 by nseon            ###   ########.fr       */
+/*   Updated: 2025/06/18 15:33:57 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,19 @@ static t_point3	win_to_vp(t_graphic_ctx const gctx, float const x,
 	const float		vy = y * gctx.cam.vp.vh / img->h + gctx.cam.pos.y
 		- gctx.cam.vp.vh / 2;
 	const t_vec3	vp_point = {vx, vy, gctx.cam.vp.d + gctx.cam.pos.z};
-
 	return (vp_point);
+}
+
+uint64_t	convert32to64(int32_t nb)
+{
+	t_color		color32;
+	t_color64	color64;
+
+	color32.argb = nb;
+	color64.r = color32.r;
+	color64.g = color32.g;
+	color64.b = color32.b;
+	return (color64.argb);
 }
 
 void	render(t_graphic_ctx const gctx, t_image *img, uint8_t const random[2 * RAY_NBR], int nb_ray)
@@ -54,10 +65,8 @@ void	render(t_graphic_ctx const gctx, t_image *img, uint8_t const random[2 * RAY
 				vp = win_to_vp(gctx, x + frandom(random), y + frandom(random), img);
 			ren.d = get_vec3(gctx.cam.pos, vp);
 			ren.o = gctx.cam.pos;
-			if (nb_ray <= 1)
-				put_pixel_img(img, (t_point){x, y, trace_ray(gctx, ren, 0)});
-			else
-				put_pixel_img(img, (t_point){x, y, supersampling(get_pixel_color(img, x, y), trace_ray(gctx, ren, 0), nb_ray)});
+			gctx.color_px[x * W_HEIGHT + y] += convert32to64(trace_ray(gctx, ren, 0));
+			put_pixel_img(img, (t_point){x, y, colorx64(gctx.color_px[x * W_HEIGHT + y], (float)1 / (nb_ray + 1))});
 		}
 	}
 	put_img(img, 0, 0, true);

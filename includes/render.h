@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 16:10:47 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/06/11 15:53:51 by nseon            ###   ########.fr       */
+/*   Updated: 2025/06/18 15:00:35 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@
 # define T_MIN 0.01
 # define BACKGROUND_COLOR 0x272E33
 # define RAY_NUM 2
-# define RAY_NBR 100
-
+# define RAY_NBR 10000
+	
 typedef enum e_light_type
 {
 	POINT,
@@ -79,6 +79,7 @@ typedef struct s_graphic_ctx
 	t_amb_light	amb_light;
 	t_light		*lights;
 	bool		lights_off;
+	uint64_t	*color_px;
 }	t_graphic_ctx;
 
 void		render(t_graphic_ctx const gctx, t_image *img, uint8_t const random[2 * RAY_NBR], int nb_ray);
