@@ -6,7 +6,7 @@
 #    By: nseon <nseon@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/19 11:53:22 by pjarnac           #+#    #+#              #
-#    Updated: 2025/05/27 13:46:26 by nseon            ###   ########.fr        #
+#    Updated: 2025/06/19 10:49:04 by nseon            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,7 +57,7 @@ RENDER_DIR	=		render/
 RENDER_SRC	=		render.c \
 					light.c \
 					ray.c \
-					antialiasing.c\
+					ss_utils.c\
 
 # ===============MESH================ #
 

@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 13:16:30 by nseon             #+#    #+#             */
-/*   Updated: 2025/06/04 15:00:22 by nseon            ###   ########.fr       */
+/*   Updated: 2025/06/19 10:43:52 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,22 @@ float frandom(uint8_t const random[2 * RAY_NBR])
 	return (nb);
 }
 
-uint32_t	supersampling(float old_color, float mix_color, uint32_t i)
+void	add_rgb96_t(t_rgb96_t *comps, uint32_t color)
 {
-	return (color_mix(old_color, mix_color, i));
+	t_color col;
+
+	col.argb = color;
+	comps->r += col.r; 
+	comps->g += col.g; 
+	comps->b += col.b; 
+}
+
+int32_t	get_mixed_color(t_rgb96_t comps, int div)
+{
+	t_color	color;
+
+	color.r = comps.r / div;
+	color.g = comps.g / div;
+	color.b = comps.b / div;
+	return (color.argb);
 }

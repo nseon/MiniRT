@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:22:55 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/06/18 15:00:19 by nseon            ###   ########.fr       */
+/*   Updated: 2025/06/18 18:02:24 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,10 @@ void	loop2(void *p)
 	if (ray < RAY_NBR || ctx->render == true)
 	{
 		if (ctx->render)
+		{
 			ray = 0;
+		ft_bzero(ctx->gctx.color_px, W_WIDTH * W_HEIGHT * sizeof(t_rgb96_t));
+		}
 		render(ctx->gctx, &ctx->img, ctx->random, ray);
 		put_img(&ctx->img, 0, 0, true);
 		ctx->render = false;
@@ -88,8 +91,8 @@ int	main(int c, char **args)
 	ctx.render = false;
 	ctx.gctx.cam = camera;
 	ctx.gctx.lights_off = false;
-	ctx.gctx.color_px= malloc(W_WIDTH * W_HEIGHT * sizeof(uint64_t));
-	ft_bzero(ctx.gctx.color_px, W_WIDTH * W_HEIGHT * sizeof(uint64_t));
+	ctx.gctx.color_px= malloc(W_WIDTH * W_HEIGHT * sizeof(t_rgb96_t));
+	ft_bzero(ctx.gctx.color_px, W_WIDTH * W_HEIGHT * sizeof(t_rgb96_t));
 	ctx.gctx.spheres = vct_create(sizeof (t_sphere), 0, 0);
 	ctx.gctx.lights = vct_create(sizeof (t_light), 0, 0);
 	ctx.gctx.amb_light = (t_amb_light){0.12};
