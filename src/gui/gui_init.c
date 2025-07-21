@@ -18,7 +18,7 @@
 static int8_t	parse_gui(t_ctx *ctx)
 {
 	t_guielem *const	filename = create_txt_input(&ctx->img,
-		filename_input_cb, ctx);
+			filename_input_cb, ctx);
 
 	filename->w *= 2.5;
 	filename->h *= 2;

@@ -161,8 +161,7 @@ else ifeq ($(MODE), full-optimize)
 else ifeq ($(MODE), test)
 	CFLAGS = -g3 -D UNITY_OUTPUT_COLOR -D UNITY_INCLUDE_DOUBLE -D UNITY_INCLUDE_EXEC_TIME
 	SRC := $(filter-out $(NAME).c, $(SRC))
-	SRC += $(NAME)_test.c
-	TEST = /sgoinfre/pjarnac/public/unit_tests/Unity/src/unity.c
+	SRC += $(NAME)_test.c /sgoinfre/pjarnac/public/unit_tests/Unity/src/unity.c
 else ifneq ($(MODE),)
 	ERROR = MODE
 endif
@@ -178,7 +177,7 @@ all: $(NAME)
 
 $(NAME): $(LIBS_PATH) $(OBJS)
 	@echo $(MODE) > $(MODE_TRACE)
-	$(CC) $(CFLAGS) $(OBJS) $(TEST) $(LDFLAGS) $(LDLIBS) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) $(LDLIBS) -o $(NAME)
 
 $(BUILD_DIR)%.o: $(SRC_DIR)%.c
 	@mkdir -p $(@D)

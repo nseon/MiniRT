@@ -21,8 +21,8 @@
 
 static int8_t	is_element(char const *const str)
 {
-	char *const	*split = ft_split(ELEMENTS, WHITESPACES);
-	int32_t		i;
+	char *const *const	split = ft_split(ELEMENTS, WHITESPACES);
+	int32_t				i;
 
 	i = -1;
 	while (split[++i])
@@ -54,7 +54,7 @@ static int8_t	parse_line(t_ctx *const ctx, char **split)
 int8_t	parse_map(t_ctx *const ctx)
 {
 	char			*line;
-	char			**split;
+	char *const		*split;
 	int8_t			res;
 
 	while (gnl2(ctx->file, &line))
