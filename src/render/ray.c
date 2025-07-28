@@ -14,13 +14,13 @@
 
 #include <math.h>
 
-float	sphere_intersect(t_sphere const sphere,
-	t_point3 const origin, t_vec3 const d)
+float	sphere_intersect(struct s_obj sphere,
+						t_point3 const origin, t_vec3 const d)
 {
 	const t_vec3	co = get_vec3(sphere.pos, origin);
 	const float		b = 2 * v3_dotproduct(co, d);
 	const float		a = v3_dotproduct(d, d);
-	const float		c = v3_dotproduct(co, co) - sphere.radius * sphere.radius;
+	const float		c = v3_dotproduct(co, co) - sphere.w * sphere.w;
 	float			dis[2];
 
 	dis[0] = (float){b * b - 4 * a * c};
@@ -32,48 +32,50 @@ float	sphere_intersect(t_sphere const sphere,
 	return ((0 - b - dis[1]) / (2 * a));
 }
 
-static t_sphere	get_sphere(t_graphic_ctx const gctx,
-	t_point3 const origin, t_vec3 const d, float *const t_ptr)
+static struct s_obj get_sphere(t_graphic_ctx *gctx,
+								t_point3      origin, t_vec3 d, float *t_ptr)
 {
-	float		t_min;
-	float		t;
-	size_t		i;
-	t_sphere	closest_sphere;
+	float        t_min;
+	float        t;
+	size_t       i;
+	struct s_obj closest_sphere;
 
 	i = -1;
 	t_min = T_MAX;
-	closest_sphere = (t_sphere){0};
-	while (++i < vct_size(gctx.spheres))
+	closest_sphere = (struct s_obj){0};
+	while (++i < vct_size(gctx->objs))
 	{
-		t = sphere_intersect(gctx.spheres[i], origin, d);
+		if (gctx->objs[i].type != SPHERE)
+			continue ;
+		t = sphere_intersect(gctx->objs[i], origin, d);
 		if (t < t_min && t >= T_MIN)
 		{
 			t_min = t;
 			*t_ptr = t;
-			closest_sphere = gctx.spheres[i];
+			closest_sphere = gctx->objs[i];
 		}
 	}
 	return (closest_sphere);
 }
 
-uint32_t	trace_ray(t_graphic_ctx const gctx,
-	t_ren_calc ren, uint8_t n)
+uint32_t	trace_ray(t_graphic_ctx *gctx,
+					t_ren_calc       ren, uint8_t n)
 {
-	float			t_min;
-	t_sphere const	closest_sphere = get_sphere(gctx, ren.o, ren.d, &t_min);
-	t_vec3			refl_dir;
+	float              t_min;
+	struct s_obj const closest_sphere = get_sphere(gctx, ren.o, ren.d, &t_min);
+	t_vec3             refl_dir;
 
-	if (closest_sphere.radius == 0)
+	if (closest_sphere.w == 0)
 		return (BACKGROUND_COLOR);
 	ren.p = v3_add(ren.o, v3_multiply(ren.d, t_min));
 	ren.n = v3_normalize(get_vec3(closest_sphere.pos, ren.p));
 	ren.s = closest_sphere.specular;
 	if (n == RAY_NUM || closest_sphere.reflective <= 0)
-		return (colorx(closest_sphere.color, get_light(gctx, ren)));
+		return (colorx(closest_sphere.col.argb, get_light(gctx, ren)));
 	refl_dir = v3_sub(v3_multiply(v3_multiply(ren.n, 2),
 				v3_dotproduct(ren.n, v3_multiply(ren.d, -1))), v3_multiply(ren.d, -1));
 	ren.o = ren.p;
 	ren.d = refl_dir;
-	return (colorp(colorx(colorx(closest_sphere.color, get_light(gctx, ren)), 1 - closest_sphere.reflective)
+	return (colorp(colorx(colorx(closest_sphere.col.argb, get_light(gctx, ren)), 1 - closest_sphere.reflective)
 		, colorx(trace_ray(gctx, ren, n + 1), closest_sphere.reflective)));
 }

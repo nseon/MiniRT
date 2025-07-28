@@ -55,52 +55,6 @@ void	release(int keycode, void *args)
 	((t_ctx *)args)->render = false;
 }
 
-static t_vec3	win_to_vp(t_graphic_ctx const gctx, int16_t const x,
-	int16_t const y, t_image *img)
-{
-	const float		vx = x * gctx.cam.vp.vw / img->w + gctx.cam.pos.x
-		- gctx.cam.vp.vw / 2;
-	const float		vy = y * gctx.cam.vp.vh / img->h + gctx.cam.pos.y
-		- gctx.cam.vp.vh / 2;
-	const t_vec3	vp_point = {vx, vy, gctx.cam.vp.d + gctx.cam.pos.z};
-
-	return (get_vec3(gctx.cam.pos, vp_point));
-}
-
-static t_vec3	get_vp(t_graphic_ctx const gctx, int16_t const x,
-	int16_t const y, t_image *img)
-{
-	const float		vx = x * gctx.cam.vp.vw / img->w + gctx.cam.pos.x
-		- gctx.cam.vp.vw / 2;
-	const float		vy = y * gctx.cam.vp.vh / img->h + gctx.cam.pos.y
-		- gctx.cam.vp.vh / 2;
-	const t_vec3	vp_point = {vx, vy, gctx.cam.vp.d + gctx.cam.pos.z};
-
-	return (vp_point);
-}
-
-void	mouse_click(int keycode, int x, int y, void *args)
-{
-	t_ctx	*ctx;
-	t_color			color;
-	t_vec3			pos;
-	t_vec3			d;
-
-	ctx = (t_ctx *)args;
-	d = win_to_vp(ctx->gctx, x, y, &ctx->img);
-	if (keycode == 1)
-	{
-		color.r = rand() % (255 - 0 + 1) + 0;
-		color.g = rand() % (255 - 0 + 1) + 0;
-		color.b = rand() % (255 - 0 + 1) + 0;
-		color.a = 0;
-		pos = get_vp(ctx->gctx, x, y, &ctx->img);
-		pos = v3_add(pos, v3_multiply(d, 6));
-		vct_add(&ctx->gctx.spheres, &(t_sphere){pos, 500, color.argb, 20, 0.3});
-		ctx->render = true;
-	}
-}
-
 void	mouse_unclick(int keycode, int x, int y, void *args)
 {
 	t_mouse *mouse;
