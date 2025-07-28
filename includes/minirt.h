@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 18:37:03 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/06/11 14:32:21 by nseon            ###   ########.fr       */
+/*   Updated: 2025/07/21 14:33:50 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 # include "render.h"
 # include "inputs.h"
 
-# define W_WIDTH 1920
-# define W_HEIGHT 1080
+# define W_WIDTH 800
+# define W_HEIGHT 450
 
 typedef struct s_ctx
 {

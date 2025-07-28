@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:22:55 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/06/18 18:02:24 by nseon            ###   ########.fr       */
+/*   Updated: 2025/07/28 13:37:37 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	loop2(void *p)
 		if (ctx->render)
 		{
 			ray = 0;
-		ft_bzero(ctx->gctx.color_px, W_WIDTH * W_HEIGHT * sizeof(t_rgb96_t));
+			ft_bzero(ctx->gctx.color_px, W_WIDTH * W_HEIGHT * sizeof(t_rgb96_t));
 		}
 		render(ctx->gctx, &ctx->img, ctx->random, ray);
 		put_img(&ctx->img, 0, 0, true);
@@ -55,7 +55,7 @@ void	btn1(void *p)
 		gctx->lights_off = true;
 }
 
-void	init_btn(t_window *win, t_image *img, t_ctx *ctx)
+void	init_btn(t_image *img, t_ctx *ctx)
 {
 	t_guielem	btn;
 
@@ -66,7 +66,7 @@ void	init_btn(t_window *win, t_image *img, t_ctx *ctx)
 	btn.h = 15;
 	btn.label = "lights";
 	btn.color = argb(0, 182, 190, 204).argb;
-	add_gui_elem(win, &btn);
+	add_gui_elem(&btn);
 }
 
 void	end(void *p)
@@ -85,7 +85,7 @@ int	main(int c, char **args)
 	(void)args;
 	init_window(&ctx.win, W_WIDTH, W_HEIGHT, "MiniRT");
 	create_image(&ctx.img, W_WIDTH, W_HEIGHT, &ctx.win);
-	init_btn(&ctx.win, &ctx.img, &ctx);
+	init_btn( &ctx.img, &ctx);
 	ctx.fd = open("/dev/urandom", O_RDONLY);
 	read(ctx.fd, &ctx.random, 2 * RAY_NBR);
 	ctx.render = false;

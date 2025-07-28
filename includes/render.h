@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 16:10:47 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/06/19 10:47:15 by nseon            ###   ########.fr       */
+/*   Updated: 2025/07/28 12:38:23 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ typedef struct s_camera
 {
 	t_point3	pos;
 	t_vec3		orient;
+	t_vec3		vup;
+	t_vec3		vright;
 	t_vieuport	vp;
 }	t_camera;
 

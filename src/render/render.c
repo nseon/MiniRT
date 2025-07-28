@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:52:26 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/06/19 10:43:33 by nseon            ###   ########.fr       */
+/*   Updated: 2025/07/28 14:13:22 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,10 @@ void	render(t_graphic_ctx const gctx, t_image *img, uint8_t const random[2 * RAY
 				vp = win_to_vp(gctx, x, y, img);
 			else
 				vp = win_to_vp(gctx, x + frandom(random), y + frandom(random), img);
+			// ren.d = v3_multiply(get_vec3(g0ctx.cam.pos, vp), v3_dotproduct(gctx.cam.orient, get_vec3(gctx.cam.pos, vp)));
 			ren.d = get_vec3(gctx.cam.pos, vp);
+			// printf("x:%f\ny:%f\nz:%f\n\n", ren.d.x, ren.d.y, ren.d.z);
+			ren.d.y += nb_ray;
 			ren.o = gctx.cam.pos;
 			add_rgb96_t(&gctx.color_px[x * W_HEIGHT + y], trace_ray(gctx, ren, 0));
 			put_pixel_img(img, (t_point){x, y, get_mixed_color(gctx.color_px[x * W_HEIGHT + y], nb_ray + 1)});

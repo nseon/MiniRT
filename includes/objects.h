@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:21:56 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/05/27 13:01:26 by nseon            ###   ########.fr       */
+/*   Updated: 2025/07/18 09:53:29 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,13 @@ typedef struct s_sphere
 	int32_t		specular;
 	float		reflective;
 }	t_sphere;
+
+typedef	struct s_plane
+{
+	t_point3	pos;
+	t_vec3		vct;
+	uint32_t	color;
+}	t_plane;
 
 typedef struct s_obj
 {
