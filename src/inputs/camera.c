@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 12:06:54 by nseon             #+#    #+#             */
-/*   Updated: 2025/05/23 17:26:58 by nseon            ###   ########.fr       */
+/*   Updated: 2025/06/04 16:03:06 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@
 #include "minirt.h"
 #include <X11/keysym.h>
 #include <stdlib.h>
-
-
 
 void	move_cam(int keycode, void *args)
 {

@@ -29,6 +29,8 @@ typedef struct s_ctx
 	int32_t			file;
 	t_window		win;
 	t_graphic_ctx	gctx;
+	int32_t			fd;
+	uint8_t			random[2 * RAY_NBR];
 }	t_ctx;
 
 int8_t	init_gui(t_ctx *ctx);

@@ -34,6 +34,8 @@ static int8_t	init(t_ctx *const ctx)
 	}
 	ctx->gctx.lights = vct_create(sizeof (t_light), 0, DESTROY_ON_FAIL);
 	ctx->gctx.objs = vct_create(sizeof (t_obj), 0, DESTROY_ON_FAIL);
+	ctx->gctx.color_px = malloc(sizeof (t_rgb96_t) * WIN_H * WIN_W);
+	ft_bzero(ctx->gctx.color_px, sizeof (t_rgb96_t) * WIN_H * WIN_W);
 	return (SUCCESS);
 }
 
@@ -64,5 +66,6 @@ int	main(int c, char **args)
 	destroy_window(&ctx.win);
 	free_vct(ctx.gctx.lights);
 	free_vct(ctx.gctx.objs);
+	free(ctx.gctx.color_px);
 	return (0);
 }

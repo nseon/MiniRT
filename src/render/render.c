@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:52:26 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/05/26 12:55:11 by nseon            ###   ########.fr       */
+/*   Updated: 2025/06/19 10:43:33 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 #include <math.h>
 #include <stdint.h>
 #include <stdio.h>
+#include <fcntl.h>
+#include <unistd.h>
 
 #include "minirt.h"
 
@@ -32,11 +34,12 @@ static t_vec3	win_to_vp(t_graphic_ctx *gctx, int16_t const x,
 	return (get_vec3(gctx->cam.pos, vp_point));
 }
 
-void	render(t_graphic_ctx *gctx, t_image *img)
+void	render(t_graphic_ctx *gctx, t_image *img, uint8_t const random[2 * RAY_NBR], int nb_ray)
 {
 	int16_t			x;
 	int16_t			y;
 	t_ren_calc		ren;
+	t_point3		vp;
 
 	x = -1;
 	while (++x < img->w)
@@ -45,10 +48,14 @@ void	render(t_graphic_ctx *gctx, t_image *img)
 		while (++y < img->h)
 		{
 			ren = (t_ren_calc){0};
-			ren.d = win_to_vp(gctx, x, y, img);
+			if (nb_ray <= 1)
+				vp = win_to_vp(gctx, x, y, img);
+			else
+				vp = win_to_vp(gctx, x + frandom(random), y + frandom(random), img);
+			ren.d = get_vec3(gctx->cam.pos, vp);
 			ren.o = gctx->cam.pos;
-			put_pixel_img(img, (t_point){x, y,
-				trace_ray(gctx, ren, 0)});
+			add_rgb96_t(&gctx->color_px[x * WIN_H + y], trace_ray(gctx, ren, 0));
+			put_pixel_img(img, (t_point){x, y, get_mixed_color(gctx->color_px[x * WIN_H + y], nb_ray + 1)});
 		}
 	}
 }

@@ -5,6 +5,7 @@
 minirt
 neflibx
 test*
+.vscode/
 
 # Prerequisites
 *.d
