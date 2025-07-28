@@ -40,7 +40,21 @@ SRC 		=	minirt.c \
 SRC += $(addprefix $(INPUTS_DIR), $(INPUTS_SRC))
 
 INPUTS_DIR	=		inputs/
-INPUTS_SRC	=		camera.c\
+INPUTS_SRC	=		camera.c \
+
+# ===============DEBUG================= #
+
+SRC += $(addprefix $(DEBUG_DIR), $(DEBUG_SRC))
+
+DEBUG_DIR	=		debug/
+DEBUG_SRC	=		objects.c\
+
+# ===============MATHS================= #
+
+SRC += $(addprefix $(MATHS_DIR), $(MATHS_SRC))
+
+MATHS_DIR	=		maths/
+MATHS_SRC	=		float.c \
 
 # ===============PARSING================ #
 
@@ -49,6 +63,19 @@ SRC += $(addprefix $(PARSING_DIR), $(PARSING_SRC))
 PARSING_DIR =		parsing/
 PARSING_SRC =		parse.c \
 					parse_map.c \
+
+# ===============PARSING/OBJECTS================ #
+
+SRC += $(addprefix $(OBJECTS_DIR), $(OBJECTS_SRC))
+
+OBJECTS_DIR =		$(PARSING_DIR)objects/
+OBJECTS_SRC =		parsing_ambi_light.c \
+					parsing_camera.c \
+					parse_types.c \
+					parsing_light.c \
+					parsing_plane.c \
+					parsing_sphere.c \
+					parsing_cylinder.c \
 
 # ===============HOOKS================ #
 
@@ -66,27 +93,12 @@ RENDER_SRC	=		render.c \
 					light.c \
 					ray.c \
 
-# ===============MESH================ #
-
-SRC += $(addprefix $(MESH_DIR), $(MESH_SRC))
-
-MESH_DIR =		mesh/
-MESH_SRC =		triangle.c \
-				mesh.c \
-
 # ===============GUI================ #
 
 SRC += $(addprefix $(GUI_DIR), $(GUI_SRC))
 
 GUI_DIR =		gui/
 GUI_SRC =		gui_init.c \
-
-# =============MESH/OBJECTS================ #
-
-SRC += $(addprefix $(MESH_DIR)$(OBJECTS_DIR), $(OBJECTS_SRC))
-
-OBJECTS_DIR =	objects/
-OBJECTS_SRC =	cube.c \
 
 # ===============VECTOR3================ #
 
@@ -137,7 +149,7 @@ MAKEFLAGS	+=	--no-print-directory
 
 # ================MODES================ #
 
-MODES		:= debug fsanitize optimize full-optimize test
+MODES		:= debug fsanitize optimize full-optimize test bonus
 
 MODE_TRACE	:= $(BUILD_DIR).mode_trace
 LAST_MODE	:= $(shell cat $(MODE_TRACE) 2>/dev/null)
@@ -151,13 +163,18 @@ else
 endif
 
 ifeq ($(MODE), debug)
-	CFLAGS = -g3 -D DEBUG
+	CFLAGS = -g3 -DDEBUG=1
 else ifeq ($(MODE), fsanitize)
-	CFLAGS = -g3 -fsanitize=address
+	CFLAGS = -g -fsanitize=address -fno-omit-frame-pointer -O1
+    LDFLAGS += -fsanitize=address -fno-omit-frame-pointer
+    CPPFLAGS += -DDEBUG=1
 else ifeq ($(MODE), optimize)
 	CFLAGS += -O3
 else ifeq ($(MODE), full-optimize)
 	CFLAGS += -Ofast
+else ifeq ($(MODE), bonus)
+	CFLAGS += -Ofast
+	CPPFLAGS += -DBONUS
 else ifeq ($(MODE), test)
 	CFLAGS = -g3 -D UNITY_OUTPUT_COLOR -D UNITY_INCLUDE_DOUBLE -D UNITY_INCLUDE_EXEC_TIME
 	SRC := $(filter-out $(NAME).c, $(SRC))

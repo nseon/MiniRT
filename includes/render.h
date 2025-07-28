@@ -43,6 +43,7 @@ typedef struct s_camera
 {
 	t_point3	pos;
 	t_vec3		orient;
+	float		fov;
 	t_vieuport	vp;
 }	t_camera;
 
@@ -50,12 +51,14 @@ typedef struct s_light
 {
 	t_light_type	type;
 	t_point3		pos;
+	t_color			col;
 	float			i;
 }	t_light;
 
 typedef struct s_amb_light
 {
 	float	i;
+	t_color	col;
 }	t_amb_light;
 
 typedef struct s_ren_calc
@@ -73,18 +76,16 @@ typedef struct s_ren_calc
 typedef struct s_graphic_ctx
 {
 	t_camera	cam;
-	t_sphere	*spheres;
 	t_obj		*objs;
 	t_amb_light	amb_light;
 	t_light		*lights;
 	bool		lights_off;
 }	t_graphic_ctx;
 
-void	render(t_graphic_ctx gctx, t_image *img);
-float	get_light(t_graphic_ctx gctx, t_ren_calc ren);
-float	sphere_intersect(t_sphere sphere,
-	t_point3 origin, t_vec3 d);
-uint32_t	trace_ray(t_graphic_ctx gctx,
-	t_ren_calc ren, uint8_t n);
+void	render(t_graphic_ctx *gctx, t_image *img);
+float	get_light(t_graphic_ctx *gctx, t_ren_calc ren);
+float	sphere_intersect(t_obj sphere, t_point3 origin, t_vec3 d);
+uint32_t	trace_ray(t_graphic_ctx *gctx,
+					t_ren_calc       ren, uint8_t n);
 
 #endif

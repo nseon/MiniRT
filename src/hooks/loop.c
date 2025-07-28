@@ -10,8 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-
 #include "minirt.h"
 #include "parsing.h"
 
@@ -20,12 +18,10 @@ void	main_loop(void *p)
 	t_ctx *const	ctx = p;
 
 	if (!ctx->parsing)
+		draw_file_status(ctx);
+	if (ctx->parsing)
 	{
-		parse(ctx);
-	}
-	else if (ctx->render)
-	{
-		render(ctx->gctx, &ctx->img);
+		render(&ctx->gctx, &ctx->img);
 	}
 	put_img(&ctx->img, 0, 0, true);
 }

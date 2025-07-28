@@ -21,6 +21,7 @@
 #include <unistd.h>
 
 #include "mlx.h"
+#include "parsing.h"
 
 static int8_t	init(t_ctx *const ctx)
 {
@@ -31,6 +32,8 @@ static int8_t	init(t_ctx *const ctx)
 		destroy_window(&ctx->win);
 		return (FATAL);
 	}
+	ctx->gctx.lights = vct_create(sizeof (t_light), 0, DESTROY_ON_FAIL);
+	ctx->gctx.objs = vct_create(sizeof (t_obj), 0, DESTROY_ON_FAIL);
 	return (SUCCESS);
 }
 
@@ -43,19 +46,23 @@ int8_t	set_events(t_ctx *ctx)
 
 int	main(int c, char **args)
 {
-	t_camera	camera = {.pos = {0, 0, -500}, .orient = {0, 0, 1},
-		.vp = {1920, 1080, 1200}};
 	t_ctx		ctx;
 
-	(void)c;
-	(void)args;
 	ctx = (t_ctx){0};
 	if (init(&ctx) != SUCCESS)
 		return (EXIT_FAILURE);
 	set_events(&ctx);
 	init_gui(&ctx);
+	draw_background(&ctx.img, BACK_COLOR);
+	if (c == 2)
+	{
+		put_img(&ctx.img, 0, 0, true);
+		parse(args[1], &ctx);
+	}
 	loop(&ctx.win);
 	destroy_image(&ctx.img);
 	destroy_window(&ctx.win);
+	free_vct(ctx.gctx.lights);
+	free_vct(ctx.gctx.objs);
 	return (0);
 }

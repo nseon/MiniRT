@@ -17,14 +17,15 @@
 
 static int8_t	parse_gui(t_ctx *ctx)
 {
-	t_guielem *const	filename = create_txt_input(&ctx->img,
-			filename_input_cb, ctx);
+	t_guielem *const	filename = create_txt_input(&ctx->win, 0,
+			parse, ctx);
 
-	filename->w *= 2.5;
-	filename->h *= 2;
-	filename->x = ctx->img.w / 2 - filename->w / 2;
-	filename->y = ctx->img.h / 2 - filename->h / 2;
+	filename->vw = 30;
+	filename->vh = 6;
+	filename->vx = 50;
+	filename->vy = 50;
 	filename->label = FILENAME;
+	filename->id = FILENAME_ID;
 	filename->size = 2;
 	return (SUCCESS);
 }

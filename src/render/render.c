@@ -20,19 +20,19 @@
 
 #include "minirt.h"
 
-static t_vec3	win_to_vp(t_graphic_ctx const gctx, int16_t const x,
-	int16_t const y, t_image *img)
+static t_vec3	win_to_vp(t_graphic_ctx *gctx, int16_t const x,
+							int16_t const y, t_image *        img)
 {
-	const float		vx = x * gctx.cam.vp.vw / img->w + gctx.cam.pos.x
-		- gctx.cam.vp.vw / 2;
-	const float		vy = y * gctx.cam.vp.vh / img->h + gctx.cam.pos.y
-		- gctx.cam.vp.vh / 2;
-	const t_vec3	vp_point = {vx, vy, gctx.cam.vp.d + gctx.cam.pos.z};
+	const float	vx = x * gctx->cam.vp.vw / img->w + gctx->cam.pos.x
+		- gctx->cam.vp.vw / 2;
+	const float	vy = y * gctx->cam.vp.vh / img->h + gctx->cam.pos.y
+		- gctx->cam.vp.vh / 2;
+	const t_vec3	vp_point = {vx, vy, gctx->cam.vp.d + gctx->cam.pos.z};
 
-	return (get_vec3(gctx.cam.pos, vp_point));
+	return (get_vec3(gctx->cam.pos, vp_point));
 }
 
-void	render(t_graphic_ctx const gctx, t_image *img)
+void	render(t_graphic_ctx *gctx, t_image *img)
 {
 	int16_t			x;
 	int16_t			y;
@@ -46,7 +46,7 @@ void	render(t_graphic_ctx const gctx, t_image *img)
 		{
 			ren = (t_ren_calc){0};
 			ren.d = win_to_vp(gctx, x, y, img);
-			ren.o = gctx.cam.pos;
+			ren.o = gctx->cam.pos;
 			put_pixel_img(img, (t_point){x, y,
 				trace_ray(gctx, ren, 0)});
 		}

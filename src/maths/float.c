@@ -1,36 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minirt.h                                           :+:      :+:    :+:   */
+/*   float.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/23 18:37:03 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/05/23 18:37:03 by pjarnac          ###   ########.fr       */
+/*   Created: 2025/07/24 16:50:20 by pjarnac           #+#    #+#             */
+/*   Updated: 2025/07/24 16:50:20 by pjarnac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINIRT_H
-# define MINIRT_H
+#include <math.h>
+#include "rt_maths.h"
 
-# include "neflibx.h"
-# include "render.h"
-# include "inputs.h"
-
-# define WIN_W 1080
-# define WIN_H 600
-
-typedef struct s_ctx
+bool	f_equal(float a, float b)
 {
-	t_image			img;
-	bool			render;
-	bool			parsing;
-	int32_t			error;
-	int32_t			file;
-	t_window		win;
-	t_graphic_ctx	gctx;
-}	t_ctx;
-
-int8_t	init_gui(t_ctx *ctx);
-
-#endif
+	return (fabs(a - b) < EPSILON);
+}

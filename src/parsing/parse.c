@@ -21,50 +21,47 @@
 #include "neflibx.h"
 #include "parsing.h"
 
-void	filename_input_cb(char *str, void *p)
+void	open_file(char *str, t_ctx *ctx)
 {
-	t_ctx *const	ctx = p;
-
-	if (ctx->filename)
-		close(ctx->file);
 	ctx->file = open(str, O_RDWR);
 	if (ctx->file == -1)
 	{
-		ctx->filename = 0;
 		ctx->error = errno;
 		return ;
 	}
 	ctx->error = 0;
-	ctx->filename = str;
 }
 
-void	draw_status(t_ctx *const ctx)
+void	draw_file_status(t_ctx *const ctx)
 {
-	const t_guielem *const	filename = get_by_label(&ctx->win, FILENAME);
+	const t_guielem *const	filename = get_by_id(&ctx->win, FILENAME_ID);
 	t_point					draw_pt;
 
-	draw_pt = (t_point){filename->x, filename->y + 12 + filename->h};
+	draw_pt = (t_point){filename->x, filename->y + 12 + filename->h, RED_TXT};
 	if (ctx->error != 0)
 	{
 		draw_pt.color = RED_TXT;
 		draw_str(&ctx->img, strerror(ctx->error), draw_pt, 2);
 	}
-	// else if (ctx->filename)
-	// {
-	// 	draw_pt.color = GREEN_TXT;
-	// 	draw_str(&ctx->img, LOADED, draw_pt, 2);
-	// }
+	else if (ctx->file > 0)
+	{
+		draw_pt.color = GREEN_TXT;
+		draw_str(&ctx->img, LOADED, draw_pt, 2);
+	}
 }
 
-int8_t	parse(t_ctx *const ctx)
+void	parse(char *str, void *p)
 {
+	t_ctx *const	ctx = p;
+
 	draw_background(&ctx->img, BACK_COLOR);
-	draw_status(ctx);
-	if (ctx->filename)
-	{
+	open_file(str, ctx);
+	draw_file_status(ctx);
+	if (ctx->error == 0)
 		if (parse_map(ctx) == SUCCESS)
+		{
+			get_by_id(&ctx->win, FILENAME_ID)->hide = true;
+			clear_image(&ctx->img);
 			ctx->parsing = true;
-	}
-	get_next_line(-2);
-	return (SUCCESS);
+		}
 }
