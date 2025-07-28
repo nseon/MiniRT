@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   loop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 12:15:25 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/05/27 12:15:25 by pjarnac          ###   ########.fr       */
+/*   Updated: 2025/07/28 15:02:14 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,23 @@
 void	main_loop(void *p)
 {
 	t_ctx *const	ctx = p;
+	static int	ray;
 
 	if (!ctx->parsing)
 		draw_file_status(ctx);
 	if (ctx->parsing)
 	{
-		render(&ctx->gctx, &ctx->img, 0, 1);
+		if (ray < RAY_NBR || ctx->render == true)
+		{
+			if (ctx->render)
+			{
+				ray = 0;
+				ft_bzero(ctx->gctx.color_px, WIN_W * WIN_H * sizeof(t_rgb96_t));
+			}
+			render(&ctx->gctx, &ctx->img, ctx->random, ray);
+			ctx->render = false;
+		}
+		ray++;
 	}
 	put_img(&ctx->img, 0, 0, true);
 }
