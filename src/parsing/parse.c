@@ -58,10 +58,12 @@ void	parse(char *str, void *p)
 	open_file(str, ctx);
 	draw_file_status(ctx);
 	if (ctx->error == 0)
+	{
 		if (parse_map(ctx) == SUCCESS)
 		{
 			get_by_id(&ctx->win, FILENAME_ID)->hide = true;
 			clear_image(&ctx->img);
 			ctx->parsing = true;
 		}
+	}
 }

@@ -15,7 +15,6 @@
 
 # include "neflibx.h"
 # include "render.h"
-# include "inputs.h"
 
 # define WIN_W 1080
 # define WIN_H 600

@@ -20,7 +20,8 @@
 void	debug_plane(t_obj o)
 {
 	printf(BOLD "Plane" RESET "\n{\n");
-	printf("\tColor: " COLOR "\n", o.col.argb, o.col.r, o.col.g, o.col.b);
+	printf("\tColor: " COLOR "\n", o.col.r * 255 + o.col.g * 255
+		+ o.col.b * 255, o.col.r * 255, o.col.g * 255, o.col.b * 255);
 	printf("\tPosition: " POS "\n", o.pos.x, o.pos.y, o.pos.z);
 	printf("\tOrientation: " POS "\n", o.ori.x, o.ori.y, o.ori.z);
 	printf("}\n\n");

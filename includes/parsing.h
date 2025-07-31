@@ -42,17 +42,18 @@
 # endif
 
 # include "minirt.h"
+# include "fcolors.h"
 
 void	open_file(char *str, t_ctx *ctx);
 void	parse(char *str, void *p);
 
-int32_t parse_map(t_ctx *ctx);
+int32_t	parse_map(t_ctx *ctx);
 void	draw_file_status(t_ctx *ctx);
 
-int32_t	parse_color(char *str, t_color *color);
+int32_t	parse_color(char *str, t_fcolor *color);
 int32_t	parse_float(char *str, float *f);
-int32_t	parse_xyz(char *str, t_point3 *pt);
-int32_t	parse_normal(char *str, t_vec3 *vct);
+int32_t	parse_xyz(char *str, t_tuple *tp);
+int32_t	parse_normal(char *str, t_tuple *vct);
 
 int32_t	parse_ambi_light(char **split, t_amb_light *amb_light);
 int32_t	parse_camera(char **split, t_camera *camera);
@@ -60,6 +61,5 @@ int32_t	parse_light(char **split, t_light *light);
 int32_t	parse_sphere(char **split, t_obj *obj);
 int32_t	parse_plane(char **split, t_obj *obj);
 int32_t	parse_cylinder(char **split, t_obj *obj);
-
 
 #endif

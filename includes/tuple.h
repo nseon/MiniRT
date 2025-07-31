@@ -10,20 +10,31 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef VECTOR3_H
-# define VECTOR3_H
+#ifndef TUPLE_H
+# define TUPLE_H
 
-# include "points.h"
+# include <stdint.h>
+# include <stdbool.h>
 
-typedef t_point3	t_vec3;
+typedef struct s_tuple
+{
+	float	x;
+	float	y;
+	float	z;
+	float	w;
+}	t_tuple;
 
-float	v3_magnitude(t_vec3 vec);
-t_vec3	get_vec3(t_point3 pt1, t_point3 pt2);
-t_vec3	v3_add(t_point3 pt1, t_point3 pt2);
-t_vec3	v3_sub(t_point3 pt1, t_point3 pt2);
-t_vec3	v3_multiply(t_vec3 vec, float k);
-t_vec3	v3_normalize(t_vec3 vec);
-float	v3_dotproduct(t_vec3 v1, t_vec3 v2);
-t_vec3	v3_crossproduct(t_vec3 v1, t_vec3 v2);
+t_tuple	vector(float x, float y, float z);
+t_tuple	point(float x, float y, float z);
+bool	tp_equal(t_tuple tp1, t_tuple tp2);
+
+float	tp_magnitude(t_tuple tp);
+t_tuple	tp_add(t_tuple tp1, t_tuple tp2);
+t_tuple	tp_sub(t_tuple tp1, t_tuple tp2);
+t_tuple	tp_negate(t_tuple tp);
+t_tuple	tp_mul(t_tuple tp, float k);
+t_tuple	tp_normalize(t_tuple tp);
+float	tp_dotproduct(t_tuple tp1, t_tuple tp2);
+t_tuple	tp_crossproduct(t_tuple tp1, t_tuple tp2);
 
 #endif

@@ -55,6 +55,24 @@ SRC += $(addprefix $(MATHS_DIR), $(MATHS_SRC))
 
 MATHS_DIR	=		maths/
 MATHS_SRC	=		float.c \
+					fcolors.c \
+
+# ===============MATHS/TUPLE================= #
+
+SRC += $(addprefix $(TUPLE_DIR), $(TUPLE_SRC))
+
+TUPLE_DIR	=		$(MATHS_DIR)tuple/
+TUPLE_SRC	=		multiplications.c \
+					operations.c \
+					creation.c \
+
+# ===============MATHS/TUPLE================= #
+
+SRC += $(addprefix $(MATRIX_DIR), $(MATRIX_SRC))
+
+MATRIX_DIR	=		$(MATHS_DIR)matrix/
+MATRIX_SRC	=		creation.c \
+					operations.c \
 
 # ===============PARSING================ #
 
@@ -89,10 +107,7 @@ HOOKS_SRC =		loop.c \
 SRC += $(addprefix $(RENDER_DIR), $(RENDER_SRC))
 
 RENDER_DIR	=		render/
-RENDER_SRC	=		render.c \
-					light.c \
-					ray.c \
-					ss_utils.c\
+RENDER_SRC	=
 
 # ===============GUI================ #
 
@@ -100,22 +115,6 @@ SRC += $(addprefix $(GUI_DIR), $(GUI_SRC))
 
 GUI_DIR =		gui/
 GUI_SRC =		gui_init.c \
-
-# ===============VECTOR3================ #
-
-SRC += $(addprefix $(VECTOR3_DIR), $(VECTOR3_SRC))
-
-VECTOR3_DIR =	vector3/
-VECTOR3_SRC =	operations.c \
-				multiplications.c \
-
-# ===============VECTOR2================ #
-
-SRC += $(addprefix $(VECTOR2_DIR), $(VECTOR2_SRC))
-
-VECTOR2_DIR =	vector2/
-VECTOR2_SRC =	operations.c \
-				multiplications.c \
 
 # ==========LIBS / INCLUDES============ #
 
@@ -179,7 +178,8 @@ else ifeq ($(MODE), bonus)
 else ifeq ($(MODE), test)
 	CFLAGS = -g3 -D UNITY_OUTPUT_COLOR -D UNITY_INCLUDE_DOUBLE -D UNITY_INCLUDE_EXEC_TIME
 	SRC := $(filter-out $(NAME).c, $(SRC))
-	SRC += $(NAME)_test.c /sgoinfre/pjarnac/public/unit_tests/Unity/src/unity.c
+	SRC += $(NAME)_test.c
+	TEST = /sgoinfre/pjarnac/public/unit_tests/Unity/src/unity.c
 else ifneq ($(MODE),)
 	ERROR = MODE
 endif
@@ -195,7 +195,7 @@ all: $(NAME)
 
 $(NAME): $(LIBS_PATH) $(OBJS)
 	@echo $(MODE) > $(MODE_TRACE)
-	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) $(LDLIBS) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) $(TEST) $(LDFLAGS) $(LDLIBS) -o $(NAME)
 
 $(BUILD_DIR)%.o: $(SRC_DIR)%.c
 	@mkdir -p $(@D)

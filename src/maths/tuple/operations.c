@@ -12,25 +12,35 @@
 
 #include <math.h>
 
-#include "vector3.h"
-#include "render.h"
+#include "rt_maths.h"
+#include "tuple.h"
 
-float	v3_magnitude(t_vec3 vec)
+float	tp_magnitude(t_tuple tp)
 {
-	return (sqrtf(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z));
+	return (sqrtf(tp.x * tp.x + tp.y * tp.y + tp.z * tp.z + tp.w * tp.w));
 }
 
-t_vec3	get_vec3(t_point3 pt1, t_point3 pt2)
+t_tuple	tp_negate(t_tuple tp)
 {
-	return ((t_vec3){pt2.x - pt1.x, pt2.y - pt1.y, pt2.z - pt1.z});
+	return ((t_tuple){tp.x * -1, tp.y * -1, tp.z * -1, tp.w * -1});
 }
 
-t_vec3	v3_add(t_point3 pt1, t_point3 pt2)
+t_tuple	tp_add(t_tuple tp1, t_tuple tp2)
 {
-	return ((t_vec3){pt1.x + pt2.x, pt1.y + pt2.y, pt1.z + pt2.z});
+	return ((t_tuple){tp1.x + tp2.x, tp1.y + tp2.y,
+		tp1.z + tp2.z, tp1.w + tp2.w});
 }
 
-t_vec3	v3_sub(t_point3 pt1, t_point3 pt2)
+t_tuple	tp_sub(t_tuple tp1, t_tuple tp2)
 {
-	return ((t_vec3){pt1.x - pt2.x, pt1.y - pt2.y, pt1.z - pt2.z});
+	return ((t_tuple){tp1.x - tp2.x, tp1.y - tp2.y,
+		tp1.z - tp2.z, tp1.w - tp2.w});
+}
+
+bool	tp_equal(t_tuple tp1, t_tuple tp2)
+{
+	if (f_equal(tp1.x, tp2.x) && f_equal(tp1.y, tp2.y)
+		&& f_equal(tp1.z, tp2.z) && tp1.w == tp2.w)
+		return (true);
+	return (false);
 }

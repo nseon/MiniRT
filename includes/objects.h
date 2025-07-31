@@ -13,8 +13,8 @@
 #ifndef OBJECTS_H
 # define OBJECTS_H
 
-# include "colors.h"
-# include "vector3.h"
+# include "fcolors.h"
+# include "tuple.h"
 
 typedef enum e_obj_type
 {
@@ -26,9 +26,9 @@ typedef enum e_obj_type
 typedef struct s_obj
 {
 	t_obj_type	type;
-	t_vec3		pos;
-	t_vec3		ori;
-	t_color		col;
+	t_tuple		pos;
+	t_tuple		ori;
+	t_fcolor	col;
 	int32_t		specular;
 	float		reflective;
 	float		w;

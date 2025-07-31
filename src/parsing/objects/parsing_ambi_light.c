@@ -20,7 +20,8 @@
 void	debug_ambi_light(t_amb_light o)
 {
 	printf(BOLD "Ambient Light" RESET "\n{\n");
-	printf("\tColor: " COLOR "\n", o.col.argb, o.col.r, o.col.g, o.col.b);
+	printf("\tColor: " COLOR "\n", o.col.r * 255 + o.col.g * 255
+		+ o.col.b * 255, o.col.r * 255, o.col.g * 255, o.col.b * 255);
 	printf("\tIntensity: %4.2f\n", o.i);
 	printf("}\n\n");
 }

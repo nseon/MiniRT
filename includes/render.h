@@ -16,10 +16,11 @@
 # include <stdint.h>
 # include <stdbool.h>
 
-# include "vector3.h"
+# include "tuple.h"
 # include "points.h"
 # include "objects.h"
 # include "neflibx.h"
+# include "fcolors.h"
 
 # define T_MAX 3.402823466e+38
 # define T_MIN 0.01
@@ -43,7 +44,7 @@ typedef struct s_vieuport
 typedef struct s_camera
 {
 	t_point3	pos;
-	t_vec3		orient;
+	t_tuple		orient;
 	float		fov;
 	t_vieuport	vp;
 }	t_camera;
@@ -52,25 +53,25 @@ typedef struct s_light
 {
 	t_light_type	type;
 	t_point3		pos;
-	t_color			col;
+	t_fcolor			col;
 	float			i;
 }	t_light;
 
 typedef struct s_amb_light
 {
 	float	i;
-	t_color	col;
+	t_fcolor	col;
 }	t_amb_light;
 
 typedef struct s_ren_calc
 {
 	t_point3	p;
-	t_vec3		n;
+	t_tuple		n;
 	t_point3	o;
-	t_vec3		d;
-	t_vec3		v;
-	t_vec3		r;
-	t_vec3		l;
+	t_tuple		d;
+	t_tuple		v;
+	t_tuple		r;
+	t_tuple		l;
 	int32_t		s;
 }	t_ren_calc;
 
@@ -81,17 +82,13 @@ typedef struct s_graphic_ctx
 	t_amb_light	amb_light;
 	t_light		*lights;
 	bool		lights_off;
-	t_rgb96_t	*color_px;
 }	t_graphic_ctx;
 
-void	render(t_graphic_ctx *gctx, t_image *img, uint8_t const random[2 * RAY_NBR], int nb_ray);
+void	render(t_graphic_ctx *gctx, t_image *img);
 float	get_light(t_graphic_ctx *gctx, t_ren_calc ren);
-float	sphere_intersect(t_obj sphere, t_point3 origin, t_vec3 d);
+float	sphere_intersect(t_obj sphere, t_point3 origin, t_tuple d);
 uint32_t	trace_ray(t_graphic_ctx *gctx,
 					t_ren_calc       ren, uint8_t n);
-int32_t	get_mixed_color(t_rgb96_t comps, int div);
-void	add_rgb96_t(t_rgb96_t *comps, uint32_t color);
-float frandom(uint8_t const random[2 * RAY_NBR]);
 uint32_t	get_pixel_color(t_image *image, int x, int y);
 
 #endif

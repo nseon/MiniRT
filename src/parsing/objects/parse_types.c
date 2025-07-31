@@ -13,10 +13,12 @@
 #include <stdio.h>
 #include <unistd.h>
 
+#include "fcolors.h"
 #include "parsing.h"
 #include "debug.h"
 #include "errors.h"
 #include "rt_maths.h"
+#include "tuple.h"
 
 int32_t	parse_float(char *str, float *f)
 {
@@ -29,7 +31,7 @@ int32_t	parse_float(char *str, float *f)
 	return (SUCCESS);
 }
 
-int32_t	parse_color(char *str, t_color *color)
+int32_t	parse_color(char *str, t_fcolor *color)
 {
 	int32_t		r;
 	int32_t		g;
@@ -52,39 +54,42 @@ int32_t	parse_color(char *str, t_color *color)
 		ft_fprintf(2, PARSE_INVAL_COLOR_MSG, buf);
 		return (PARSE_INVAL_FORMAT);
 	}
-	color->argb = r << 16 | g << 8 | b;
+	color->r = r / 255;
+	color->g = g / 255;
+	color->b = b / 255;
 	return (SUCCESS);
 }
 
-int32_t	parse_xyz(char *str, t_point3 *pt)
+int32_t	parse_xyz(char *str, t_tuple *tp)
 {
 	char *const	buf = str;
 
 	if (!str)
 		return (ft_fprintf(STDERR_FILENO, PARSE_MISSING_XYZ));
-	pt->x = ft_atof_ptr(&str);
+	tp->x = ft_atof_ptr(&str);
 	if (*str != ',')
 		return (ft_fprintf(2, PARSE_INVAL_XYZ_MSG, buf));
 	str++;
-	pt->y = ft_atof_ptr(&str);
+	tp->y = ft_atof_ptr(&str);
 	if (*str != ',')
 		return (ft_fprintf(2, PARSE_INVAL_XYZ_MSG, buf));
 	str++;
-	pt->z = ft_atof_ptr(&str);
+	tp->z = ft_atof_ptr(&str);
+	tp->w = 0;
 	return (SUCCESS);
 }
 
-int32_t	parse_normal(char *str, t_vec3 *vct)
+int32_t	parse_normal(char *str, t_tuple *vct)
 {
 	int32_t	res;
 
 	res = parse_xyz(str, vct);
 	if (res != SUCCESS)
 		return (res);
-	if (f_equal(v3_magnitude(*vct), 1.0f))
+	if (f_equal(tp_magnitude(*vct), 1.0f))
 		return (SUCCESS);
 	printf(PARSE_INVAL_VCT_MSG, str);
-	*vct = v3_normalize(*vct);
+	*vct = tp_normalize(*vct);
 	printf(PARSE_INVAL_VCT_MSG2, vct->x, vct->y, vct->z);
 	return (SUCCESS);
 }

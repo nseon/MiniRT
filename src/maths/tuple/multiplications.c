@@ -5,24 +5,31 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/20 14:40:04 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/05/20 14:40:04 by pjarnac          ###   ########.fr       */
+/*   Created: 2025/05/19 18:20:07 by pjarnac           #+#    #+#             */
+/*   Updated: 2025/05/19 18:20:07 by pjarnac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "vector2.h"
+#include "tuple.h"
 
-t_vec2	v2_multiply(t_vec2 vec, float k)
+t_tuple	tp_mul(t_tuple tp, float k)
 {
-	return ((t_vec2){vec.x * k, vec.y * k});
+	return ((t_tuple){tp.x * k, tp.y * k, tp.z * k, tp.w * k});
 }
 
-t_vec2	v2_normalize(t_vec2 vec)
+t_tuple	tp_normalize(t_tuple tp)
 {
-	return (v2_multiply(vec, 1 / v2_magnitude(vec)));
+	return (tp_mul(tp, 1 / tp_magnitude(tp)));
 }
 
-float	v2_dotproduct(t_vec2 v1, t_vec2 v2)
+float	tp_dotproduct(t_tuple p1, t_tuple p2)
 {
-	return (v1.x * v2.x + v1.y * v2.y);
+	return (p1.x * p2.x + p1.y * p2.y + p1.z * p2.z + p1.w * p2.w);
+}
+
+t_tuple	tp_crossproduct(t_tuple tp1, t_tuple tp2)
+{
+	return ((t_tuple){tp1.y * tp2.z - tp1.z * tp2.y,
+		tp1.z * tp2.x - tp1.x * tp2.z,
+		tp1.x * tp2.y - tp1.y * tp2.x});
 }

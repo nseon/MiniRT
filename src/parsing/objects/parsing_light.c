@@ -20,7 +20,8 @@
 void	debug_light(t_light o)
 {
 	printf(BOLD "Light" RESET "\n{\n");
-	printf("\tColor: " COLOR "\n", o.col.argb, o.col.r, o.col.g, o.col.b);
+	printf("\tColor: " COLOR "\n", o.col.r * 255 + o.col.g * 255
+		+ o.col.b * 255, o.col.r * 255, o.col.g * 255, o.col.b * 255);
 	printf("\tIntensity: %4.2f\n", o.i);
 	printf("\tPosition: " POS "\n", o.pos.x, o.pos.y, o.pos.z);
 	printf("}\n\n");

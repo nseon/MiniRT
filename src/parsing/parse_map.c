@@ -103,7 +103,7 @@ int32_t	check_elms(char *elms)
 	return (PARSE_INVAL_MAP);
 }
 
-int32_t parse_map(t_ctx *const ctx)
+int32_t	parse_map(t_ctx *const ctx)
 {
 	char	*line;
 	char	**split;
