@@ -236,7 +236,7 @@ void	test_image_pixel_write_all()
 
 void	test_matrix44_creation()
 {
-	t_matrix_4x4	matrix = {{1, 2, 3, 4},
+	t_mtx_4	matrix = {{1, 2, 3, 4},
 								{5.5, 6.5, 7.5, 8.5},
 								{9, 10, 11, 12},
 								{13.5, 14.5, 15.5, 16.5}};
@@ -252,7 +252,7 @@ void	test_matrix44_creation()
 
 void	test_matrix33_creation()
 {
-	t_matrix_3x3	m = {{7, 6, -1},
+	t_mtx_3	m = {{7, 6, -1},
 						{1.1, 0.12, 7},
 						{0, -7, 9}};
 
@@ -263,7 +263,7 @@ void	test_matrix33_creation()
 
 void	test_matrix22_creation()
 {
-	t_matrix_2x2	m = {{7, 6},
+	t_mtx_2	m = {{7, 6},
 						{1.1, 0.12}};
 
 	TEST_ASSERT_EQUAL_FLOAT(7, m[0][0]);
@@ -272,70 +272,75 @@ void	test_matrix22_creation()
 
 void	test_matrix44_equality()
 {
-	t_matrix_4x4	m1 = {{1, 2, 3, 4},
+	t_mtx_4	m1 = {{1, 2, 3, 4},
 							{5.5, 6.5, 7.5, 8.5},
 							{9, 10, 11, 12},
 							{13.5, 14.5, 15.5, 16.5}};
-	t_matrix_4x4	m2  = {{1, 2, 3, 4},
+	t_mtx_4	m2  = {{1, 2, 3, 4},
 							{5.5, 6.5, 7.50001, 8.5},
 							{9, 10, 11, 12},
 							{13.5, 14.5, 15.5, 16.5}};
-	t_matrix_4x4	m3  = {{1, 2, 5, 4},
+	t_mtx_4	m3  = {{1, 2, 5, 4},
 							{5.5, 6.5, 7.5, 8.5},
 							{9, 10, 11, 12},
 							{13.4, 14.5, 15.5, 16.5}};
 
-	TEST_ASSERT(matrix_equal(m1, m2));
-	TEST_ASSERT(!matrix_equal(m1, m3));
+	TEST_ASSERT(mtx_equal(m1, m2));
+	TEST_ASSERT(!mtx_equal(m1, m3));
 }
 
 void	test_matrix44_multiplication()
 {
-	t_matrix_4x4	m1 = {{1, 2, 3, 4},
+	t_mtx_4	m1 = {{1, 2, 3, 4},
 						{5, 6, 7, 8},
 						{9, 8, 7, 6},
 						{5, 4, 3, 2}};
-	t_matrix_4x4	m2  = {{-2, 1, 2, 3},
+	t_mtx_4	m2  = {{-2, 1, 2, 3},
 							{3, 2, 1, -1},
 							{4, 3, 6, 5},
 							{1, 2, 7, 8}};
-	t_matrix_4x4	m3  = {{20, 22, 50, 48},
+	t_mtx_4	m3  = {{20, 22, 50, 48},
 							{44, 54, 114, 108},
 							{40, 58, 110, 102},
 							{16, 26, 46, 42}};
-	t_matrix_4x4	res;
+	t_mtx_4	res;
 
 
-	matrix_mul(m1, m2, res);
-	TEST_ASSERT(matrix_equal(res, m3));
+	mtx_mul(m1, m2, res);
+	TEST_ASSERT(mtx_equal(res, m3));
 }
 
 void	test_matrix_tup_mul()
 {
-	t_matrix_4x4	m1 = {{1, 2, 3, 4},
+	t_mtx_4	m1 = {{1, 2, 3, 4},
 						{2, 4, 4, 2},
 						{8, 6, 4, 1},
 						{0, 0, 0, 1}};
 
-	TEST_ASSERT(tp_equal(point(18, 24, 33), matrix_tup_mul(point(1, 2, 3), m1)));
+	TEST_ASSERT(tp_equal(point(18, 24, 33), mtx_tup_mul(point(1, 2, 3), m1)));
 }
 
 void	test_matrix44_identity()
 {
-	t_matrix_4x4	m1 = {{1, 2, 3, 4},
+	t_mtx_4	m1 = {{1, 2, 3, 4},
 						{2, 4, 4, 2},
 						{8, 6, 4, 1},
 						{0, 0, 0, 1}};
-	t_matrix_4x4	res;
+	t_mtx_4	res;
 
-	matrix_mul(m1, g_identity_matrix, res);
-	TEST_ASSERT(matrix_equal(m1, res));
+	mtx_mul(m1, g_identity_matrix, res);
+	TEST_ASSERT(mtx_equal(m1, res));
 }
 
 void	test_matrix_tup_identity()
 {
 	TEST_ASSERT(tp_equal(point(1, 2.78, 3),
-		matrix_tup_mul(point(1, 2.78, 3), g_identity_matrix)));
+		mtx_tup_mul(point(1, 2.78, 3), g_identity_matrix)));
+}
+
+void	test_matrix_transpose()
+{
+
 }
 
 int	main()

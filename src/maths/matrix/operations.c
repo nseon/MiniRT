@@ -15,7 +15,7 @@
 
 #include <stdint.h>
 
-bool	matrix_equal(t_matrix_4x4 const m1, t_matrix_4x4 const m2)
+bool	mtx_equal(t_mtx_4 const m1, t_mtx_4 const m2)
 {
 	int	i;
 	int	j;
@@ -35,8 +35,8 @@ bool	matrix_equal(t_matrix_4x4 const m1, t_matrix_4x4 const m2)
 	return (true);
 }
 
-void	matrix_mul(t_matrix_4x4 const m1, t_matrix_4x4 const m2,
-	t_matrix_4x4 res)
+void	mtx_mul(t_mtx_4 const m1, t_mtx_4 const m2,
+	t_mtx_4 res)
 {
 	int32_t	x;
 	int32_t	y;
@@ -57,7 +57,7 @@ void	matrix_mul(t_matrix_4x4 const m1, t_matrix_4x4 const m2,
 	}
 }
 
-t_tuple	matrix_tup_mul(t_tuple tp, t_matrix_4x4 const m)
+t_tuple	mtx_tup_mul(t_tuple tp, t_mtx_4 const m)
 {
 	t_tuple	ntp;
 

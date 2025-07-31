@@ -73,6 +73,7 @@ SRC += $(addprefix $(MATRIX_DIR), $(MATRIX_SRC))
 MATRIX_DIR	=		$(MATHS_DIR)matrix/
 MATRIX_SRC	=		creation.c \
 					operations.c \
+					mutations.c \
 
 # ===============PARSING================ #
 

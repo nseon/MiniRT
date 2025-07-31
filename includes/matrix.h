@@ -16,15 +16,16 @@
 # include <stdbool.h>
 # include "tuple.h"
 
-typedef float				t_matrix_4x4[4][4];
-typedef float				t_matrix_3x3[3][3];
-typedef float				t_matrix_2x2[2][2];
+typedef float				t_mtx_4[4][4];
+typedef float				t_mtx_3[3][3];
+typedef float				t_mtx_2[2][2];
 
-extern const t_matrix_4x4	g_identity_matrix;
+extern const t_mtx_4	g_identity_matrix;
 
-bool	matrix_equal(t_matrix_4x4 const m1, t_matrix_4x4 const m2);
-void	matrix_mul(t_matrix_4x4 const m1, t_matrix_4x4 const m2,
-	t_matrix_4x4 res);
-t_tuple	matrix_tup_mul(t_tuple tp, t_matrix_4x4 const m);
+bool	mtx_equal(t_mtx_4 const m1, t_mtx_4 const m2);
+void	mtx_mul(t_mtx_4 const m1, t_mtx_4 const m2,
+	t_mtx_4 res);
+t_tuple	mtx_tup_mul(t_tuple tp, t_mtx_4 const m);
+void	mtx_transpose(t_mtx_4);
 
 #endif
