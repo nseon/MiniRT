@@ -77,6 +77,8 @@ MATRIX_SRC	=		creation.c \
 					inversion.c \
 					submatrix.c \
 					equality.c \
+					determinant.c \
+					minor_cofactor.c \
 
 # ===============PARSING================ #
 

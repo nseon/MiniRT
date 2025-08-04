@@ -18,6 +18,7 @@
 #include <math.h>
 #include <unistd.h>
 
+#include "../includes/errors.h"
 #include "../includes/fcolors.h"
 
 void	setUp()
@@ -422,6 +423,86 @@ void	test_matrix3_cofactor()
 	TEST_ASSERT_EQUAL_FLOAT(-25, mtx3_cofactor(m1, 1, 0));
 }
 
+void	test_matrix3_determinant()
+{
+	t_mtx_3	m1 = {{1, 2, 6},
+				{-5, 8, -4},
+				{2, 6, 4}};
+
+	TEST_ASSERT_EQUAL_FLOAT(56, mtx3_cofactor(m1, 0, 0));
+	TEST_ASSERT_EQUAL_FLOAT(12, mtx3_cofactor(m1, 0, 1));
+	TEST_ASSERT_EQUAL_FLOAT(-46, mtx3_cofactor(m1, 0, 2));
+	TEST_ASSERT_EQUAL_FLOAT(-196, mtx3_determinant(m1));
+}
+
+void	test_matrix4_determinant()
+{
+	t_mtx_4	m1  = {{-2, -8, 3, 5},
+					{-3, 1, 7, 3},
+					{1, 2, -9, 6},
+					{-6, 7, 7, -9}};
+
+	TEST_ASSERT_EQUAL_FLOAT(690, mtx4_cofactor(m1, 0, 0));
+	TEST_ASSERT_EQUAL_FLOAT(447, mtx4_cofactor(m1, 0, 1));
+	TEST_ASSERT_EQUAL_FLOAT(210, mtx4_cofactor(m1, 0, 2));
+	TEST_ASSERT_EQUAL_FLOAT(51, mtx4_cofactor(m1, 0, 3));
+	TEST_ASSERT_EQUAL_FLOAT(-4071, mtx4_determinant(m1));
+}
+
+void	test_matrix4_is_invertible()
+{
+	t_mtx_4	m1  = {{6, 4, 4, 4},
+					{5, 5, 7, 6},
+					{4, -9, 3, -7},
+					{9, 1, 7, -6}};
+	t_mtx_4	m2  = {{-4, 2, -2, -3},
+					{9, 6, 2, 6},
+					{0, -5, 1, -5},
+					{0, 0, 0, 0}};
+
+	TEST_ASSERT_EQUAL_FLOAT(-2120, mtx4_determinant(m1));
+	TEST_ASSERT(mtx4_invertible(m1));
+
+	TEST_ASSERT_EQUAL_FLOAT(0, mtx4_determinant(m2));
+	TEST_ASSERT(!mtx4_invertible(m2));
+}
+
+void	test_matrix4_inversion()
+{
+	t_mtx_4	m1  = {{8, -5, 9, 2},
+					{7, 5, 6, 1},
+					{-6, 0, 9, 6},
+					{-3, 0, -9, -4}};
+	t_mtx_4	m2  = {{-0.15385, -0.15385, -0.28205, -0.53846},
+					{-0.07692, 0.12308, 0.02564, 0.03077},
+					{0.35897, 0.35897, 0.43590, 0.92308},
+					{-0.69231, -0.69231, -0.76923, -1.92308}};
+	t_mtx_4	res;
+
+	TEST_ASSERT_EQUAL_INT32(SUCCESS, mtx4_inverse(m1, res));
+	TEST_ASSERT(mtx4_equal(m2, res));
+}
+
+void	test_matrix4_mult_inverse()
+{
+	t_mtx_4	m1  = {{8, -5, 9, 2},
+					{7, 5, 6, 1},
+					{-6, 0, 9, 6},
+					{-3, 0, -9, -4}};
+	t_mtx_4	m2  = {{6, 4, 4, 4},
+					{5, 5, 7, 6},
+					{4, -9, 3, -7},
+					{9, 1, 7, -6}};
+	t_mtx_4	res;
+	t_mtx_4	res2;
+	t_mtx_4	res3;
+
+	mtx_mul(m1, m2, res);
+	TEST_ASSERT_EQUAL_INT32(SUCCESS, mtx4_inverse(m2, res2));
+	mtx_mul(res, res2, res3);
+	TEST_ASSERT(mtx4_equal(res3, m1));
+}
+
 int	main()
 {
 	UNITY_BEGIN();
@@ -459,5 +540,10 @@ int	main()
 	RUN_TEST(test_matrix4_submatrix);
 	RUN_TEST(test_matrix3_submatrix);
 	RUN_TEST(test_matrix3_minor);
+	RUN_TEST(test_matrix3_determinant);
+	RUN_TEST(test_matrix4_determinant);
+	RUN_TEST(test_matrix4_is_invertible);
+	RUN_TEST(test_matrix4_inversion);
+	RUN_TEST(test_matrix4_mult_inverse);
 	return UNITY_END();
 }
