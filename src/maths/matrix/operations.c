@@ -15,26 +15,6 @@
 
 #include <stdint.h>
 
-bool	mtx_equal(t_mtx_4 const m1, t_mtx_4 const m2)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (i < 4)
-	{
-		j = 0;
-		while (j < 4)
-		{
-			if (!f_equal(m1[i][j], m2[i][j]))
-				return (false);
-			++j;
-		}
-		++i;
-	}
-	return (true);
-}
-
 void	mtx_mul(t_mtx_4 const m1, t_mtx_4 const m2,
 	t_mtx_4 res)
 {

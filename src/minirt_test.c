@@ -285,8 +285,8 @@ void	test_matrix44_equality()
 							{9, 10, 11, 12},
 							{13.4, 14.5, 15.5, 16.5}};
 
-	TEST_ASSERT(mtx_equal(m1, m2));
-	TEST_ASSERT(!mtx_equal(m1, m3));
+	TEST_ASSERT(mtx4_equal(m1, m2));
+	TEST_ASSERT(!mtx4_equal(m1, m3));
 }
 
 void	test_matrix44_multiplication()
@@ -307,7 +307,7 @@ void	test_matrix44_multiplication()
 
 
 	mtx_mul(m1, m2, res);
-	TEST_ASSERT(mtx_equal(res, m3));
+	TEST_ASSERT(mtx4_equal(res, m3));
 }
 
 void	test_matrix_tup_mul()
@@ -329,7 +329,7 @@ void	test_matrix44_identity()
 	t_mtx_4	res;
 
 	mtx_mul(m1, g_identity_matrix, res);
-	TEST_ASSERT(mtx_equal(m1, res));
+	TEST_ASSERT(mtx4_equal(m1, res));
 }
 
 void	test_matrix_tup_identity()
@@ -340,7 +340,86 @@ void	test_matrix_tup_identity()
 
 void	test_matrix_transpose()
 {
+	t_mtx_4	m1 = {{0, 9, 3, 0},
+				{9, 8, 0, 8},
+				{1, 8, 5, 3},
+				{0, 0, 5, 8}};
+	t_mtx_4	m2 = {{0, 9, 1, 0},
+				{9, 8, 8, 0},
+				{3, 0, 5, 5},
+				{0, 8, 3, 8}};
+	mtx_transpose(m1);
+	TEST_ASSERT(mtx4_equal(m1, m2));
+}
 
+void	test_identity_transpose()
+{
+	t_mtx_4	m1 = {{1, 0, 0, 0},
+				{0, 1, 0, 0},
+				{0, 0, 1, 0},
+				{0, 0, 0, 1}};
+	mtx_transpose(m1);
+	TEST_ASSERT(mtx4_equal(m1, g_identity_matrix));
+}
+
+void	test_matrix2_determinant()
+{
+	t_mtx_2	m1 = {{1, 5},
+				{-3, 2}};
+
+	TEST_ASSERT_EQUAL_FLOAT(17, mtx2_determinant(m1));
+}
+
+void	test_matrix4_submatrix()
+{
+	t_mtx_4	m1  = {{-6, 1, 1, 6},
+					{-8, 5, 8, 6},
+					{-1, 0, 8, 2},
+					{-7, 1, -1, 1}};
+	t_mtx_3	m2 = {{-6, 1, 6},
+				{-8, 8, 6},
+				{-7, -1, 1}};
+	t_mtx_3	res;
+
+	mtx4_submatrix(m1, 2, 1, res);
+	TEST_ASSERT(mtx3_equal(m2, res));
+}
+
+void	test_matrix3_submatrix()
+{
+	t_mtx_3	m1 = {{1, 5, 0},
+				{-3, 2, 7},
+				{0, 6, -3}};
+	t_mtx_2	m2 = {{-3, 2},
+				{0, 6}};
+	t_mtx_2 res;
+
+	mtx3_submatrix(m1, 0, 2, res);
+	TEST_ASSERT(mtx2_equal(m2, res));
+}
+
+void	test_matrix3_minor()
+{
+	t_mtx_3	m1 = {{3, 5, 0},
+				{2, -1, -7},
+				{6, -1, 5}};
+	t_mtx_2 sub_m1;
+
+	mtx3_submatrix(m1, 1, 0, sub_m1);
+	TEST_ASSERT_EQUAL_FLOAT(25, mtx2_determinant(sub_m1));
+	TEST_ASSERT_EQUAL_FLOAT(25, mtx3_minor(m1, 1, 0));
+}
+
+void	test_matrix3_cofactor()
+{
+	t_mtx_3	m1 = {{3, 5, 0},
+				{2, -1, -7},
+				{6, -1, 5}};
+
+	TEST_ASSERT_EQUAL_FLOAT(-12, mtx3_minor(m1, 0, 0));
+	TEST_ASSERT_EQUAL_FLOAT(-12, mtx3_cofactor(m1, 0, 0));
+	TEST_ASSERT_EQUAL_FLOAT(25, mtx3_minor(m1, 1, 0));
+	TEST_ASSERT_EQUAL_FLOAT(-25, mtx3_cofactor(m1, 1, 0));
 }
 
 int	main()
@@ -374,5 +453,11 @@ int	main()
 	RUN_TEST(test_matrix_tup_mul);
 	RUN_TEST(test_matrix44_identity);
 	RUN_TEST(test_matrix_tup_identity);
+	RUN_TEST(test_matrix_transpose);
+	RUN_TEST(test_identity_transpose);
+	RUN_TEST(test_matrix2_determinant);
+	RUN_TEST(test_matrix4_submatrix);
+	RUN_TEST(test_matrix3_submatrix);
+	RUN_TEST(test_matrix3_minor);
 	return UNITY_END();
 }

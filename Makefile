@@ -74,6 +74,9 @@ MATRIX_DIR	=		$(MATHS_DIR)matrix/
 MATRIX_SRC	=		creation.c \
 					operations.c \
 					mutations.c \
+					inversion.c \
+					submatrix.c \
+					equality.c \
 
 # ===============PARSING================ #
 
