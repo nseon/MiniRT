@@ -21,10 +21,13 @@ typedef float			t_mtx_3[3][3];
 typedef float			t_mtx_2[2][2];
 
 extern const t_mtx_4	g_identity_matrix;
+extern const float		g_arr2_0[2];
 
 bool	mtx4_equal(t_mtx_4 const m1, t_mtx_4 const m2);
 bool	mtx3_equal(t_mtx_3 const m1, t_mtx_3 const m2);
 bool	mtx2_equal(t_mtx_2 const m1, t_mtx_2 const m2);
+
+void	mtx4_dup(t_mtx_4 const m, t_mtx_4 res);
 
 void	mtx_mul(t_mtx_4 const m1, t_mtx_4 const m2,
 	t_mtx_4 res);
@@ -45,5 +48,14 @@ float	mtx4_cofactor(t_mtx_4 const m, int row, int col);
 
 bool	mtx4_invertible(t_mtx_4 const m);
 int32_t	mtx4_inverse(t_mtx_4 const m, t_mtx_4 res);
+
+void	translation(t_mtx_4 res, float x, float y, float z);
+void	scaling(t_mtx_4 res, float x, float y, float z);
+
+void	rotation_x(t_mtx_4 res, float r);
+void	rotation_y(t_mtx_4 res, float r);
+void	rotation_z(t_mtx_4 res, float r);
+
+void	shearing(t_mtx_4 res, float x[2], float y[2], float z[2]);
 
 #endif

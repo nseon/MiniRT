@@ -66,6 +66,17 @@ TUPLE_SRC	=		multiplications.c \
 					operations.c \
 					creation.c \
 
+# ===============MATHS/TRANSFORMATIONS================= #
+
+SRC += $(addprefix $(TRANSFORMATIONS_DIR), $(TRANSFORMATIONS_SRC))
+
+TRANSFORMATIONS_DIR	=	$(MATHS_DIR)transformations/
+TRANSFORMATIONS_SRC	=	translation.c \
+						scaling.c \
+						rotation.c \
+						shearing.c \
+
+
 # ===============MATHS/TUPLE================= #
 
 SRC += $(addprefix $(MATRIX_DIR), $(MATRIX_SRC))

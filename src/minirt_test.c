@@ -503,6 +503,179 @@ void	test_matrix4_mult_inverse()
 	TEST_ASSERT(mtx4_equal(res3, m1));
 }
 
+void	test_matrix4_duplication()
+{
+	t_mtx_4	m1  = {{8, -5, 9, 2},
+					{7, 5, 6, 1},
+					{-6, 0, 9, 6},
+					{-3, 0, -9, -4}};
+	t_mtx_4	res;
+
+	mtx4_dup(m1, res);
+	TEST_ASSERT(mtx4_equal(m1, res));
+}
+
+void	test_translation()
+{
+	t_mtx_4	trans;
+	t_tuple	pt = point(-3, 4, 5);
+
+	translation(trans, 5, -3, 2);
+	pt = mtx_tup_mul(pt, trans);
+	TEST_ASSERT_EQUAL_FLOAT(2, pt.x);
+	TEST_ASSERT_EQUAL_FLOAT(1, pt.y);
+	TEST_ASSERT_EQUAL_FLOAT(7, pt.z);
+	TEST_ASSERT(tp_equal(point(2, 1, 7), pt));
+}
+
+void	test_inverse_translation()
+{
+	t_mtx_4	trans;
+	t_mtx_4	res;
+	t_tuple	pt = point(-3, 4, 5);
+
+	translation(trans, 5, -3, 2);
+	mtx4_inverse(trans, res);
+	pt = mtx_tup_mul(pt, res);
+	TEST_ASSERT(tp_equal(point(-8, 7, 3), pt));
+}
+
+void	test_vector_translation()
+{
+	t_mtx_4	trans;
+	t_tuple	vct = vector(-3, 4, 5);
+
+	translation(trans, 5, -3, 2);
+	vct = mtx_tup_mul(vct, trans);
+	TEST_ASSERT(tp_equal(vector(-3, 4, 5), vct));
+}
+
+void	test_scaling()
+{
+	t_mtx_4	transf;
+	t_tuple	pt = point(-3, 4, 5);
+
+	scaling(transf, 2, 4, 6);
+	pt = mtx_tup_mul(pt, transf);
+	TEST_ASSERT(tp_equal(point(-6, 16, 30), pt));
+}
+
+void	test_vector_scaling()
+{
+	t_mtx_4	transf;
+	t_tuple	pt = vector(-3, 4, 5);
+
+	scaling(transf, 2, 4, 6);
+	pt = mtx_tup_mul(pt, transf);
+	TEST_ASSERT(tp_equal(vector(-6, 16, 30), pt));
+}
+
+void	test_inverse_scaling()
+{
+	t_mtx_4	transf;
+	t_mtx_4	inv;
+	t_tuple	pt = point(-4, 4, 24);
+
+	scaling(transf, 2, 4, 6);
+	mtx4_inverse(transf, inv);
+	pt = mtx_tup_mul(pt, inv);
+	TEST_ASSERT(tp_equal(point(-2, 1, 4), pt));
+}
+
+void	test_rotation_x()
+{
+	t_mtx_4	transf;
+	t_tuple	pt = point(0, 1, 0);
+
+	rotation_x(transf, M_PI_4);
+	TEST_ASSERT(tp_equal(point(0, sqrtf(2)/2, sqrtf(2)/2), mtx_tup_mul(pt, transf)));
+	rotation_x(transf, M_PI_2);
+	TEST_ASSERT(tp_equal(point(0, 0, 1), mtx_tup_mul(pt, transf)));
+}
+
+void	test_inverse_rotation_x()
+{
+	t_mtx_4	transf;
+	t_mtx_4	inv;
+	t_tuple	pt = point(0, 1, 0);
+
+	rotation_x(transf, M_PI_4);
+	mtx4_inverse(transf, inv);
+	TEST_ASSERT(tp_equal(point(0, sqrtf(2)/2, -sqrtf(2)/2), mtx_tup_mul(pt, inv)));
+	rotation_x(transf, M_PI_2);
+	mtx4_inverse(transf, inv);
+	TEST_ASSERT(tp_equal(point(0, 0, -1), mtx_tup_mul(pt, inv)));
+}
+void	test_rotation_y()
+{
+	t_mtx_4	transf;
+	t_tuple	pt = point(0, 0, 1);
+
+	rotation_y(transf, M_PI_4);
+	TEST_ASSERT(tp_equal(point(sqrtf(2)/2, 0, sqrtf(2)/2), mtx_tup_mul(pt, transf)));
+	rotation_y(transf, M_PI_2);
+	TEST_ASSERT(tp_equal(point(1, 0, 0), mtx_tup_mul(pt, transf)));
+}
+
+void	test_inverse_rotation_y()
+{
+	t_mtx_4	transf;
+	t_mtx_4	inv;
+	t_tuple	pt = point(0, 0, 1);
+
+	rotation_y(transf, M_PI_4);
+	mtx4_inverse(transf, inv);
+	TEST_ASSERT(tp_equal(point(-sqrtf(2)/2, 0, sqrtf(2)/2), mtx_tup_mul(pt, inv)));
+	rotation_y(transf, M_PI_2);
+	mtx4_inverse(transf, inv);
+	TEST_ASSERT(tp_equal(point(-1, 0, 0), mtx_tup_mul(pt, inv)));
+}
+
+void	test_rotation_z()
+{
+	t_mtx_4	transf;
+	t_tuple	pt = point(0, 1, 0);
+
+	rotation_z(transf, M_PI_4);
+	TEST_ASSERT(tp_equal(point(-sqrtf(2)/2, sqrtf(2)/2, 0), mtx_tup_mul(pt, transf)));
+	rotation_z(transf, M_PI_2);
+	TEST_ASSERT(tp_equal(point(-1, 0, 0), mtx_tup_mul(pt, transf)));
+}
+
+void	test_inverse_rotation_z()
+{
+	t_mtx_4	transf;
+	t_mtx_4	inv;
+	t_tuple	pt = point(0, 1, 0);
+
+	rotation_z(transf, M_PI_4);
+	mtx4_inverse(transf, inv);
+	TEST_ASSERT(tp_equal(point(sqrtf(2)/2, sqrtf(2)/2, 0), mtx_tup_mul(pt, inv)));
+	rotation_z(transf, M_PI_2);
+	mtx4_inverse(transf, inv);
+	TEST_ASSERT(tp_equal(point(1, 0, 0), mtx_tup_mul(pt, inv)));
+}
+
+void	test_shearing()
+{
+	t_mtx_4	transf;
+	t_tuple pt = point(2, 3, 4);
+
+	shearing(transf, (float[2]){1, 0}, g_arr2_0, g_arr2_0);
+	TEST_ASSERT(tp_equal(point(5, 3, 4), mtx_tup_mul(pt, transf)));
+	shearing(transf, (float[2]){0, 1}, g_arr2_0, g_arr2_0);
+	TEST_ASSERT(tp_equal(point(6, 3, 4), mtx_tup_mul(pt, transf)));
+	shearing(transf, g_arr2_0, (float[2]){1, 0}, g_arr2_0);
+	TEST_ASSERT(tp_equal(point(2, 5, 4), mtx_tup_mul(pt, transf)));
+	shearing(transf, g_arr2_0, (float[2]){0, 1}, g_arr2_0);
+	TEST_ASSERT(tp_equal(point(2, 7, 4), mtx_tup_mul(pt, transf)));
+	shearing(transf, g_arr2_0, g_arr2_0, (float[2]){1, 0});
+	TEST_ASSERT(tp_equal(point(2, 3, 6), mtx_tup_mul(pt, transf)));
+	shearing(transf, g_arr2_0, g_arr2_0, (float[2]){0, 1});
+	TEST_ASSERT(tp_equal(point(2, 3, 7), mtx_tup_mul(pt, transf)));
+
+}
+
 int	main()
 {
 	UNITY_BEGIN();
@@ -545,5 +718,19 @@ int	main()
 	RUN_TEST(test_matrix4_is_invertible);
 	RUN_TEST(test_matrix4_inversion);
 	RUN_TEST(test_matrix4_mult_inverse);
+	RUN_TEST(test_matrix4_duplication);
+	RUN_TEST(test_translation);
+	RUN_TEST(test_inverse_translation);
+	RUN_TEST(test_vector_translation);
+	RUN_TEST(test_scaling);
+	RUN_TEST(test_vector_scaling);
+	RUN_TEST(test_inverse_scaling);
+	RUN_TEST(test_rotation_x);
+	RUN_TEST(test_inverse_rotation_x);
+	RUN_TEST(test_rotation_y);
+	RUN_TEST(test_inverse_rotation_y);
+	RUN_TEST(test_rotation_z);
+	RUN_TEST(test_inverse_rotation_z);
+	RUN_TEST(test_shearing);
 	return UNITY_END();
 }
