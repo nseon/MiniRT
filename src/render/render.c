@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:52:26 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/07/28 15:02:42 by nseon            ###   ########.fr       */
+/*   Updated: 2025/08/05 08:51:29 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@
 
 #include "minirt.h"
 
-static t_vec3	win_to_vp(t_graphic_ctx *gctx, int16_t const x,
-							int16_t const y, t_image *        img)
+static t_vec3	win_to_vp(t_graphic_ctx *gctx, float const x,
+							float const y, t_image *        img)
 {
 	const float	vx = x * gctx->cam.vp.vw / img->w + gctx->cam.pos.x
 		- gctx->cam.vp.vw / 2;
@@ -42,7 +42,6 @@ void	render(t_graphic_ctx *gctx, t_image *img, uint8_t const random[2 * RAY_NBR]
 	t_point3		vp;
 
 	x = -1;
-	printf("%d\n", nb_ray);
 	while (++x < img->w)
 	{
 		y = -1;
@@ -55,7 +54,7 @@ void	render(t_graphic_ctx *gctx, t_image *img, uint8_t const random[2 * RAY_NBR]
 				vp = win_to_vp(gctx, x + frandom(random), y + frandom(random), img);
 			// ren.d = v3_multiply(get_vec3(g0ctx.cam.pos, vp), v3_dotproduct(gctx.cam.orient, get_vec3(gctx.cam.pos, vp)));
 			ren.d = get_vec3(gctx->cam.pos, vp);
-			// printf("x:%f\ny:%f\nz:%f\n\n", ren.d.x, ren.d.y, ren.d.z);
+			// printf("x:%f\ny:%f\nz:%f\n\n", vp.x, vp.y, vp	.z);
 			// ren.d.y += nb_ray;
 			ren.o = gctx->cam.pos;
 			add_rgb96_t(&gctx->color_px[x * WIN_H + y], trace_ray(gctx, ren, 0));
