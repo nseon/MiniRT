@@ -14,32 +14,32 @@
 
 #include "matrix.h"
 
-float	*rotation_x(t_mtx_4 res, float r)
+t_mtx4_ret	rotation_x(float r, t_mtx4 res)
 {
 	mtx4_dup(g_identity_matrix, res);
 	res[1][1] = cosf(r);
 	res[1][2] = -sinf(r);
 	res[2][1] = sinf(r);
 	res[2][2] = cosf(r);
-	return ((float *)res);
+	return (res);
 }
 
-float	*rotation_y(t_mtx_4 res, float r)
+t_mtx4_ret	rotation_y(float r, t_mtx4 res)
 {
 	mtx4_dup(g_identity_matrix, res);
 	res[0][0] = cosf(r);
 	res[0][2] = sinf(r);
 	res[2][0] = -sinf(r);
 	res[2][2] = cosf(r);
-	return ((float *)res);
+	return (res);
 }
 
-float	*rotation_z(t_mtx_4 res, float r)
+t_mtx4_ret	rotation_z(float r, t_mtx4 res)
 {
 	mtx4_dup(g_identity_matrix, res);
 	res[0][0] = cosf(r);
 	res[0][1] = -sinf(r);
 	res[1][0] = sinf(r);
 	res[1][1] = cosf(r);
-	return ((float *)res);
+	return (res);
 }
