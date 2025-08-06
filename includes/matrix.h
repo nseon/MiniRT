@@ -27,18 +27,19 @@ bool	mtx4_equal(t_mtx_4 const m1, t_mtx_4 const m2);
 bool	mtx3_equal(t_mtx_3 const m1, t_mtx_3 const m2);
 bool	mtx2_equal(t_mtx_2 const m1, t_mtx_2 const m2);
 
-void	mtx4_dup(t_mtx_4 const m, t_mtx_4 res);
+float	*mtx4_dup(t_mtx_4 const m, t_mtx_4 res);
 
-void	mtx_mul(t_mtx_4 const m1, t_mtx_4 const m2,
+float	*mtx_mul(t_mtx_4 const m1, t_mtx_4 const m2,
 	t_mtx_4 res);
+
 t_tuple	mtx_tup_mul(t_tuple tp, t_mtx_4 const m);
 void	mtx_transpose(t_mtx_4 m);
 float	mtx2_determinant(t_mtx_2 const m);
 float	mtx3_determinant(t_mtx_3 const m);
 float	mtx4_determinant(t_mtx_4 const m);
 
-void	mtx4_submatrix(t_mtx_4 const m, int row, int col, t_mtx_3 sub);
-void	mtx3_submatrix(t_mtx_3 const m, int row, int col, t_mtx_2 sub);
+float	*mtx4_submatrix(t_mtx_4 const m, int row, int col, t_mtx_3 sub);
+float	*mtx3_submatrix(t_mtx_3 const m, int row, int col, t_mtx_2 sub);
 
 float	mtx3_minor(t_mtx_3 const m, int row, int col);
 float	mtx3_cofactor(t_mtx_3 const m, int row, int col);
@@ -49,13 +50,14 @@ float	mtx4_cofactor(t_mtx_4 const m, int row, int col);
 bool	mtx4_invertible(t_mtx_4 const m);
 int32_t	mtx4_inverse(t_mtx_4 const m, t_mtx_4 res);
 
-void	translation(t_mtx_4 res, float x, float y, float z);
-void	scaling(t_mtx_4 res, float x, float y, float z);
+float	*translation(t_mtx_4 res, float x, float y, float z);
+float	*scaling(t_mtx_4 res, float x, float y, float z);
 
-void	rotation_x(t_mtx_4 res, float r);
-void	rotation_y(t_mtx_4 res, float r);
-void	rotation_z(t_mtx_4 res, float r);
+float	*rotation_x(t_mtx_4 res, float r);
+float	*rotation_y(t_mtx_4 res, float r);
+float	*rotation_z(t_mtx_4 res, float r);
 
-void	shearing(t_mtx_4 res, float x[2], float y[2], float z[2]);
+float	*shearing(t_mtx_4 res, float const x[2], float const y[2],
+	float const z[2]);
 
 #endif

@@ -12,7 +12,7 @@
 
 #include "matrix.h"
 
-void	mtx4_submatrix(t_mtx_4 const m, int row, int col, t_mtx_3 sub)
+float	*mtx4_submatrix(t_mtx_4 const m, int row, int col, t_mtx_3 sub)
 {
 	int32_t	wx;
 	int32_t	x;
@@ -36,9 +36,10 @@ void	mtx4_submatrix(t_mtx_4 const m, int row, int col, t_mtx_3 sub)
 		}
 		++wy;
 	}
+	return ((float *)sub);
 }
 
-void	mtx3_submatrix(t_mtx_3 const m, int row, int col, t_mtx_2 sub)
+float	*mtx3_submatrix(t_mtx_3 const m, int row, int col, t_mtx_2 sub)
 {
 	int32_t	wx;
 	int32_t	x;
@@ -62,4 +63,5 @@ void	mtx3_submatrix(t_mtx_3 const m, int row, int col, t_mtx_2 sub)
 		}
 		++wy;
 	}
+	return ((float *)sub);
 }

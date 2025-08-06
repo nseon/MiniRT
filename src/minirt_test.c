@@ -673,7 +673,36 @@ void	test_shearing()
 	TEST_ASSERT(tp_equal(point(2, 3, 6), mtx_tup_mul(pt, transf)));
 	shearing(transf, g_arr2_0, g_arr2_0, (float[2]){0, 1});
 	TEST_ASSERT(tp_equal(point(2, 3, 7), mtx_tup_mul(pt, transf)));
+}
 
+void	test_chain_transformations()
+{
+	t_mtx_4	transf;
+	t_mtx_4	rot;
+	t_mtx_4	scale;
+	t_mtx_4	transl;
+	t_tuple	pt = point(1, 2, 3);
+
+	translation(transl, 1, 1, 1);
+	rotation_x(rot, M_PI);
+	scaling(scale, 2, 2, 2);
+	pt = mtx_tup_mul(pt, scale);
+	pt = mtx_tup_mul(pt, rot);
+	pt = mtx_tup_mul(pt, transl);
+	TEST_ASSERT(tp_equal(point(3, -3, -5), pt));
+}
+
+void	test_mtx_return()
+{
+	t_mtx_4	res;
+	t_mtx_4	res2;
+	t_mtx_4	res3;
+
+	TEST_ASSERT_EQUAL_PTR(res, rotation_x(res, M_PI));
+	TEST_ASSERT_EQUAL_PTR(res, rotation_y(res, M_PI));
+	TEST_ASSERT_EQUAL_PTR(res, rotation_z(res, M_PI));
+	TEST_ASSERT_EQUAL_PTR(res2, mtx4_dup(res, res2));
+	TEST_ASSERT_EQUAL_PTR(res3, mtx_mul(res, res2, res3));
 }
 
 int	main()
@@ -732,5 +761,7 @@ int	main()
 	RUN_TEST(test_rotation_z);
 	RUN_TEST(test_inverse_rotation_z);
 	RUN_TEST(test_shearing);
+	RUN_TEST(test_chain_transformations);
+	RUN_TEST(test_mtx_return);
 	return UNITY_END();
 }

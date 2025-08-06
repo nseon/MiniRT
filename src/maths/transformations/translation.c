@@ -12,10 +12,11 @@
 
 #include "matrix.h"
 
-void	translation(t_mtx_4 res, float x, float y, float z)
+float	*translation(t_mtx_4 res, float x, float y, float z)
 {
 	mtx4_dup(g_identity_matrix, res);
 	res[0][3] = x;
 	res[1][3] = y;
 	res[2][3] = z;
+	return ((float *)res);
 }

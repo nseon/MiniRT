@@ -15,7 +15,7 @@
 const t_mtx_4	g_identity_matrix = {{1, 0, 0, 0}, {0, 1, 0, 0},
 {0, 0, 1, 0}, {0, 0, 0, 1}};
 
-void	mtx4_dup(t_mtx_4 const m, t_mtx_4 res)
+float	*mtx4_dup(t_mtx_4 const m, t_mtx_4 res)
 {
 	res[0][0] = m[0][0];
 	res[0][1] = m[0][1];
@@ -33,4 +33,5 @@ void	mtx4_dup(t_mtx_4 const m, t_mtx_4 res)
 	res[3][1] = m[3][1];
 	res[3][2] = m[3][2];
 	res[3][3] = m[3][3];
+	return ((float *)res);
 }

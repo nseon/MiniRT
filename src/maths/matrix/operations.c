@@ -15,7 +15,7 @@
 
 #include <stdint.h>
 
-void	mtx_mul(t_mtx_4 const m1, t_mtx_4 const m2,
+float	*mtx_mul(t_mtx_4 const m1, t_mtx_4 const m2,
 	t_mtx_4 res)
 {
 	int32_t	x;
@@ -35,6 +35,7 @@ void	mtx_mul(t_mtx_4 const m1, t_mtx_4 const m2,
 		}
 		++x;
 	}
+	return ((float *)res);
 }
 
 t_tuple	mtx_tup_mul(t_tuple tp, t_mtx_4 const m)
