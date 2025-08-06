@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   antialiasing.c                                     :+:      :+:    :+:   */
+/*   ss_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 13:16:30 by nseon             #+#    #+#             */
-/*   Updated: 2025/06/19 10:43:52 by nseon            ###   ########.fr       */
+/*   Updated: 2025/08/06 10:31:27 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,19 @@ uint32_t	get_pixel_color(t_image *image, int x, int y)
 	color = image->addr + y * image->len + x * (image->bpp / 8);
 	return (*(uint32_t *)color);
 }
-
-float frandom(uint8_t const random[2 * RAY_NBR])
+/*!
+ *
+ * @return A random float between min & max.
+ */
+float frandom(uint8_t const random[RAY_NBR], int min, int max)
 {
 	static int	i;
 	float		nb;
 
-	if (i >= 2 * RAY_NBR)
+	if (i >= RAY_NBR)
 		i = 0;
-	nb = (float)(random[i]) / 256;
+	nb = (float)(random[i]) / ((float)256 / (max - min));
+	nb += min;
 	i += 3;
 	return (nb);
 }

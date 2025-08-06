@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 16:10:47 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/07/28 14:44:45 by nseon            ###   ########.fr       */
+/*   Updated: 2025/08/06 10:33:01 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,14 +86,15 @@ typedef struct s_graphic_ctx
 	t_rgb96_t	*color_px;
 }	t_graphic_ctx;
 
-void	render(t_graphic_ctx *gctx, t_image *img, uint8_t const random[2 * RAY_NBR], int nb_ray);
+void	render(t_graphic_ctx *gctx, t_image *img, uint8_t const random[RAY_NBR], int nb_ray);
 float	get_light(t_graphic_ctx *gctx, t_ren_calc ren);
-float	sphere_intersect(t_obj sphere, t_point3 origin, t_vec3 d);
+float	sphere_intersect(struct s_obj sphere,
+						t_point3 const origin, t_vec3 const d);
 uint32_t	trace_ray(t_graphic_ctx *gctx,
 					t_ren_calc       ren, uint8_t n);
 int32_t	get_mixed_color(t_rgb96_t comps, int div);
 void	add_rgb96_t(t_rgb96_t *comps, uint32_t color);
-float frandom(uint8_t const random[2 * RAY_NBR]);
+float frandom(uint8_t const random[RAY_NBR], int max, int min);
 uint32_t	get_pixel_color(t_image *image, int x, int y);
 
 #endif
