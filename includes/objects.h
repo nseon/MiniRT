@@ -26,6 +26,7 @@ typedef enum e_obj_type
 typedef struct s_obj
 {
 	t_obj_type	type;
+	uint32_t	uid;
 	t_tuple		pos;
 	t_tuple		ori;
 	t_fcolor	col;
@@ -35,5 +36,7 @@ typedef struct s_obj
 	float		l;
 	float		h;
 }	t_obj;
+
+t_obj	sphere(void);
 
 #endif

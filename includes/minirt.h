@@ -33,5 +33,6 @@ typedef struct s_ctx
 }	t_ctx;
 
 int8_t	init_gui(t_ctx *ctx);
+void	test_render(t_ctx * const ctx);
 
 #endif

@@ -1,37 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mutations.c                                        :+:      :+:    :+:   */
+/*   objects.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/31 20:12:02 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/07/31 20:12:02 by pjarnac          ###   ########.fr       */
+/*   Created: 2025/08/07 19:35:53 by pjarnac           #+#    #+#             */
+/*   Updated: 2025/08/07 19:35:53 by pjarnac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "matrix.h"
+#include "objects.h"
 
-void	mtx_transpose(t_mtx4 m)
+uint32_t	get_uid(void)
 {
-	float	buf;
+	static uint32_t	uid;
 
-	buf = m[0][1];
-	m[0][1] = m[1][0];
-	m[1][0] = buf;
-	buf = m[0][2];
-	m[0][2] = m[2][0];
-	m[2][0] = buf;
-	buf = m[0][3];
-	m[0][3] = m[3][0];
-	m[3][0] = buf;
-	buf = m[1][3];
-	m[1][3] = m[3][1];
-	m[3][1] = buf;
-	buf = m[2][3];
-	m[2][3] = m[3][2];
-	m[3][2] = buf;
-	buf = m[1][2];
-	m[1][2] = m[2][1];
-	m[2][1] = buf;
+	return (uid++);
+}
+
+t_obj	sphere(void)
+{
+	return ((t_obj){.type = SPHERE, .uid = get_uid(), .pos = point(0, 0, 0),
+		.col = {1, 0, 0}, .w = 1});
 }

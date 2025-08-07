@@ -22,12 +22,12 @@ t_tuple	tp_normalize(t_tuple tp)
 	return (tp_mul(tp, 1 / tp_magnitude(tp)));
 }
 
-float	tp_dotproduct(t_tuple p1, t_tuple p2)
+float	tp_dot(t_tuple p1, t_tuple p2)
 {
 	return (p1.x * p2.x + p1.y * p2.y + p1.z * p2.z + p1.w * p2.w);
 }
 
-t_tuple	tp_crossproduct(t_tuple tp1, t_tuple tp2)
+t_tuple	tp_cross(t_tuple tp1, t_tuple tp2)
 {
 	return ((t_tuple){tp1.y * tp2.z - tp1.z * tp2.y,
 		tp1.z * tp2.x - tp1.x * tp2.z,

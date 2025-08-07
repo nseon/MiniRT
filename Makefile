@@ -47,7 +47,14 @@ INPUTS_SRC	=		camera.c \
 SRC += $(addprefix $(DEBUG_DIR), $(DEBUG_SRC))
 
 DEBUG_DIR	=		debug/
-DEBUG_SRC	=		objects.c\
+DEBUG_SRC	=		objects.c \
+
+# ===============OBJECTS================= #
+
+SRC += $(addprefix $(OBJECTS_DIR), $(OBJECTS_SRC))
+
+OBJECTS_DIR	=		objects/
+OBJECTS_SRC	=		objects_creation.c \
 
 # ===============MATHS================= #
 
@@ -66,6 +73,14 @@ TUPLE_SRC	=		multiplications.c \
 					operations.c \
 					creation.c \
 
+# ===============MATHS/RAY================= #
+
+SRC += $(addprefix $(RAY_DIR), $(RAY_SRC))
+
+RAY_DIR	=		$(MATHS_DIR)ray/
+RAY_SRC	=		ray.c \
+				intersections.c \
+
 # ===============MATHS/TRANSFORMATIONS================= #
 
 SRC += $(addprefix $(TRANSFORMATIONS_DIR), $(TRANSFORMATIONS_SRC))
@@ -73,7 +88,9 @@ SRC += $(addprefix $(TRANSFORMATIONS_DIR), $(TRANSFORMATIONS_SRC))
 TRANSFORMATIONS_DIR	=	$(MATHS_DIR)transformations/
 TRANSFORMATIONS_SRC	=	translation.c \
 						scaling.c \
-						rotation.c \
+						rotation_x.c \
+						rotation_y.c \
+						rotation_z.c \
 						shearing.c \
 
 
@@ -101,10 +118,10 @@ PARSING_SRC =		parse.c \
 
 # ===============PARSING/OBJECTS================ #
 
-SRC += $(addprefix $(OBJECTS_DIR), $(OBJECTS_SRC))
+SRC += $(addprefix $(P_OBJECTS_DIR), $(P_OBJECTS_SRC))
 
-OBJECTS_DIR =		$(PARSING_DIR)objects/
-OBJECTS_SRC =		parsing_ambi_light.c \
+P_OBJECTS_DIR =		$(PARSING_DIR)objects/
+P_OBJECTS_SRC =		parsing_ambi_light.c \
 					parsing_camera.c \
 					parse_types.c \
 					parsing_light.c \
@@ -124,7 +141,7 @@ HOOKS_SRC =		loop.c \
 SRC += $(addprefix $(RENDER_DIR), $(RENDER_SRC))
 
 RENDER_DIR	=		render/
-RENDER_SRC	=
+RENDER_SRC	=		test_render.c \
 
 # ===============GUI================ #
 
@@ -195,7 +212,7 @@ else ifeq ($(MODE), bonus)
 else ifeq ($(MODE), test)
 	CFLAGS = -g3 -D UNITY_OUTPUT_COLOR -D UNITY_INCLUDE_DOUBLE -D UNITY_INCLUDE_EXEC_TIME
 	SRC := $(filter-out $(NAME).c, $(SRC))
-	SRC += $(NAME)_test.c
+	SRC += $(NAME)_test.c tests/ray_tests.c
 	TEST = /sgoinfre/pjarnac/public/unit_tests/Unity/src/unity.c
 else ifneq ($(MODE),)
 	ERROR = MODE

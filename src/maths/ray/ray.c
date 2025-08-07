@@ -1,39 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   rotation.c                                         :+:      :+:    :+:   */
+/*   ray.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/05 11:20:26 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/08/05 11:20:26 by pjarnac          ###   ########.fr       */
+/*   Created: 2025/08/07 16:25:10 by pjarnac           #+#    #+#             */
+/*   Updated: 2025/08/07 16:25:10 by pjarnac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <math.h>
-
 #include "matrix.h"
+#include "tuple.h"
+#include "ray.h"
 
-t_mtx4_ret	rotation_x(float r, t_mtx4 res)
+t_ray	ray(t_tuple origin, t_tuple direction)
 {
-	mtx4_dup(g_identity_matrix, res);
-	res[1][1] = cosf(r);
-	res[1][2] = -sinf(r);
-	res[2][1] = sinf(r);
-	res[2][2] = cosf(r);
-	return (res);
+	return ((t_ray){origin, direction});
 }
 
-t_tuple		tp_rotation_x(float r, t_tuple tp)
+t_tuple	position(t_ray ray, float t)
 {
-	t_mtx4	rot;
-
-	return (mtx_tup_mul(tp, rotation_x(r, rot)));
+	return (tp_add(ray.origin, tp_mul(ray.dir, t)));
 }
 
-t_mtx4_ret	mx_rotation_x(float r, t_mtx4 res)
-{
-	t_mtx4	buf;
 
-	return (mtx_mul2(res, rotation_x(r, buf)));
-}

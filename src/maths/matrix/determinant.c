@@ -12,19 +12,19 @@
 
 #include "matrix.h"
 
-float	mtx2_determinant(t_mtx_2 const m)
+float	mtx2_determinant(t_mtx2 const m)
 {
 	return (m[0][0] * m[1][1] - m[0][1] * m[1][0]);
 }
 
-float	mtx3_determinant(t_mtx_3 const m)
+float	mtx3_determinant(t_mtx3 const m)
 {
 	return (m[0][0] * mtx3_cofactor(m, 0, 0)
 		+ m[0][1] * mtx3_cofactor(m, 0, 1)
 		+ m[0][2] * mtx3_cofactor(m, 0, 2));
 }
 
-float	mtx4_determinant(t_mtx_4 const m)
+float	mtx4_determinant(t_mtx4 const m)
 {
 	return (m[0][0] * mtx4_cofactor(m, 0, 0)
 		+ m[0][1] * mtx4_cofactor(m, 0, 1)

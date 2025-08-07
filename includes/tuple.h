@@ -34,7 +34,7 @@ t_tuple	tp_sub(t_tuple tp1, t_tuple tp2);
 t_tuple	tp_negate(t_tuple tp);
 t_tuple	tp_mul(t_tuple tp, float k);
 t_tuple	tp_normalize(t_tuple tp);
-float	tp_dotproduct(t_tuple tp1, t_tuple tp2);
-t_tuple	tp_crossproduct(t_tuple tp1, t_tuple tp2);
+float	tp_dot(t_tuple tp1, t_tuple tp2);
+t_tuple	tp_cross(t_tuple tp1, t_tuple tp2);
 
 #endif

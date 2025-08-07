@@ -13,7 +13,7 @@
 #include "rt_maths.h"
 #include "matrix.h"
 
-bool	mtx4_equal(t_mtx_4 const m1, t_mtx_4 const m2)
+bool	mtx4_equal(t_mtx4 const m1, t_mtx4 const m2)
 {
 	int	i;
 	int	j;
@@ -32,7 +32,8 @@ bool	mtx4_equal(t_mtx_4 const m1, t_mtx_4 const m2)
 	}
 	return (true);
 }
-bool	mtx3_equal(t_mtx_3 const m1, t_mtx_3 const m2)
+
+bool	mtx3_equal(t_mtx3 const m1, t_mtx3 const m2)
 {
 	int	i;
 	int	j;
@@ -51,7 +52,8 @@ bool	mtx3_equal(t_mtx_3 const m1, t_mtx_3 const m2)
 	}
 	return (true);
 }
-bool	mtx2_equal(t_mtx_2 const m1, t_mtx_2 const m2)
+
+bool	mtx2_equal(t_mtx2 const m1, t_mtx2 const m2)
 {
 	int	i;
 	int	j;

@@ -64,6 +64,7 @@ void	parse(char *str, void *p)
 			get_by_id(&ctx->win, FILENAME_ID)->hide = true;
 			clear_image(&ctx->img);
 			ctx->parsing = true;
+			test_render(ctx);
 		}
 	}
 }
