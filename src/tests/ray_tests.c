@@ -1,0 +1,129 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ray_tests.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/07 19:15:27 by pjarnac           #+#    #+#             */
+/*   Updated: 2025/08/07 19:15:27 by pjarnac          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "/sgoinfre/pjarnac/public/unit_tests/Unity/src/unity.h"
+#include "../../includes/tuple.h"
+#include "../../includes/fcolors.h"
+#include "../../includes/matrix.h"
+#include "../../includes/ray.h"
+#include "../../includes/objects.h"
+#include "../../lib/neflibx/includes/neflibx.h"
+#include <math.h>
+#include <unistd.h>
+
+#include "../../includes/errors.h"
+#include "../../includes/fcolors.h"
+
+void	test_ray_creation()
+{
+	t_tuple	pt = point(2, 3, 4);
+	t_tuple	vt = vector(1, 0, 0);
+
+	t_ray	r = ray(pt, vt);
+	TEST_ASSERT(tp_equal(pt, r.origin));
+	TEST_ASSERT(tp_equal(vt, r.dir));
+}
+
+void	test_ray_position()
+{
+	t_ray	r = ray(point(2, 3, 4), vector(1, 0.5, 0));
+
+	TEST_ASSERT(tp_equal(point(2, 3, 4), position(r, 0)));
+	TEST_ASSERT(tp_equal(point(3, 3.5, 4), position(r, 1)));
+	TEST_ASSERT(tp_equal(point(1, 2.5, 4), position(r, -1)));
+	TEST_ASSERT(tp_equal(point(4.5, 4.25, 4), position(r, 2.5)));
+}
+
+void	test_sphere_intersection_two_point()
+{
+	t_ray		r = ray(point(0, 0, -5), vector(0, 0, 1));
+	t_obj		s = sphere();
+	t_intersections	inter;
+
+	inter = intersect(r, &s);
+	TEST_ASSERT_EQUAL_INT32(2, inter.count);
+	TEST_ASSERT_EQUAL_FLOAT(4, inter.i[0].t);
+	TEST_ASSERT_EQUAL_FLOAT(6, inter.i[1].t);
+}
+
+void	test_sphere_intersection_tangent()
+{
+	t_ray		r = ray(point(0, 1, -5), vector(0, 0, 1));
+	t_obj		s = sphere();
+	t_intersections	inter;
+
+	inter = intersect(r, &s);
+	TEST_ASSERT_EQUAL_INT32(2, inter.count);
+	TEST_ASSERT_EQUAL_FLOAT(5, inter.i[0].t);
+	TEST_ASSERT_EQUAL_FLOAT(5, inter.i[1].t);
+}
+
+void	test_sphere_intersection_nothing()
+{
+	t_ray		r = ray(point(0, 2, -5), vector(0, 0, 1));
+	t_obj		s = sphere();
+	t_intersections	inter;
+
+	inter = intersect(r, &s);
+	TEST_ASSERT_EQUAL_INT32(0, inter.count);
+}
+
+void	test_sphere_intersection_inside()
+{
+	t_ray		r = ray(point(0, 0, 0), vector(0, 0, 1));
+	t_obj		s = sphere();
+	t_intersections	inter;
+
+	inter = intersect(r, &s);
+	TEST_ASSERT_EQUAL_INT32(2, inter.count);
+	TEST_ASSERT_EQUAL_FLOAT(-1, inter.i[0].t);
+	TEST_ASSERT_EQUAL_FLOAT(1, inter.i[1].t);
+}
+
+void	test_sphere_intersection_after()
+{
+	t_ray		r = ray(point(0, 0, 2), vector(0, 0, 1));
+	t_obj		s = sphere();
+	t_intersections	inter;
+
+	inter = intersect(r, &s);
+	TEST_ASSERT_EQUAL_INT32(2, inter.count);
+	TEST_ASSERT_EQUAL_FLOAT(-3, inter.i[0].t);
+	TEST_ASSERT_EQUAL_FLOAT(-1, inter.i[1].t);
+}
+
+void	test_sphere_intersection_objects()
+{
+	t_ray		r = ray(point(0, 0, -5), vector(0, 0, 1));
+	t_obj		s = sphere();
+	t_intersections	inter;
+
+	inter = intersect(r, &s);
+	TEST_ASSERT_EQUAL_INT32(2, inter.count);
+	TEST_ASSERT_EQUAL_FLOAT(4, inter.i[0].t);
+	TEST_ASSERT_EQUAL_FLOAT(6, inter.i[1].t);
+	TEST_ASSERT_EQUAL_PTR(&s, inter.i[0].obj);
+	TEST_ASSERT_EQUAL_PTR(&s, inter.i[1].obj);
+}
+
+
+void	test_rays()
+{
+	RUN_TEST(test_ray_creation);
+	RUN_TEST(test_ray_position);
+	RUN_TEST(test_sphere_intersection_two_point);
+	RUN_TEST(test_sphere_intersection_tangent);
+	RUN_TEST(test_sphere_intersection_nothing);
+	RUN_TEST(test_sphere_intersection_inside);
+	RUN_TEST(test_sphere_intersection_after);
+	RUN_TEST(test_sphere_intersection_objects);
+}
