@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector3.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:22:16 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/05/19 17:22:16 by pjarnac          ###   ########.fr       */
+/*   Updated: 2025/08/07 10:00:55 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,6 @@ t_vec3	v3_multiply(t_vec3 vec, float k);
 t_vec3	v3_normalize(t_vec3 vec);
 float	v3_dotproduct(t_vec3 v1, t_vec3 v2);
 t_vec3	v3_crossproduct(t_vec3 v1, t_vec3 v2);
+void	v3_invert(t_vec3 *vec);
 
 #endif

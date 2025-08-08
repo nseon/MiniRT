@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 16:10:47 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/08/06 10:33:01 by nseon            ###   ########.fr       */
+/*   Updated: 2025/08/08 21:35:02 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@
 
 # define T_MAX 3.402823466e+38
 # define T_MIN 0.01
-# define BACKGROUND_COLOR 0x000001
-# define RAY_NUM 2
-# define RAY_NBR 100000
+# define BACKGROUND_COLOR 0x000000
+# define RAY_NUM 1
+# define RAY_NBR 1000000
 
 typedef enum e_light_type
 {
@@ -84,6 +84,7 @@ typedef struct s_graphic_ctx
 	t_light		*lights;
 	bool		lights_off;
 	t_rgb96_t	*color_px;
+	bool		global_il;
 }	t_graphic_ctx;
 
 void	render(t_graphic_ctx *gctx, t_image *img, uint8_t const random[RAY_NBR], int nb_ray);
@@ -91,10 +92,11 @@ float	get_light(t_graphic_ctx *gctx, t_ren_calc ren);
 float	sphere_intersect(struct s_obj sphere,
 						t_point3 const origin, t_vec3 const d);
 uint32_t	trace_ray(t_graphic_ctx *gctx,
-					t_ren_calc       ren, uint8_t n);
+					t_ren_calc	ren, uint8_t n, uint8_t const random[RAY_NBR]);
 int32_t	get_mixed_color(t_rgb96_t comps, int div);
 void	add_rgb96_t(t_rgb96_t *comps, uint32_t color);
 float frandom(uint8_t const random[RAY_NBR], int max, int min);
 uint32_t	get_pixel_color(t_image *image, int x, int y);
+t_vec3	random_vec(uint8_t const random[RAY_NBR]);
 
 #endif

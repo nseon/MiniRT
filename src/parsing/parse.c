@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 17:45:33 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/07/28 15:00:51 by nseon            ###   ########.fr       */
+/*   Updated: 2025/08/08 21:24:41 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,5 +63,7 @@ void	parse(char *str, void *p)
 			get_by_id(&ctx->win, FILENAME_ID)->hide = true;
 			clear_image(&ctx->img);
 			ctx->parsing = true;
+			ctx->render = true;
+			get_by_id(&ctx->win, "global_btn")->hide = false;
 		}
 }

@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:22:55 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/07/28 14:46:48 by nseon            ###   ########.fr       */
+/*   Updated: 2025/08/06 10:29:32 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	main(int c, char **args)
 
 	ctx = (t_ctx){0};
 	ctx.fd = open("/dev/urandom", O_RDONLY);
-	read(ctx.fd, &ctx.random, 2 * RAY_NBR);
+	read(ctx.fd, &ctx.random, RAY_NBR);
 	if (init(&ctx) != SUCCESS)
 		return (EXIT_FAILURE);
 	set_events(&ctx);

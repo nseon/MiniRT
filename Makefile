@@ -6,7 +6,7 @@
 #    By: nseon <nseon@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/19 11:53:22 by pjarnac           #+#    #+#              #
-#    Updated: 2025/06/19 10:49:04 by nseon            ###   ########.fr        #
+#    Updated: 2025/08/07 08:57:31 by nseon            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -100,6 +100,13 @@ SRC += $(addprefix $(GUI_DIR), $(GUI_SRC))
 
 GUI_DIR =		gui/
 GUI_SRC =		gui_init.c \
+
+# ===============POINTS================ #
+
+SRC += $(addprefix $(POINTS_DIR), $(POINTS_SRC))
+
+POINTS_DIR =	points/
+POINTS_SRC =	operations.c \
 
 # ===============VECTOR3================ #
 

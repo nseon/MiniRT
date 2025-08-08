@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 12:15:25 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/07/28 15:02:14 by nseon            ###   ########.fr       */
+/*   Updated: 2025/08/08 21:43:47 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,11 @@ void	main_loop(void *p)
 	t_ctx *const	ctx = p;
 	static int	ray;
 
+	if (ctx->gctx.global_il)
+	{
+		ft_bzero(ctx->gctx.color_px, sizeof (t_rgb96_t) * WIN_H * WIN_W);
+		ray = 0;
+	}
 	if (!ctx->parsing)
 		draw_file_status(ctx);
 	if (ctx->parsing)

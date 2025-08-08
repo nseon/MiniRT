@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_sphere.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 13:06:00 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/07/28 13:06:00 by pjarnac          ###   ########.fr       */
+/*   Updated: 2025/08/08 20:47:05 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,9 @@ int32_t	parse_sphere(char **split, t_obj *obj)
 	int32_t	res;
 
 	*obj = (t_obj){0};
+	obj->specular = 10;
 	obj->type = SPHERE;
+	obj->reflective = 0;
 	res = parse_xyz(split[0], &obj->pos);
 	if (res != SUCCESS)
 		return (res);

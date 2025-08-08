@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   camera.c                                           :+:      :+:    :+:   */
+/*   parsing_camera.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 13:08:28 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/07/24 13:08:28 by pjarnac          ###   ########.fr       */
+/*   Updated: 2025/08/08 20:54:56 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int32_t	parse_camera(char **split, t_camera *camera)
 		ft_fprintf(STDERR_FILENO, PARSE_INVAL_FOV, (int)camera->fov);
 		return (PARSE_INVAL_LINE);
 	}
-	camera->vp.d = 1200;
+	camera->vp.d = 3000;
 	camera->vp.vw = WIN_W;
 	camera->vp.vh = WIN_H;
 	if (DEBUG)

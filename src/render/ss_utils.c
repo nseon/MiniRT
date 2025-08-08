@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 13:16:30 by nseon             #+#    #+#             */
-/*   Updated: 2025/08/06 10:31:27 by nseon            ###   ########.fr       */
+/*   Updated: 2025/08/07 10:36:24 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <math.h>
+#include <stdlib.h>
+
 #include "neflibx.h"
 #include "render.h"
 
@@ -59,4 +61,9 @@ int32_t	get_mixed_color(t_rgb96_t comps, int div)
 	color.g = comps.g / div;
 	color.b = comps.b / div;
 	return (color.argb);
+}
+
+t_vec3	random_vec(uint8_t const random[RAY_NBR])
+{
+	return((t_vec3){frandom(random, -1, 1), frandom(random, -1, 1), frandom(random, -1, 1)});
 }

@@ -3,15 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   ray.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 18:36:00 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/05/26 18:36:00 by pjarnac          ###   ########.fr       */
+/*   Updated: 2025/08/08 21:50:38 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "render.h"
+#include "minirt.h"
+#include "points.h"
 
+#include <stdio.h>
 #include <math.h>
 
 float	sphere_intersect(struct s_obj sphere,
@@ -58,24 +61,46 @@ static struct s_obj get_sphere(t_graphic_ctx *gctx,
 	return (closest_sphere);
 }
 
-uint32_t	trace_ray(t_graphic_ctx *gctx,
-					t_ren_calc       ren, uint8_t n)
+t_vec3 random_bounce(uint8_t const random[RAY_NBR], t_vec3 ojb_norm)
 {
-	float              t_min;
-	struct s_obj const closest_sphere = get_sphere(gctx, ren.o, ren.d, &t_min);
-	t_vec3             refl_dir;
+	t_vec3 bounce;
+
+	bounce = random_vec(random);
+	// while (get_distance(bounce, (t_point3){0, 0, 0}) > 1)
+	// 	bounce = random_vec(random);
+	v3_normalize(bounce);
+	if (v3_dotproduct(bounce, ojb_norm) <= 0)
+		v3_invert(&bounce);
+	return (bounce);
+}
+
+uint32_t	trace_ray(t_graphic_ctx *gctx,
+					t_ren_calc	ren, uint8_t n, uint8_t const random[RAY_NBR])
+{
+	float				t_min;
+	struct s_obj const	closest_sphere = get_sphere(gctx, ren.o, ren.d, &t_min);
+	t_vec3				refl_dir;
+	uint32_t			color_bounce;
 
 	if (closest_sphere.w == 0)
 		return (BACKGROUND_COLOR);
 	ren.p = v3_add(ren.o, v3_multiply(ren.d, t_min));
 	ren.n = v3_normalize(get_vec3(closest_sphere.pos, ren.p));
 	ren.s = closest_sphere.specular;
-	if (n == RAY_NUM || closest_sphere.reflective <= 0)
+	// if (n == RAY_NUM || closest_sphere.reflective <= 0)
+	// 	return (colorx(closest_sphere.col.argb, get_light(gctx, ren)));
+	// refl_dir = v3_sub(v3_multiply(v3_multiply(ren.n, 2),
+	// 			v3_dotproduct(ren.n, v3_multiply(ren.d, -1))), v3_multiply(ren.d, -1));
+	if (gctx->global_il)
 		return (colorx(closest_sphere.col.argb, get_light(gctx, ren)));
-	refl_dir = v3_sub(v3_multiply(v3_multiply(ren.n, 2),
-				v3_dotproduct(ren.n, v3_multiply(ren.d, -1))), v3_multiply(ren.d, -1));
+	refl_dir = random_bounce(random, ren.n);
 	ren.o = ren.p;
 	ren.d = refl_dir;
-	return (colorp(colorx(colorx(closest_sphere.col.argb, get_light(gctx, ren)), 1 - closest_sphere.reflective)
-		, colorx(trace_ray(gctx, ren, n + 1), closest_sphere.reflective)));
+	if (n == RAY_NUM + 1)
+		return (BACKGROUND_COLOR);
+	color_bounce = trace_ray(gctx, ren, n + 1, random);
+	if (color_bounce == BACKGROUND_COLOR)
+		return (colorx(closest_sphere.col.argb, get_light(gctx, ren)));
+	return (colorp(colorx(colorx(closest_sphere.col.argb, get_light(gctx, ren)), 0.5)
+		, colorx(color_bounce, 0.5)));
 }

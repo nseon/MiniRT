@@ -1,38 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minirt.h                                           :+:      :+:    :+:   */
+/*   operations.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/23 18:37:03 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/08/08 21:34:05 by nseon            ###   ########.fr       */
+/*   Created: 2025/08/06 10:47:42 by nseon             #+#    #+#             */
+/*   Updated: 2025/08/06 11:02:58 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINIRT_H
-# define MINIRT_H
+#include "points.h"
 
-# include "neflibx.h"
-# include "render.h"
-# include "inputs.h"
+#include <math.h>
 
-# define WIN_W 3840
-# define WIN_H 2160
-
-typedef struct s_ctx
+/*!
+ *
+ * @return Distance between the points A & B.
+ */
+float	get_distance(t_point3 a, t_point3 b)
 {
-	t_image			img;
-	bool			render;
-	bool			parsing;
-	int32_t			error;
-	int32_t			file;
-	t_window		win;
-	t_graphic_ctx	gctx;
-	int32_t			fd;
-	uint8_t			random[RAY_NBR];
-}	t_ctx;
-
-int8_t	init_gui(t_ctx *ctx);
-
-#endif
+	return (sqrtf(((b.x - a.x) * (b.x - a.x))
+			+ ((b.y - a.y) * (b.y - a.y))
+			+ ((b.z - a.z) * (b.z - a.z))));
+}
