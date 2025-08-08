@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "matrix.h"
 #include "objects.h"
 
 uint32_t	get_uid(void)
@@ -21,6 +22,10 @@ uint32_t	get_uid(void)
 
 t_obj	sphere(void)
 {
-	return ((t_obj){.type = SPHERE, .uid = get_uid(), .pos = point(0, 0, 0),
-		.col = {1, 0, 0}, .w = 1});
+	t_obj	o;
+
+	o = (t_obj){.type = SPHERE, .uid = get_uid(), .pos = point(0, 0, 0),
+		.col = {1, 0, 0}, .w = 1};
+	mtx4_dup(g_identity_matrix, o.transform);
+	return (o);
 }

@@ -27,6 +27,8 @@ void	debug_sphere(t_obj o)
 	printf("}\n\n");
 }
 
+// TODO: Integrate with matrices
+
 int32_t	parse_sphere(char **split, t_obj *obj)
 {
 	int32_t	res;
@@ -36,6 +38,8 @@ int32_t	parse_sphere(char **split, t_obj *obj)
 	res = parse_xyz(split[0], &obj->pos);
 	if (res != SUCCESS)
 		return (res);
+	obj->pos = (t_tuple){0, 0, 0, 1};
+	mx_translation(obj->pos.x, obj->pos.y, obj->pos.z, obj->transform);
 	res = parse_float(split[1], &obj->w);
 	if (res != SUCCESS)
 		return (res);

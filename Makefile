@@ -55,6 +55,7 @@ SRC += $(addprefix $(OBJECTS_DIR), $(OBJECTS_SRC))
 
 OBJECTS_DIR	=		objects/
 OBJECTS_SRC	=		objects_creation.c \
+					transform.c \
 
 # ===============MATHS================= #
 

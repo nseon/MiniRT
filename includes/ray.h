@@ -15,6 +15,7 @@
 
 # include "tuple.h"
 # include "objects.h"
+# include "matrix.h"
 
 typedef struct s_ray
 {
@@ -34,8 +35,13 @@ typedef struct s_intersections
 	t_intersection	i[2];
 }	t_intersections;
 
-t_ray		ray(t_tuple origin, t_tuple direction);
-t_tuple		position(t_ray ray, float t);
+t_ray			ray(t_tuple origin, t_tuple direction);
+t_tuple			position(t_ray ray, float t);
 t_intersections	intersect(t_ray r, t_obj *o);
+t_intersection	intersection(float t, t_obj *obj);
+t_intersection	*hit(t_intersections *inters);
+// int32_t			free_intersections(t_intersections *inters);
+
+t_ray			ray_transform(t_ray r, t_mtx4 m);
 
 #endif

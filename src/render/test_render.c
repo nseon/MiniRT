@@ -15,16 +15,27 @@
 
 #include "minirt.h"
 #include "matrix.h"
+#include "ray.h"
 
 void	test_render(t_ctx * const ctx)
 {
-	t_tuple	pt = point(0, 100, 0);
-	t_tuple	pt2;
+	t_obj			s = sphere();
+	t_mtx4			buf;
+	t_intersections	xs;
+	t_ray			r;
 
-	for (int i = 0; i < 48; i++)
+	set_transform(&s, translation(0, 0, 10, buf));
+	set_transform(&s, scaling(9, 9, 9, buf));
+	for (int y = 0; y < WIN_H; y++)
 	{
-		pt2 = tp_translation(WIN_W / 2, WIN_H / 2, 0, tp_scaling(6, 1, 2, pt));
-		put_pixel_img(&ctx->img, point_s(pt2.x, pt2.y, 0xFFFFFF));
-		pt = tp_rotation_z(M_PI / 24, pt);
+		for (int x = 0; x < WIN_W; x++)
+		{
+			r = ray(point(0, 0, 0), tp_normalize(tp_sub(point(x - WIN_W / 2, y - WIN_H / 2, 11), point(0, 0, 0))));
+			xs = intersect(r, &s);
+			if (hit(&xs) != NULL)
+				put_pixel_img(&ctx->img, point_s(x, y, 0xFF0000));
+			else
+				put_pixel_img(&ctx->img, point_s(x, y, 0x000000));
+		}
 	}
 }

@@ -15,6 +15,7 @@
 
 # include "fcolors.h"
 # include "tuple.h"
+# include "matrix.h"
 
 typedef enum e_obj_type
 {
@@ -29,6 +30,8 @@ typedef struct s_obj
 	uint32_t	uid;
 	t_tuple		pos;
 	t_tuple		ori;
+	t_mtx4		transform;
+	t_mtx4		inv_transform;
 	t_fcolor	col;
 	int32_t		specular;
 	float		reflective;
@@ -38,5 +41,6 @@ typedef struct s_obj
 }	t_obj;
 
 t_obj	sphere(void);
+void	set_transform(t_obj *o, t_mtx4 transf);
 
 #endif

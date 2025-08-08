@@ -1,30 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ray.c                                              :+:      :+:    :+:   */
+/*   transform.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/07 16:25:10 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/08/07 16:25:10 by pjarnac          ###   ########.fr       */
+/*   Created: 2025/08/08 20:11:24 by pjarnac           #+#    #+#             */
+/*   Updated: 2025/08/08 20:11:24 by pjarnac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "matrix.h"
-#include "tuple.h"
-#include "ray.h"
+#include "objects.h"
 
-t_ray	ray(t_tuple origin, t_tuple direction)
+void	set_transform(t_obj *o, t_mtx4 transf)
 {
-	return ((t_ray){origin, direction});
-}
-
-t_tuple	position(t_ray ray, float t)
-{
-	return (tp_add(ray.origin, tp_mul(ray.dir, t)));
-}
-
-t_ray	ray_transform(t_ray r, t_mtx4 m)
-{
-	return ((t_ray){mtx_tup_mul(r.origin, m), mtx_tup_mul(r.dir, m)});
+	mtx_mul2(o->transform, transf);
+	mtx4_inverse2(o->transform, o->inv_transform);
 }

@@ -21,6 +21,7 @@
 # include "objects.h"
 # include "neflibx.h"
 # include "fcolors.h"
+# include "matrix.h"
 
 # define T_MAX 3.402823466e+38
 # define T_MIN 0.01
