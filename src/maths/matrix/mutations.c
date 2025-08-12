@@ -35,3 +35,24 @@ void	mtx_transpose(t_mtx4 m)
 	m[1][2] = m[2][1];
 	m[2][1] = buf;
 }
+
+t_mtx4_ret	mtx_transpose2(t_mtx4 const m, t_mtx4 res)
+{
+	res[0][1] = m[1][0];
+	res[1][0] = m[0][1];
+	res[0][2] = m[2][0];
+	res[2][0] = m[0][2];
+	res[0][3] = m[3][0];
+	res[3][0] = m[0][3];
+	res[1][3] = m[3][1];
+	res[3][1] = m[1][3];
+	res[2][3] = m[3][2];
+	res[3][2] = m[2][3];
+	res[1][2] = m[2][1];
+	res[2][1] = m[1][2];
+	res[1][1] = m[1][1];
+	res[2][2] = m[2][2];
+	res[3][3] = m[3][3];
+	res[0][0] = m[0][0];
+	return (res);
+}

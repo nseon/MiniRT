@@ -10,8 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "/sgoinfre/pjarnac/public/unit_tests/Unity/src/unity.h"
+#include "/home/pjarnac/unity/unity.h"
 #include "../../includes/tuple.h"
+#include "../../includes/normals.h"
 #include "../../includes/fcolors.h"
 #include "../../includes/matrix.h"
 #include "../../includes/ray.h"
@@ -208,7 +209,36 @@ void	test_translated_sphere_intersection()
 	TEST_ASSERT_EQUAL_INT32(0, xs.count);
 }
 
-void	test_rays()
+void	test_sphere_normal()
+{
+	t_obj	s = sphere();
+
+	TEST_ASSERT(tp_equal(vector(1, 0, 0), sphere_normal(&s, point(1, 0, 0))));
+	TEST_ASSERT(tp_equal(vector(0, 1, 0), sphere_normal(&s, point(0, 1, 0))));
+	TEST_ASSERT(tp_equal(vector(0, 0, 1), sphere_normal(&s, point(0, 0, 1))));
+	TEST_ASSERT(tp_equal(vector(sqrtf(3) / 3, sqrtf(3) / 3, sqrtf(3) / 3), sphere_normal(&s, point(sqrtf(3) / 3,sqrtf(3) / 3, sqrtf(3) / 3))));
+}
+
+void	test_sphere_normal_is_normal()
+{
+	t_obj	s = sphere();
+	t_tuple	n = sphere_normal(&s, point(sqrtf(3) / 3,sqrtf(3) / 3, sqrtf(3) / 3));
+	TEST_ASSERT(tp_equal(n, tp_normalize(n)));
+}
+
+void	test_translated_sphere_normal()
+{
+	t_obj	s = sphere();
+	t_mtx4	buf;
+
+	set_transform(&s, translation(0, 1, 0, buf));
+	TEST_ASSERT(tp_equal(vector(0, 0.70711, -0.70711), sphere_normal(&s, point(0, 1.70711, -0.70711))));
+	s = sphere();
+	set_transform(&s, mx_scaling(1, 0.5, 1, rotation_z(M_PI / 5, buf)));
+	TEST_ASSERT(tp_equal(vector(0, 0.97014, -0.24254), sphere_normal(&s, point(0, sqrtf(2) / 2, sqrtf(2) / 2))));
+}
+
+int	test_rays()
 {
 	RUN_TEST(test_ray_creation);
 	RUN_TEST(test_ray_position);
@@ -226,4 +256,8 @@ void	test_rays()
 	RUN_TEST(test_obj_transform);
 	RUN_TEST(test_scaled_sphere_intersection);
 	RUN_TEST(test_translated_sphere_intersection);
+	RUN_TEST(test_sphere_normal);
+	RUN_TEST(test_sphere_normal_is_normal);
+	RUN_TEST(test_translated_sphere_normal);
+	return 0;
 }

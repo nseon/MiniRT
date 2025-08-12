@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "/sgoinfre/pjarnac/public/unit_tests/Unity/src/unity.h"
+#include "/home/pjarnac/unity/unity.h"
 #include "../includes/tuple.h"
 #include "../includes/fcolors.h"
 #include "../includes/matrix.h"
@@ -384,6 +384,22 @@ void	test_matrix_transpose()
 				{0, 8, 3, 8}};
 	mtx_transpose(m1);
 	TEST_ASSERT(mtx4_equal(m1, m2));
+}
+
+void	test_matrix_transpose2()
+{
+	t_mtx4	m1 = {{0, 9, 3, 0},
+				{9, 8, 0, 8},
+				{1, 8, 5, 3},
+				{0, 0, 5, 8}};
+	t_mtx4	m2 = {{0, 9, 1, 0},
+				{9, 8, 8, 0},
+				{3, 0, 5, 5},
+				{0, 8, 3, 8}};
+	t_mtx4	buf;
+
+	mtx_transpose2(m1, buf);
+	TEST_ASSERT(mtx4_equal(buf, m2));
 }
 
 void	test_identity_transpose()
@@ -821,6 +837,7 @@ int	main()
 	RUN_TEST(test_matrix44_identity);
 	RUN_TEST(test_matrix_tup_identity);
 	RUN_TEST(test_matrix_transpose);
+	RUN_TEST(test_matrix_transpose2);
 	RUN_TEST(test_identity_transpose);
 	RUN_TEST(test_matrix2_determinant);
 	RUN_TEST(test_matrix4_submatrix);
@@ -852,5 +869,5 @@ int	main()
 	RUN_TEST(test_chain_transformations3);
 	RUN_TEST(test_mtx_return);
 	test_rays();
-	return UNITY_END();
+	return UNITY_END();;
 }

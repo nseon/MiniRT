@@ -1,32 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   objects.c                                          :+:      :+:    :+:   */
+/*   sphere.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/07 19:35:53 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/08/07 19:35:53 by pjarnac          ###   ########.fr       */
+/*   Created: 2025/08/12 18:21:04 by pjarnac           #+#    #+#             */
+/*   Updated: 2025/08/12 18:21:04 by pjarnac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "matrix.h"
+#include "normals.h"
+#include "tuple.h"
 #include "objects.h"
 
-uint32_t	get_uid(void)
+t_tuple	sphere_normal(t_obj *o, t_tuple pt)
 {
-	static uint32_t	uid;
+	t_mtx4			buf;
+	// t_tuple const	opt = mtx_tup_mul(pt, o->inv_transform);
+	// t_tuple const	n = tp_sub(opt, o->pos);
 
-	return (uid++);
-}
-
-t_obj	sphere(void)
-{
-	t_obj	o;
-
-	o = (t_obj){.type = SPHERE, .uid = get_uid(), .pos = point(0, 0, 0),
-		.col = {1, 0, 0}, .w = 1};
-	mtx4_dup(g_identity_matrix, o.transform);
-	mtx4_dup(g_identity_matrix, o.inv_transform);
-	return (o);
+	return (mtx_tup_mul(tp_sub(mtx_tup_mul(pt, o->inv_transform), o->pos), mtx_transpose2(o->inv_transform, buf)));
 }

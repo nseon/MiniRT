@@ -56,6 +56,7 @@ SRC += $(addprefix $(OBJECTS_DIR), $(OBJECTS_SRC))
 OBJECTS_DIR	=		objects/
 OBJECTS_SRC	=		objects_creation.c \
 					transform.c \
+					sphere.c \
 
 # ===============MATHS================= #
 
@@ -214,7 +215,7 @@ else ifeq ($(MODE), test)
 	CFLAGS = -g3 -D UNITY_OUTPUT_COLOR -D UNITY_INCLUDE_DOUBLE -D UNITY_INCLUDE_EXEC_TIME
 	SRC := $(filter-out $(NAME).c, $(SRC))
 	SRC += $(NAME)_test.c tests/ray_tests.c
-	TEST = /sgoinfre/pjarnac/public/unit_tests/Unity/src/unity.c
+	TEST = ~/unity/unity.c
 else ifneq ($(MODE),)
 	ERROR = MODE
 endif

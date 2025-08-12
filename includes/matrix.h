@@ -39,6 +39,7 @@ t_mtx4_ret	mtx_mul2(t_mtx4 m1, t_mtx4 const m2);
 t_tuple		mtx_tup_mul(t_tuple tp, t_mtx4 const m);
 t_tuple		*mtx_tup_mul2(t_tuple *tp, t_mtx4 const m);
 void		mtx_transpose(t_mtx4 m);
+t_mtx4_ret	mtx_transpose2(t_mtx4 const m, t_mtx4 res);
 float		mtx2_determinant(t_mtx2 const m);
 float		mtx3_determinant(t_mtx3 const m);
 float		mtx4_determinant(t_mtx4 const m);
