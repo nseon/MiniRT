@@ -25,6 +25,8 @@
 #include "../../includes/errors.h"
 #include "../../includes/fcolors.h"
 
+
+
 void	test_ray_creation()
 {
 	t_tuple	pt = point(2, 3, 4);
@@ -234,8 +236,18 @@ void	test_translated_sphere_normal()
 	set_transform(&s, translation(0, 1, 0, buf));
 	TEST_ASSERT(tp_equal(vector(0, 0.70711, -0.70711), sphere_normal(&s, point(0, 1.70711, -0.70711))));
 	s = sphere();
-	set_transform(&s, mx_scaling(1, 0.5, 1, rotation_z(M_PI / 5, buf)));
-	TEST_ASSERT(tp_equal(vector(0, 0.97014, -0.24254), sphere_normal(&s, point(0, sqrtf(2) / 2, sqrtf(2) / 2))));
+	set_transform(&s, mx_rotation_z(M_PI / 5, scaling(1, 0.5, 1, buf)));
+	TEST_ASSERT(tp_equal(vector(0, 0.97014, -0.24254), sphere_normal(&s, point(0, sqrtf(2) / 2, -sqrtf(2) / 2))));
+}
+
+void	test_vector_reflect_45()
+{
+	TEST_ASSERT(tp_equal(vector(1, 1, 0), reflect(vector(1, -1, 0), vector(0, 1, 0))));
+}
+
+void	test_vector_reflect_slanted()
+{
+	TEST_ASSERT(tp_equal(vector(1, 0, 0), reflect(vector(0, -1, 0), vector(sqrtf(2) / 2, sqrtf(2) / 2, 0))));
 }
 
 int	test_rays()
@@ -259,5 +271,7 @@ int	test_rays()
 	RUN_TEST(test_sphere_normal);
 	RUN_TEST(test_sphere_normal_is_normal);
 	RUN_TEST(test_translated_sphere_normal);
+	RUN_TEST(test_vector_reflect_45);
+	RUN_TEST(test_vector_reflect_slanted);
 	return 0;
 }

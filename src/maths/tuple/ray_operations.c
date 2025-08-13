@@ -1,31 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sphere.c                                           :+:      :+:    :+:   */
+/*   ray_operations.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/12 18:21:04 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/08/12 18:21:04 by pjarnac          ###   ########.fr       */
+/*   Created: 2025/08/13 12:16:25 by pjarnac           #+#    #+#             */
+/*   Updated: 2025/08/13 12:16:25 by pjarnac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-
-#include "normals.h"
 #include "tuple.h"
-#include "objects.h"
 
-t_tuple	sphere_normal(t_obj *o, t_tuple pt)
+t_tuple	reflect(t_tuple in, t_tuple normal)
 {
-	t_mtx4	buf;
-	t_tuple const	opt = mtx_tup_mul(pt, o->inv_transform);
-	t_tuple	const	n = tp_sub(opt, o->pos);
-	t_tuple			new_n;
-
-	mtx_transpose2(o->inv_transform, buf);
-	new_n = mtx_tup_mul(n, buf);
-	new_n.w = 0;
-	new_n = tp_normalize(new_n);
-	return (new_n);
+	return (tp_sub(in, tp_mul(normal, 2 * tp_dot(in, normal))));
 }

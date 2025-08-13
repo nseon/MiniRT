@@ -74,6 +74,7 @@ TUPLE_DIR	=		$(MATHS_DIR)tuple/
 TUPLE_SRC	=		multiplications.c \
 					operations.c \
 					creation.c \
+					ray_operations.c \
 
 # ===============MATHS/RAY================= #
 

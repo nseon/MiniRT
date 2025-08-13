@@ -16,6 +16,7 @@
 # include "tuple.h"
 # include "objects.h"
 # include "matrix.h"
+# include "normals.h"
 
 typedef struct s_ray
 {

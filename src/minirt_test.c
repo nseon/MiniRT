@@ -400,6 +400,7 @@ void	test_matrix_transpose2()
 
 	mtx_transpose2(m1, buf);
 	TEST_ASSERT(mtx4_equal(buf, m2));
+	TEST_ASSERT_EQUAL_FLOAT_ARRAY(m2, buf, 16);
 }
 
 void	test_identity_transpose()
