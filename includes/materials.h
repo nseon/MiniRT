@@ -1,31 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sphere.c                                           :+:      :+:    :+:   */
+/*   materials.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/12 18:21:04 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/08/12 18:21:04 by pjarnac          ###   ########.fr       */
+/*   Created: 2025/08/13 14:21:58 by pjarnac           #+#    #+#             */
+/*   Updated: 2025/08/13 14:21:58 by pjarnac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
+#ifndef MINIRT_MATERIALS_H
+# define MINIRT_MATERIALS_H
 
-#include "normals.h"
-#include "tuple.h"
-#include "objects.h"
+# include "fcolors.h"
 
-t_tuple	sphere_normal(t_obj *o, t_tuple pt)
+typedef struct s_material
 {
-	t_mtx4	buf;
-	t_tuple	opt;
-	t_tuple	new_n;
+	t_fcolor	col;
+	float		diffuse;
+	float		ambient;
+	float		specular;
+	float		shine;
+}	t_material;
 
-	opt = mtx_tup_mul(pt, o->inv_transform);
-	mtx_transpose2(o->inv_transform, buf);
-	new_n = mtx_tup_mul(opt, buf);
-	new_n.w = 0;
-	new_n = tp_normalize(new_n);
-	return (new_n);
-}
+extern t_material const	g_default_mat;
+
+t_material	material(void);
+
+#endif

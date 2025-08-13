@@ -29,11 +29,7 @@
 # define RAY_NUM 2
 # define RAY_NBR 100000
 
-typedef enum e_light_type
-{
-	POINT,
-	DIR
-}	t_light_type;
+
 
 typedef struct s_vieuport
 {
@@ -49,14 +45,6 @@ typedef struct s_camera
 	float		fov;
 	t_vieuport	vp;
 }	t_camera;
-
-typedef struct s_light
-{
-	t_light_type	type;
-	t_point3		pos;
-	t_fcolor			col;
-	float			i;
-}	t_light;
 
 typedef struct s_amb_light
 {

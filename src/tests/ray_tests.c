@@ -24,7 +24,7 @@
 
 #include "../../includes/errors.h"
 #include "../../includes/fcolors.h"
-
+#include "../../includes/lighting.h"
 
 
 void	test_ray_creation()
@@ -250,6 +250,68 @@ void	test_vector_reflect_slanted()
 	TEST_ASSERT(tp_equal(vector(1, 0, 0), reflect(vector(0, -1, 0), vector(sqrtf(2) / 2, sqrtf(2) / 2, 0))));
 }
 
+void	assert_fcolor(t_fcolor c1, t_fcolor c2)
+{
+	TEST_ASSERT_EQUAL_FLOAT_MESSAGE(c1.r, c2.r, "red composant is not equal");
+	TEST_ASSERT_EQUAL_FLOAT_MESSAGE(c1.g, c2.g, "green composant is not equal");
+	TEST_ASSERT_EQUAL_FLOAT_MESSAGE(c1.b, c2.b, "blue composant is not equal");
+}
+
+void	test_direct_light_eye()
+{
+	t_tuple	pos = point(0, 0, 0);
+	t_tuple	eyev = vector(0, 0, -1);
+	t_tuple	normalv = vector(0, 0, -1);
+	t_light	l = light(point(0, 0, -10), fcolor(1, 1, 1), POINT);
+	t_phong_comp	c = {pos, eyev, normalv, l};
+
+	assert_fcolor(fcolor(1.9, 1.9, 1.9), phong(g_default_mat, c));
+}
+
+void	test_direct_light_eye_45()
+{
+	t_tuple	pos = point(0, 0, 0);
+	t_tuple	eyev = vector(0, sqrtf(2) / 2, -sqrtf(2) / 2);
+	t_tuple	normalv = vector(0, 0, -1);
+	t_light	l = light(point(0, 0, -10), fcolor(1, 1, 1), POINT);
+	t_phong_comp	c = {pos, eyev, normalv, l};
+
+	assert_fcolor(fcolor(1.0, 1.0, 1.0), phong(g_default_mat, c));
+}
+
+void	test_direct_light_45_eye()
+{
+	t_tuple	pos = point(0, 0, 0);
+	t_tuple	eyev = vector(0, 0, -1);
+	t_tuple	normalv = vector(0, 0, -1);
+	t_light	l = light(point(0, 10, -10), fcolor(1, 1, 1), POINT);
+	t_phong_comp	c = {pos, eyev, normalv, l};
+
+	assert_fcolor(fcolor(0.7364, 0.7364, 0.7364), phong(g_default_mat, c));
+}
+
+void	test_direct_light_45_eye_45()
+{
+	t_tuple	pos = point(0, 0, 0);
+	t_tuple	eyev = vector(0, -sqrtf(2) / 2, -sqrtf(2) / 2);
+	t_tuple	normalv = vector(0, 0, -1);
+	t_light	l = light(point(0, 10, -10), fcolor(1, 1, 1), POINT);
+	t_phong_comp	c = {pos, eyev, normalv, l};
+
+	assert_fcolor(fcolor(1.6364, 1.6364, 1.6364), phong(g_default_mat, c));
+}
+
+void	test_direct_light_eye_behind()
+{
+	t_tuple	pos = point(0, 0, 0);
+	t_tuple	eyev = vector(0, 0, -1);
+	t_tuple	normalv = vector(0, 0, -1);
+	t_light	l = light(point(0, 0, 10), fcolor(1, 1, 1), POINT);
+	t_phong_comp	c = {pos, eyev, normalv, l};
+
+	assert_fcolor(fcolor(0.1, 0.1, 0.1), phong(g_default_mat, c));
+}
+
 int	test_rays()
 {
 	RUN_TEST(test_ray_creation);
@@ -273,5 +335,10 @@ int	test_rays()
 	RUN_TEST(test_translated_sphere_normal);
 	RUN_TEST(test_vector_reflect_45);
 	RUN_TEST(test_vector_reflect_slanted);
+	RUN_TEST(test_direct_light_eye);
+	RUN_TEST(test_direct_light_eye_45);
+	RUN_TEST(test_direct_light_45_eye);
+	RUN_TEST(test_direct_light_45_eye_45);
+	RUN_TEST(test_direct_light_eye_behind);
 	return 0;
 }

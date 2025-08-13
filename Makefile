@@ -76,6 +76,20 @@ TUPLE_SRC	=		multiplications.c \
 					creation.c \
 					ray_operations.c \
 
+# ===============MATHS/MATERIAL================= #
+
+SRC += $(addprefix $(MATERIAL_DIR), $(MATERIAL_SRC))
+
+MATERIAL_DIR	=	$(MATHS_DIR)material/
+MATERIAL_SRC	=	material.c \
+
+# ===============MATHS/LIGHTING================= #
+
+SRC += $(addprefix $(LIGHTING_DIR), $(LIGHTING_SRC))
+
+LIGHTING_DIR	=	$(MATHS_DIR)lighting/
+LIGHTING_SRC	=	phong.c \
+
 # ===============MATHS/RAY================= #
 
 SRC += $(addprefix $(RAY_DIR), $(RAY_SRC))

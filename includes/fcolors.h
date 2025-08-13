@@ -13,6 +13,8 @@
 #ifndef FCOLORS_H
 # define FCOLORS_H
 
+# include <stdint.h>
+
 typedef struct s_fcolor
 {
 	float	r;
@@ -25,5 +27,6 @@ t_fcolor	color_add(t_fcolor c1, t_fcolor c2);
 t_fcolor	color_sub(t_fcolor c1, t_fcolor c2);
 t_fcolor	color_scalar(t_fcolor c1, float k);
 t_fcolor	color_mul(t_fcolor c1, t_fcolor c2);
+uint32_t	fcolor_to_uint(t_fcolor col);
 
 #endif
