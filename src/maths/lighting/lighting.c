@@ -59,7 +59,10 @@ t_fcolor	color_at(t_world *w, t_ray r)
 	xs = world_intersec(w, r);
 	i = hit(&xs);
 	if (!i)
+	{
+		w->xs.count -= xs.count;
 		return (fcolor(0, 0, 0));
+	}
 	pc = pre_compute(i, r);
 	w->xs.count -= xs.count;
 	return (light_hit(w, &pc));

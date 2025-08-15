@@ -30,10 +30,12 @@ typedef struct s_ctx
 	t_window		win;
 	t_world			world;
 	int32_t			fd;
+	int				z;
 	uint8_t			random[2 * RAY_NBR];
 }	t_ctx;
 
 int8_t	init_gui(t_ctx *ctx);
 void	test_render(t_ctx * const ctx);
+void	keyevent(int keycode, void *p);
 
 #endif

@@ -41,6 +41,7 @@ int8_t	set_events(t_ctx *ctx)
 {
 	register_loop(ctx->win.events, main_loop, ctx);
 	register_destroy(ctx->win.events, end_main_loop, &ctx->win);
+	register_keypress(ctx->win.events, keyevent, ctx);
 	return (SUCCESS);
 }
 

@@ -21,6 +21,13 @@
 #include "colors.h"
 #include "neflibx.h"
 
+void	keyevent(int keycode, void *p)
+{
+	t_ctx	*const ctx = p;
+
+	ctx->z += 5;
+}
+
 void	test_render(t_ctx * const ctx)
 {
 	t_mtx4		buf;
@@ -36,9 +43,9 @@ void	test_render(t_ctx * const ctx)
 	set_transform(&s, mx_scaling(500, 200, 500, mx_shearing(g_arr2_0, g_arr2_0, g_arr2_0 , mx_rotation_z(M_PI_4, translation(0, 0, 2000, buf)))));
 	add_world_obj(&w, s);
 	s = sphere();
-	set_transform(&s, mx_scaling(500, 500, 500, mx_shearing(g_arr2_0, g_arr2_0, g_arr2_0 , mx_rotation_z(M_PI_4, translation(-500, 0, 2000, buf)))));
+	set_transform(&s, mx_scaling(500, 500, 500, mx_shearing(g_arr2_0, g_arr2_0, g_arr2_0 , mx_rotation_z(M_PI_4, translation(0, 0, 1100, buf)))));
 	add_world_obj(&w, s);
-	w.objs[1].mat.col = fcolor(2, 1, 2);
+	w.objs[1].mat.col = fcolor(1, 0.1, 1);
 
 	s.mat = g_default_mat;
 	s.mat.col = fcolor(1, 1, 1);
@@ -52,4 +59,5 @@ void	test_render(t_ctx * const ctx)
 		}
 	}
 	free_world(&w);
+	// end_loop(&ctx->win);
 }

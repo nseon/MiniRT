@@ -21,6 +21,7 @@ void	main_loop(void *p)
 		draw_file_status(ctx);
 	if (ctx->parsing)
 	{
+
 	}
 	put_img(&ctx->img, 0, 0, true);
 }
