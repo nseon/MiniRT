@@ -373,7 +373,7 @@ void	test_pre_compute_outside()
 	t_intersection	i = intersection(4, &o);
 	t_pre_compute	pc;
 
-	pc = pre_compute(i, r);
+	pc = pre_compute(&i, r);
 	TEST_ASSERT(pc.inside == false);
 }
 
@@ -384,7 +384,7 @@ void	test_pre_compute_inside()
 	t_intersection	i = intersection(1, &o);
 	t_pre_compute	pc;
 
-	pc = pre_compute(i, r);
+	pc = pre_compute(&i, r);
 	TEST_ASSERT(pc.inside == true);
 	TEST_ASSERT(tp_equal(point(0, 0, 1), pc.pos));
 	TEST_ASSERT(tp_equal(vector(0, 0, -1), pc.eyev));
@@ -400,7 +400,7 @@ void	test_light_hit()
 
 	default_world(&w);
 	i = intersection(4, w.objs);
-	pc = pre_compute(i, r);
+	pc = pre_compute(&i, r);
 	assert_fcolor(fcolor(0.38066, 0.47583, 0.2855), light_hit(&w, &pc));
 	free_world(&w);
 }
@@ -415,8 +415,40 @@ void	test_light_hit_inside()
 	default_world(&w);
 	w.lights[0] = light(point(0, 0.25, 0), fcolor(1, 1, 1), POINT);
 	i = intersection(0.5, w.objs + 1);
-	pc = pre_compute(i, r);
+	pc = pre_compute(&i, r);
 	assert_fcolor(fcolor(0.90498, 0.90498, 0.90498), light_hit(&w, &pc));
+	free_world(&w);
+}
+
+void	test_color_ray_miss()
+{
+	t_world	w;
+	t_ray	r = ray(point(0, 0, -5), vector(0, 1, 0));
+
+	default_world(&w);
+	assert_fcolor(fcolor(0, 0, 0), color_at(&w, r));
+	free_world(&w);
+}
+
+void	test_color_ray_hit()
+{
+	t_world	w;
+	t_ray	r = ray(point(0, 0, -5), vector(0, 0, 1));
+
+	default_world(&w);
+	assert_fcolor(fcolor(0.38066, 0.47583, 0.2855), color_at(&w, r));
+	free_world(&w);
+}
+
+void	test_color_ray_hit_behind()
+{
+	t_world	w;
+	t_ray	r = ray(point(0, 0, 0.75), vector(0, 0, -1));
+
+	default_world(&w);
+	w.objs[0].mat.ambient = 1;
+	w.objs[1].mat.ambient = 1;
+	assert_fcolor(w.objs[1].mat.col, color_at(&w, r));
 	free_world(&w);
 }
 
@@ -453,5 +485,8 @@ int	test_rays()
 	RUN_TEST(test_pre_compute_outside);
 	RUN_TEST(test_light_hit);
 	RUN_TEST(test_light_hit_inside);
+	RUN_TEST(test_color_ray_hit);
+	RUN_TEST(test_color_ray_hit_behind);
+	RUN_TEST(test_color_ray_miss);
 	return 0;
 }

@@ -17,12 +17,12 @@
 #include "ray.h"
 #include "lib/libft/src/vector/vector.h"
 
-t_pre_compute	pre_compute(t_intersection i, t_ray r)
+t_pre_compute	pre_compute(t_intersection *i, t_ray r)
 {
 	t_pre_compute	pc;
 
-	pc.t = i.t;
-	pc.obj = i.obj;
+	pc.t = i->t;
+	pc.obj = i->obj;
 	pc.pos = position(r, pc.t);
 	pc.eyev = tp_negate(r.dir);
 	pc.normalv = sphere_normal(pc.obj, pc.pos);
@@ -49,3 +49,19 @@ t_fcolor		light_hit(t_world *w, t_pre_compute *pc)
 	}
 	return (color);
 }
+
+t_fcolor	color_at(t_world *w, t_ray r)
+{
+	t_intersections	xs;
+	t_intersection	*i;
+	t_pre_compute	pc;
+
+	xs = world_intersec(w, r);
+	i = hit(&xs);
+	if (!i)
+		return (fcolor(0, 0, 0));
+	pc = pre_compute(i, r);
+	w->xs.count -= xs.count;
+	return (light_hit(w, &pc));
+}
+
