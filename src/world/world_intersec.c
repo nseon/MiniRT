@@ -27,3 +27,20 @@ void	realloc_wintersec(t_world *w)
 	free(w->xs.i);
 	create_wintersec(w);
 }
+
+t_intersections	world_intersec(t_world *w, t_ray r)
+{
+	t_intersections	inter;
+	size_t			i;
+
+	inter.count = 0;
+	inter.i = w->xs.i + w->xs.count;
+	i = -1;
+	while (++i < vct_size(w->objs))
+	{
+		intersect(r, w->objs + i, &inter);
+	}
+	sort_inter(inter);
+	w->xs.count += inter.count;
+	return (inter);
+}

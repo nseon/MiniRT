@@ -98,6 +98,7 @@ SRC += $(addprefix $(LIGHTING_DIR), $(LIGHTING_SRC))
 
 LIGHTING_DIR	=	$(MATHS_DIR)lighting/
 LIGHTING_SRC	=	phong.c \
+					lighting.c \
 
 # ===============MATHS/RAY================= #
 
@@ -141,6 +142,13 @@ SRC += $(addprefix $(PARSING_DIR), $(PARSING_SRC))
 PARSING_DIR =		parsing/
 PARSING_SRC =		parse.c \
 					parse_map.c \
+
+# ===============UTILS================ #
+
+SRC += $(addprefix $(UTILS_DIR), $(UTILS_SRC))
+
+UTILS_DIR =		utils/
+UTILS_SRC =		sort.c \
 
 # ===============PARSING/OBJECTS================ #
 

@@ -16,16 +16,21 @@
 # include "fcolors.h"
 # include "tuple.h"
 # include "objects.h"
+# include "ray.h"
+# include "world.h"
 
-typedef struct s_phong_comp
+typedef struct s_pre_compute
 {
+	t_obj	*obj;
+	float	t;
 	t_tuple	pos;
 	t_tuple	eyev;
 	t_tuple	normalv;
-	t_light	light;
-	t_tuple	lightv;
-}	t_phong_comp;
+	bool	inside;
+}	t_pre_compute;
 
-t_fcolor	phong(t_material m, t_phong_comp c);
+t_fcolor		phong(t_material m, t_light light, t_pre_compute *pc);
+t_pre_compute	pre_compute(t_intersection i, t_ray r);
+t_fcolor		light_hit(t_world *w, t_pre_compute *pc);
 
 #endif

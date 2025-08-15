@@ -1,0 +1,51 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lighting.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/15 15:24:02 by pjarnac           #+#    #+#             */
+/*   Updated: 2025/08/15 15:24:02 by pjarnac          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "lighting.h"
+
+#include <stddef.h>
+
+#include "ray.h"
+#include "lib/libft/src/vector/vector.h"
+
+t_pre_compute	pre_compute(t_intersection i, t_ray r)
+{
+	t_pre_compute	pc;
+
+	pc.t = i.t;
+	pc.obj = i.obj;
+	pc.pos = position(r, pc.t);
+	pc.eyev = tp_negate(r.dir);
+	pc.normalv = sphere_normal(pc.obj, pc.pos);
+	if (tp_dot(pc.normalv, pc.eyev) < 0)
+	{
+		pc.inside = true;
+		pc.normalv = tp_negate(pc.normalv);
+	}
+	else
+		pc.inside = false;
+	return (pc);
+}
+
+t_fcolor		light_hit(t_world *w, t_pre_compute *pc)
+{
+	t_fcolor	color;
+	size_t		i;
+
+	i = -1;
+	color = fcolor(0, 0, 0);
+	while (++i < vct_size(w->lights))
+	{
+		color = color_add(color, phong(pc->obj->mat, w->lights[i], pc));
+	}
+	return (color);
+}

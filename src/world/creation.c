@@ -52,7 +52,7 @@ int32_t	default_world(t_world *w)
 	t_obj	s;
 
 	res = world(w);
-	if (!res)
+	if (res != SUCCESS)
 		return (res);
 	vct_add(&w->lights, &(t_light){POINT, point(-10, 10, -10),
 		fcolor(1, 1, 1)});

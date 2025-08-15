@@ -14,6 +14,7 @@
 #include "../../includes/tuple.h"
 #include "../../includes/normals.h"
 #include "../../includes/fcolors.h"
+#include "../../includes/rt_maths.h"
 #include "../../includes/matrix.h"
 #include "../../includes/ray.h"
 #include "../../includes/objects.h"
@@ -25,6 +26,7 @@
 #include "../../includes/errors.h"
 #include "../../includes/fcolors.h"
 #include "../../includes/lighting.h"
+#include "../../includes/world.h"
 
 
 void	test_ray_creation()
@@ -287,9 +289,9 @@ void	test_vector_reflect_slanted()
 
 void	assert_fcolor(t_fcolor c1, t_fcolor c2)
 {
-	TEST_ASSERT_EQUAL_FLOAT_MESSAGE(c1.r, c2.r, "red composant is not equal");
-	TEST_ASSERT_EQUAL_FLOAT_MESSAGE(c1.g, c2.g, "green composant is not equal");
-	TEST_ASSERT_EQUAL_FLOAT_MESSAGE(c1.b, c2.b, "blue composant is not equal");
+	TEST_ASSERT_MESSAGE(f_equal(c1.r, c2.r), "red composant is not equal");
+	TEST_ASSERT_MESSAGE(f_equal(c1.g, c2.g), "green composant is not equal");
+	TEST_ASSERT_MESSAGE(f_equal(c1.b, c2.b), "blue composant is not equal");
 }
 
 void	test_direct_light_eye()
@@ -298,9 +300,9 @@ void	test_direct_light_eye()
 	t_tuple	eyev = vector(0, 0, -1);
 	t_tuple	normalv = vector(0, 0, -1);
 	t_light	l = light(point(0, 0, -10), fcolor(1, 1, 1), POINT);
-	t_phong_comp	c = {pos, eyev, normalv, l};
+	t_pre_compute	c = {0, 0, pos, eyev, normalv};
 
-	assert_fcolor(fcolor(1.9, 1.9, 1.9), phong(g_default_mat, c));
+	assert_fcolor(fcolor(1.9, 1.9, 1.9), phong(g_default_mat, l, &c));
 }
 
 void	test_direct_light_eye_45()
@@ -309,9 +311,9 @@ void	test_direct_light_eye_45()
 	t_tuple	eyev = vector(0, sqrtf(2) / 2, -sqrtf(2) / 2);
 	t_tuple	normalv = vector(0, 0, -1);
 	t_light	l = light(point(0, 0, -10), fcolor(1, 1, 1), POINT);
-	t_phong_comp	c = {pos, eyev, normalv, l};
+	t_pre_compute	c = {0, 0, pos, eyev, normalv};
 
-	assert_fcolor(fcolor(1.0, 1.0, 1.0), phong(g_default_mat, c));
+	assert_fcolor(fcolor(1.0, 1.0, 1.0), phong(g_default_mat, l, &c));
 }
 
 void	test_direct_light_45_eye()
@@ -320,9 +322,9 @@ void	test_direct_light_45_eye()
 	t_tuple	eyev = vector(0, 0, -1);
 	t_tuple	normalv = vector(0, 0, -1);
 	t_light	l = light(point(0, 10, -10), fcolor(1, 1, 1), POINT);
-	t_phong_comp	c = {pos, eyev, normalv, l};
+	t_pre_compute	c = {0, 0, pos, eyev, normalv};
 
-	assert_fcolor(fcolor(0.7364, 0.7364, 0.7364), phong(g_default_mat, c));
+	assert_fcolor(fcolor(0.7364, 0.7364, 0.7364), phong(g_default_mat, l, &c));
 }
 
 void	test_direct_light_45_eye_45()
@@ -331,9 +333,9 @@ void	test_direct_light_45_eye_45()
 	t_tuple	eyev = vector(0, -sqrtf(2) / 2, -sqrtf(2) / 2);
 	t_tuple	normalv = vector(0, 0, -1);
 	t_light	l = light(point(0, 10, -10), fcolor(1, 1, 1), POINT);
-	t_phong_comp	c = {pos, eyev, normalv, l};
+	t_pre_compute	c = {0, 0, pos, eyev, normalv};
 
-	assert_fcolor(fcolor(1.6364, 1.6364, 1.6364), phong(g_default_mat, c));
+	assert_fcolor(fcolor(1.6364, 1.6364, 1.6364), phong(g_default_mat, l, &c));
 }
 
 void	test_direct_light_eye_behind()
@@ -342,12 +344,81 @@ void	test_direct_light_eye_behind()
 	t_tuple	eyev = vector(0, 0, -1);
 	t_tuple	normalv = vector(0, 0, -1);
 	t_light	l = light(point(0, 0, 10), fcolor(1, 1, 1), POINT);
-	t_phong_comp	c = {pos, eyev, normalv, l};
+	t_pre_compute	c = {0, 0, pos, eyev, normalv};
 
-	assert_fcolor(fcolor(0.1, 0.1, 0.1), phong(g_default_mat, c));
+	assert_fcolor(fcolor(0.1, 0.1, 0.1), phong(g_default_mat, l, &c));
 }
 
+void	test_world_intersection()
+{
+	t_world			w;
+	t_ray			r = ray(point(0, 0, -5), vector(0, 0, 1));
+	t_intersections	xs;
 
+	default_world(&w);
+	xs = world_intersec(&w, r);
+	TEST_ASSERT_EQUAL_INT32(4, xs.count);
+	TEST_ASSERT_EQUAL_FLOAT(4, xs.i[0].t);
+	TEST_ASSERT_EQUAL_FLOAT(4.5, xs.i[1].t);
+	TEST_ASSERT_EQUAL_FLOAT(5.5, xs.i[2].t);
+	TEST_ASSERT_EQUAL_FLOAT(6, xs.i[3].t);
+	w.xs.count -= xs.count;
+	free_world(&w);
+}
+
+void	test_pre_compute_outside()
+{
+	t_ray	r = ray(point(0, 0, -5), vector(0, 0, 1));
+	t_obj	o = sphere();
+	t_intersection	i = intersection(4, &o);
+	t_pre_compute	pc;
+
+	pc = pre_compute(i, r);
+	TEST_ASSERT(pc.inside == false);
+}
+
+void	test_pre_compute_inside()
+{
+	t_ray			r = ray(point(0, 0, 0), vector(0, 0, 1));
+	t_obj			o = sphere();
+	t_intersection	i = intersection(1, &o);
+	t_pre_compute	pc;
+
+	pc = pre_compute(i, r);
+	TEST_ASSERT(pc.inside == true);
+	TEST_ASSERT(tp_equal(point(0, 0, 1), pc.pos));
+	TEST_ASSERT(tp_equal(vector(0, 0, -1), pc.eyev));
+	TEST_ASSERT(tp_equal(vector(0, 0, -1), pc.normalv));
+}
+
+void	test_light_hit()
+{
+	t_world	w;
+	t_ray	r = ray(point(0, 0, -5), vector(0, 0, 1));
+	t_intersection	i;
+	t_pre_compute	pc;
+
+	default_world(&w);
+	i = intersection(4, w.objs);
+	pc = pre_compute(i, r);
+	assert_fcolor(fcolor(0.38066, 0.47583, 0.2855), light_hit(&w, &pc));
+	free_world(&w);
+}
+
+void	test_light_hit_inside()
+{
+	t_world	w;
+	t_ray	r = ray(point(0, 0, 0), vector(0, 0, 1));
+	t_intersection	i;
+	t_pre_compute	pc;
+
+	default_world(&w);
+	w.lights[0] = light(point(0, 0.25, 0), fcolor(1, 1, 1), POINT);
+	i = intersection(0.5, w.objs + 1);
+	pc = pre_compute(i, r);
+	assert_fcolor(fcolor(0.90498, 0.90498, 0.90498), light_hit(&w, &pc));
+	free_world(&w);
+}
 
 int	test_rays()
 {
@@ -377,5 +448,10 @@ int	test_rays()
 	RUN_TEST(test_direct_light_45_eye);
 	RUN_TEST(test_direct_light_45_eye_45);
 	RUN_TEST(test_direct_light_eye_behind);
+	RUN_TEST(test_world_intersection);
+	RUN_TEST(test_pre_compute_inside);
+	RUN_TEST(test_pre_compute_outside);
+	RUN_TEST(test_light_hit);
+	RUN_TEST(test_light_hit_inside);
 	return 0;
 }
