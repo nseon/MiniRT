@@ -24,7 +24,7 @@ typedef struct s_world
 	bool				lights_off;
 }	t_world;
 
-void	create_wintersec(t_intersections *xs, int32_t count);
-void	realloc_wintersec(t_intersections *xs, int32_t count);
+void	create_wintersec(t_world *w);
+void	realloc_wintersec(t_world *w);
 
 #endif

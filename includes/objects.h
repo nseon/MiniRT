@@ -37,6 +37,7 @@ typedef struct s_light
 	t_light_type	type;
 	t_tuple			pos;
 	t_fcolor		i;
+	t_fcolor		col;
 }	t_light;
 
 typedef struct s_obj

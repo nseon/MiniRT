@@ -12,6 +12,7 @@
 
 #include <math.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "lighting.h"
 #include "minirt.h"
@@ -33,12 +34,13 @@ void	test_render(t_ctx * const ctx)
 	set_transform(&s, mx_scaling(500, 500, 500, mx_shearing(g_arr2_0, g_arr2_0, g_arr2_0 , mx_rotation_z(M_PI_4, translation(0, 0, 2000, buf)))));
 	s.mat = g_default_mat;
 	s.mat.col = fcolor(1, 1, 1);
+	xs.i = malloc (sizeof (t_intersection) * 2);
 	for (int y = 0; y < WIN_H; y++)
 	{
 		for (int x = 0; x < WIN_W; x++)
 		{
 			r = ray(point(0, 0, 0), tp_normalize(tp_sub(point(x - WIN_W / 2, y - WIN_H / 2, 800), point(0, 0, 0))));
-			xs = intersect(r, &s);
+			intersect(r, &s, &xs);
 			if (hit(&xs) != NULL)
 			{
 				c.pos = position(r, hit(&xs)->t);
@@ -50,6 +52,8 @@ void	test_render(t_ctx * const ctx)
 			}
 			else
 				put_pixel_img(&ctx->img, point_s(x, y, 0x000000));
+			xs.count = 0;
 		}
 	}
+	free(xs.i);
 }

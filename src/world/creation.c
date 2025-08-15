@@ -34,7 +34,7 @@ int32_t	world(t_world *w)
 		free_vct(w->objs);
 		return (FATAL);
 	}
-	create_wintersec(&w->xs, 0);
+	create_wintersec(w);
 	return (SUCCESS);
 }
 
@@ -42,7 +42,7 @@ int32_t	world(t_world *w)
 void	add_world_obj(t_world *w, t_obj obj)
 {
 	vct_add(&w->objs, &obj);
-	realloc_wintersec(&w->xs, w->xs.count + 2);
+	realloc_wintersec(w);
 }
 
 int32_t	default_world(t_world *w)

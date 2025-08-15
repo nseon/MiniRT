@@ -32,8 +32,8 @@ static int8_t	init(t_ctx *const ctx)
 		destroy_window(&ctx->win);
 		return (FATAL);
 	}
-	ctx->gctx.lights = vct_create(sizeof (t_light), 0, DESTROY_ON_FAIL);
-	ctx->gctx.objs = vct_create(sizeof (t_obj), 0, DESTROY_ON_FAIL);
+	ctx->world.lights = vct_create(sizeof (t_light), 0, DESTROY_ON_FAIL);
+	ctx->world.objs = vct_create(sizeof (t_obj), 0, DESTROY_ON_FAIL);
 	return (SUCCESS);
 }
 
@@ -62,7 +62,7 @@ int	main(int c, char **args)
 	loop(&ctx.win);
 	destroy_image(&ctx.img);
 	destroy_window(&ctx.win);
-	free_vct(ctx.gctx.lights);
-	free_vct(ctx.gctx.objs);
+	free_vct(ctx.world.lights);
+	free_vct(ctx.world.objs);
 	return (0);
 }

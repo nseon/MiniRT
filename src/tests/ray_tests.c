@@ -53,6 +53,7 @@ void	test_sphere_intersection_two_point()
 	t_obj		s = sphere();
 	t_intersections	inter;
 
+	inter.count = 0;
 	inter.i = malloc(sizeof (t_intersection) * 2);
 	intersect(r, &s, &inter);
 	TEST_ASSERT_EQUAL_INT32(2, inter.count);
@@ -68,6 +69,7 @@ void	test_sphere_intersection_tangent()
 	t_obj		s = sphere();
 	t_intersections	inter;
 
+	inter.count = 0;
 	inter.i = malloc(sizeof (t_intersection) * 2);
 	intersect(r, &s, &inter);
 	TEST_ASSERT_EQUAL_INT32(2, inter.count);
@@ -83,6 +85,7 @@ void	test_sphere_intersection_nothing()
 	t_obj		s = sphere();
 	t_intersections	inter;
 
+	inter.count = 0;
 	inter.i = malloc(sizeof (t_intersection) * 2);
 	intersect(r, &s, &inter);
 	TEST_ASSERT_EQUAL_INT32(0, inter.count);
@@ -96,6 +99,7 @@ void	test_sphere_intersection_inside()
 	t_obj		s = sphere();
 	t_intersections	inter;
 
+	inter.count = 0;
 	inter.i = malloc(sizeof (t_intersection) * 2);
 	intersect(r, &s, &inter);
 	TEST_ASSERT_EQUAL_INT32(2, inter.count);
@@ -111,6 +115,7 @@ void	test_sphere_intersection_after()
 	t_obj		s = sphere();
 	t_intersections	inter;
 
+	inter.count = 0;
 	inter.i = malloc(sizeof (t_intersection) * 2);
 	intersect(r, &s, &inter);
 	TEST_ASSERT_EQUAL_INT32(2, inter.count);
@@ -125,6 +130,7 @@ void	test_sphere_intersection_objects()
 	t_obj		s = sphere();
 	t_intersections	inter;
 
+	inter.count = 0;
 	inter.i = malloc(sizeof (t_intersection) * 2);
 	intersect(r, &s, &inter);
 	TEST_ASSERT_EQUAL_INT32(2, inter.count);
@@ -141,9 +147,11 @@ void	test_intersections_hit()
 	t_obj		s = sphere();
 	t_intersections	xs = {2};
 
+	xs.i = malloc(sizeof (t_intersection) * 2);
 	xs.i[0] = intersection(1, &s);
 	xs.i[1] = intersection(2, &s);
 	TEST_ASSERT_EQUAL_PTR(&xs.i[0], hit(&xs));
+	free(xs.i);
 }
 
 void	test_intersections_hit_negative()
@@ -151,9 +159,11 @@ void	test_intersections_hit_negative()
 	t_obj		s = sphere();
 	t_intersections	xs = {2};
 
+	xs.i = malloc(sizeof (t_intersection) * 2);
 	xs.i[0] = intersection(-1, &s);
 	xs.i[1] = intersection(2, &s);
 	TEST_ASSERT_EQUAL_PTR(&xs.i[1], hit(&xs));
+	free(xs.i);
 }
 
 void	test_intersections_hit_none()
@@ -161,9 +171,11 @@ void	test_intersections_hit_none()
 	t_obj		s = sphere();
 	t_intersections	xs = {2};
 
+	xs.i = malloc(sizeof (t_intersection) * 2);
 	xs.i[0] = intersection(-1, &s);
 	xs.i[1] = intersection(-2, &s);
 	TEST_ASSERT_EQUAL_PTR(NULL, hit(&xs));
+	free(xs.i);
 }
 
 void	test_ray_transform_translate()
@@ -209,11 +221,14 @@ void	test_scaled_sphere_intersection()
 	t_intersections	xs;
 	t_mtx4			transf;
 
+	xs.count = 0;
+	xs.i = malloc(sizeof (t_intersection) * 2);
 	set_transform(&s, scaling(2, 2, 2, transf));
-	xs = intersect(r, &s);
+	intersect(r, &s, &xs);
 	TEST_ASSERT_EQUAL_INT32(2, xs.count);
 	TEST_ASSERT_EQUAL_FLOAT(3, xs.i[0].t);
 	TEST_ASSERT_EQUAL_FLOAT(7, xs.i[1].t);
+	free(xs.i);
 }
 
 void	test_translated_sphere_intersection()
@@ -223,9 +238,12 @@ void	test_translated_sphere_intersection()
 	t_intersections	xs;
 	t_mtx4			transf;
 
+	xs.count = 0;
+	xs.i = malloc(sizeof (t_intersection) * 2);
 	set_transform(&s, translation(5, 0, 0, transf));
-	xs = intersect(r, &s);
+	intersect(r, &s, &xs);
 	TEST_ASSERT_EQUAL_INT32(0, xs.count);
+	free(xs.i);
 }
 
 void	test_sphere_normal()
