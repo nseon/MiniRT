@@ -43,7 +43,7 @@ void	test_render(t_ctx * const ctx)
 	set_transform(&s, mx_scaling(500, 200, 500, mx_shearing(g_arr2_0, g_arr2_0, g_arr2_0 , mx_rotation_z(M_PI_4, translation(0, 0, 2000, buf)))));
 	add_world_obj(&w, s);
 	s = sphere();
-	set_transform(&s, mx_scaling(500, 500, 500, mx_shearing(g_arr2_0, g_arr2_0, g_arr2_0 , mx_rotation_z(M_PI_4, translation(0, 0, 1100, buf)))));
+	set_transform(&s, mx_scaling(500, 500, 500, mx_shearing(g_arr2_0, g_arr2_0, g_arr2_0 , mx_rotation_z(M_PI_4, translation(0, 400, 1100, buf)))));
 	add_world_obj(&w, s);
 	w.objs[1].mat.col = fcolor(1, 0.1, 1);
 
@@ -53,7 +53,7 @@ void	test_render(t_ctx * const ctx)
 	{
 		for (int x = 0; x < WIN_W; x++)
 		{
-			r = ray(point(0, 0, 0), tp_normalize(tp_sub(point(x - WIN_W / 2, y - WIN_H / 2, 800), point(0, 0, 0))));
+			r = ray(point(0, 0, 0), tp_normalize(tp_sub(point(x - WIN_W / 2, - y + WIN_H / 2, 800), point(0, 0, 0))));
 			color = color_at(&w, r);
 			put_pixel_img(&ctx->img, point_s(x, y, fcolor_to_uint(color)));
 		}
