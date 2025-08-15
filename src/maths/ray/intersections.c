@@ -15,37 +15,34 @@
 
 #include "ray.h"
 #include "rt_maths.h"
+#include "lib/libft/src/vector/vector.h"
 
 t_intersection	intersection(float t, t_obj *obj)
 {
 	return ((t_intersection){t, obj});
 }
 
-t_intersections	intersect_calc(t_ray r, t_obj *o)
+void	intersect_calc(t_ray r, t_obj *o, t_intersections *xs)
 {
-	t_intersections	inter;
 	t_tuple const	d = tp_sub(r.origin, point(0, 0, 0));
 	float const		b = 2 * tp_dot(r.dir, d);
 	float const		a = tp_dot(r.dir, r.dir);
 	float const		dis = b * b - 4 * a * (tp_dot(d, d) - 1);
 
-	if (dis < 0)
-		inter.count = 0;
-	else
+	if (dis >= 0)
 	{
-		inter.count = 2;
-		inter.i[0] = intersection((- b - sqrtf(dis)) / (2 * a), o);
+		xs->i[xs->count] = intersection((- b - sqrtf(dis)) / (2 * a), o);
 		if (f_equal(0, dis))
-			inter.i[1] = inter.i[0];
+			xs->i[xs->count + 1] = xs->i[0];
 		else
-			inter.i[1] = intersection((- b + sqrtf(dis)) / (2 * a), o);
+			xs->i[xs->count + 1] = intersection((- b + sqrtf(dis)) / (2 * a), o);
+		xs->count += 2;
 	}
-	return (inter);
 }
 
-t_intersections	intersect(t_ray r, t_obj *o)
+void intersect(t_ray r, t_obj *o, t_intersections *xs)
 {
-	return (intersect_calc(ray_transform(r, o->inv_transform), o));
+	return (intersect_calc(ray_transform(r, o->inv_transform), o, xs));
 }
 
 t_intersection	*hit(t_intersections *inters)

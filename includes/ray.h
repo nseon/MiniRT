@@ -33,12 +33,12 @@ typedef struct s_intersection
 typedef struct s_intersections
 {
 	int32_t			count;
-	t_intersection	i[2];
+	t_intersection	*i;
 }	t_intersections;
 
 t_ray			ray(t_tuple origin, t_tuple direction);
 t_tuple			position(t_ray ray, float t);
-t_intersections	intersect(t_ray r, t_obj *o);
+void			intersect(t_ray r, t_obj *o, t_intersections *xs);
 t_intersection	intersection(float t, t_obj *obj);
 t_intersection	*hit(t_intersections *inters);
 // int32_t			free_intersections(t_intersections *inters);

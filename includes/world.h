@@ -20,8 +20,11 @@ typedef struct s_world
 {
 	t_obj				*objs;
 	t_light				*lights;
-	t_intersections	xs;
+	t_intersections		xs;
 	bool				lights_off;
 }	t_world;
+
+void	create_wintersec(t_intersections *xs, int32_t count);
+void	realloc_wintersec(t_intersections *xs, int32_t count);
 
 #endif

@@ -10,9 +10,18 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
+
 #include "errors.h"
 #include "neflibx.h"
 #include "world.h"
+
+void	free_world(t_world *w)
+{
+	free_vct(w->objs);
+	free_vct(w->lights);
+	free(w->xs.i);
+}
 
 int32_t	world(t_world *w)
 {
@@ -25,7 +34,15 @@ int32_t	world(t_world *w)
 		free_vct(w->objs);
 		return (FATAL);
 	}
+	create_wintersec(&w->xs, 0);
 	return (SUCCESS);
+}
+
+// Add more than 2 intersection if not a quadratic object
+void	add_world_obj(t_world *w, t_obj obj)
+{
+	vct_add(&w->objs, &obj);
+	realloc_wintersec(&w->xs, w->xs.count + 2);
 }
 
 int32_t	default_world(t_world *w)
@@ -43,9 +60,9 @@ int32_t	default_world(t_world *w)
 	s.mat.col = fcolor(0.8, 1, 0.6);
 	s.mat.diffuse = 0.7;
 	s.mat.specular = 0.2;
-	vct_add(&w->objs, &s);
+	add_world_obj(w, s);
 	s = sphere();
 	set_transform(&s, scaling(0.5, 0.5, 0.5, buf));
-	vct_add(&w->objs, &s);
+	add_world_obj(w, s);
 	return (res);
 }

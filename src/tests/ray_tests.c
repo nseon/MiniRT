@@ -53,10 +53,13 @@ void	test_sphere_intersection_two_point()
 	t_obj		s = sphere();
 	t_intersections	inter;
 
-	inter = intersect(r, &s);
+	inter.i = malloc(sizeof (t_intersection) * 2);
+	intersect(r, &s, &inter);
 	TEST_ASSERT_EQUAL_INT32(2, inter.count);
 	TEST_ASSERT_EQUAL_FLOAT(4, inter.i[0].t);
 	TEST_ASSERT_EQUAL_FLOAT(6, inter.i[1].t);
+	free(inter.i);
+
 }
 
 void	test_sphere_intersection_tangent()
@@ -65,10 +68,13 @@ void	test_sphere_intersection_tangent()
 	t_obj		s = sphere();
 	t_intersections	inter;
 
-	inter = intersect(r, &s);
+	inter.i = malloc(sizeof (t_intersection) * 2);
+	intersect(r, &s, &inter);
 	TEST_ASSERT_EQUAL_INT32(2, inter.count);
 	TEST_ASSERT_EQUAL_FLOAT(5, inter.i[0].t);
 	TEST_ASSERT_EQUAL_FLOAT(5, inter.i[1].t);
+	free(inter.i);
+
 }
 
 void	test_sphere_intersection_nothing()
@@ -77,8 +83,11 @@ void	test_sphere_intersection_nothing()
 	t_obj		s = sphere();
 	t_intersections	inter;
 
-	inter = intersect(r, &s);
+	inter.i = malloc(sizeof (t_intersection) * 2);
+	intersect(r, &s, &inter);
 	TEST_ASSERT_EQUAL_INT32(0, inter.count);
+	free(inter.i);
+
 }
 
 void	test_sphere_intersection_inside()
@@ -87,10 +96,13 @@ void	test_sphere_intersection_inside()
 	t_obj		s = sphere();
 	t_intersections	inter;
 
-	inter = intersect(r, &s);
+	inter.i = malloc(sizeof (t_intersection) * 2);
+	intersect(r, &s, &inter);
 	TEST_ASSERT_EQUAL_INT32(2, inter.count);
 	TEST_ASSERT_EQUAL_FLOAT(-1, inter.i[0].t);
 	TEST_ASSERT_EQUAL_FLOAT(1, inter.i[1].t);
+	free(inter.i);
+
 }
 
 void	test_sphere_intersection_after()
@@ -99,10 +111,12 @@ void	test_sphere_intersection_after()
 	t_obj		s = sphere();
 	t_intersections	inter;
 
-	inter = intersect(r, &s);
+	inter.i = malloc(sizeof (t_intersection) * 2);
+	intersect(r, &s, &inter);
 	TEST_ASSERT_EQUAL_INT32(2, inter.count);
 	TEST_ASSERT_EQUAL_FLOAT(-3, inter.i[0].t);
 	TEST_ASSERT_EQUAL_FLOAT(-1, inter.i[1].t);
+	free(inter.i);
 }
 
 void	test_sphere_intersection_objects()
@@ -111,12 +125,15 @@ void	test_sphere_intersection_objects()
 	t_obj		s = sphere();
 	t_intersections	inter;
 
-	inter = intersect(r, &s);
+	inter.i = malloc(sizeof (t_intersection) * 2);
+	intersect(r, &s, &inter);
 	TEST_ASSERT_EQUAL_INT32(2, inter.count);
 	TEST_ASSERT_EQUAL_FLOAT(4, inter.i[0].t);
 	TEST_ASSERT_EQUAL_FLOAT(6, inter.i[1].t);
 	TEST_ASSERT_EQUAL_PTR(&s, inter.i[0].obj);
 	TEST_ASSERT_EQUAL_PTR(&s, inter.i[1].obj);
+	free(inter.i);
+
 }
 
 void	test_intersections_hit()
