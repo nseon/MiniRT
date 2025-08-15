@@ -312,6 +312,8 @@ void	test_direct_light_eye_behind()
 	assert_fcolor(fcolor(0.1, 0.1, 0.1), phong(g_default_mat, c));
 }
 
+
+
 int	test_rays()
 {
 	RUN_TEST(test_ray_creation);

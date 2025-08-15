@@ -58,6 +58,15 @@ OBJECTS_SRC	=		objects_creation.c \
 					transform.c \
 					sphere.c \
 
+# ===============WORLD================= #
+
+SRC += $(addprefix $(WORLD_DIR), $(WORLD_SRC))
+
+WORLD_DIR	=		world/
+WORLD_SRC	=		creation.c \
+					world_intersec.c \
+
+
 # ===============MATHS================= #
 
 SRC += $(addprefix $(MATHS_DIR), $(MATHS_SRC))

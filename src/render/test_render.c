@@ -30,7 +30,7 @@ void	test_render(t_ctx * const ctx)
 	t_fcolor		color;
 
 	// set_transform(&s, mx_translation(0, 0, 20, scaling(11, 11, 11, buf)));
-	set_transform(&s, mx_scaling(500, 500, 500, mx_rotation_z(M_PI_4, translation(0, 0, 2000, buf))));
+	set_transform(&s, mx_scaling(500, 500, 500, mx_shearing(g_arr2_0, g_arr2_0, g_arr2_0 , mx_rotation_z(M_PI_4, translation(0, 0, 2000, buf)))));
 	s.mat = g_default_mat;
 	s.mat.col = fcolor(1, 1, 1);
 	for (int y = 0; y < WIN_H; y++)

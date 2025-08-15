@@ -64,20 +64,7 @@ typedef struct s_ren_calc
 	int32_t		s;
 }	t_ren_calc;
 
-typedef struct s_graphic_ctx
-{
-	t_camera	cam;
-	t_obj		*objs;
-	t_amb_light	amb_light;
-	t_light		*lights;
-	bool		lights_off;
-}	t_graphic_ctx;
 
-void	render(t_graphic_ctx *gctx, t_image *img);
-float	get_light(t_graphic_ctx *gctx, t_ren_calc ren);
-float	sphere_intersect(t_obj sphere, t_point3 origin, t_tuple d);
-uint32_t	trace_ray(t_graphic_ctx *gctx,
-					t_ren_calc       ren, uint8_t n);
 uint32_t	get_pixel_color(t_image *image, int x, int y);
 
 #endif

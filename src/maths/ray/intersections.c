@@ -43,12 +43,8 @@ t_intersections	intersect_calc(t_ray r, t_obj *o)
 	return (inter);
 }
 
-//TODO: Peut etre calculer linverse de la matrice a chaque fois que le transform de lobjet change plutot que a chaque rayon
-
 t_intersections	intersect(t_ray r, t_obj *o)
 {
-	t_mtx4	t;
-
 	return (intersect_calc(ray_transform(r, o->inv_transform), o));
 }
 
