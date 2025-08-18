@@ -29,23 +29,6 @@
 # define RAY_NUM 2
 # define RAY_NBR 100000
 
-
-
-typedef struct s_vieuport
-{
-	float	vw;
-	float	vh;
-	float	d;
-}	t_vieuport;
-
-typedef struct s_camera
-{
-	t_point3	pos;
-	t_tuple		orient;
-	float		fov;
-	t_vieuport	vp;
-}	t_camera;
-
 typedef struct s_amb_light
 {
 	float	i;

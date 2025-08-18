@@ -57,6 +57,7 @@ OBJECTS_DIR	=		objects/
 OBJECTS_SRC	=		objects_creation.c \
 					transform.c \
 					sphere.c \
+					camera.c \
 
 # ===============WORLD================= #
 
@@ -134,6 +135,7 @@ MATRIX_SRC	=		creation.c \
 					equality.c \
 					determinant.c \
 					minor_cofactor.c \
+					view.c \
 
 # ===============PARSING================ #
 
@@ -248,7 +250,7 @@ else ifeq ($(MODE), test)
 	LDFLAGS += -fsanitize=address -fno-omit-frame-pointer
 	SRC := $(filter-out $(NAME).c, $(SRC))
 	SRC += $(NAME)_test.c tests/ray_tests.c
-	TEST = ~/unity/unity.c
+	TEST = /sgoinfre/pjarnac/public/unit_tests/Unity/src/unity.c
 else ifneq ($(MODE),)
 	ERROR = MODE
 endif

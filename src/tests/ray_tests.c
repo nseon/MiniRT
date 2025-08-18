@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "/home/pjarnac/unity/unity.h"
+#include "/sgoinfre/pjarnac/public/unit_tests/Unity/src/unity.h"
 #include "../../includes/tuple.h"
 #include "../../includes/normals.h"
 #include "../../includes/fcolors.h"
@@ -452,6 +452,61 @@ void	test_color_ray_hit_behind()
 	free_world(&w);
 }
 
+void	test_mtx_view()
+{
+	t_mtx4	buf;
+
+	mtx4_view(point(0, 0, 0), point(0, 0, -1), vector(0, 1, 0), buf);
+	TEST_ASSERT(mtx4_equal(g_identity_matrix, buf));
+}
+
+void	test_mtx_view_back()
+{
+	t_mtx4	buf;
+	t_mtx4	buf2;
+
+	mtx4_view(point(0, 0, 0), point(0, 0, 1), vector(0, 1, 0), buf);
+	scaling(-1, 1, -1, buf2);
+	TEST_ASSERT(mtx4_equal(buf2, buf));
+}
+
+void	test_mtx_view_move()
+{
+	t_mtx4	buf;
+	t_mtx4	buf2;
+
+	mtx4_view(point(0, 0, 8), point(0, 0, 0), vector(0, 1, 0), buf);
+	TEST_ASSERT(mtx4_equal(translation(0, 0, -8, buf2), buf));
+}
+
+void	test_mtx_view_arbitraty()
+{
+	t_mtx4	buf;
+	t_mtx4	buf2 = {
+		{-0.50709, 0.50709, 0.67612, -2.36643},
+		{0.76772, 0.60609, 0.12122, -2.82843},
+		{-0.35857, 0.59761, -0.71714, 0.00000},
+		{0, 0, 0, 1}
+	};
+
+	mtx4_view(point(1, 3, 2), point(4, -2, 8), vector(1, 1, 0), buf);
+	TEST_ASSERT(mtx4_equal(buf2, buf));
+}
+
+void	test_pixel_size_calculation_h()
+{
+	t_camera	cam = camera(200, 125, M_PI_2);
+
+	TEST_ASSERT_EQUAL_FLOAT(0.01, cam.pixel_size);
+}
+
+void	test_pixel_size_calculation_v()
+{
+	t_camera	cam = camera(125, 200, M_PI_2);
+
+	TEST_ASSERT_EQUAL_FLOAT(0.01, cam.pixel_size);
+}
+
 int	test_rays()
 {
 	RUN_TEST(test_ray_creation);
@@ -488,5 +543,11 @@ int	test_rays()
 	RUN_TEST(test_color_ray_hit);
 	RUN_TEST(test_color_ray_hit_behind);
 	RUN_TEST(test_color_ray_miss);
+	RUN_TEST(test_mtx_view);
+	RUN_TEST(test_mtx_view_back);
+	RUN_TEST(test_mtx_view_move);
+	RUN_TEST(test_mtx_view_arbitraty);
+	RUN_TEST(test_pixel_size_calculation_h);
+	RUN_TEST(test_pixel_size_calculation_v);
 	return 0;
 }

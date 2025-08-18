@@ -87,4 +87,6 @@ t_tuple		tp_shearing(float const x[2], float const y[2], float const z[2],
 t_mtx4_ret	mx_shearing(float const x[2], float const y[2], float const z[2],
 							t_mtx4 res);
 
+t_mtx4_ret	mtx4_view(t_tuple from, t_tuple to, t_tuple up, t_mtx4 res);
+
 #endif

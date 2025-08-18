@@ -55,8 +55,20 @@ typedef struct s_obj
 	float		h; // deprecated
 }	t_obj;
 
-t_obj	sphere(void);
-void	set_transform(t_obj *o, t_mtx4 transf);
-t_light	light(t_tuple pos, t_fcolor intensity, t_light_type type);
+typedef struct s_camera
+{
+	float	hsize;
+	float	vsize;
+	float	fov;
+	float	pixel_size;
+	float	half_height;
+	float	half_width;
+	t_mtx4	transform;
+}	t_camera;
+
+t_camera	camera(float hsize, float vsize, float fov);
+t_obj		sphere(void);
+void		set_transform(t_obj *o, t_mtx4 transf);
+t_light		light(t_tuple pos, t_fcolor intensity, t_light_type type);
 
 #endif

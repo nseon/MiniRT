@@ -1,0 +1,39 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   camera.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/18 14:56:34 by pjarnac           #+#    #+#             */
+/*   Updated: 2025/08/18 14:56:34 by pjarnac          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <math.h>
+
+#include "objects.h"
+
+t_camera	camera(float hsize, float vsize, float fov)
+{
+	t_camera	cam;
+	float const	half = tanf(fov / 2);
+	float const	aspect = hsize / vsize;
+
+	cam.hsize = hsize;
+	cam.vsize = vsize;
+	cam.fov = fov;
+	mtx4_dup(g_identity_matrix, cam.transform);
+	if (aspect >= 1)
+	{
+		cam.half_width = half;
+		cam.half_height = half / aspect;
+	}
+	else
+	{
+		cam.half_width = half * aspect;
+		cam.half_height = half;
+	}
+	cam.pixel_size = cam.half_width * 2 / cam.hsize;
+	return (cam);
+}
