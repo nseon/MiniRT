@@ -25,11 +25,4 @@
 
 # include "render.h"
 
-void	debug_ambi_light(t_amb_light o);
-void	debug_light(t_light o);
-void	debug_camera(t_camera o);
-void	debug_sphere(t_obj o);
-void	debug_plane(t_obj o);
-void	debug_cylinder(t_obj o);
-
 #endif

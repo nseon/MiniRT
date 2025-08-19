@@ -20,7 +20,12 @@ static double	dabs(double n)
 	return (-n);
 }
 
-bool	f_equal(double a, double b)
+bool	d_equal(double a, double b)
 {
-	return (dabs(a - b) < EPSILON);
+	return (dabs(a - b) < DEPSILON);
+}
+
+bool	f_equal(float a, float b)
+{
+	return (fabs(a - b) < EPSILON);
 }

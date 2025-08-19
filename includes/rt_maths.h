@@ -13,10 +13,12 @@
 #ifndef RT_MATHS_H
 # define RT_MATHS_H
 
-# define EPSILON 0.00001
+# define EPSILON 0.0001
+# define DEPSILON 0.00001
 
 # include <stdbool.h>
 
-bool	f_equal(double a, double b);
+bool	d_equal(double a, double b);
+bool	f_equal(float a, float b);
 
 #endif

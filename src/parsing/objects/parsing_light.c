@@ -17,31 +17,21 @@
 #include "debug.h"
 #include "parsing.h"
 
-void	debug_light(t_light o)
-{
-	printf(BOLD "Light" RESET "\n{\n");
-	printf("\tColor: " COLOR "\n", o.col.r * 255 + o.col.g * 255
-		+ o.col.b * 255, o.col.r * 255, o.col.g * 255, o.col.b * 255);
-	printf("\tIntensity: %4.2f\n", o.i);
-	printf("\tPosition: " POS "\n", o.pos.x, o.pos.y, o.pos.z);
-	printf("}\n\n");
-}
-
 int32_t	parse_light(char **split, t_light *light)
 {
 	int32_t	res;
+	double	i;
 
 	res = parse_xyz(split[0], &light->pos);
 	if (res != SUCCESS)
 		return (res);
-	res = parse_double(split[1], &light->i);
+	res = parse_double(split[1], &i);
 	if (res != SUCCESS)
 		return (res);
-	res = parse_color(split[2], &light->col);
+	res = parse_color(split[2], &light->i);
 	if (res != SUCCESS)
 		return (res);
+	light->i = color_scalar(light->i, i);
 	light->type = POINT;
-	if (DEBUG)
-		debug_light(*light);
 	return (res);
 }

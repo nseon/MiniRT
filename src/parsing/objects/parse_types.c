@@ -75,7 +75,28 @@ int32_t	parse_xyz(char *str, t_tuple *tp)
 		return (ft_fprintf(2, PARSE_INVAL_XYZ_MSG, buf));
 	str++;
 	tp->z = ft_atof_ptr(&str);
-	tp->w = 0;
+	tp->w = 1;
+	return (SUCCESS);
+}
+
+int32_t	parse_trans(char *str, t_obj *o)
+{
+	char *const	buf = str;
+	t_mtx4		tbuf;
+	t_tuple		tp;
+
+	if (!str)
+		return (ft_fprintf(STDERR_FILENO, PARSE_MISSING_XYZ));
+	tp.x = ft_atof_ptr(&str);
+	if (*str != ',')
+		return (ft_fprintf(2, PARSE_INVAL_XYZ_MSG, buf));
+	str++;
+	tp.y = ft_atof_ptr(&str);
+	if (*str != ',')
+		return (ft_fprintf(2, PARSE_INVAL_XYZ_MSG, buf));
+	str++;
+	tp.z = ft_atof_ptr(&str);
+	mul_transform(o, translation(tp.x, tp.y, tp.z, tbuf));
 	return (SUCCESS);
 }
 
@@ -84,6 +105,7 @@ int32_t	parse_normal(char *str, t_tuple *vct)
 	int32_t	res;
 
 	res = parse_xyz(str, vct);
+	vct->w = 0;
 	if (res != SUCCESS)
 		return (res);
 	if (f_equal(tp_magnitude(*vct), 1.0f))

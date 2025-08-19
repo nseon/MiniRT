@@ -54,6 +54,8 @@ int32_t	default_world(t_world *w)
 	res = world(w);
 	if (res != SUCCESS)
 		return (res);
+	w->ambient.i = 0.1;
+	w->ambient.col = fcolor(1, 1, 1);
 	vct_add(&w->lights, &(t_light){POINT, point(-10, 10, -10),
 		fcolor(1, 1, 1)});
 	s = sphere();

@@ -38,23 +38,23 @@ static int8_t	is_element(char const *const str)
 	return (PARSE_INVAL_TYPE);
 }
 
-static int8_t	dispatch_element(char **split, t_world *world)
+static int8_t	dispatch_element(char **split, t_gctx * const gctx)
 {
 	int32_t	res;
 
 	res = 0;
-	// if (ft_strcmp(split[0], P_AMBI_LIGHT) == 0)
-	// 	res = parse_ambi_light(split + 1, &world->amb_light);
-	// else if (ft_strcmp(split[0], P_CAMERA) == 0)
-	// 	res = parse_camera(split + 1, &world->cam);
+	if (ft_strcmp(split[0], P_AMBI_LIGHT) == 0)
+		res = parse_ambi_light(split + 1, &gctx->w.ambient);
+	else if (ft_strcmp(split[0], P_CAMERA) == 0)
+		res = parse_camera(split + 1, &gctx->cam);
 	if (ft_strcmp(split[0], P_PT_LIGHT) == 0)
-		res = parse_light(split + 1, vct_add_dest(&world->lights));
+		res = parse_light(split + 1, vct_add_dest(&gctx->w.lights));
 	else if (ft_strcmp(split[0], P_SPHERE) == 0)
-		res = parse_sphere(split + 1, vct_add_dest(&world->objs));
-	else if (ft_strcmp(split[0], P_CYLINDER) == 0)
-		res = parse_cylinder(split + 1, vct_add_dest(&world->objs));
-	else if (ft_strcmp(split[0], P_PLANE) == 0)
-		res = parse_plane(split + 1, vct_add_dest(&world->objs));
+		res = parse_sphere(split + 1, &gctx->w);
+	// else if (ft_strcmp(split[0], P_CYLINDER) == 0)
+	// 	res = parse_cylinder(split + 1, vct_add_dest(&gctx->w.objs));
+	// else if (ft_strcmp(split[0], P_PLANE) == 0)
+	// 	res = parse_plane(split + 1, vct_add_dest(&gctx->w.objs));
 	return (res);
 }
 
@@ -70,7 +70,7 @@ static int8_t	parse_line(t_ctx *const ctx, char **split,
 	if (res != 0)
 		return (res);
 	vct_add(elms, split[0]);
-	res = dispatch_element(split, &ctx->world);
+	res = dispatch_element(split, &ctx->gctx);
 	if (res != 0)
 		ft_fprintf(2, "\t" PARSE_LINE_SPEC, line_n);
 	return (res);
@@ -127,6 +127,6 @@ int32_t	parse_map(t_ctx *const ctx)
 	close(ctx->file);
 	ctx->file = 0;
 	get_next_line(-2);
-	res = check_elms(elms);
+	res += check_elms(elms);
 	return (res);
 }

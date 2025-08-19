@@ -16,12 +16,12 @@
 # include <stdbool.h>
 # include "tuple.h"
 
-typedef double			t_mtx4[4][4];
-typedef double			(*t_mtx4_ret)[4];
-typedef double			t_mtx3[3][3];
-typedef double			(*t_mtx3_ret)[3];
-typedef double			t_mtx2[2][2];
-typedef double			(*t_mtx2_ret)[2];
+typedef float			t_mtx4[4][4];
+typedef float			(*t_mtx4_ret)[4];
+typedef float			t_mtx3[3][3];
+typedef float			(*t_mtx3_ret)[3];
+typedef float			t_mtx2[2][2];
+typedef float			(*t_mtx2_ret)[2];
 
 extern const t_mtx4		g_identity_matrix;
 extern const double		g_arr2_0[2];

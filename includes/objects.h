@@ -13,16 +13,17 @@
 #ifndef OBJECTS_H
 # define OBJECTS_H
 
-#include "colors.h"
+# include "colors.h"
 # include "fcolors.h"
-#include "materials.h"
+# include "materials.h"
 # include "tuple.h"
 # include "matrix.h"
 
 typedef enum e_light_type
 {
 	POINT,
-	DIR
+	DIR,
+	AMB
 }	t_light_type;
 
 typedef enum e_obj_type
@@ -37,22 +38,15 @@ typedef struct s_light
 	t_light_type	type;
 	t_tuple			pos;
 	t_fcolor		i;
-	t_fcolor		col;
 }	t_light;
 
 typedef struct s_obj
 {
 	t_obj_type	type;
 	uint32_t	uid;
-	t_tuple		pos; // deprecated
-	t_tuple		ori; // deprecated
 	t_mtx4		transform;
 	t_mtx4		inv_transform;
 	t_material	mat;
-	t_fcolor	col; // deprecated
-	double		w; // deprecated
-	double		l; // deprecated
-	double		h; // deprecated
 }	t_obj;
 
 typedef struct s_camera

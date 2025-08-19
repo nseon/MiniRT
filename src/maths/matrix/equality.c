@@ -44,7 +44,7 @@ bool	mtx3_equal(t_mtx3 const m1, t_mtx3 const m2)
 		j = 0;
 		while (j < 3)
 		{
-			if (!f_equal(m1[i][j], m2[i][j]))
+			if (!d_equal(m1[i][j], m2[i][j]))
 				return (false);
 			++j;
 		}
@@ -64,7 +64,7 @@ bool	mtx2_equal(t_mtx2 const m1, t_mtx2 const m2)
 		j = 0;
 		while (j < 2)
 		{
-			if (!f_equal(m1[i][j], m2[i][j]))
+			if (!d_equal(m1[i][j], m2[i][j]))
 				return (false);
 			++j;
 		}

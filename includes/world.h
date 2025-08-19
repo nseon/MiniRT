@@ -16,12 +16,18 @@
 # include "objects.h"
 # include "ray.h"
 
+typedef struct s_amb
+{
+	double		i;
+	t_fcolor	col;
+}	t_amb;
+
 typedef struct s_world
 {
 	t_obj				*objs;
 	t_light				*lights;
 	t_intersections		xs;
-	bool				lights_off;
+	t_amb				ambient;
 }	t_world;
 
 void			sort_inter(t_intersections xs);

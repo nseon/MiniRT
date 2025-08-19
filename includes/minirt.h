@@ -15,23 +15,28 @@
 
 # include "neflibx.h"
 # include "render.h"
-#include "world.h"
+# include "world.h"
 
 # define WIN_W 1080
 # define WIN_H 600
 
+typedef struct s_gctx
+{
+	t_world		w;
+	t_camera	cam;
+}	t_gctx;
+
 typedef struct s_ctx
 {
+	t_window		win;
 	t_image			img;
-	bool			render;
-	bool			parsing;
+	t_gctx			gctx;
 	int32_t			error;
 	int32_t			file;
-	t_window		win;
-	t_world			world;
 	int32_t			fd;
-	int				z;
 	uint8_t			random[2 * RAY_NBR];
+	bool parsing;
+	bool render;
 }	t_ctx;
 
 int8_t	init_gui(t_ctx *ctx);

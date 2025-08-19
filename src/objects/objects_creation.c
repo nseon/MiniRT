@@ -24,8 +24,7 @@ t_obj	sphere(void)
 {
 	t_obj	o;
 
-	o = (t_obj){.type = SPHERE, .uid = get_uid(), .pos = point(0, 0, 0),
-		.w = 1, .mat = g_default_mat};
+	o = (t_obj){.type = SPHERE, .uid = get_uid(), .mat = g_default_mat};
 	mtx4_dup(g_identity_matrix, o.transform);
 	mtx4_dup(g_identity_matrix, o.inv_transform);
 	return (o);

@@ -39,8 +39,8 @@ t_tuple	tp_sub(t_tuple tp1, t_tuple tp2)
 
 bool	tp_equal(t_tuple tp1, t_tuple tp2)
 {
-	if (f_equal(tp1.x, tp2.x) && f_equal(tp1.y, tp2.y)
-		&& f_equal(tp1.z, tp2.z) && tp1.w == tp2.w)
+	if (d_equal(tp1.x, tp2.x) && d_equal(tp1.y, tp2.y)
+		&& d_equal(tp1.z, tp2.z) && tp1.w == tp2.w)
 		return (true);
 	return (false);
 }

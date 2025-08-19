@@ -290,9 +290,9 @@ void	test_vector_reflect_slanted()
 
 void	assert_fcolor(t_fcolor c1, t_fcolor c2)
 {
-	TEST_ASSERT_MESSAGE(f_equal(c1.r, c2.r), "red composant is not equal");
-	TEST_ASSERT_MESSAGE(f_equal(c1.g, c2.g), "green composant is not equal");
-	TEST_ASSERT_MESSAGE(f_equal(c1.b, c2.b), "blue composant is not equal");
+	TEST_ASSERT_MESSAGE(d_equal(c1.r, c2.r), "red composant is not equal");
+	TEST_ASSERT_MESSAGE(d_equal(c1.g, c2.g), "green composant is not equal");
+	TEST_ASSERT_MESSAGE(d_equal(c1.b, c2.b), "blue composant is not equal");
 }
 
 void	test_direct_light_eye()
@@ -303,7 +303,7 @@ void	test_direct_light_eye()
 	t_light	l = light(point(0, 0, -10), fcolor(1, 1, 1), POINT);
 	t_pre_compute	c = {0, 0, pos, eyev, normalv};
 
-	assert_fcolor(fcolor(1.9, 1.9, 1.9), phong(g_default_mat, l, &c));
+	assert_fcolor(fcolor(1.9 - 0.1, 1.9 - 0.1, 1.9 - 0.1), phong(g_default_mat, l, &c));
 }
 
 void	test_direct_light_eye_45()
@@ -314,7 +314,7 @@ void	test_direct_light_eye_45()
 	t_light	l = light(point(0, 0, -10), fcolor(1, 1, 1), POINT);
 	t_pre_compute	c = {0, 0, pos, eyev, normalv};
 
-	assert_fcolor(fcolor(1.0, 1.0, 1.0), phong(g_default_mat, l, &c));
+	assert_fcolor(fcolor(1.0 - 0.1, 1.0 - 0.1, 1.0 - 0.1), phong(g_default_mat, l, &c));
 }
 
 void	test_direct_light_45_eye()
@@ -325,7 +325,7 @@ void	test_direct_light_45_eye()
 	t_light	l = light(point(0, 10, -10), fcolor(1, 1, 1), POINT);
 	t_pre_compute	c = {0, 0, pos, eyev, normalv};
 
-	assert_fcolor(fcolor(0.7364, 0.7364, 0.7364), phong(g_default_mat, l, &c));
+	assert_fcolor(fcolor(0.7364 - 0.1, 0.7364 - 0.1, 0.7364 - 0.1), phong(g_default_mat, l, &c));
 }
 
 void	test_direct_light_45_eye_45()
@@ -336,7 +336,7 @@ void	test_direct_light_45_eye_45()
 	t_light	l = light(point(0, 10, -10), fcolor(1, 1, 1), POINT);
 	t_pre_compute	c = {0, 0, pos, eyev, normalv};
 
-	assert_fcolor(fcolor(1.6364, 1.6364, 1.6364), phong(g_default_mat, l, &c));
+	assert_fcolor(fcolor(1.6364 - 0.1, 1.6364 - 0.1, 1.6364 - 0.1), phong(g_default_mat, l, &c));
 }
 
 void	test_direct_light_eye_behind()
@@ -347,7 +347,7 @@ void	test_direct_light_eye_behind()
 	t_light	l = light(point(0, 0, 10), fcolor(1, 1, 1), POINT);
 	t_pre_compute	c = {0, 0, pos, eyev, normalv};
 
-	assert_fcolor(fcolor(0.1, 0.1, 0.1), phong(g_default_mat, l, &c));
+	assert_fcolor(fcolor(0.1 - 0.1, 0.1 - 0.1, 0.1 - 0.1), phong(g_default_mat, l, &c));
 }
 
 void	test_world_intersection()
@@ -447,8 +447,8 @@ void	test_color_ray_hit_behind()
 	t_ray	r = ray(point(0, 0, 0.75), vector(0, 0, -1));
 
 	default_world(&w);
-	w.objs[0].mat.ambient = 1;
-	w.objs[1].mat.ambient = 1;
+	w.ambient.i = 1;
+	w.ambient.col = fcolor(1, 1, 1);
 	assert_fcolor(w.objs[1].mat.col, color_at(&w, r));
 	free_world(&w);
 }

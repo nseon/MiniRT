@@ -19,7 +19,6 @@ typedef struct s_material
 {
 	t_fcolor	col;
 	double		diffuse;
-	double		ambient;
 	double		specular;
 	double		shine;
 }	t_material;

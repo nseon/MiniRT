@@ -33,6 +33,5 @@ t_fcolor	phong(t_material m, t_light light, t_pre_compute *pc)
 			specular = color_scalar(light.i, m.specular
 				* powf(reflect_dot_eye, m.shine));
 	}
-	return (color_add(color_add(color_scalar(eff_color, m.ambient),
-		diffuse), specular));
+	return (color_add(diffuse, specular));
 }

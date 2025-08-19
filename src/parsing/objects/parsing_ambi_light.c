@@ -17,26 +17,15 @@
 #include "debug.h"
 #include "parsing.h"
 
-void	debug_ambi_light(t_amb_light o)
-{
-	printf(BOLD "Ambient Light" RESET "\n{\n");
-	printf("\tColor: " COLOR "\n", o.col.r * 255 + o.col.g * 255
-		+ o.col.b * 255, o.col.r * 255, o.col.g * 255, o.col.b * 255);
-	printf("\tIntensity: %4.2f\n", o.i);
-	printf("}\n\n");
-}
-
-int32_t	parse_ambi_light(char **split, t_amb_light *amb_light)
+int32_t	parse_ambi_light(char **split, t_amb *amb)
 {
 	int32_t	res;
 
-	res = parse_double(split[0], &amb_light->i);
+	res = parse_double(split[0], &amb->i);
 	if (res != SUCCESS)
 		return (res);
-	res = parse_color(split[1], &amb_light->col);
+	res = parse_color(split[1], &amb->col);
 	if (res != SUCCESS)
 		return (res);
-	if (DEBUG)
-		debug_ambi_light(*amb_light);
 	return (res);
 }

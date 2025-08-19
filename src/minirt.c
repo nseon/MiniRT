@@ -32,8 +32,7 @@ static int8_t	init(t_ctx *const ctx)
 		destroy_window(&ctx->win);
 		return (FATAL);
 	}
-	ctx->world.lights = vct_create(sizeof (t_light), 0, DESTROY_ON_FAIL);
-	ctx->world.objs = vct_create(sizeof (t_obj), 0, DESTROY_ON_FAIL);
+	world(&ctx->gctx.w);
 	return (SUCCESS);
 }
 
@@ -41,7 +40,6 @@ int8_t	set_events(t_ctx *ctx)
 {
 	register_loop(ctx->win.events, main_loop, ctx);
 	register_destroy(ctx->win.events, end_main_loop, &ctx->win);
-	register_keypress(ctx->win.events, keyevent, ctx);
 	return (SUCCESS);
 }
 
@@ -63,7 +61,6 @@ int	main(int c, char **args)
 	loop(&ctx.win);
 	destroy_image(&ctx.img);
 	destroy_window(&ctx.win);
-	free_vct(ctx.world.lights);
-	free_vct(ctx.world.objs);
+	free_world(&ctx.gctx.w);
 	return (0);
 }

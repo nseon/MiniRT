@@ -43,7 +43,7 @@ t_fcolor		light_hit(t_world *w, t_pre_compute *pc)
 	size_t		i;
 
 	i = -1;
-	color = fcolor(0, 0, 0);
+	color = color_scalar(color_mul(pc->obj->mat.col, w->ambient.col), w->ambient.i);
 	while (++i < vct_size(w->lights))
 	{
 		color = color_add(color, phong(pc->obj->mat, w->lights[i], pc));

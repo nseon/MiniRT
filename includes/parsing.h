@@ -53,12 +53,13 @@ void	draw_file_status(t_ctx *ctx);
 int32_t	parse_color(char *str, t_fcolor *color);
 int32_t	parse_double(char *str, double *f);
 int32_t	parse_xyz(char *str, t_tuple *tp);
+int32_t	parse_trans(char *str, t_obj *o);
 int32_t	parse_normal(char *str, t_tuple *vct);
 
-int32_t	parse_ambi_light(char **split, t_amb_light *amb_light);
-int32_t	parse_camera(char **split, t_camera *camera);
+int32_t	parse_ambi_light(char **split, t_amb *amb_light);
+int32_t	parse_camera(char **split, t_camera *cam);
 int32_t	parse_light(char **split, t_light *light);
-int32_t	parse_sphere(char **split, t_obj *obj);
+int32_t	parse_sphere(char **split, t_world *w);
 int32_t	parse_plane(char **split, t_obj *obj);
 int32_t	parse_cylinder(char **split, t_obj *obj);
 

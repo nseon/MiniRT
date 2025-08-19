@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <math.h>
 #include <stdio.h>
 #include <unistd.h>
 
@@ -17,35 +18,27 @@
 #include "debug.h"
 #include "errors.h"
 
-void	debug_camera(t_camera o)
-{
-	printf(BOLD "Camera" RESET "\n{\n");
-	printf("\tFOV: %4.2f\n", o.fov);
-	printf("}\n\n");
-}
-
-int32_t	parse_camera(char **split, t_camera *camera)
+int32_t	parse_camera(char **split, t_camera *cam)
 {
 	int32_t	res;
+	t_tuple	from;
+	t_tuple	to;
+	double	fov;
+	t_mtx4	buf;
 
-	// res = parse_xyz(split[0], &camera->pos);
-	// if (res != SUCCESS)
-	// 	return (res);
-	// res = parse_normal(split[1], &camera->orient);
-	// if (res != SUCCESS)
-	// 	return (res);
-	// res = parse_double(split[2], &camera->fov);
-	// if (res != SUCCESS)
-	// 	return (res);
-	if (camera->fov > 180 || camera->fov < 0)
-	{
-		ft_fprintf(STDERR_FILENO, PARSE_INVAL_FOV, (int)camera->fov);
+	res = parse_xyz(split[0], &from);
+	if (res != SUCCESS)
+		return (res);
+	res = parse_normal(split[1], &to);
+	to.w = 1;
+	if (res != SUCCESS)
+		return (res);
+	res = parse_double(split[2], &fov);
+	if (res != SUCCESS)
+		return (res);
+	if (fov > 180 || fov < 0)
 		return (PARSE_INVAL_LINE);
-	}
-	// camera->vp.d = 1200;
-	// camera->vp.vw = WIN_W;
-	// camera->vp.vh = WIN_H;
-	if (DEBUG)
-		debug_camera(*camera);
+	*cam = camera(WIN_W, WIN_H, fov * M_PI / 180);
+	set_cam_transform(cam, mtx4_view(from, to, vector(0, 1, 0), buf));
 	return (res);
 }
