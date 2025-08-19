@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 18:36:00 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/08/08 21:50:38 by nseon            ###   ########.fr       */
+/*   Updated: 2025/08/19 15:54:17 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ uint32_t	trace_ray(t_graphic_ctx *gctx,
 {
 	float				t_min;
 	struct s_obj const	closest_sphere = get_sphere(gctx, ren.o, ren.d, &t_min);
-	t_vec3				refl_dir;
 	uint32_t			color_bounce;
 
 	if (closest_sphere.w == 0)
@@ -91,16 +90,13 @@ uint32_t	trace_ray(t_graphic_ctx *gctx,
 	// 	return (colorx(closest_sphere.col.argb, get_light(gctx, ren)));
 	// refl_dir = v3_sub(v3_multiply(v3_multiply(ren.n, 2),
 	// 			v3_dotproduct(ren.n, v3_multiply(ren.d, -1))), v3_multiply(ren.d, -1));
-	if (gctx->global_il)
+	if (gctx->global_il || n == RAY_NUM)
 		return (colorx(closest_sphere.col.argb, get_light(gctx, ren)));
-	refl_dir = random_bounce(random, ren.n);
 	ren.o = ren.p;
-	ren.d = refl_dir;
-	if (n == RAY_NUM + 1)
-		return (BACKGROUND_COLOR);
+	ren.d = random_bounce(random, ren.n);
 	color_bounce = trace_ray(gctx, ren, n + 1, random);
 	if (color_bounce == BACKGROUND_COLOR)
 		return (colorx(closest_sphere.col.argb, get_light(gctx, ren)));
-	return (colorp(colorx(colorx(closest_sphere.col.argb, get_light(gctx, ren)), 0.5)
-		, colorx(color_bounce, 0.5)));
+	return (colorp(colorx(colorx(closest_sphere.col.argb, get_light(gctx, ren)), 0.4)
+		, colorx(color_bounce, 0.6)));
 }
