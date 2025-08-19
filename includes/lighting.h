@@ -22,7 +22,7 @@
 typedef struct s_pre_compute
 {
 	t_obj	*obj;
-	float	t;
+	double	t;
 	t_tuple	pos;
 	t_tuple	eyev;
 	t_tuple	normalv;

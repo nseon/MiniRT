@@ -34,7 +34,7 @@ int32_t	parse_camera(char **split, t_camera *camera)
 	// res = parse_normal(split[1], &camera->orient);
 	// if (res != SUCCESS)
 	// 	return (res);
-	// res = parse_float(split[2], &camera->fov);
+	// res = parse_double(split[2], &camera->fov);
 	// if (res != SUCCESS)
 	// 	return (res);
 	if (camera->fov > 180 || camera->fov < 0)

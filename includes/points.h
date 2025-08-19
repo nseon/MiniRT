@@ -15,15 +15,15 @@
 
 typedef struct s_point2
 {
-	float	x;
-	float	y;
+	double	x;
+	double	y;
 }	t_point2;
 
 typedef struct s_point3
 {
-	float	x;
-	float	y;
-	float	z;
+	double	x;
+	double	y;
+	double	z;
 }	t_point3;
 
 #endif

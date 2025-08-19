@@ -15,7 +15,7 @@
 #include "rt_maths.h"
 #include "tuple.h"
 
-float	tp_magnitude(t_tuple tp)
+double	tp_magnitude(t_tuple tp)
 {
 	return (sqrtf(tp.x * tp.x + tp.y * tp.y + tp.z * tp.z + tp.w * tp.w));
 }

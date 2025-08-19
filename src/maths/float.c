@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   float.c                                            :+:      :+:    :+:   */
+/*   double.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -13,7 +13,14 @@
 #include <math.h>
 #include "rt_maths.h"
 
-bool	f_equal(float a, float b)
+static double	dabs(double n)
 {
-	return (fabs(a - b) < EPSILON);
+	if (n > 0)
+		return (n);
+	return (-n);
+}
+
+bool	f_equal(double a, double b)
+{
+	return (dabs(a - b) < EPSILON);
 }

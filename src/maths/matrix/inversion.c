@@ -21,7 +21,7 @@ bool	mtx4_invertible(t_mtx4 const m)
 
 int32_t	mtx4_inverse(t_mtx4 const m, t_mtx4 res)
 {
-	float const	det = mtx4_determinant(m);
+	double const	det = mtx4_determinant(m);
 
 	if (!mtx4_invertible(m))
 		return (FATAL);
@@ -46,7 +46,7 @@ int32_t	mtx4_inverse(t_mtx4 const m, t_mtx4 res)
 
 t_mtx4_ret	mtx4_inverse2(t_mtx4 const m, t_mtx4 res)
 {
-	float const	det = mtx4_determinant(m);
+	double const	det = mtx4_determinant(m);
 
 	if (!mtx4_invertible(m))
 		return (mtx4_dup(m, res));
@@ -71,7 +71,7 @@ t_mtx4_ret	mtx4_inverse2(t_mtx4 const m, t_mtx4 res)
 
 t_mtx4_ret	mtx4_inverse3(t_mtx4 m)
 {
-	float const	det = mtx4_determinant(m);
+	double const	det = mtx4_determinant(m);
 	t_mtx4		m_dup;
 
 	if (!mtx4_invertible(m))

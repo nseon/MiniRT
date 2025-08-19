@@ -41,11 +41,11 @@ int32_t	parse_cylinder(char **split, t_obj *obj)
 	res = parse_normal(split[1], &obj->ori);
 	if (res != SUCCESS)
 		return (res);
-	res = parse_float(split[2], &obj->w);
+	res = parse_double(split[2], &obj->w);
 	if (res != SUCCESS)
 		return (res);
 	obj->w /= 2;
-	res = parse_float(split[3], &obj->h);
+	res = parse_double(split[3], &obj->h);
 	if (res != SUCCESS)
 		return (res);
 	res = parse_color(split[4], &obj->col);

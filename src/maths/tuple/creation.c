@@ -12,12 +12,12 @@
 
 #include "tuple.h"
 
-t_tuple	point(float x, float y, float z)
+t_tuple	point(double x, double y, double z)
 {
 	return ((t_tuple){x, y, z, 1});
 }
 
-t_tuple	vector(float x, float y, float z)
+t_tuple	vector(double x, double y, double z)
 {
 	return ((t_tuple){x, y, z, 0});
 }

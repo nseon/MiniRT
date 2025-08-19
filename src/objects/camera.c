@@ -14,11 +14,11 @@
 
 #include "objects.h"
 
-t_camera	camera(float hsize, float vsize, float fov)
+t_camera	camera(double hsize, double vsize, double fov)
 {
 	t_camera	cam;
-	float const	half = tanf(fov / 2);
-	float const	aspect = hsize / vsize;
+	double const	half = tan(fov / 2);
+	double const	aspect = hsize / vsize;
 
 	cam.hsize = hsize;
 	cam.vsize = vsize;

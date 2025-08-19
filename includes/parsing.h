@@ -51,7 +51,7 @@ int32_t	parse_map(t_ctx *ctx);
 void	draw_file_status(t_ctx *ctx);
 
 int32_t	parse_color(char *str, t_fcolor *color);
-int32_t	parse_float(char *str, float *f);
+int32_t	parse_double(char *str, double *f);
 int32_t	parse_xyz(char *str, t_tuple *tp);
 int32_t	parse_normal(char *str, t_tuple *vct);
 

@@ -12,7 +12,7 @@
 
 #include "matrix.h"
 
-float	mtx3_minor(t_mtx3 const m, int row, int col)
+double	mtx3_minor(t_mtx3 const m, int row, int col)
 {
 	t_mtx2	sub;
 
@@ -20,16 +20,16 @@ float	mtx3_minor(t_mtx3 const m, int row, int col)
 	return (mtx2_determinant(sub));
 }
 
-float	mtx3_cofactor(t_mtx3 const m, int row, int col)
+double	mtx3_cofactor(t_mtx3 const m, int row, int col)
 {
-	float const	minor = mtx3_minor(m, row, col);
+	double const	minor = mtx3_minor(m, row, col);
 
 	if ((row + col) % 2 == 1)
 		return (-minor);
 	return (minor);
 }
 
-float	mtx4_minor(t_mtx4 const m, int row, int col)
+double	mtx4_minor(t_mtx4 const m, int row, int col)
 {
 	t_mtx3	sub;
 
@@ -37,9 +37,9 @@ float	mtx4_minor(t_mtx4 const m, int row, int col)
 	return (mtx3_determinant(sub));
 }
 
-float	mtx4_cofactor(t_mtx4 const m, int row, int col)
+double	mtx4_cofactor(t_mtx4 const m, int row, int col)
 {
-	float const	minor = mtx4_minor(m, row, col);
+	double const	minor = mtx4_minor(m, row, col);
 
 	if ((row + col) % 2 == 1)
 		return (-minor);

@@ -40,7 +40,7 @@ int32_t	parse_sphere(char **split, t_obj *obj)
 		return (res);
 	obj->pos = (t_tuple){0, 0, 0, 1};
 	mx_translation(obj->pos.x, obj->pos.y, obj->pos.z, obj->transform);
-	res = parse_float(split[1], &obj->w);
+	res = parse_double(split[1], &obj->w);
 	if (res != SUCCESS)
 		return (res);
 	obj->w /= 2;

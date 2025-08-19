@@ -50,24 +50,24 @@ typedef struct s_obj
 	t_mtx4		inv_transform;
 	t_material	mat;
 	t_fcolor	col; // deprecated
-	float		w; // deprecated
-	float		l; // deprecated
-	float		h; // deprecated
+	double		w; // deprecated
+	double		l; // deprecated
+	double		h; // deprecated
 }	t_obj;
 
 typedef struct s_camera
 {
-	float	hsize;
-	float	vsize;
-	float	fov;
-	float	pixel_size;
-	float	half_height;
-	float	half_width;
+	double	hsize;
+	double	vsize;
+	double	fov;
+	double	pixel_size;
+	double	half_height;
+	double	half_width;
 	t_mtx4	transform;
 	t_mtx4	inverse;
 }	t_camera;
 
-t_camera	camera(float hsize, float vsize, float fov);
+t_camera	camera(double hsize, double vsize, double fov);
 t_obj		sphere(void);
 void		mul_transform(t_obj *o, t_mtx4 transf);
 void		set_transform(t_obj *o, t_mtx4 transf);

@@ -34,7 +34,7 @@ int32_t	parse_light(char **split, t_light *light)
 	res = parse_xyz(split[0], &light->pos);
 	if (res != SUCCESS)
 		return (res);
-	res = parse_float(split[1], &light->i);
+	res = parse_double(split[1], &light->i);
 	if (res != SUCCESS)
 		return (res);
 	res = parse_color(split[2], &light->col);

@@ -740,17 +740,17 @@ void	test_shearing()
 	t_mtx4	transf;
 	t_tuple pt = point(2, 3, 4);
 
-	shearing((float[2]){1, 0}, g_arr2_0, g_arr2_0, transf);
+	shearing((double[2]){1, 0}, g_arr2_0, g_arr2_0, transf);
 	TEST_ASSERT(tp_equal(point(5, 3, 4), mtx_tup_mul(pt, transf)));
-	shearing((float[2]){0, 1}, g_arr2_0, g_arr2_0, transf);
+	shearing((double[2]){0, 1}, g_arr2_0, g_arr2_0, transf);
 	TEST_ASSERT(tp_equal(point(6, 3, 4), mtx_tup_mul(pt, transf)));
-	shearing(g_arr2_0, (float[2]){1, 0}, g_arr2_0, transf);
+	shearing(g_arr2_0, (double[2]){1, 0}, g_arr2_0, transf);
 	TEST_ASSERT(tp_equal(point(2, 5, 4), mtx_tup_mul(pt, transf)));
-	shearing(g_arr2_0, (float[2]){0, 1}, g_arr2_0, transf);
+	shearing(g_arr2_0, (double[2]){0, 1}, g_arr2_0, transf);
 	TEST_ASSERT(tp_equal(point(2, 7, 4), mtx_tup_mul(pt, transf)));
-	shearing(g_arr2_0, g_arr2_0, (float[2]){1, 0}, transf);
+	shearing(g_arr2_0, g_arr2_0, (double[2]){1, 0}, transf);
 	TEST_ASSERT(tp_equal(point(2, 3, 6), mtx_tup_mul(pt, transf)));
-	shearing(g_arr2_0, g_arr2_0, (float[2]){0, 1}, transf);
+	shearing(g_arr2_0, g_arr2_0, (double[2]){0, 1}, transf);
 	TEST_ASSERT(tp_equal(point(2, 3, 7), mtx_tup_mul(pt, transf)));
 }
 

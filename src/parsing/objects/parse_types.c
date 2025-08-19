@@ -20,7 +20,7 @@
 #include "rt_maths.h"
 #include "tuple.h"
 
-int32_t	parse_float(char *str, float *f)
+int32_t	parse_double(char *str, double *f)
 {
 	if (!str)
 	{

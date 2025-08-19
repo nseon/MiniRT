@@ -18,10 +18,10 @@
 typedef struct s_material
 {
 	t_fcolor	col;
-	float		diffuse;
-	float		ambient;
-	float		specular;
-	float		shine;
+	double		diffuse;
+	double		ambient;
+	double		specular;
+	double		shine;
 }	t_material;
 
 extern t_material const	g_default_mat;

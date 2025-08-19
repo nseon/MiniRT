@@ -12,7 +12,7 @@
 
 #include "tuple.h"
 
-t_tuple	tp_mul(t_tuple tp, float k)
+t_tuple	tp_mul(t_tuple tp, double k)
 {
 	return ((t_tuple){tp.x * k, tp.y * k, tp.z * k, tp.w * k});
 }
@@ -22,7 +22,7 @@ t_tuple	tp_normalize(t_tuple tp)
 	return (tp_mul(tp, 1 / tp_magnitude(tp)));
 }
 
-float	tp_dot(t_tuple p1, t_tuple p2)
+double	tp_dot(t_tuple p1, t_tuple p2)
 {
 	return (p1.x * p2.x + p1.y * p2.y + p1.z * p2.z + p1.w * p2.w);
 }

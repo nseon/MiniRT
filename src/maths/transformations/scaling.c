@@ -12,7 +12,7 @@
 
 #include "matrix.h"
 
-t_mtx4_ret	scaling(float x, float y, float z, t_mtx4 res)
+t_mtx4_ret	scaling(double x, double y, double z, t_mtx4 res)
 {
 	mtx4_dup(g_identity_matrix, res);
 	res[0][0] = x;
@@ -21,14 +21,14 @@ t_mtx4_ret	scaling(float x, float y, float z, t_mtx4 res)
 	return (res);
 }
 
-t_tuple		tp_scaling(float x, float y, float z, t_tuple tp)
+t_tuple		tp_scaling(double x, double y, double z, t_tuple tp)
 {
 	t_mtx4	rot;
 
 	return (mtx_tup_mul(tp, scaling(x, y, z, rot)));
 }
 
-t_mtx4_ret	mx_scaling(float x, float y, float z, t_mtx4 res)
+t_mtx4_ret	mx_scaling(double x, double y, double z, t_mtx4 res)
 {
 	t_mtx4	buf;
 

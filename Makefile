@@ -242,7 +242,7 @@ else ifeq ($(MODE), fsanitize)
 else ifeq ($(MODE), optimize)
 	CFLAGS += -O3
 else ifeq ($(MODE), full-optimize)
-	CFLAGS += -Ofast
+	CFLAGS = -Ofast
 else ifeq ($(MODE), bonus)
 	CFLAGS += -Ofast
 	CPPFLAGS += -DBONUS

@@ -17,15 +17,15 @@
 
 typedef struct s_vec2
 {
-	float	x;
-	float	y;
+	double	x;
+	double	y;
 }	t_vec2;
 
-float	v2_magnitude(t_vec2 vec);
+double	v2_magnitude(t_vec2 vec);
 t_vec2	get_vec2(t_point2 pt1, t_point2 pt2);
 t_vec2	v2_add(t_point2 pt1, t_point2 pt2);
-t_vec2	v2_multiply(t_vec2 vec, float k);
+t_vec2	v2_multiply(t_vec2 vec, double k);
 t_vec2	v2_normalize(t_vec2 vec);
-float	v2_dotproduct(t_vec2 v1, t_vec2 v2);
+double	v2_dotproduct(t_vec2 v1, t_vec2 v2);
 
 #endif

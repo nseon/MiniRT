@@ -30,7 +30,7 @@ int32_t	parse_ambi_light(char **split, t_amb_light *amb_light)
 {
 	int32_t	res;
 
-	res = parse_float(split[0], &amb_light->i);
+	res = parse_double(split[0], &amb_light->i);
 	if (res != SUCCESS)
 		return (res);
 	res = parse_color(split[1], &amb_light->col);

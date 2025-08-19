@@ -18,23 +18,23 @@
 
 typedef struct s_tuple
 {
-	float	x;
-	float	y;
-	float	z;
-	float	w;
+	double	x;
+	double	y;
+	double	z;
+	double	w;
 }	t_tuple;
 
-t_tuple	vector(float x, float y, float z);
-t_tuple	point(float x, float y, float z);
+t_tuple	vector(double x, double y, double z);
+t_tuple	point(double x, double y, double z);
 bool	tp_equal(t_tuple tp1, t_tuple tp2);
 
-float	tp_magnitude(t_tuple tp);
+double	tp_magnitude(t_tuple tp);
 t_tuple	tp_add(t_tuple tp1, t_tuple tp2);
 t_tuple	tp_sub(t_tuple tp1, t_tuple tp2);
 t_tuple	tp_negate(t_tuple tp);
-t_tuple	tp_mul(t_tuple tp, float k);
+t_tuple	tp_mul(t_tuple tp, double k);
 t_tuple	tp_normalize(t_tuple tp);
-float	tp_dot(t_tuple tp1, t_tuple tp2);
+double	tp_dot(t_tuple tp1, t_tuple tp2);
 t_tuple	tp_cross(t_tuple tp1, t_tuple tp2);
 t_tuple	reflect(t_tuple in, t_tuple normal);
 

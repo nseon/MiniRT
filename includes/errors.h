@@ -22,7 +22,7 @@
 # define PARSE_LINE_SPEC "on line: %d\n"
 
 # define PARSE_MISSING_FIELD -5
-# define PARSE_MISSING_FLOAT "missing float field\n"
+# define PARSE_MISSING_FLOAT "missing double field\n"
 # define PARSE_MISSING_COLOR "missing color field\n"
 # define PARSE_MISSING_XYZ "missing xyz coordinates field\n"
 # define PARSE_MISSING_VCT "missing normal vector field\n"

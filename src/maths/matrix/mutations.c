@@ -14,7 +14,7 @@
 
 void	mtx_transpose(t_mtx4 m)
 {
-	float	buf;
+	double	buf;
 
 	buf = m[0][1];
 	m[0][1] = m[1][0];

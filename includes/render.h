@@ -32,7 +32,7 @@
 
 typedef struct s_amb_light
 {
-	float	i;
+	double	i;
 	t_fcolor	col;
 }	t_amb_light;
 
