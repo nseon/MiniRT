@@ -62,7 +62,7 @@ int32_t	default_world(t_world *w)
 	s.mat.specular = 0.2;
 	add_world_obj(w, s);
 	s = sphere();
-	set_transform(&s, scaling(0.5, 0.5, 0.5, buf));
+	mul_transform(&s, scaling(0.5, 0.5, 0.5, buf));
 	add_world_obj(w, s);
 	return (res);
 }

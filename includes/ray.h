@@ -16,7 +16,6 @@
 # include "tuple.h"
 # include "objects.h"
 # include "matrix.h"
-# include "normals.h"
 
 typedef struct s_ray
 {
@@ -37,11 +36,11 @@ typedef struct s_intersections
 }	t_intersections;
 
 t_ray			ray(t_tuple origin, t_tuple direction);
+t_ray			ray_for_pixel(t_camera cam, float x, float y);
 t_tuple			position(t_ray ray, float t);
 void			intersect(t_ray r, t_obj *o, t_intersections *xs);
 t_intersection	intersection(float t, t_obj *obj);
 t_intersection	*hit(t_intersections *inters);
-// int32_t			free_intersections(t_intersections *inters);
 
 t_ray			ray_transform(t_ray r, t_mtx4 m);
 

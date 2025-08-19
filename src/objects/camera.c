@@ -24,6 +24,7 @@ t_camera	camera(float hsize, float vsize, float fov)
 	cam.vsize = vsize;
 	cam.fov = fov;
 	mtx4_dup(g_identity_matrix, cam.transform);
+	mtx4_dup(g_identity_matrix, cam.inverse);
 	if (aspect >= 1)
 	{
 		cam.half_width = half;
@@ -36,4 +37,16 @@ t_camera	camera(float hsize, float vsize, float fov)
 	}
 	cam.pixel_size = cam.half_width * 2 / cam.hsize;
 	return (cam);
+}
+
+void	set_cam_transform(t_camera *cam, t_mtx4 transf)
+{
+	mtx4_dup(transf, cam->transform);
+	mtx4_inverse2(cam->transform, cam->inverse);
+}
+
+void	mul_cam_transform(t_camera *cam, t_mtx4 transf)
+{
+	mtx_mul2(cam->transform, transf);
+	mtx4_inverse2(cam->transform, cam->inverse);
 }

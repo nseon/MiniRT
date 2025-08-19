@@ -26,6 +26,7 @@
 #include "../../includes/errors.h"
 #include "../../includes/fcolors.h"
 #include "../../includes/lighting.h"
+#include "../../includes/render.h"
 #include "../../includes/world.h"
 
 
@@ -212,7 +213,7 @@ void	test_obj_transform()
 
 	TEST_ASSERT(mtx4_equal(g_identity_matrix, s1.transform));
 	translation(1, 2, 3, transf);
-	set_transform(&s2, transf);
+	mul_transform(&s2, transf);
 	TEST_ASSERT(mtx4_equal(transf, s2.transform));
 }
 
@@ -225,7 +226,7 @@ void	test_scaled_sphere_intersection()
 
 	xs.count = 0;
 	xs.i = malloc(sizeof (t_intersection) * 2);
-	set_transform(&s, scaling(2, 2, 2, transf));
+	mul_transform(&s, scaling(2, 2, 2, transf));
 	intersect(r, &s, &xs);
 	TEST_ASSERT_EQUAL_INT32(2, xs.count);
 	TEST_ASSERT_EQUAL_FLOAT(3, xs.i[0].t);
@@ -242,7 +243,7 @@ void	test_translated_sphere_intersection()
 
 	xs.count = 0;
 	xs.i = malloc(sizeof (t_intersection) * 2);
-	set_transform(&s, translation(5, 0, 0, transf));
+	mul_transform(&s, translation(5, 0, 0, transf));
 	intersect(r, &s, &xs);
 	TEST_ASSERT_EQUAL_INT32(0, xs.count);
 	free(xs.i);
@@ -270,10 +271,10 @@ void	test_translated_sphere_normal()
 	t_obj	s = sphere();
 	t_mtx4	buf;
 
-	set_transform(&s, translation(0, 1, 0, buf));
+	mul_transform(&s, translation(0, 1, 0, buf));
 	TEST_ASSERT(tp_equal(vector(0, 0.70711, -0.70711), sphere_normal(&s, point(0, 1.70711, -0.70711))));
 	s = sphere();
-	set_transform(&s, mx_rotation_z(M_PI / 5, scaling(1, 0.5, 1, buf)));
+	mul_transform(&s, mx_rotation_z(M_PI / 5, scaling(1, 0.5, 1, buf)));
 	TEST_ASSERT(tp_equal(vector(0, 0.97014, -0.24254), sphere_normal(&s, point(0, sqrtf(2) / 2, -sqrtf(2) / 2))));
 }
 
@@ -507,6 +508,57 @@ void	test_pixel_size_calculation_v()
 	TEST_ASSERT_EQUAL_FLOAT(0.01, cam.pixel_size);
 }
 
+void	test_pixel_ray_center()
+{
+	t_camera cam = camera(201, 101, M_PI_2);
+	t_ray	ray = ray_for_pixel(cam, 100, 50);
+
+	TEST_ASSERT(tp_equal(point(0, 0, 0), ray.origin));
+	TEST_ASSERT(tp_equal(vector(0, 0, -1), ray.dir));
+}
+
+void	test_pixel_ray_corner()
+{
+	t_camera cam = camera(201, 101, M_PI_2);
+	t_ray	ray = ray_for_pixel(cam, 0, 0);
+
+	TEST_ASSERT(tp_equal(point(0, 0, 0), ray.origin));
+	TEST_ASSERT(tp_equal(vector(0.66519, 0.33259, -0.66851), ray.dir));
+}
+
+void	test_pixel_ray_cam_trans()
+{
+	t_camera cam = camera(201, 101, M_PI_2);
+	t_ray	ray;
+	t_mtx4	buf;
+
+	set_cam_transform(&cam, mx_translation(0, -2, 5, rotation_y(M_PI_4, buf)));
+	ray = ray_for_pixel(cam, 100, 50);
+	TEST_ASSERT(tp_equal(point(0, 2, -5), ray.origin));
+	TEST_ASSERT(tp_equal(vector(sqrtf(2) / 2, 0, -sqrtf(2) / 2), ray.dir));
+}
+
+void	test_render_at()
+{
+	t_image		img;
+	t_window	win;
+	t_world		w;
+	t_camera	cam;
+	t_mtx4		view;
+
+	init_window(&win, 11, 11, "unit test");
+	create_image(&img, 11, 11, &win);
+	default_world(&w);
+	cam = camera(11, 11, M_PI_2);
+	mtx4_view(point(0, 0, -5), point(0, 0, 0), vector(0, 1, 0), view);
+	set_cam_transform(&cam, view);
+	render(&img, cam, &w);
+	assert_fcolor(fcolor(0.38066, 0.47583, 0.2855), color_at(&w, ray_for_pixel(cam, 5, 5)));
+	destroy_image(&img);
+	destroy_window(&win);
+	free_world(&w);
+}
+
 int	test_rays()
 {
 	RUN_TEST(test_ray_creation);
@@ -549,5 +601,9 @@ int	test_rays()
 	RUN_TEST(test_mtx_view_arbitraty);
 	RUN_TEST(test_pixel_size_calculation_h);
 	RUN_TEST(test_pixel_size_calculation_v);
+	RUN_TEST(test_pixel_ray_center);
+	RUN_TEST(test_pixel_ray_corner);
+	RUN_TEST(test_pixel_ray_cam_trans);
+	RUN_TEST(test_render_at);
 	return 0;
 }

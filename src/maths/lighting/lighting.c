@@ -16,6 +16,7 @@
 
 #include "ray.h"
 #include "lib/libft/src/vector/vector.h"
+#include "normals.h"
 
 t_pre_compute	pre_compute(t_intersection *i, t_ray r)
 {

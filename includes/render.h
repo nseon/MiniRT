@@ -22,6 +22,7 @@
 # include "neflibx.h"
 # include "fcolors.h"
 # include "matrix.h"
+#include "world.h"
 
 # define T_MAX 3.402823466e+38
 # define T_MIN 0.01
@@ -49,5 +50,6 @@ typedef struct s_ren_calc
 
 
 uint32_t	get_pixel_color(t_image *image, int x, int y);
+t_image		*render(t_image *img, t_camera cam, t_world *world);
 
 #endif

@@ -1,26 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   transform.c                                        :+:      :+:    :+:   */
+/*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/08 20:11:24 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/08/08 20:11:24 by pjarnac          ###   ########.fr       */
+/*   Created: 2025/08/19 12:51:14 by pjarnac           #+#    #+#             */
+/*   Updated: 2025/08/19 12:51:14 by pjarnac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "objects.h"
+#include "ray.h"
+#include "render.h"
 
-void	mul_transform(t_obj *o, t_mtx4 transf)
+#include "lighting.h"
+
+
+t_image		*render(t_image *img, t_camera cam, t_world *world)
 {
-	mtx_mul2(o->transform, transf);
-	mtx4_inverse2(o->transform, o->inv_transform);
-}
+	int32_t		x;
+	int32_t		y;
+	t_fcolor	color;
 
-void	set_transform(t_obj *o, t_mtx4 transf)
-{
-	mtx4_dup(transf, o->transform);
-	mtx4_inverse2(o->transform, o->inv_transform);
+	y = -1;
+	while (++y < cam.vsize)
+	{
+		x = -1;
+		while (++x < cam.hsize)
+		{
+			color = color_at(world, ray_for_pixel(cam, x, y));
+			put_pixel_img(img, point_s(x, y, fcolor_to_uint(color)));
+		}
+	}
+	return (img);
 }
-

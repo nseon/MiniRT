@@ -31,33 +31,25 @@ void	keyevent(int keycode, void *p)
 void	test_render(t_ctx * const ctx)
 {
 	t_mtx4		buf;
-	t_ray		r;
-	t_light		l = light(point(-1000, -700, 1500), fcolor(0.3, 0.3, 1), POINT);
-	t_fcolor	color;
 	t_world		w;
-	t_obj		s = sphere();
-
 	world(&w);
+	t_obj		s;
+	t_light		l;
+	t_camera	cam;
+
+	cam = camera(WIN_W, WIN_H, M_PI / 3);
+	set_cam_transform(&cam, mtx4_view(point(0, 1.5, -5), point(0, 1, 0), vector(0, 1, 0), buf));
+	l = light(point(-10, 10, -10), fcolor(1, 1, 1), POINT);
 	vct_add(&w.lights, &l);
-	l = light(point(1000, -900, 1500), fcolor(1, 0.3, 0.3), POINT);
-	vct_add(&w.lights, &l);
-	// set_transform(&s, mx_translation(0, 0, 20, scaling(11, 11, 11, buf)));
-	set_transform(&s, mx_scaling(500, 200, 500, mx_shearing(g_arr2_0, g_arr2_0, g_arr2_0 , mx_rotation_z(M_PI_4, translation(0, 0, 2000, buf)))));
+	s = sphere();
+	set_transform(&s, scaling(10, 0.01, 10, buf));
+	s.mat.col = fcolor(1, 0.9, 0.9);
+	s.mat.specular = 0;
 	add_world_obj(&w, s);
 	s = sphere();
-	set_transform(&s, mx_scaling(500, 500, 500, mx_shearing(g_arr2_0, g_arr2_0, g_arr2_0 , mx_rotation_z(M_PI_4, translation(0, 400, 1100, buf)))));
+	set_transform(&s, mx_scaling(10, 0.01, 10, mx_rotation_z(M_PI_2, mx_rotation_y(-M_PI_4, translation(0, 0, 5, buf)))));
+	s.mat.col = fcolor(1, 0.9, 0.9);
+	s.mat.specular = 0;
 	add_world_obj(&w, s);
-	w.objs[1].mat.col = fcolor(1, 1, 1);
-
-	for (int y = 0; y < WIN_H; y++)
-	{
-		for (int x = 0; x < WIN_W; x++)
-		{
-			r = ray(point(0, 0, 0), tp_normalize(tp_sub(point(x - WIN_W / 2, - y + WIN_H / 2, 800), point(0, 0, 0))));
-			color = color_at(&w, r);
-			put_pixel_img(&ctx->img, point_s(x, y, fcolor_to_uint(color)));
-		}
-	}
-	free_world(&w);
-	// end_loop(&ctx->win);
+	render(&ctx->img, cam, &w);
 }

@@ -28,3 +28,13 @@ t_ray	ray_transform(t_ray r, t_mtx4 m)
 {
 	return ((t_ray){mtx_tup_mul(r.origin, m), mtx_tup_mul(r.dir, m)});
 }
+
+t_ray	ray_for_pixel(t_camera cam, float x, float y)
+{
+	float const		wx = cam.half_width - (x + 0.5) * cam.pixel_size;
+	float const		wy = cam.half_height - (y + 0.5) * cam.pixel_size;
+	t_tuple const	pixel = mtx_tup_mul(point(wx, wy, -1), cam.inverse);
+	t_tuple const	origin = mtx_tup_mul(point(0, 0, 0), cam.inverse);
+
+	return ((t_ray){origin, tp_normalize(tp_sub(pixel, origin))});
+}
