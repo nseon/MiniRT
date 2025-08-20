@@ -30,7 +30,6 @@ int32_t	parse_camera(char **split, t_camera *cam)
 	if (res != SUCCESS)
 		return (res);
 	res = parse_normal(split[1], &to);
-	to.w = 1;
 	if (res != SUCCESS)
 		return (res);
 	res = parse_double(split[2], &fov);
@@ -39,6 +38,6 @@ int32_t	parse_camera(char **split, t_camera *cam)
 	if (fov > 180 || fov < 0)
 		return (PARSE_INVAL_LINE);
 	*cam = camera(WIN_W, WIN_H, fov * M_PI / 180);
-	set_cam_transform(cam, mtx4_view(from, to, vector(0, 1, 0), buf));
+	set_cam_transform(cam, mtx4_view(from, tp_add(from, to), vector(0, 1, 0), buf));
 	return (res);
 }

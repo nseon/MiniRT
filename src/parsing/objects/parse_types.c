@@ -54,9 +54,9 @@ int32_t	parse_color(char *str, t_fcolor *color)
 		ft_fprintf(2, PARSE_INVAL_COLOR_MSG, buf);
 		return (PARSE_INVAL_FORMAT);
 	}
-	color->r = r / 255;
-	color->g = g / 255;
-	color->b = b / 255;
+	color->r = (float)r / 255;
+	color->g = (float)g / 255;
+	color->b = (float)b / 255;
 	return (SUCCESS);
 }
 
