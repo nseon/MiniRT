@@ -23,7 +23,7 @@ bool is_in_shadow(t_world *w, t_tuple p, t_light l)
 	xs = world_intersec(w, r);
 	i = hit(&xs);
 	w->xs.count -= xs.count;
-	if (i != 0 && i->t < tp_magnitude(v))
+	if (i != 0 && tp_magnitude(v) - i->t > EPSILON)
 		return (true);
 	return (false);
 }
