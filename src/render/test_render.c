@@ -36,7 +36,7 @@ void	test_render(t_ctx * const ctx)
 	cam = camera(WIN_W, WIN_H, M_PI / 1.9);
 	set_cam_transform(&cam, mtx4_view(point(0, 1.5, -5), point(0, 1, 0), vector(0, 1, 0), buf));
 	// mul_cam_transform(&cam, rotation_z(M_PI / 8, buf));
-	l = light(point(0, 4, -5), fcolor(0.7, 0.7, 0.7), POINT);
+	l = light(point(0, 3.9, -1), fcolor(0.7, 0.7, 0.7), POINT);
 	vct_add(&w.lights, &l);
 	// l = light(point(-15, 5, -15), fcolor(1, 1, 1), POINT);
 	// vct_add(&w.lights, &l);
@@ -51,8 +51,8 @@ void	test_render(t_ctx * const ctx)
 	add_world_obj(&w, p);
 	p = plane();
 	set_transform(&p, mx_rotation_z(M_PI_2, mx_rotation_y(-M_PI_4, translation(0, 0, 5, buf))));
-	s.mat.col = fcolor(1, 0.9, 0.9);
-	s.mat.specular = 0;
+	p.mat.col = fcolor(1, 0.9, 0.9);
+	p.mat.specular = 0;
 	add_world_obj(&w, p);
 	p = plane();
 	set_transform(&p, mx_scaling(10, 0.01, 10, mx_rotation_z(M_PI_2, mx_rotation_y(M_PI_4, translation(0, 0, 5, buf)))));

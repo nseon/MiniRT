@@ -148,6 +148,13 @@ PARSING_DIR =		parsing/
 PARSING_SRC =		parse.c \
 					parse_map.c \
 
+# ===============PATTERNS================ #
+
+SRC += $(addprefix $(PATTERNS_DIR), $(PATTERNS_SRC))
+
+PATTERNS_DIR =		patterns/
+PATTERNS_SRC =
+
 # ===============UTILS================ #
 
 SRC += $(addprefix $(UTILS_DIR), $(UTILS_SRC))
