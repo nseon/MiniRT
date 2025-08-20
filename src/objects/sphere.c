@@ -30,6 +30,7 @@ t_obj	sphere(void)
 
 t_tuple	sphere_normal(t_tuple pt)
 {
+	pt.w = 0;
 	return (pt);
 }
 
