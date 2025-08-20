@@ -20,5 +20,6 @@
 
 bool	d_equal(double a, double b);
 bool	f_equal(float a, float b);
+double	dabs(double n);
 
 #endif

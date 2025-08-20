@@ -13,7 +13,7 @@
 #include <math.h>
 #include "rt_maths.h"
 
-static double	dabs(double n)
+double	dabs(double n)
 {
 	if (n > 0)
 		return (n);

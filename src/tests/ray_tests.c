@@ -612,6 +612,69 @@ void	test_offset_hit()
 	TEST_ASSERT_GREATER_THAN_DOUBLE(pc.over_point.z, pc.pos.z);
 }
 
+void	test_plane_normal()
+{
+	t_obj	p = plane();
+
+	TEST_ASSERT(tp_equal(vector(0, 1, 0), obj_normal(&p, point(0, 0, 0))));
+	TEST_ASSERT(tp_equal(vector(0, 1, 0), obj_normal(&p, point(10, 0, 0))));
+	TEST_ASSERT(tp_equal(vector(0, 1, 0), obj_normal(&p, point(-500, 0, 1500))));
+}
+
+void	test_plane_inter_coplanar_miss()
+{
+	t_obj	p = plane();
+	t_ray	r = ray(point(0, 10, 0), vector(0, 0, 1));
+	t_intersections	xs;
+
+	xs.count = 0;
+	xs.i = malloc(sizeof (t_intersection));
+	obj_intersect(r, &p, &xs);
+	TEST_ASSERT_EQUAL_INT32(0, xs.count);
+	free(xs.i);
+}
+
+void	test_plane_inter_coplanar_on()
+{
+	t_obj	p = plane();
+	t_ray	r = ray(point(0, 0, 0), vector(0, 0, 1));
+	t_intersections	xs;
+
+	xs.count = 0;
+	xs.i = malloc(sizeof (t_intersection));
+	obj_intersect(r, &p, &xs);
+	TEST_ASSERT_EQUAL_INT32(0, xs.count);
+	free(xs.i);
+}
+
+void	test_plane_inter_hit_above()
+{
+	t_obj	p = plane();
+	t_ray	r = ray(point(0, 1, 0), vector(0, -1, 0));
+	t_intersections	xs;
+
+	xs.count = 0;
+	xs.i = malloc(sizeof (t_intersection));
+	obj_intersect(r, &p, &xs);
+	TEST_ASSERT_EQUAL_INT32(1, xs.count);
+	TEST_ASSERT_EQUAL_PTR(&p, xs.i[0].obj);
+	free(xs.i);
+}
+
+void	test_plane_inter_hit_below()
+{
+	t_obj	p = plane();
+	t_ray	r = ray(point(0, -1, 0), vector(0, 1, 0));
+	t_intersections	xs;
+
+	xs.count = 0;
+	xs.i = malloc(sizeof (t_intersection));
+	obj_intersect(r, &p, &xs);
+	TEST_ASSERT_EQUAL_INT32(1, xs.count);
+	TEST_ASSERT_EQUAL_PTR(&p, xs.i[0].obj);
+	free(xs.i);
+}
+
 int	test_rays()
 {
 	RUN_TEST(test_ray_creation);
@@ -663,5 +726,10 @@ int	test_rays()
 	RUN_TEST(test_point_not_shadow_behind);
 	RUN_TEST(test_point_not_shadow_mid);
 	RUN_TEST(test_offset_hit);
+	RUN_TEST(test_plane_normal);
+	RUN_TEST(test_plane_inter_coplanar_miss);
+	RUN_TEST(test_plane_inter_coplanar_on);
+	RUN_TEST(test_plane_inter_hit_above);
+	RUN_TEST(test_plane_inter_hit_below);
 	return 0;
 }

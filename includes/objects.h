@@ -64,6 +64,7 @@ typedef struct s_camera
 uint32_t	get_uid(void);
 t_camera	camera(double hsize, double vsize, double fov);
 t_obj		sphere(void);
+t_obj		plane(void);
 void		mul_transform(t_obj *o, t_mtx4 transf);
 void		set_transform(t_obj *o, t_mtx4 transf);
 t_light		light(t_tuple pos, t_fcolor intensity, t_light_type type);

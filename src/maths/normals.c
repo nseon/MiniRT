@@ -22,6 +22,8 @@ t_tuple	obj_normal(t_obj *o, t_tuple pt)
 
 	if (o->type == SPHERE)
 		n = sphere_normal(local_pt);
+	else if (o->type == PLANE)
+		n = plane_normal(local_pt);
 	mtx_tup_mul2(&n, mtx_transpose2(o->inv_transform, tbuf));
 	n.w = 0;
 	return (tp_normalize(n));
