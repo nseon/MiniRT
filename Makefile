@@ -58,6 +58,7 @@ OBJECTS_SRC	=		objects_creation.c \
 					transform.c \
 					sphere.c \
 					camera.c \
+					plane.c \
 
 # ===============WORLD================= #
 
@@ -75,6 +76,7 @@ SRC += $(addprefix $(MATHS_DIR), $(MATHS_SRC))
 MATHS_DIR	=		maths/
 MATHS_SRC	=		float.c \
 					fcolors.c \
+					normals.c \
 
 # ===============MATHS/TUPLE================= #
 
@@ -100,6 +102,7 @@ SRC += $(addprefix $(LIGHTING_DIR), $(LIGHTING_SRC))
 LIGHTING_DIR	=	$(MATHS_DIR)lighting/
 LIGHTING_SRC	=	phong.c \
 					lighting.c \
+					shadow.c \
 
 # ===============MATHS/RAY================= #
 
@@ -247,8 +250,8 @@ else ifeq ($(MODE), bonus)
 	CFLAGS += -Ofast
 	CPPFLAGS += -DBONUS
 else ifeq ($(MODE), test)
-	CFLAGS = -g3 -fsanitize=address -fno-omit-frame-pointer -D UNITY_OUTPUT_COLOR -D UNITY_INCLUDE_DOUBLE -D UNITY_INCLUDE_EXEC_TIME
-	LDFLAGS += -fsanitize=address -fno-omit-frame-pointer
+	CFLAGS = -g3 -D UNITY_OUTPUT_COLOR -D UNITY_INCLUDE_DOUBLE -D UNITY_INCLUDE_EXEC_TIME
+	LDFLAGS +=
 	SRC := $(filter-out $(NAME).c, $(SRC))
 	SRC += $(NAME)_test.c tests/ray_tests.c
 	TEST = /sgoinfre/pjarnac/public/unit_tests/Unity/src/unity.c

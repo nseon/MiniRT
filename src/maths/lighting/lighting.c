@@ -17,6 +17,7 @@
 #include "ray.h"
 #include "lib/libft/src/vector/vector.h"
 #include "normals.h"
+#include "rt_maths.h"
 
 t_pre_compute	pre_compute(t_intersection *i, t_ray r)
 {
@@ -26,7 +27,7 @@ t_pre_compute	pre_compute(t_intersection *i, t_ray r)
 	pc.obj = i->obj;
 	pc.pos = position(r, pc.t);
 	pc.eyev = tp_negate(r.dir);
-	pc.normalv = sphere_normal(pc.obj, pc.pos);
+	pc.normalv = obj_normal(i->obj, pc.pos);
 	if (tp_dot(pc.normalv, pc.eyev) < 0)
 	{
 		pc.inside = true;
@@ -34,6 +35,7 @@ t_pre_compute	pre_compute(t_intersection *i, t_ray r)
 	}
 	else
 		pc.inside = false;
+	pc.over_point = tp_add(pc.pos, tp_mul(pc.normalv, DEPSILON));
 	return (pc);
 }
 
@@ -46,7 +48,8 @@ t_fcolor		light_hit(t_world *w, t_pre_compute *pc)
 	color = color_scalar(color_mul(pc->obj->mat.col, w->ambient.col), w->ambient.i);
 	while (++i < vct_size(w->lights))
 	{
-		color = color_add(color, phong(pc->obj->mat, w->lights[i], pc));
+		if (!is_in_shadow(w, pc->over_point, w->lights[i]))
+			color = color_add(color, phong(pc->obj->mat, w->lights[i], pc));
 	}
 	return (color);
 }

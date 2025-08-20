@@ -17,7 +17,7 @@
 t_fcolor	phong(t_material m, t_light light, t_pre_compute *pc)
 {
 	t_fcolor const	eff_color = color_mul(light.i, m.col);
-	t_tuple const	lightv = tp_normalize(tp_sub(light.pos, pc->pos));
+	t_tuple const	lightv = tp_normalize(tp_sub(light.pos, pc->over_point));
 	t_fcolor		diffuse;
 	t_fcolor		specular;
 	double			reflect_dot_eye;

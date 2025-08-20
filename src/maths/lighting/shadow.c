@@ -1,21 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   normals.h                                          :+:      :+:    :+:   */
+/*   shadow.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/12 18:11:12 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/08/12 18:11:12 by pjarnac          ###   ########.fr       */
+/*   Created: 2025/08/20 17:33:18 by pjarnac           #+#    #+#             */
+/*   Updated: 2025/08/20 17:33:18 by pjarnac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINIRT_NORMALS_H
-# define MINIRT_NORMALS_H
+#include "lighting.h"
+#include "rt_maths.h"
 
-#include "objects.h"
+bool is_in_shadow(t_world *w, t_tuple p, t_light l)
+{
+	t_tuple const	v = tp_sub(l.pos, p);
+	t_ray const		r = ray(p, tp_normalize(v));
+	t_intersections	xs;
+	t_intersection	*i;
 
-t_tuple	obj_normal(t_obj *o, t_tuple pt);
-t_tuple	sphere_normal(t_tuple pt);
-
-#endif
+	xs = world_intersec(w, r);
+	i = hit(&xs);
+	w->xs.count -= xs.count;
+	if (i != 0 && i->t < tp_magnitude(v))
+		return (true);
+	return (false);
+}

@@ -61,6 +61,7 @@ typedef struct s_camera
 	t_mtx4	inverse;
 }	t_camera;
 
+uint32_t	get_uid(void);
 t_camera	camera(double hsize, double vsize, double fov);
 t_obj		sphere(void);
 void		mul_transform(t_obj *o, t_mtx4 transf);

@@ -38,7 +38,8 @@ typedef struct s_intersections
 t_ray			ray(t_tuple origin, t_tuple direction);
 t_ray			ray_for_pixel(t_camera cam, double x, double y);
 t_tuple			position(t_ray ray, double t);
-void			intersect(t_ray r, t_obj *o, t_intersections *xs);
+void			obj_intersect(t_ray r, t_obj *o, t_intersections *xs);
+void			sphere_intersect(t_ray r, t_obj *o, t_intersections *xs);
 t_intersection	intersection(double t, t_obj *obj);
 t_intersection	*hit(t_intersections *inters);
 

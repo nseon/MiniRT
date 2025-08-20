@@ -58,7 +58,7 @@ void	test_sphere_intersection_two_point()
 
 	inter.count = 0;
 	inter.i = malloc(sizeof (t_intersection) * 2);
-	intersect(r, &s, &inter);
+	obj_intersect(r, &s, &inter);
 	TEST_ASSERT_EQUAL_INT32(2, inter.count);
 	TEST_ASSERT_EQUAL_FLOAT(4, inter.i[0].t);
 	TEST_ASSERT_EQUAL_FLOAT(6, inter.i[1].t);
@@ -74,7 +74,7 @@ void	test_sphere_intersection_tangent()
 
 	inter.count = 0;
 	inter.i = malloc(sizeof (t_intersection) * 2);
-	intersect(r, &s, &inter);
+	obj_intersect(r, &s, &inter);
 	TEST_ASSERT_EQUAL_INT32(2, inter.count);
 	TEST_ASSERT_EQUAL_FLOAT(5, inter.i[0].t);
 	TEST_ASSERT_EQUAL_FLOAT(5, inter.i[1].t);
@@ -90,7 +90,7 @@ void	test_sphere_intersection_nothing()
 
 	inter.count = 0;
 	inter.i = malloc(sizeof (t_intersection) * 2);
-	intersect(r, &s, &inter);
+	obj_intersect(r, &s, &inter);
 	TEST_ASSERT_EQUAL_INT32(0, inter.count);
 	free(inter.i);
 
@@ -104,7 +104,7 @@ void	test_sphere_intersection_inside()
 
 	inter.count = 0;
 	inter.i = malloc(sizeof (t_intersection) * 2);
-	intersect(r, &s, &inter);
+	obj_intersect(r, &s, &inter);
 	TEST_ASSERT_EQUAL_INT32(2, inter.count);
 	TEST_ASSERT_EQUAL_FLOAT(-1, inter.i[0].t);
 	TEST_ASSERT_EQUAL_FLOAT(1, inter.i[1].t);
@@ -120,7 +120,7 @@ void	test_sphere_intersection_after()
 
 	inter.count = 0;
 	inter.i = malloc(sizeof (t_intersection) * 2);
-	intersect(r, &s, &inter);
+	obj_intersect(r, &s, &inter);
 	TEST_ASSERT_EQUAL_INT32(2, inter.count);
 	TEST_ASSERT_EQUAL_FLOAT(-3, inter.i[0].t);
 	TEST_ASSERT_EQUAL_FLOAT(-1, inter.i[1].t);
@@ -135,7 +135,7 @@ void	test_sphere_intersection_objects()
 
 	inter.count = 0;
 	inter.i = malloc(sizeof (t_intersection) * 2);
-	intersect(r, &s, &inter);
+	obj_intersect(r, &s, &inter);
 	TEST_ASSERT_EQUAL_INT32(2, inter.count);
 	TEST_ASSERT_EQUAL_FLOAT(4, inter.i[0].t);
 	TEST_ASSERT_EQUAL_FLOAT(6, inter.i[1].t);
@@ -227,7 +227,7 @@ void	test_scaled_sphere_intersection()
 	xs.count = 0;
 	xs.i = malloc(sizeof (t_intersection) * 2);
 	mul_transform(&s, scaling(2, 2, 2, transf));
-	intersect(r, &s, &xs);
+	obj_intersect(r, &s, &xs);
 	TEST_ASSERT_EQUAL_INT32(2, xs.count);
 	TEST_ASSERT_EQUAL_FLOAT(3, xs.i[0].t);
 	TEST_ASSERT_EQUAL_FLOAT(7, xs.i[1].t);
@@ -244,7 +244,7 @@ void	test_translated_sphere_intersection()
 	xs.count = 0;
 	xs.i = malloc(sizeof (t_intersection) * 2);
 	mul_transform(&s, translation(5, 0, 0, transf));
-	intersect(r, &s, &xs);
+	obj_intersect(r, &s, &xs);
 	TEST_ASSERT_EQUAL_INT32(0, xs.count);
 	free(xs.i);
 }
@@ -253,16 +253,16 @@ void	test_sphere_normal()
 {
 	t_obj	s = sphere();
 
-	TEST_ASSERT(tp_equal(vector(1, 0, 0), sphere_normal(&s, point(1, 0, 0))));
-	TEST_ASSERT(tp_equal(vector(0, 1, 0), sphere_normal(&s, point(0, 1, 0))));
-	TEST_ASSERT(tp_equal(vector(0, 0, 1), sphere_normal(&s, point(0, 0, 1))));
-	TEST_ASSERT(tp_equal(vector(sqrtf(3) / 3, sqrtf(3) / 3, sqrtf(3) / 3), sphere_normal(&s, point(sqrtf(3) / 3,sqrtf(3) / 3, sqrtf(3) / 3))));
+	TEST_ASSERT(tp_equal(vector(1, 0, 0), obj_normal(&s, point(1, 0, 0))));
+	TEST_ASSERT(tp_equal(vector(0, 1, 0), obj_normal(&s, point(0, 1, 0))));
+	TEST_ASSERT(tp_equal(vector(0, 0, 1), obj_normal(&s, point(0, 0, 1))));
+	TEST_ASSERT(tp_equal(vector(sqrtf(3) / 3, sqrtf(3) / 3, sqrtf(3) / 3), obj_normal(&s, point(sqrtf(3) / 3,sqrtf(3) / 3, sqrtf(3) / 3))));
 }
 
 void	test_sphere_normal_is_normal()
 {
 	t_obj	s = sphere();
-	t_tuple	n = sphere_normal(&s, point(sqrtf(3) / 3,sqrtf(3) / 3, sqrtf(3) / 3));
+	t_tuple	n = obj_normal(&s, point(sqrtf(3) / 3,sqrtf(3) / 3, sqrtf(3) / 3));
 	TEST_ASSERT(tp_equal(n, tp_normalize(n)));
 }
 
@@ -272,10 +272,10 @@ void	test_translated_sphere_normal()
 	t_mtx4	buf;
 
 	mul_transform(&s, translation(0, 1, 0, buf));
-	TEST_ASSERT(tp_equal(vector(0, 0.70711, -0.70711), sphere_normal(&s, point(0, 1.70711, -0.70711))));
+	TEST_ASSERT(tp_equal(vector(0, 0.70711, -0.70711), obj_normal(&s, point(0, 1.70711, -0.70711))));
 	s = sphere();
 	mul_transform(&s, mx_rotation_z(M_PI / 5, scaling(1, 0.5, 1, buf)));
-	TEST_ASSERT(tp_equal(vector(0, 0.97014, -0.24254), sphere_normal(&s, point(0, sqrtf(2) / 2, -sqrtf(2) / 2))));
+	TEST_ASSERT(tp_equal(vector(0, 0.97014, -0.24254), obj_normal(&s, point(0, sqrtf(2) / 2, -sqrtf(2) / 2))));
 }
 
 void	test_vector_reflect_45()
@@ -301,9 +301,11 @@ void	test_direct_light_eye()
 	t_tuple	eyev = vector(0, 0, -1);
 	t_tuple	normalv = vector(0, 0, -1);
 	t_light	l = light(point(0, 0, -10), fcolor(1, 1, 1), POINT);
-	t_pre_compute	c = {0, 0, pos, eyev, normalv};
+	t_pre_compute	c = {0, 0, pos, eyev, normalv, false, pos};
+	t_fcolor		col;
 
-	assert_fcolor(fcolor(1.9 - 0.1, 1.9 - 0.1, 1.9 - 0.1), phong(g_default_mat, l, &c));
+	col = phong(g_default_mat, l, &c);
+	assert_fcolor(fcolor(1.9 - 0.1, 1.9 - 0.1, 1.9 - 0.1), col);
 }
 
 void	test_direct_light_eye_45()
@@ -312,7 +314,7 @@ void	test_direct_light_eye_45()
 	t_tuple	eyev = vector(0, sqrtf(2) / 2, -sqrtf(2) / 2);
 	t_tuple	normalv = vector(0, 0, -1);
 	t_light	l = light(point(0, 0, -10), fcolor(1, 1, 1), POINT);
-	t_pre_compute	c = {0, 0, pos, eyev, normalv};
+	t_pre_compute	c = {0, 0, pos, eyev, normalv, false, pos};
 
 	assert_fcolor(fcolor(1.0 - 0.1, 1.0 - 0.1, 1.0 - 0.1), phong(g_default_mat, l, &c));
 }
@@ -323,7 +325,7 @@ void	test_direct_light_45_eye()
 	t_tuple	eyev = vector(0, 0, -1);
 	t_tuple	normalv = vector(0, 0, -1);
 	t_light	l = light(point(0, 10, -10), fcolor(1, 1, 1), POINT);
-	t_pre_compute	c = {0, 0, pos, eyev, normalv};
+	t_pre_compute	c = {0, 0, pos, eyev, normalv, false, pos};
 
 	assert_fcolor(fcolor(0.7364 - 0.1, 0.7364 - 0.1, 0.7364 - 0.1), phong(g_default_mat, l, &c));
 }
@@ -334,7 +336,7 @@ void	test_direct_light_45_eye_45()
 	t_tuple	eyev = vector(0, -sqrtf(2) / 2, -sqrtf(2) / 2);
 	t_tuple	normalv = vector(0, 0, -1);
 	t_light	l = light(point(0, 10, -10), fcolor(1, 1, 1), POINT);
-	t_pre_compute	c = {0, 0, pos, eyev, normalv};
+	t_pre_compute	c = {0, 0, pos, eyev, normalv, false, pos};
 
 	assert_fcolor(fcolor(1.6364 - 0.1, 1.6364 - 0.1, 1.6364 - 0.1), phong(g_default_mat, l, &c));
 }
@@ -345,7 +347,7 @@ void	test_direct_light_eye_behind()
 	t_tuple	eyev = vector(0, 0, -1);
 	t_tuple	normalv = vector(0, 0, -1);
 	t_light	l = light(point(0, 0, 10), fcolor(1, 1, 1), POINT);
-	t_pre_compute	c = {0, 0, pos, eyev, normalv};
+	t_pre_compute	c = {0, 0, pos, eyev, normalv, false, pos};
 
 	assert_fcolor(fcolor(0.1 - 0.1, 0.1 - 0.1, 0.1 - 0.1), phong(g_default_mat, l, &c));
 }
@@ -553,10 +555,61 @@ void	test_render_at()
 	mtx4_view(point(0, 0, -5), point(0, 0, 0), vector(0, 1, 0), view);
 	set_cam_transform(&cam, view);
 	render(&img, cam, &w);
+	put_img(&img, 0, 0, false);
 	assert_fcolor(fcolor(0.38066, 0.47583, 0.2855), color_at(&w, ray_for_pixel(cam, 5, 5)));
 	destroy_image(&img);
 	destroy_window(&win);
 	free_world(&w);
+}
+
+void	test_point_not_shadow()
+{
+	t_world	w;
+
+	default_world(&w);
+	TEST_ASSERT(is_in_shadow(&w, point(0, 10, 0), w.lights[0]) == false);
+	free_world(&w);
+}
+
+void	test_point_shadow()
+{
+	t_world	w;
+
+	default_world(&w);
+	TEST_ASSERT(is_in_shadow(&w, point(10, -10, 10), w.lights[0]) == true);
+	free_world(&w);
+}
+
+void	test_point_not_shadow_behind()
+{
+	t_world	w;
+
+	default_world(&w);
+	TEST_ASSERT(is_in_shadow(&w, point(-20, 20, -20), w.lights[0]) == false);
+	free_world(&w);
+}
+
+void	test_point_not_shadow_mid()
+{
+	t_world	w;
+
+	default_world(&w);
+	TEST_ASSERT(is_in_shadow(&w, point(-2, 2, -2), w.lights[0]) == false);
+	free_world(&w);
+}
+
+void	test_offset_hit()
+{
+	t_ray	r = ray(point(0, 0, -5), vector(0, 0, 1));
+	t_obj	s = sphere();
+	t_intersection	i;
+	t_pre_compute	pc;
+
+	set_transform(&s, translation(0, 0, 1, s.transform));\
+	i = intersection(5, &s);
+	pc = pre_compute(&i, r);
+	TEST_ASSERT_LESS_THAN_DOUBLE(-DEPSILON/2, pc.over_point.z);
+	TEST_ASSERT_GREATER_THAN_DOUBLE(pc.over_point.z, pc.pos.z);
 }
 
 int	test_rays()
@@ -605,5 +658,10 @@ int	test_rays()
 	RUN_TEST(test_pixel_ray_corner);
 	RUN_TEST(test_pixel_ray_cam_trans);
 	RUN_TEST(test_render_at);
+	RUN_TEST(test_point_not_shadow);
+	RUN_TEST(test_point_shadow);
+	RUN_TEST(test_point_not_shadow_behind);
+	RUN_TEST(test_point_not_shadow_mid);
+	RUN_TEST(test_offset_hit);
 	return 0;
 }
