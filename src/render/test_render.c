@@ -94,7 +94,7 @@ void	test_render(t_ctx * const ctx)
 	s.mat.pat.type = CHECKER;
 	s.mat.pat.a = fcolor(1, (float)170/255, 0);
 	s.mat.pat.b = fcolor((float)173/255, (float)0, 1);
-	set_pattern_transf(&s.mat.pat, mx_rotation_z(-M_PI / 2, mx_scaling(0.2, 0.2, 0.2, translation(0, -1, 0, s.mat.pat.transf))));
+	set_pattern_transf(&s.mat.pat,scaling(1, 1, 1, s.mat.pat.transf));
 	s.mat.has_pat = true;
 	s.mat.diffuse = 0.7;
 	add_world_obj(&w, s);

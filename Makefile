@@ -265,7 +265,8 @@ else ifeq ($(MODE), test)
 	LDFLAGS +=
 	SRC := $(filter-out $(NAME).c, $(SRC))
 	SRC += $(NAME)_test.c tests/ray_tests.c
-	TEST = /sgoinfre/pjarnac/public/unit_tests/Unity/src/unity.c
+#	TEST = /sgoinfre/pjarnac/public/unit_tests/Unity/src/unity.c
+	TEST = /mnt/c/Users/Asventi/Documents/Ubuntu/projects/Unity/unity.c
 else ifneq ($(MODE),)
 	ERROR = MODE
 endif

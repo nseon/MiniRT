@@ -51,3 +51,14 @@ void	sphere_intersect(t_ray r, t_obj *o, t_intersections *xs)
 		xs->count += 2;
 	}
 }
+
+t_tuple	sphere_uv_point(t_tuple	pt)
+{
+	pt = tp_negate(pt);
+	pt.x = 0.5 + atan2(pt.z, pt.x) / (M_PI * 2);
+	pt.z = 0.5 + asin(pt.y) / M_PI;
+	pt.x *= 10;
+	pt.z *= 10;
+	pt.y = 0;
+	return (pt);
+}

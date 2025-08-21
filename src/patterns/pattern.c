@@ -12,6 +12,7 @@
 
 #include "patterns.h"
 #include "objects.h"
+#include "uv_maps.h"
 
 t_pattern	pattern(t_fcolor a, t_fcolor b, t_pattern_type type)
 {
@@ -34,6 +35,8 @@ void	set_pattern_transf(t_pattern *pat, t_mtx4 transf)
 t_fcolor	pattern_at_obj(t_pattern pat, t_obj *o, t_tuple pt)
 {
 	mtx_tup_mul2(&pt, o->inv_transform);
+	if (o->type == SPHERE)
+		pt = sphere_uv_point(pt);
 	mtx_tup_mul2(&pt, pat.inv_transf);
 	if (pat.type == STRIPE)
 		return (stripe_at(pat, pt));
