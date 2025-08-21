@@ -60,5 +60,6 @@ t_tuple	sphere_uv_point(t_tuple	pt)
 	pt.x *= 10;
 	pt.z *= 10;
 	pt.y = 0;
+	pt.w = 1;
 	return (pt);
 }

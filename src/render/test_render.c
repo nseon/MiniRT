@@ -36,7 +36,7 @@ void	test_render(t_ctx * const ctx)
 	cam = camera(WIN_W, WIN_H, M_PI / 1.9);
 	set_cam_transform(&cam, mtx4_view(point(0, 1.5, -5), point(0, 1.5, 0), vector(0, 1, 0), buf));
 	// mul_cam_transform(&cam, rotation_z(M_PI / 8, buf));
-	l = light(point(0, 3.5, -5), fcolor(0.7, 0.7, 0.7), POINT);
+	l = light(point(0, 3.5, -5), fcolor(1, 1, 1), POINT);
 	vct_add(&w.lights, &l);
 	// l = light(point(-15, 5, -15), fcolor(1, 1, 1), POINT);
 	// vct_add(&w.lights, &l);
@@ -78,6 +78,11 @@ void	test_render(t_ctx * const ctx)
 	set_transform(&s,translation(-0.5, 1, 0.5, buf));
 	s.mat.col = fcolor(0, 1, 0);
 	s.mat.specular = 0.3;
+	s.mat.pat.type = GRADIENT;
+	s.mat.pat.a = fcolor((float)72/255, (float)0/255, (float)152/255);
+	s.mat.pat.b = fcolor((float)217/255, (float)0/255, (float)14/255);
+	set_pattern_transf(&s.mat.pat,mx_scaling(2, 2, 2, translation(-1, 0, 0, s.mat.pat.transf)));
+	s.mat.has_pat = true;
 	s.mat.diffuse = 0.7;
 	add_world_obj(&w, s);
 	s = sphere();
@@ -88,13 +93,13 @@ void	test_render(t_ctx * const ctx)
 	s.mat.diffuse = 0.7;
 	add_world_obj(&w, s);
 	s = sphere();
-	set_transform(&s,mx_scaling(1, 1, 1, translation(-1, 1, -2, buf)));
+	set_transform(&s,mx_rotation_y(M_PI_4, mx_rotation_x(0, mx_scaling(0.5, 0.5, 0.5, translation(-1, 1, -2, buf)))));
 	s.mat.col = fcolor(1, 0.8, 0.1);
 	s.mat.specular = 0.3;
 	s.mat.pat.type = CHECKER;
-	s.mat.pat.a = fcolor(1, (float)170/255, 0);
-	s.mat.pat.b = fcolor((float)173/255, (float)0, 1);
-	set_pattern_transf(&s.mat.pat,scaling(1, 1, 1, s.mat.pat.transf));
+	s.mat.pat.a = fcolor((float)18/255, (float)255/255, (float)93/255);
+	s.mat.pat.b = fcolor((float)108/255, (float)200/255, (float)231/255);
+	set_pattern_transf(&s.mat.pat,mx_scaling(0.7, 0.7, 0.7, translation(0, 0, 0, s.mat.pat.transf)));
 	s.mat.has_pat = true;
 	s.mat.diffuse = 0.7;
 	add_world_obj(&w, s);
