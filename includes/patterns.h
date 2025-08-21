@@ -15,14 +15,30 @@
 
 # include "fcolors.h"
 # include "tuple.h"
+# include "matrix.h"
+
+typedef enum e_pattern_type
+{
+	STRIPE,
+	GRADIENT,
+	RING,
+	CHECKER,
+}	t_pattern_type;
 
 typedef struct s_pattern
 {
-	t_fcolor	a;
-	t_fcolor	b;
+	t_pattern_type	type;
+	t_fcolor		a;
+	t_fcolor		b;
+	t_mtx4			transf;
+	t_mtx4			inv_transf;
 }	t_pattern;
 
-t_pattern	stripe_pattern(t_fcolor a, t_fcolor b);
+void		set_pattern_transf(t_pattern *pat, t_mtx4 transf);
+t_pattern	pattern(t_fcolor a, t_fcolor b, t_pattern_type type);
 t_fcolor	stripe_at(t_pattern pat, t_tuple pt);
+t_fcolor	gradient_at(t_pattern pat, t_tuple pt);
+t_fcolor	ring_at(t_pattern pat, t_tuple pt);
+t_fcolor	checker_at(t_pattern pat, t_tuple pt);
 
 #endif

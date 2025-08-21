@@ -144,7 +144,7 @@ void	test_color_scalar()
 {
 	t_fcolor	col = fcolor(0.1, 0.2, -0.5);
 
-	col = color_scalar(col, 3);
+	col = col_scalar(col, 3);
 	TEST_ASSERT_EQUAL_FLOAT(0.3, col.r);
 	TEST_ASSERT_EQUAL_FLOAT(0.6, col.g);
 	TEST_ASSERT_EQUAL_FLOAT(-1.5, col.b);

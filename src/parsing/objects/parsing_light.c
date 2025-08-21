@@ -31,7 +31,7 @@ int32_t	parse_light(char **split, t_light *light)
 	res = parse_color(split[2], &light->i);
 	if (res != SUCCESS)
 		return (res);
-	light->i = color_scalar(light->i, i);
+	light->i = col_scalar(light->i, i);
 	light->type = POINT;
 	return (res);
 }

@@ -450,8 +450,8 @@ void	test_color_ray_hit_behind()
 	t_ray	r = ray(point(0, 0, 0.75), vector(0, 0, -1));
 
 	default_world(&w);
-	w.ambient.i = 1;
-	w.ambient.col = fcolor(1, 1, 1);
+	w.amb.i = 1;
+	w.amb.col = fcolor(1, 1, 1);
 	assert_fcolor(w.objs[1].mat.col, color_at(&w, r));
 	free_world(&w);
 }
@@ -681,7 +681,7 @@ t_fcolor const	black = {0, 0, 0};
 
 void	test_stripe_pattern_y()
 {
-	t_pattern	pat = stripe_pattern(white, black);
+	t_pattern	pat = pattern(white, black, STRIPE);
 
 	assert_fcolor(white, stripe_at(pat, point(0, 0, 0)));
 	assert_fcolor(white, stripe_at(pat, point(0, 1, 0)));
@@ -690,7 +690,7 @@ void	test_stripe_pattern_y()
 
 void	test_stripe_pattern_z()
 {
-	t_pattern	pat = stripe_pattern(white, black);
+	t_pattern	pat = pattern(white, black, STRIPE);
 
 	assert_fcolor(white, stripe_at(pat, point(0, 0, 0)));
 	assert_fcolor(white, stripe_at(pat, point(0, 0, 1)));
@@ -699,7 +699,7 @@ void	test_stripe_pattern_z()
 
 void	test_stripe_pattern_x()
 {
-	t_pattern	pat = stripe_pattern(white, black);
+	t_pattern	pat = pattern(white, black, STRIPE);
 
 	assert_fcolor(white, stripe_at(pat, point(0, 0, 0)));
 	assert_fcolor(white, stripe_at(pat, point(0.9, 0, 0)));
@@ -709,12 +709,71 @@ void	test_stripe_pattern_x()
 	assert_fcolor(white, stripe_at(pat, point(-1.1, 0, 0)));
 }
 
-void	test_pattern_light()
+void	test_pattern_obj_transform()
 {
-	t_material	m;
+	t_obj		o = sphere();
+	t_pattern	pat = pattern(white, black, STRIPE);
 
-	set_pattern(&m, stripe_pattern(white, black));
+	set_transform(&o, scaling(2, 2, 2, o.transform));
+	assert_fcolor(white, pattern_at_obj(pat, &o, point(1.5, 0, 0)));
+}
 
+void	test_pattern_pat_transform()
+{
+	t_obj		o = sphere();
+	t_pattern	pat = pattern(white, black, STRIPE);
+
+	set_pattern_transf(&pat, scaling(2, 2, 2, pat.transf));
+	assert_fcolor(white, pattern_at_obj(pat, &o, point(1.5, 0, 0)));
+}
+
+void	test_pattern_obj_pat_transform()
+{
+	t_obj		o = sphere();
+	t_pattern	pat = pattern(white, black, STRIPE);
+
+	set_pattern_transf(&pat, translation(0.5, 0, 0, pat.transf));
+	set_transform(&o, scaling(2, 2, 2, o.transform));
+	assert_fcolor(white, pattern_at_obj(pat, &o, point(2.5, 0, 0)));
+}
+
+void	test_pattern_gradient()
+{
+	t_pattern	pat = pattern(white, black, GRADIENT);
+
+	assert_fcolor(white, gradient_at(pat, point(0, 0, 0)));
+	assert_fcolor(fcolor(0.75, 0.75, 0.75), gradient_at(pat, point(0.25, 0, 0)));
+	assert_fcolor(fcolor(0.5, 0.5, 0.5), gradient_at(pat, point(0.5, 0, 0)));
+	assert_fcolor(fcolor(0.25, 0.25, 0.25), gradient_at(pat, point(0.75, 0, 0)));
+}
+
+void	test_pattern_ring()
+{
+	t_pattern	pat = pattern(white, black, RING);
+
+	assert_fcolor(white, ring_at(pat, point(0, 0, 0)));
+	assert_fcolor(black, ring_at(pat, point(1, 0, 0)));
+	assert_fcolor(black, ring_at(pat, point(0, 0, 1)));
+	assert_fcolor(black, ring_at(pat, point(0.708, 0, 0.708)));
+}
+
+void	test_pattern_checker()
+{
+	t_pattern	pat = pattern(white, black, CHECKER);
+
+	assert_fcolor(white, checker_at(pat, point(0, 0, 0)));
+	assert_fcolor(white, checker_at(pat, point(0.99, 0, 0)));
+	assert_fcolor(black, checker_at(pat, point(1.01, 0, 0)));
+
+	assert_fcolor(white, checker_at(pat, point(0, 0, 0)));
+	assert_fcolor(white, checker_at(pat, point(0, 0, 0.99)));
+	assert_fcolor(black, checker_at(pat, point(0, 0, 1.01)));
+
+	assert_fcolor(white, checker_at(pat, point(0, 0, 0)));
+	assert_fcolor(white, checker_at(pat, point(0, 0.99, 0)));
+	assert_fcolor(black, checker_at(pat, point(0, 1.01, 0)));
+
+	assert_fcolor(black, checker_at(pat, point(2, 1, 0)));
 }
 
 int	test_rays()
@@ -776,5 +835,11 @@ int	test_rays()
 	RUN_TEST(test_stripe_pattern_x);
 	RUN_TEST(test_stripe_pattern_y);
 	RUN_TEST(test_stripe_pattern_z);
+	RUN_TEST(test_pattern_obj_pat_transform);
+	RUN_TEST(test_pattern_pat_transform);
+	RUN_TEST(test_pattern_obj_transform);
+	RUN_TEST(test_pattern_gradient);
+	RUN_TEST(test_pattern_ring);
+	RUN_TEST(test_pattern_checker);
 	return 0;
 }

@@ -45,7 +45,11 @@ t_fcolor		light_hit(t_world *w, t_pre_compute *pc)
 	size_t		i;
 
 	i = -1;
-	color = color_scalar(color_mul(pc->obj->mat.col, w->ambient.col), w->ambient.i);
+	if (pc->obj->mat.has_pat)
+		color = col_scalar(color_mul(pattern_at_obj(pc->obj->mat.pat, pc->obj,
+			pc->pos), w->amb.col), w->amb.i);
+	else
+		color = col_scalar(color_mul(pc->obj->mat.col, w->amb.col), w->amb.i);
 	while (++i < vct_size(w->lights))
 	{
 		if (!is_in_shadow(w, pc->over_point, w->lights[i]))

@@ -1,34 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   loop.c                                             :+:      :+:    :+:   */
+/*   ring.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/27 12:15:25 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/05/27 12:15:25 by pjarnac          ###   ########.fr       */
+/*   Created: 2025/08/21 15:46:42 by pjarnac           #+#    #+#             */
+/*   Updated: 2025/08/21 15:46:42 by pjarnac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
-#include "parsing.h"
+#include <math.h>
 
-void	main_loop(void *p)
+#include "patterns.h"
+
+t_fcolor	ring_at(t_pattern pat, t_tuple pt)
 {
-	t_ctx *const	ctx = p;
-
-	if (!ctx->parsing)
-		draw_file_status(ctx);
-	if (ctx->parsing)
-	{
-		// render(&ctx->img, ctx->gctx.cam, &ctx->gctx.w);
-	}
-	put_img(&ctx->img, 0, 0, true);
-}
-
-void	end_main_loop(void *p)
-{
-	t_window *const	win = p;
-
-	end_loop(win);
+	if ((int)floor(sqrt(pt.x * pt.x + pt.z * pt.z)) % 2 == 0)
+		return (pat.a);
+	return (pat.b);
 }

@@ -70,5 +70,6 @@ void		set_transform(t_obj *o, t_mtx4 transf);
 t_light		light(t_tuple pos, t_fcolor intensity, t_light_type type);
 void		set_cam_transform(t_camera *cam, t_mtx4 transf);
 void		mul_cam_transform(t_camera *cam, t_mtx4 transf);
+t_fcolor	pattern_at_obj(t_pattern pat, t_obj *o, t_tuple pt);
 
 #endif
