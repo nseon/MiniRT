@@ -1,27 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   material.c                                         :+:      :+:    :+:   */
+/*   stripe.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/13 14:21:43 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/08/13 14:21:43 by pjarnac          ###   ########.fr       */
+/*   Created: 2025/08/21 12:39:10 by pjarnac           #+#    #+#             */
+/*   Updated: 2025/08/21 12:39:10 by pjarnac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "materials.h"
+#include <math.h>
 
-t_material const	g_default_mat = {.col = {1, 1, 1}, .diffuse = 0.9,
-	.specular = 0.9, .shine = 200, .has_pat = false};
+#include "patterns.h"
 
-t_material	material(void)
+t_fcolor	stripe_at(t_pattern pat, t_tuple pt)
 {
-	return (g_default_mat);
-}
-
-void	set_pattern(t_material *m, t_pattern pat)
-{
-	m->pat = pat;
-	m->has_pat = true;
+	if ((int)floor(pt.x) % 2 == 0)
+		return (pat.a);
+	return (pat.b);
 }

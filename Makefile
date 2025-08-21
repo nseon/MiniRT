@@ -153,7 +153,8 @@ PARSING_SRC =		parse.c \
 SRC += $(addprefix $(PATTERNS_DIR), $(PATTERNS_SRC))
 
 PATTERNS_DIR =		patterns/
-PATTERNS_SRC =
+PATTERNS_SRC =		creation.c \
+					stripe.c \
 
 # ===============UTILS================ #
 

@@ -18,6 +18,7 @@
 #include "../../includes/matrix.h"
 #include "../../includes/ray.h"
 #include "../../includes/objects.h"
+#include "../../includes/patterns.h"
 #include "../../lib/neflibx/includes/neflibx.h"
 #include <math.h>
 #include <stdlib.h>
@@ -675,6 +676,47 @@ void	test_plane_inter_hit_below()
 	free(xs.i);
 }
 
+t_fcolor const	white = {1, 1, 1};
+t_fcolor const	black = {0, 0, 0};
+
+void	test_stripe_pattern_y()
+{
+	t_pattern	pat = stripe_pattern(white, black);
+
+	assert_fcolor(white, stripe_at(pat, point(0, 0, 0)));
+	assert_fcolor(white, stripe_at(pat, point(0, 1, 0)));
+	assert_fcolor(white, stripe_at(pat, point(0, 2, 0)));
+}
+
+void	test_stripe_pattern_z()
+{
+	t_pattern	pat = stripe_pattern(white, black);
+
+	assert_fcolor(white, stripe_at(pat, point(0, 0, 0)));
+	assert_fcolor(white, stripe_at(pat, point(0, 0, 1)));
+	assert_fcolor(white, stripe_at(pat, point(0, 0, 2)));
+}
+
+void	test_stripe_pattern_x()
+{
+	t_pattern	pat = stripe_pattern(white, black);
+
+	assert_fcolor(white, stripe_at(pat, point(0, 0, 0)));
+	assert_fcolor(white, stripe_at(pat, point(0.9, 0, 0)));
+	assert_fcolor(black, stripe_at(pat, point(1, 0, 0)));
+	assert_fcolor(black, stripe_at(pat, point(-0.1, 0, 0)));
+	assert_fcolor(black, stripe_at(pat, point(-1, 0, 0)));
+	assert_fcolor(white, stripe_at(pat, point(-1.1, 0, 0)));
+}
+
+void	test_pattern_light()
+{
+	t_material	m;
+
+	set_pattern(&m, stripe_pattern(white, black));
+
+}
+
 int	test_rays()
 {
 	RUN_TEST(test_ray_creation);
@@ -731,5 +773,8 @@ int	test_rays()
 	RUN_TEST(test_plane_inter_coplanar_on);
 	RUN_TEST(test_plane_inter_hit_above);
 	RUN_TEST(test_plane_inter_hit_below);
+	RUN_TEST(test_stripe_pattern_x);
+	RUN_TEST(test_stripe_pattern_y);
+	RUN_TEST(test_stripe_pattern_z);
 	return 0;
 }

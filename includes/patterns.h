@@ -1,27 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   material.c                                         :+:      :+:    :+:   */
+/*   patterns.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/13 14:21:43 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/08/13 14:21:43 by pjarnac          ###   ########.fr       */
+/*   Created: 2025/08/21 12:34:32 by pjarnac           #+#    #+#             */
+/*   Updated: 2025/08/21 12:34:32 by pjarnac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "materials.h"
+#ifndef PATTERNS_H
+# define PATTERNS_H
 
-t_material const	g_default_mat = {.col = {1, 1, 1}, .diffuse = 0.9,
-	.specular = 0.9, .shine = 200, .has_pat = false};
+# include "fcolors.h"
+# include "tuple.h"
 
-t_material	material(void)
+typedef struct s_pattern
 {
-	return (g_default_mat);
-}
+	t_fcolor	a;
+	t_fcolor	b;
+}	t_pattern;
 
-void	set_pattern(t_material *m, t_pattern pat)
-{
-	m->pat = pat;
-	m->has_pat = true;
-}
+t_pattern	stripe_pattern(t_fcolor a, t_fcolor b);
+t_fcolor	stripe_at(t_pattern pat, t_tuple pt);
+
+#endif

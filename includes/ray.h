@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINIRT_RAY_H
-# define MINIRT_RAY_H
+#ifndef RAY_H
+# define RAY_H
 
 # include "tuple.h"
 # include "objects.h"
