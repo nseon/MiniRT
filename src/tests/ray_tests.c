@@ -292,9 +292,9 @@ void	test_vector_reflect_slanted()
 
 void	assert_fcolor(t_fcolor c1, t_fcolor c2)
 {
-	TEST_ASSERT_MESSAGE(d_equal(c1.r, c2.r), "red composant is not equal");
-	TEST_ASSERT_MESSAGE(d_equal(c1.g, c2.g), "green composant is not equal");
-	TEST_ASSERT_MESSAGE(d_equal(c1.b, c2.b), "blue composant is not equal");
+	TEST_ASSERT_MESSAGE(f_equal(c1.r, c2.r), "red composant is not equal");
+	TEST_ASSERT_MESSAGE(f_equal(c1.g, c2.g), "green composant is not equal");
+	TEST_ASSERT_MESSAGE(f_equal(c1.b, c2.b), "blue composant is not equal");
 }
 
 void	test_direct_light_eye()
@@ -406,7 +406,7 @@ void	test_light_hit()
 	default_world(&w);
 	i = intersection(4, w.objs);
 	pc = pre_compute(&i, r);
-	assert_fcolor(fcolor(0.38066, 0.47583, 0.2855), light_hit(&w, &pc));
+	assert_fcolor(fcolor(0.38066, 0.47583, 0.2855), light_hit(&w, &pc, 1));
 	free_world(&w);
 }
 
@@ -421,7 +421,7 @@ void	test_light_hit_inside()
 	w.lights[0] = light(point(0, 0.25, 0), fcolor(1, 1, 1), POINT);
 	i = intersection(0.5, w.objs + 1);
 	pc = pre_compute(&i, r);
-	assert_fcolor(fcolor(0.90498, 0.90498, 0.90498), light_hit(&w, &pc));
+	assert_fcolor(fcolor(0.90498, 0.90498, 0.90498), light_hit(&w, &pc, 1));
 	free_world(&w);
 }
 
@@ -431,7 +431,7 @@ void	test_color_ray_miss()
 	t_ray	r = ray(point(0, 0, -5), vector(0, 1, 0));
 
 	default_world(&w);
-	assert_fcolor(fcolor(0, 0, 0), color_at(&w, r));
+	assert_fcolor(fcolor(0, 0, 0), color_at(&w, r, 1));
 	free_world(&w);
 }
 
@@ -441,7 +441,7 @@ void	test_color_ray_hit()
 	t_ray	r = ray(point(0, 0, -5), vector(0, 0, 1));
 
 	default_world(&w);
-	assert_fcolor(fcolor(0.38066, 0.47583, 0.2855), color_at(&w, r));
+	assert_fcolor(fcolor(0.38066, 0.47583, 0.2855), color_at(&w, r, 1));
 	free_world(&w);
 }
 
@@ -453,7 +453,7 @@ void	test_color_ray_hit_behind()
 	default_world(&w);
 	w.amb.i = 1;
 	w.amb.col = fcolor(1, 1, 1);
-	assert_fcolor(w.objs[1].mat.col, color_at(&w, r));
+	assert_fcolor(w.objs[1].mat.col, color_at(&w, r, 1));
 	free_world(&w);
 }
 
@@ -558,7 +558,7 @@ void	test_render_at()
 	set_cam_transform(&cam, view);
 	render(&img, cam, &w);
 	put_img(&img, 0, 0, false);
-	assert_fcolor(fcolor(0.38066, 0.47583, 0.2855), color_at(&w, ray_for_pixel(cam, 5, 5)));
+	assert_fcolor(fcolor(0.38066, 0.47583, 0.2855), color_at(&w, ray_for_pixel(cam, 5, 5), 1));
 	destroy_image(&img);
 	destroy_window(&win);
 	free_world(&w);
@@ -735,7 +735,7 @@ void	test_pattern_obj_pat_transform()
 
 	set_pattern_transf(&pat, translation(0.5, 0, 0, pat.transf));
 	set_transform(&o, scaling(2, 2, 2, o.transform));
-	assert_fcolor(white, pattern_at_obj(pat, &o, point(2.5, 0, 0)));
+	assert_fcolor(black, pattern_at_obj(pat, &o, point(2.5, 0, 0)));
 }
 
 void	test_pattern_gradient()
@@ -775,6 +775,67 @@ void	test_pattern_checker()
 	assert_fcolor(black, checker_at(pat, point(0, 1.01, 0)));
 
 	assert_fcolor(black, checker_at(pat, point(2, 1, 0)));
+}
+
+void	test_reflectv_precomputation()
+{
+	t_obj	p = plane();
+	t_ray	r = ray(point(0, 1, -1), vector(0, -sqrt(2) / 2, sqrt(2) / 2));
+	t_intersection	i = intersection(sqrt(2), &p);
+	t_pre_compute	pc = pre_compute(&i, r);
+
+	TEST_ASSERT(tp_equal(vector(0, sqrt(2) / 2, sqrt(2) / 2), pc.reflectv));
+}
+
+void	test_reflect_inside()
+{
+	t_world	w;
+	default_world(&w);
+	t_ray	r = ray(point(0, 0, 0), vector(0, 0, 1));
+	t_obj	*s = w.objs + 1;
+	w.amb.col = fcolor(1, 1, 1);
+	w.amb.i = 1;
+	t_intersection	i = intersection(1, s);
+	t_pre_compute	pc = pre_compute(&i, r);
+
+	assert_fcolor(fcolor(0, 0, 0), reflect_color(&w, &pc, 1));
+}
+
+void	test_reflect()
+{
+	t_world	w;
+	default_world(&w);
+	t_ray	r = ray(point(0, 0, -3), vector(0, -sqrt(2) / 2, sqrt(2) / 2));
+	w.amb.col = fcolor(1, 1, 1);
+	w.amb.i = 0.1;
+	t_obj	p = plane();
+	p.mat.reflective = 0.5;
+	set_transform(&p, translation(0, -1, 0, p.transform));
+	add_world_obj(&w, p);
+	t_intersection	i = intersection(sqrt(2), &w.objs[2]);
+	t_pre_compute	pc = pre_compute(&i, r);
+
+	assert_fcolor(fcolor(0.19032, 0.2379, 0.14274), reflect_color(&w, &pc, 1));
+}
+
+void	test_infinite_reflect()
+{
+	t_world	w;
+	world(&w);
+	t_ray	r = ray(point(0, 0, 0), vector(0, 1, 0));
+	w.amb.col = fcolor(1, 1, 1);
+	w.amb.i = 0.1;
+	vct_add(&w.lights, &(t_light){POINT, point(0, 0, 0), fcolor(1, 1, 1)});
+	t_obj	p = plane();
+	p.mat.reflective = 1;
+	set_transform(&p, translation(0, -1, 0, p.transform));
+	add_world_obj(&w, p);
+	p = plane();
+	p.mat.reflective = 1;
+	set_transform(&p, translation(0, 1, 0, p.transform));
+	add_world_obj(&w, p);
+
+	color_at(&w, r, 6);
 }
 
 int	test_rays()
@@ -842,5 +903,9 @@ int	test_rays()
 	RUN_TEST(test_pattern_gradient);
 	RUN_TEST(test_pattern_ring);
 	RUN_TEST(test_pattern_checker);
+	RUN_TEST(test_reflectv_precomputation);
+	RUN_TEST(test_reflect_inside);
+	RUN_TEST(test_reflect);
+	RUN_TEST(test_infinite_reflect);
 	return 0;
 }

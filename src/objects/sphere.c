@@ -57,8 +57,8 @@ t_tuple	sphere_uv_point(t_tuple	pt)
 	pt = tp_negate(pt);
 	pt.x = 0.5 + atan2(pt.z, pt.x) / (M_PI * 2);
 	pt.z = 0.5 + asin(pt.y) / M_PI;
-	pt.x *= 10;
-	pt.z *= 10;
+	pt.x *= 2;
+	pt.z *= 2;
 	pt.y = 0;
 	pt.w = 1;
 	return (pt);

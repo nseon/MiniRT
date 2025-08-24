@@ -13,7 +13,7 @@
 #include "materials.h"
 
 t_material const	g_default_mat = {.col = {1, 1, 1}, .diffuse = 0.9,
-	.specular = 0.9, .shine = 200, .has_pat = false};
+	.specular = 0.9, .reflective = 0.0, .shine = 200, .has_pat = false};
 
 t_material	material(void)
 {

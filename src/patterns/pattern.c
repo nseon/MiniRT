@@ -35,7 +35,7 @@ void	set_pattern_transf(t_pattern *pat, t_mtx4 transf)
 t_fcolor	pattern_at_obj(t_pattern pat, t_obj *o, t_tuple pt)
 {
 	mtx_tup_mul2(&pt, o->inv_transform);
-	if (o->type == SPHERE && pat.type == CHECKER)
+	if (o->type == SPHERE && (pat.type == CHECKER || pat.type == STRIPE))
 		pt = sphere_uv_point(pt);
 	mtx_tup_mul2(&pt, pat.inv_transf);
 	if (pat.type == STRIPE)

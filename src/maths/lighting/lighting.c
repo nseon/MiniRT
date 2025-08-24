@@ -36,10 +36,11 @@ t_pre_compute	pre_compute(t_intersection *i, t_ray r)
 	else
 		pc.inside = false;
 	pc.over_point = tp_add(pc.pos, tp_mul(pc.normalv, DEPSILON));
+	pc.reflectv = reflect(r.dir, pc.normalv);
 	return (pc);
 }
 
-t_fcolor		light_hit(t_world *w, t_pre_compute *pc)
+t_fcolor		light_hit(t_world *w, t_pre_compute *pc, int n)
 {
 	t_fcolor	color;
 	size_t		i;
@@ -55,10 +56,12 @@ t_fcolor		light_hit(t_world *w, t_pre_compute *pc)
 		if (!is_in_shadow(w, pc->over_point, w->lights[i]))
 			color = color_add(color, phong(pc->obj->mat, w->lights[i], pc));
 	}
+	color = color_add(col_scalar(color, 1 - pc->obj->mat.reflective),
+		reflect_color(w, pc, n));
 	return (color);
 }
 
-t_fcolor	color_at(t_world *w, t_ray r)
+t_fcolor	color_at(t_world *w, t_ray r, int n)
 {
 	t_intersections	xs;
 	t_intersection	*i;
@@ -73,7 +76,7 @@ t_fcolor	color_at(t_world *w, t_ray r)
 	}
 	pc = pre_compute(i, r);
 	w->xs.count -= xs.count;
-	return (light_hit(w, &pc));
+	return (light_hit(w, &pc, n));
 }
 
 t_fcolor	reflect_color(t_world *w, t_pre_compute *pc, int n)
