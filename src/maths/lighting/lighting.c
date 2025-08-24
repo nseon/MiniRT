@@ -76,3 +76,14 @@ t_fcolor	color_at(t_world *w, t_ray r)
 	return (light_hit(w, &pc));
 }
 
+t_fcolor	reflect_color(t_world *w, t_pre_compute *pc, int n)
+{
+	t_fcolor	rcolor;
+	t_ray		r;
+
+	if (n < 1 || d_equal(pc->obj->mat.reflective, 0))
+		return (fcolor(0, 0, 0));
+	r = ray(pc->over_point, pc->reflectv);
+	rcolor = color_at(w, r, n - 1);
+	return (col_scalar(rcolor, pc->obj->mat.reflective));
+}
