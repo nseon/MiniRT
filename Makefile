@@ -59,6 +59,7 @@ OBJECTS_SRC	=		objects_creation.c \
 					sphere.c \
 					camera.c \
 					plane.c \
+					test_shapes.c \
 
 # ===============WORLD================= #
 
