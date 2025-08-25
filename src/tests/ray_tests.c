@@ -569,7 +569,7 @@ void	test_point_not_shadow()
 	t_world	w;
 
 	default_world(&w);
-	TEST_ASSERT(is_in_shadow(&w, point(0, 10, 0), w.lights[0]) == false);
+	TEST_ASSERT(is_in_shadow(&w, point(0, 10, 0), &w.lights[0]) == false);
 	free_world(&w);
 }
 
@@ -578,7 +578,7 @@ void	test_point_shadow()
 	t_world	w;
 
 	default_world(&w);
-	TEST_ASSERT(is_in_shadow(&w, point(10, -10, 10), w.lights[0]) == true);
+	TEST_ASSERT(is_in_shadow(&w, point(10, -10, 10), &w.lights[0]) == false);
 	free_world(&w);
 }
 
@@ -587,7 +587,7 @@ void	test_point_not_shadow_behind()
 	t_world	w;
 
 	default_world(&w);
-	TEST_ASSERT(is_in_shadow(&w, point(-20, 20, -20), w.lights[0]) == false);
+	TEST_ASSERT(is_in_shadow(&w, point(-20, 20, -20), &w.lights[0]) == false);
 	free_world(&w);
 }
 
@@ -596,7 +596,7 @@ void	test_point_not_shadow_mid()
 	t_world	w;
 
 	default_world(&w);
-	TEST_ASSERT(is_in_shadow(&w, point(-2, 2, -2), w.lights[0]) == false);
+	TEST_ASSERT(is_in_shadow(&w, point(-2, 2, -2), &w.lights[0]) == false);
 	free_world(&w);
 }
 
@@ -607,7 +607,7 @@ void	test_offset_hit()
 	t_intersection	i;
 	t_pre_compute	pc;
 
-	set_transform(&s, translation(0, 0, 1, s.transform));\
+	set_transform(&s, translation(0, 0, 1, s.transform));
 	i = intersection(5, &s);
 	pc = pre_compute(&i, r, 0);
 	TEST_ASSERT_LESS_THAN_DOUBLE(-DEPSILON/2, pc.over_point.z);
@@ -963,6 +963,52 @@ void	test_refract_total_internal()
 	free_world(&w);
 }
 
+void	test_schlick_total_internal()
+{
+	t_obj	o = glass_sphere();
+	t_ray	r = ray(point(0, 0, sqrt(2) / 2), vector(0, 1, 0));
+	t_intersections	xs;
+	xs.count = 2;
+	xs.i = malloc(sizeof (t_intersection) * 2 * 2);
+	xs.i[0].obj = &o;
+	xs.i[0].t = -sqrt(2) / 2;
+	xs.i[1].obj = &o;
+	xs.i[1].t = sqrt(2) / 2;
+	t_pre_compute	pc = pre_compute(xs.i + 1, r, &xs);
+	TEST_ASSERT_EQUAL_DOUBLE(1.0, schlick(&pc));
+	free(xs.i);
+}
+
+void	test_schlick_perpidencular()
+{
+	t_obj	o = glass_sphere();
+	t_ray	r = ray(point(0, 0, 0), vector(0, 1, 0));
+	t_intersections	xs;
+	xs.count = 2;
+	xs.i = malloc(sizeof (t_intersection) * 2 * 2);
+	xs.i[0].obj = &o;
+	xs.i[0].t = -1;
+	xs.i[1].obj = &o;
+	xs.i[1].t = 1;
+	t_pre_compute	pc = pre_compute(xs.i + 1, r, &xs);
+	TEST_ASSERT(d_equal(0.0399443458, schlick(&pc)));
+	free(xs.i);
+}
+
+void	test_schlick_n2big_n1()
+{
+	t_obj	o = glass_sphere();
+	t_ray	r = ray(point(0, 0.99, -2), vector(0, 0, 1));
+	t_intersections	xs;
+	xs.count = 1;
+	xs.i = malloc(sizeof (t_intersection) * 1 * 2);
+	xs.i[0].obj = &o;
+	xs.i[0].t = 1.8589;
+	t_pre_compute	pc = pre_compute(xs.i, r, &xs);
+	TEST_ASSERT(d_equal(0.488701143, schlick(&pc)));
+	free(xs.i);
+}
+
 int	test_rays()
 {
 	RUN_TEST(test_ray_creation);
@@ -1037,5 +1083,8 @@ int	test_rays()
 	RUN_TEST(test_refract_max_recur);
 	RUN_TEST(test_refract_total_internal);
 	RUN_TEST(test_refract_opaque);
+	RUN_TEST(test_schlick_total_internal);
+	RUN_TEST(test_schlick_perpidencular);
+	RUN_TEST(test_schlick_n2big_n1);
 	return 0;
 }

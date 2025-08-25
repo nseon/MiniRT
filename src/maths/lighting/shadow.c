@@ -25,7 +25,7 @@ bool is_in_shadow(t_world *w, t_tuple p, t_light *l)
 	w->xs.count -= xs.count;
 	if (i != 0 && tp_magnitude(v) - i->t > EPSILON)
 	{
-		l->i = col_scalar(l->i, i->obj->mat.transparency);
+		l->i = col_scalar(l->i, i->obj->mat.transparency - 0.03);
 		return (false);
 	}
 	return (false);
