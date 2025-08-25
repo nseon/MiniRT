@@ -29,6 +29,8 @@ t_fcolor	color_sub(t_fcolor c1, t_fcolor c2)
 
 t_fcolor	col_scalar(t_fcolor c1, double k)
 {
+	if (k < 0)
+		return (fcolor(0, 0, 0));
 	return ((t_fcolor){c1.r * k, c1.g * k, c1.b * k});
 }
 

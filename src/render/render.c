@@ -28,7 +28,7 @@ t_image		*render(t_image *img, t_camera cam, t_world *world)
 		x = -1;
 		while (++x < cam.hsize)
 		{
-			color = color_at(world, ray_for_pixel(cam, x, y), 4);
+			color = color_at(world, ray_for_pixel(cam, x, y), MAX_RECURSIVE);
 			put_pixel_img(img, point_s(x, y, fcolor_to_uint(color)));
 		}
 	}

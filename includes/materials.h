@@ -23,6 +23,8 @@ typedef struct s_material
 	double		specular;
 	double		shine;
 	double		reflective;
+	double		transparency;
+	double		refractive;
 	bool		has_pat;
 	t_pattern	pat;
 }	t_material;

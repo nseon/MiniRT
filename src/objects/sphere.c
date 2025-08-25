@@ -28,6 +28,16 @@ t_obj	sphere(void)
 	return (o);
 }
 
+t_obj	glass_sphere(void)
+{
+	t_obj	o;
+
+	o = sphere();
+	o.mat.transparency = 1;
+	o.mat.refractive = 1.5;
+	return (o);
+}
+
 t_tuple	sphere_normal(t_tuple pt)
 {
 	pt.w = 0;

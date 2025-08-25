@@ -19,30 +19,10 @@
 #include "normals.h"
 #include "rt_maths.h"
 
-t_pre_compute	pre_compute(t_intersection *i, t_ray r)
-{
-	t_pre_compute	pc;
-
-	pc.t = i->t;
-	pc.obj = i->obj;
-	pc.pos = position(r, pc.t);
-	pc.eyev = tp_negate(r.dir);
-	pc.normalv = obj_normal(i->obj, pc.pos);
-	if (tp_dot(pc.normalv, pc.eyev) < 0)
-	{
-		pc.inside = true;
-		pc.normalv = tp_negate(pc.normalv);
-	}
-	else
-		pc.inside = false;
-	pc.over_point = tp_add(pc.pos, tp_mul(pc.normalv, DEPSILON));
-	pc.reflectv = reflect(r.dir, pc.normalv);
-	return (pc);
-}
-
 t_fcolor		light_hit(t_world *w, t_pre_compute *pc, int n)
 {
 	t_fcolor	color;
+	t_light		l;
 	size_t		i;
 
 	i = -1;
@@ -53,11 +33,14 @@ t_fcolor		light_hit(t_world *w, t_pre_compute *pc, int n)
 		color = col_scalar(color_mul(pc->obj->mat.col, w->amb.col), w->amb.i);
 	while (++i < vct_size(w->lights))
 	{
-		if (!is_in_shadow(w, pc->over_point, w->lights[i]))
-			color = color_add(color, phong(pc->obj->mat, w->lights[i], pc));
+		l = w->lights[i];
+		if (!is_in_shadow(w, pc->over_point, l))
+			color = color_add(color, phong(pc->obj->mat, l, pc));
 	}
-	color = color_add(col_scalar(color, 1 - pc->obj->mat.reflective),
-		reflect_color(w, pc, n));
+	color = col_scalar(color, 1 - pc->obj->mat.transparency
+		- pc->obj->mat.reflective);
+	color = color_add(color, reflect_color(w, pc, n));
+	color = color_add(color, refract_color(w, pc, n));
 	return (color);
 }
 
@@ -74,7 +57,7 @@ t_fcolor	color_at(t_world *w, t_ray r, int n)
 		w->xs.count -= xs.count;
 		return (fcolor(0, 0, 0));
 	}
-	pc = pre_compute(i, r);
+	pc = pre_compute(i, r, &xs);
 	w->xs.count -= xs.count;
 	return (light_hit(w, &pc, n));
 }

@@ -378,7 +378,7 @@ void	test_pre_compute_outside()
 	t_intersection	i = intersection(4, &o);
 	t_pre_compute	pc;
 
-	pc = pre_compute(&i, r);
+	pc = pre_compute(&i, r, 0);
 	TEST_ASSERT(pc.inside == false);
 }
 
@@ -389,7 +389,7 @@ void	test_pre_compute_inside()
 	t_intersection	i = intersection(1, &o);
 	t_pre_compute	pc;
 
-	pc = pre_compute(&i, r);
+	pc = pre_compute(&i, r, 0);
 	TEST_ASSERT(pc.inside == true);
 	TEST_ASSERT(tp_equal(point(0, 0, 1), pc.pos));
 	TEST_ASSERT(tp_equal(vector(0, 0, -1), pc.eyev));
@@ -405,7 +405,7 @@ void	test_light_hit()
 
 	default_world(&w);
 	i = intersection(4, w.objs);
-	pc = pre_compute(&i, r);
+	pc = pre_compute(&i, r, 0);
 	assert_fcolor(fcolor(0.38066, 0.47583, 0.2855), light_hit(&w, &pc, 1));
 	free_world(&w);
 }
@@ -420,7 +420,7 @@ void	test_light_hit_inside()
 	default_world(&w);
 	w.lights[0] = light(point(0, 0.25, 0), fcolor(1, 1, 1), POINT);
 	i = intersection(0.5, w.objs + 1);
-	pc = pre_compute(&i, r);
+	pc = pre_compute(&i, r, 0);
 	assert_fcolor(fcolor(0.90498, 0.90498, 0.90498), light_hit(&w, &pc, 1));
 	free_world(&w);
 }
@@ -609,7 +609,7 @@ void	test_offset_hit()
 
 	set_transform(&s, translation(0, 0, 1, s.transform));\
 	i = intersection(5, &s);
-	pc = pre_compute(&i, r);
+	pc = pre_compute(&i, r, 0);
 	TEST_ASSERT_LESS_THAN_DOUBLE(-DEPSILON/2, pc.over_point.z);
 	TEST_ASSERT_GREATER_THAN_DOUBLE(pc.over_point.z, pc.pos.z);
 }
@@ -782,7 +782,7 @@ void	test_reflectv_precomputation()
 	t_obj	p = plane();
 	t_ray	r = ray(point(0, 1, -1), vector(0, -sqrt(2) / 2, sqrt(2) / 2));
 	t_intersection	i = intersection(sqrt(2), &p);
-	t_pre_compute	pc = pre_compute(&i, r);
+	t_pre_compute	pc = pre_compute(&i, r, 0);
 
 	TEST_ASSERT(tp_equal(vector(0, sqrt(2) / 2, sqrt(2) / 2), pc.reflectv));
 }
@@ -796,9 +796,10 @@ void	test_reflect_inside()
 	w.amb.col = fcolor(1, 1, 1);
 	w.amb.i = 1;
 	t_intersection	i = intersection(1, s);
-	t_pre_compute	pc = pre_compute(&i, r);
+	t_pre_compute	pc = pre_compute(&i, r, 0);
 
 	assert_fcolor(fcolor(0, 0, 0), reflect_color(&w, &pc, 1));
+	free_world(&w);
 }
 
 void	test_reflect()
@@ -813,9 +814,10 @@ void	test_reflect()
 	set_transform(&p, translation(0, -1, 0, p.transform));
 	add_world_obj(&w, p);
 	t_intersection	i = intersection(sqrt(2), &w.objs[2]);
-	t_pre_compute	pc = pre_compute(&i, r);
+	t_pre_compute	pc = pre_compute(&i, r, 0);
 
 	assert_fcolor(fcolor(0.19032, 0.2379, 0.14274), reflect_color(&w, &pc, 1));
+	free_world(&w);
 }
 
 void	test_infinite_reflect()
@@ -836,6 +838,129 @@ void	test_infinite_reflect()
 	add_world_obj(&w, p);
 
 	color_at(&w, r, 6);
+	free_world(&w);
+}
+
+void	test_refractive_points_calculation()
+{
+	t_ray	r = ray(point(0, 0, -4), vector(0, 0, 1));
+	t_obj	s1 = glass_sphere();
+	t_obj	s2 = glass_sphere();
+	t_obj	s3 = glass_sphere();
+	t_intersections	xs;
+	t_pre_compute	pc;
+
+	set_transform(&s1, scaling(2, 2, 2, s1.transform));
+	set_transform(&s2, translation(0, 0, -0.25, s1.transform));
+	s2.mat.refractive = 2;
+	set_transform(&s3, translation(0, 0, 0.25, s1.transform));
+	s3.mat.refractive = 2.5;
+	xs.count = 6;
+	xs.i = malloc(sizeof (t_intersection) * 6 * 2);
+	xs.i[0] = intersection(2, &s1);
+	xs.i[1] = intersection(2.75, &s2);
+	xs.i[2] = intersection(3.25, &s3);
+	xs.i[3] = intersection(4.75, &s2);
+	xs.i[4] = intersection(5.25, &s3);
+	xs.i[5] = intersection(6, &s1);
+	pc = pre_compute(xs.i + 0, r, &xs);
+	TEST_ASSERT_EQUAL_DOUBLE(AIR_REFRACTIVE, pc.n1);
+	TEST_ASSERT_EQUAL_DOUBLE(1.5, pc.n2);
+	pc = pre_compute(xs.i + 1, r, &xs);
+	TEST_ASSERT_EQUAL_DOUBLE(1.5, pc.n1);
+	TEST_ASSERT_EQUAL_DOUBLE(2, pc.n2);
+	pc = pre_compute(xs.i + 2, r, &xs);
+	TEST_ASSERT_EQUAL_DOUBLE(2, pc.n1);
+	TEST_ASSERT_EQUAL_DOUBLE(2.5, pc.n2);
+	pc = pre_compute(xs.i + 3, r, &xs);
+	TEST_ASSERT_EQUAL_DOUBLE(2.5, pc.n1);
+	TEST_ASSERT_EQUAL_DOUBLE(2.5, pc.n2);
+	pc = pre_compute(xs.i + 4, r, &xs);
+	TEST_ASSERT_EQUAL_DOUBLE(2.5, pc.n1);
+	TEST_ASSERT_EQUAL_DOUBLE(1.5, pc.n2);
+	pc = pre_compute(xs.i + 5, r, &xs);
+	TEST_ASSERT_EQUAL_DOUBLE(1.5, pc.n1);
+	TEST_ASSERT_EQUAL_DOUBLE(AIR_REFRACTIVE, pc.n2);
+	free(xs.i);
+}
+
+void	test_underpoint_compute()
+{
+	t_ray	r = ray(point(0, 0, -5), vector(0, 0, 1));
+	t_obj	o = glass_sphere();
+	set_transform(&o, translation(0, 0, 1, o.transform));
+	t_intersection	i = intersection(5, &o);
+	t_pre_compute	pc = pre_compute(&i, r, 0);
+	TEST_ASSERT_GREATER_THAN_DOUBLE(DEPSILON / 2, pc.under_point.z);
+	TEST_ASSERT_GREATER_THAN_DOUBLE(pc.pos.z, pc.under_point.z);
+}
+
+void	test_refract_opaque()
+{
+	t_world	w;
+	default_world(&w);
+	t_ray	r = ray(point(0, 0, -5), vector(0, 0, 1));
+	w.amb.col = fcolor(1, 1, 1);
+	w.amb.i = 0.1;
+	t_obj	*o = w.objs;
+	t_intersections	xs;
+	xs.count = 2;
+	xs.i = malloc(sizeof (t_intersection) * 2 * 2);
+	xs.i[0].obj = o;
+	xs.i[0].t = 4;
+	xs.i[1].obj = o;
+	xs.i[1].t = 6;
+	t_pre_compute	pc = pre_compute(&xs.i[0], r, &xs);
+
+	assert_fcolor(fcolor(0, 0, 0), refract_color(&w, &pc, 5));
+	free(xs.i);
+	free_world(&w);
+}
+
+void	test_refract_max_recur()
+{
+	t_world	w;
+	default_world(&w);
+	t_ray	r = ray(point(0, 0, -5), vector(0, 0, 1));
+	w.amb.col = fcolor(1, 1, 1);
+	w.amb.i = 0.1;
+	t_obj	*o = w.objs;
+	t_intersections	xs;
+	xs.count = 2;
+	xs.i = malloc(sizeof (t_intersection) * 2 * 2);
+	xs.i[0].obj = o;
+	xs.i[0].t = 4;
+	xs.i[1].obj = o;
+	xs.i[1].t = 6;
+	t_pre_compute	pc = pre_compute(&xs.i[0], r, &xs);
+
+	assert_fcolor(fcolor(0, 0, 0), refract_color(&w, &pc, 0));
+	free(xs.i);
+	free_world(&w);
+}
+
+void	test_refract_total_internal()
+{
+	t_world	w;
+	default_world(&w);
+	t_ray	r = ray(point(0, 0, sqrt(2) / 2), vector(0, 1, 0));
+	w.amb.col = fcolor(1, 1, 1);
+	w.amb.i = 0.1;
+	t_obj	*o = w.objs;
+	o->mat.transparency = 1;
+	o->mat.refractive = 1.5;
+	t_intersections	xs;
+	xs.count = 2;
+	xs.i = malloc(sizeof (t_intersection) * 2 * 2);
+	xs.i[0].obj = o;
+	xs.i[0].t = -sqrt(2) / 2;
+	xs.i[1].obj = o;
+	xs.i[1].t = sqrt(2) / 2;
+	t_pre_compute	pc = pre_compute(&xs.i[1], r, &xs);
+
+	assert_fcolor(fcolor(0, 0, 0), refract_color(&w, &pc, 5));
+	free(xs.i);
+	free_world(&w);
 }
 
 int	test_rays()
@@ -907,5 +1032,10 @@ int	test_rays()
 	RUN_TEST(test_reflect_inside);
 	RUN_TEST(test_reflect);
 	RUN_TEST(test_infinite_reflect);
+	RUN_TEST(test_refractive_points_calculation);
+	RUN_TEST(test_underpoint_compute);
+	RUN_TEST(test_refract_max_recur);
+	RUN_TEST(test_refract_total_internal);
+	RUN_TEST(test_refract_opaque);
 	return 0;
 }

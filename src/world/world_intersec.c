@@ -18,7 +18,7 @@
 
 void	create_wintersec(t_world *w)
 {
-	w->xs.i = malloc(sizeof (t_intersection) * vct_size(w->objs) * 2);
+	w->xs.i = malloc(sizeof (t_intersection) * vct_size(w->objs) * 2 * 2);
 	w->xs.count = 0;
 }
 

@@ -103,6 +103,8 @@ LIGHTING_DIR	=	$(MATHS_DIR)lighting/
 LIGHTING_SRC	=	phong.c \
 					lighting.c \
 					shadow.c \
+					pre_compute.c \
+					transparency.c \
 
 # ===============MATHS/RAY================= #
 
@@ -261,8 +263,8 @@ else ifeq ($(MODE), bonus)
 	CFLAGS += -Ofast
 	CPPFLAGS += -DBONUS
 else ifeq ($(MODE), test)
-	CFLAGS = -g3 -D UNITY_OUTPUT_COLOR -D UNITY_INCLUDE_DOUBLE -D UNITY_INCLUDE_EXEC_TIME
-	LDFLAGS +=
+	CFLAGS = -g3 -fsanitize=address -fno-omit-frame-pointer -D UNITY_OUTPUT_COLOR -D UNITY_INCLUDE_DOUBLE -D UNITY_INCLUDE_EXEC_TIME
+	LDFLAGS += -fsanitize=address -fno-omit-frame-pointer
 	SRC := $(filter-out $(NAME).c, $(SRC))
 	SRC += $(NAME)_test.c tests/ray_tests.c
 #	TEST = /sgoinfre/pjarnac/public/unit_tests/Unity/src/unity.c

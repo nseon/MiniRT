@@ -13,6 +13,10 @@
 #ifndef MINIRT_LIGHTING_H
 # define MINIRT_LIGHTING_H
 
+# define AIR_REFRACTIVE 1.00029
+# define MAX_RECURSIVE 5
+# define REFRACT_XS_OFFSET 1
+
 # include "fcolors.h"
 # include "tuple.h"
 # include "objects.h"
@@ -28,14 +32,18 @@ typedef struct s_pre_compute
 	t_tuple	normalv;
 	bool	inside;
 	t_tuple	over_point;
+	t_tuple	under_point;
 	t_tuple	reflectv;
+	double	n1;
+	double	n2;
 }	t_pre_compute;
 
 t_fcolor		phong(t_material m, t_light light, t_pre_compute *pc);
-t_pre_compute	pre_compute(t_intersection *i, t_ray r);
+t_pre_compute	pre_compute(t_intersection *i, t_ray r, t_intersections *xs);
 t_fcolor		light_hit(t_world *w, t_pre_compute *pc, int n);
 t_fcolor		color_at(t_world *w, t_ray r, int n);
 t_fcolor		reflect_color(t_world *w, t_pre_compute *pc, int n);
+t_fcolor		refract_color(t_world *w, t_pre_compute *pc, int n);
 bool			is_in_shadow(t_world *w, t_tuple p, t_light l);
 
 #endif
