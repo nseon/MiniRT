@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "unity.h"
-// #include "/sgoinfre/pjarnac/public/unit_tests/Unity/src/unity.h"
+// #include "unity.h"
+#include "/sgoinfre/pjarnac/public/unit_tests/Unity/src/unity.h"
 #include "../../includes/tuple.h"
 #include "../../includes/normals.h"
 #include "../../includes/fcolors.h"
@@ -351,7 +351,7 @@ void	test_direct_light_eye_behind()
 	t_light	l = light(point(0, 0, 10), fcolor(1, 1, 1), POINT);
 	t_pre_compute	c = {0, 0, pos, eyev, normalv, false, pos};
 
-	assert_fcolor(fcolor(0.1 - 0.1, 0.1 - 0.1, 0.1 - 0.1), phong(g_default_mat, l, &c));
+	assert_fcolor(fcolor(0, 0, 0), phong(g_default_mat, l, &c));
 }
 
 void	test_world_intersection()
@@ -1009,6 +1009,113 @@ void	test_schlick_n2big_n1()
 	free(xs.i);
 }
 
+void	test_cube_intersection()
+{
+	t_obj	o = cube();
+	t_intersections	xs;
+	xs.i = malloc(sizeof (t_intersection) * 2);
+	t_ray	r = ray(point(5, 0.5, 0), vector(-1, 0, 0));
+	xs.count = 0;
+	obj_intersect(r, &o, &xs);
+	TEST_ASSERT_EQUAL_INT32(2, xs.count);
+	TEST_ASSERT_EQUAL_DOUBLE(4, xs.i[0].t);
+	TEST_ASSERT_EQUAL_DOUBLE(6, xs.i[1].t);
+
+	r = ray(point(-5, 0.5, 0), vector(1, 0, 0));
+	xs.count = 0;
+	obj_intersect(r, &o, &xs);
+	TEST_ASSERT_EQUAL_INT32(2, xs.count);
+	TEST_ASSERT_EQUAL_DOUBLE(4, xs.i[0].t);
+	TEST_ASSERT_EQUAL_DOUBLE(6, xs.i[1].t);
+
+	r = ray(point(0.5, 5, 0), vector(0, -1, 0));
+	xs.count = 0;
+	obj_intersect(r, &o, &xs);
+	TEST_ASSERT_EQUAL_INT32(2, xs.count);
+	TEST_ASSERT_EQUAL_DOUBLE(4, xs.i[0].t);
+	TEST_ASSERT_EQUAL_DOUBLE(6, xs.i[1].t);
+
+	r = ray(point(0.5, -5, 0), vector(0, 1, 0));
+	xs.count = 0;
+	obj_intersect(r, &o, &xs);
+	TEST_ASSERT_EQUAL_INT32(2, xs.count);
+	TEST_ASSERT_EQUAL_DOUBLE(4, xs.i[0].t);
+	TEST_ASSERT_EQUAL_DOUBLE(6, xs.i[1].t);
+
+	r = ray(point(0.5, 0, 5), vector(0, 0, -1));
+	xs.count = 0;
+	obj_intersect(r, &o, &xs);
+	TEST_ASSERT_EQUAL_INT32(2, xs.count);
+	TEST_ASSERT_EQUAL_DOUBLE(4, xs.i[0].t);
+	TEST_ASSERT_EQUAL_DOUBLE(6, xs.i[1].t);
+
+	r = ray(point(0.5, 0, -5), vector(0, 0, 1));
+	xs.count = 0;
+	obj_intersect(r, &o, &xs);
+	TEST_ASSERT_EQUAL_INT32(2, xs.count);
+	TEST_ASSERT_EQUAL_DOUBLE(4, xs.i[0].t);
+	TEST_ASSERT_EQUAL_DOUBLE(6, xs.i[1].t);
+
+	r = ray(point(0, 0.5, 0), vector(0, 0, 1));
+	xs.count = 0;
+	obj_intersect(r, &o, &xs);
+	TEST_ASSERT_EQUAL_INT32(2, xs.count);
+	TEST_ASSERT_EQUAL_DOUBLE(-1, xs.i[0].t);
+	TEST_ASSERT_EQUAL_DOUBLE(1, xs.i[1].t);
+	free(xs.i);
+}
+
+void	test_cube_intersection_miss()
+{
+	t_obj	o = cube();
+	t_intersections	xs;
+	xs.i = malloc(sizeof (t_intersection) * 2);
+	t_ray	r = ray(point(-2, 0, 0), vector(0.2673, 0.5345, 0.8018));
+	xs.count = 0;
+	obj_intersect(r, &o, &xs);
+	TEST_ASSERT_EQUAL_INT32(0, xs.count);
+
+	r = ray(point(0, -2, 0), vector(0.8018, 0.2673, 0.5345));
+	xs.count = 0;
+	obj_intersect(r, &o, &xs);
+	TEST_ASSERT_EQUAL_INT32(0, xs.count);
+
+	r = ray(point(0, 0, -2), vector(0.5345, 0.8018, 0.2673));
+	xs.count = 0;
+	obj_intersect(r, &o, &xs);
+	TEST_ASSERT_EQUAL_INT32(0, xs.count);
+
+	r = ray(point(2, 0, 2), vector(0, 0, -1));
+	xs.count = 0;
+	obj_intersect(r, &o, &xs);
+	TEST_ASSERT_EQUAL_INT32(0, xs.count);
+
+	r = ray(point(0, 2, 2), vector(0, -1, 0));
+	xs.count = 0;
+	obj_intersect(r, &o, &xs);
+	TEST_ASSERT_EQUAL_INT32(0, xs.count);
+
+	r = ray(point(2, 2, 0), vector(-1, 0, 0));
+	xs.count = 0;
+	obj_intersect(r, &o, &xs);
+	TEST_ASSERT_EQUAL_INT32(0, xs.count);
+
+	free(xs.i);
+}
+
+void	test_cube_normal()
+{
+	t_obj	o = cube();
+
+	TEST_ASSERT(tp_equal(vector(1, 0, 0), cube_normal(point(1, 0.5, -0.8))));
+	TEST_ASSERT(tp_equal(vector(-1, 0, 0), cube_normal(point(-1, 0.5, -0.8))));
+	TEST_ASSERT(tp_equal(vector(0, 1, 0), cube_normal(point(0.9, 1, -0.8))));
+	TEST_ASSERT(tp_equal(vector(0, -1, 0), cube_normal(point(0.2, -1, -1))));
+	TEST_ASSERT(tp_equal(vector(0, 0, 1), cube_normal(point(0, 0.4, 1))));
+	TEST_ASSERT(tp_equal(vector(0, 0, -1), cube_normal(point(-0.5, 0.5, -1))));
+	TEST_ASSERT(tp_equal(vector(1, 0, 0), cube_normal(point(1, 1, 1))));
+}
+
 int	test_rays()
 {
 	RUN_TEST(test_ray_creation);
@@ -1086,5 +1193,8 @@ int	test_rays()
 	RUN_TEST(test_schlick_total_internal);
 	RUN_TEST(test_schlick_perpidencular);
 	RUN_TEST(test_schlick_n2big_n1);
+	RUN_TEST(test_cube_intersection);
+	RUN_TEST(test_cube_intersection_miss);
+	RUN_TEST(test_cube_normal);
 	return 0;
 }

@@ -59,6 +59,7 @@ OBJECTS_SRC	=		objects_creation.c \
 					sphere.c \
 					camera.c \
 					plane.c \
+					cube.c \
 
 # ===============WORLD================= #
 
@@ -236,7 +237,7 @@ MAKEFLAGS	+=	--no-print-directory
 
 # ================MODES================ #
 
-MODES		:= debug fsanitize optimize full-optimize test bonus
+MODES		:= debug optimize full-optimize test bonus memsan asan test_asan test_memsan
 
 MODE_TRACE	:= $(BUILD_DIR).mode_trace
 LAST_MODE	:= $(shell cat $(MODE_TRACE) 2>/dev/null)
@@ -251,9 +252,13 @@ endif
 
 ifeq ($(MODE), debug)
 	CFLAGS = -g3 -DDEBUG=1
-else ifeq ($(MODE), fsanitize)
+else ifeq ($(MODE), asan)
 	CFLAGS = -g -fsanitize=address -fno-omit-frame-pointer -O1
     LDFLAGS += -fsanitize=address -fno-omit-frame-pointer
+    CPPFLAGS += -DDEBUG=1
+else ifeq ($(MODE), memsan)
+ 	CFLAGS = -g -fsanitize=memory -fno-omit-frame-pointer -O1
+    LDFLAGS += -fsanitize=memory -fno-omit-frame-pointer
     CPPFLAGS += -DDEBUG=1
 else ifeq ($(MODE), optimize)
 	CFLAGS += -O3
@@ -263,12 +268,26 @@ else ifeq ($(MODE), bonus)
 	CFLAGS += -Ofast
 	CPPFLAGS += -DBONUS
 else ifeq ($(MODE), test)
+	CFLAGS = -g3 -D UNITY_OUTPUT_COLOR -D UNITY_INCLUDE_DOUBLE -D UNITY_INCLUDE_EXEC_TIME
+	LDFLAGS +=
+	SRC := $(filter-out $(NAME).c, $(SRC))
+	SRC += $(NAME)_test.c tests/ray_tests.c
+	TEST = /sgoinfre/pjarnac/public/unit_tests/Unity/src/unity.c
+#	TEST = /home/asventi/tests/Unity/unity.c
+else ifeq ($(MODE), test_asan)
 	CFLAGS = -g3 -fsanitize=address -fno-omit-frame-pointer -D UNITY_OUTPUT_COLOR -D UNITY_INCLUDE_DOUBLE -D UNITY_INCLUDE_EXEC_TIME
 	LDFLAGS += -fsanitize=address -fno-omit-frame-pointer
 	SRC := $(filter-out $(NAME).c, $(SRC))
 	SRC += $(NAME)_test.c tests/ray_tests.c
-#	TEST = /sgoinfre/pjarnac/public/unit_tests/Unity/src/unity.c
-	TEST = /home/asventi/tests/Unity/unity.c
+	TEST = /sgoinfre/pjarnac/public/unit_tests/Unity/src/unity.c
+#	TEST = /home/asventi/tests/Unity/unity.c
+else ifeq ($(MODE), test_memsan)
+	CFLAGS = -g3 -fsanitize=memory -fno-omit-frame-pointer -D UNITY_OUTPUT_COLOR -D UNITY_INCLUDE_DOUBLE -D UNITY_INCLUDE_EXEC_TIME
+	LDFLAGS += -fsanitize=memory -fno-omit-frame-pointer
+	SRC := $(filter-out $(NAME).c, $(SRC))
+	SRC += $(NAME)_test.c tests/ray_tests.c
+	TEST = /sgoinfre/pjarnac/public/unit_tests/Unity/src/unity.c
+#	TEST = /home/asventi/tests/Unity/unity.c
 else ifneq ($(MODE),)
 	ERROR = MODE
 endif

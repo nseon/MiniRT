@@ -13,10 +13,10 @@
 #include <math.h>
 
 #include "normals.h"
-#include "tuple.h"
 #include "objects.h"
 #include "ray.h"
 #include "rt_maths.h"
+#include "tuple.h"
 
 t_obj	sphere(void)
 {

@@ -28,6 +28,7 @@ typedef struct s_world
 	t_light				*lights;
 	t_intersections		xs;
 	t_amb				amb;
+	t_fcolor			back_col;
 }	t_world;
 
 void			sort_inter(t_intersections xs);

@@ -13,6 +13,7 @@
 #include <math.h>
 
 #include "patterns.h"
+#include "rt_maths.h"
 
 t_fcolor	stripe_at(t_pattern pat, t_tuple pt)
 {

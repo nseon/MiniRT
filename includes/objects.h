@@ -13,11 +13,10 @@
 #ifndef OBJECTS_H
 # define OBJECTS_H
 
-# include "colors.h"
 # include "fcolors.h"
 # include "materials.h"
-# include "tuple.h"
 # include "matrix.h"
+# include "tuple.h"
 
 typedef enum e_light_type
 {
@@ -31,6 +30,7 @@ typedef enum e_obj_type
 	SPHERE,
 	PLANE,
 	CYLINDER,
+	CUBE,
 }	t_obj_type;
 
 typedef struct s_light
@@ -64,6 +64,8 @@ typedef struct s_camera
 uint32_t	get_uid(void);
 t_camera	camera(double hsize, double vsize, double fov);
 t_obj		sphere(void);
+t_obj		cube(void);
+t_tuple		cube_normal(t_tuple pt);
 t_obj		glass_sphere(void);
 t_obj		plane(void);
 void		mul_transform(t_obj *o, t_mtx4 transf);

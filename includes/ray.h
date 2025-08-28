@@ -13,9 +13,9 @@
 #ifndef RAY_H
 # define RAY_H
 
-# include "tuple.h"
-# include "objects.h"
 # include "matrix.h"
+# include "objects.h"
+# include "tuple.h"
 
 typedef struct s_ray
 {
@@ -41,6 +41,7 @@ t_tuple			position(t_ray ray, double t);
 void			obj_intersect(t_ray r, t_obj *o, t_intersections *xs);
 void			sphere_intersect(t_ray r, t_obj *o, t_intersections *xs);
 void			plane_intersect(t_ray r, t_obj *o, t_intersections *xs);
+void			cube_intersect(t_ray r, t_obj *o, t_intersections *xs);
 t_intersection	intersection(double t, t_obj *obj);
 t_intersection	*hit(t_intersections *inters);
 

@@ -22,6 +22,8 @@ int32_t	parse_cylinder(char **split, t_obj *obj)
 	int32_t	res;
 
 	res = 0;
+	(void)split;
+	(void)obj;
 	// *obj = (t_obj){0};
 	// obj->type = CYLINDER;
 	// res = parse_xyz(split[0], &obj->pos);

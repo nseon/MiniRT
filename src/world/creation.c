@@ -34,6 +34,7 @@ int32_t	world(t_world *w)
 		free_vct(w->objs);
 		return (FATAL);
 	}
+	w->back_col = fcolor(0, 0, 0);
 	create_wintersec(w);
 	return (SUCCESS);
 }

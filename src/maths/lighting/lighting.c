@@ -71,7 +71,7 @@ t_fcolor	color_at(t_world *w, t_ray r, int n)
 	if (!i)
 	{
 		w->xs.count -= xs.count;
-		return (fcolor(0, 0, 0));
+		return (w->back_col);
 	}
 	pc = pre_compute(i, r, &xs);
 	w->xs.count -= xs.count;
