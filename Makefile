@@ -6,7 +6,7 @@
 #    By: nseon <nseon@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/19 11:53:22 by pjarnac           #+#    #+#              #
-#    Updated: 2025/06/19 10:49:04 by nseon            ###   ########.fr        #
+#    Updated: 2025/08/27 09:58:51 by nseon            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -196,6 +196,7 @@ SRC += $(addprefix $(RENDER_DIR), $(RENDER_SRC))
 RENDER_DIR	=		render/
 RENDER_SRC	=		test_render.c \
 					render.c \
+					ss_utils.c \
 
 # ===============GUI================ #
 

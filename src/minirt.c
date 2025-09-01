@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:22:55 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/05/26 14:27:18 by nseon            ###   ########.fr       */
+/*   Updated: 2025/08/27 10:21:57 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,24 @@
 
 #include <stdlib.h>
 #include <unistd.h>
+#include <fcntl.h>
 
 #include "mlx.h"
 #include "parsing.h"
 
 static int8_t	init(t_ctx *const ctx)
 {
+	int32_t fd;
+
+	fd = open("/dev/urandom", O_RDONLY);
+	if (fd == -1)
+		return (FATAL);
+	if (read(fd, ctx->random, RAY_NBR) == -1)
+		return (FATAL);
+	ctx->gctx.color_px = malloc(sizeof (t_rgb96_t) * WIN_H * WIN_W);
+	if (!ctx->gctx.color_px)
+		return (FATAL);
+	ft_bzero(ctx->gctx.color_px, sizeof (t_rgb96_t) * WIN_H * WIN_W);
 	if (init_window(&ctx->win, WIN_W, WIN_H, "MiniRT") != SUCCESS)
 		return (FATAL);
 	if (create_image(&ctx->img, WIN_W, WIN_H, &ctx->win) != SUCCESS)

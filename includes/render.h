@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 16:10:47 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/06/19 10:47:15 by nseon            ###   ########.fr       */
+/*   Updated: 2025/08/28 10:47:27 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,20 +36,27 @@ typedef struct s_amb_light
 	t_fcolor	col;
 }	t_amb_light;
 
-typedef struct s_ren_calc
+typedef struct s_gctx
 {
-	t_point3	p;
-	t_tuple		n;
-	t_point3	o;
-	t_tuple		d;
-	t_tuple		v;
-	t_tuple		r;
-	t_tuple		l;
-	int32_t		s;
-}	t_ren_calc;
+	t_world		w;
+	t_camera	cam;
+	t_rgb96_t	*color_px;
+}	t_gctx;
 
+typedef struct s_ctx
+{
+	t_window		win;
+	t_image			img;
+	t_gctx			gctx;
+	int32_t			error;
+	int32_t			file;
+	uint8_t			random[RAY_NBR];
+	bool parsing;
+	bool render;
+}	t_ctx;
 
 uint32_t	get_pixel_color(t_image *image, int x, int y);
-t_image		*render(t_image *img, t_camera cam, t_world *world);
+t_image		*render(t_ctx *ctx, t_camera cam, t_world *world, int32_t nb_rays);
+t_tuple			random_bounce(uint8_t const random[RAY_NBR], t_tuple ojb_norm);
 
 #endif

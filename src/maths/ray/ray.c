@@ -3,16 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   ray.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 16:25:10 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/08/07 16:25:10 by pjarnac          ###   ########.fr       */
+/*   Updated: 2025/08/28 08:43:17 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "matrix.h"
 #include "tuple.h"
 #include "ray.h"
+#include "supersampling.h"
+#include "render.h"
 
 t_ray	ray(t_tuple origin, t_tuple direction)
 {
@@ -37,4 +39,17 @@ t_ray	ray_for_pixel(t_camera cam, double x, double y)
 	t_tuple const	origin = mtx_tup_mul(point(0, 0, 0), cam.inverse);
 
 	return ((t_ray){origin, tp_normalize(tp_sub(pixel, origin))});
+}
+
+t_tuple random_bounce(uint8_t const random[RAY_NBR], t_tuple ojb_norm)
+{
+	t_tuple bounce;
+
+	bounce = random_vec(random);
+	// while (get_distance(bounce, (t_point3){0, 0, 0}) > 1)
+	// 	bounce = random_vec(random);
+	tp_normalize(bounce);
+	if (tp_dot(bounce, ojb_norm) <= 0)
+		tp_invert(&bounce);
+	return (bounce);
 }

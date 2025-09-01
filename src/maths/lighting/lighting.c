@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lighting.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 15:24:02 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/08/15 15:24:02 by pjarnac          ###   ########.fr       */
+/*   Updated: 2025/09/01 16:40:55 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,28 +18,57 @@
 #include "lib/libft/src/vector/vector.h"
 #include "normals.h"
 #include "rt_maths.h"
+#include "render.h"
 
-t_fcolor	blend_additives(t_world *w, t_fcolor col, t_pre_compute *pc, int n)
+t_fcolor	indirect_light(t_world *w, t_pre_compute *pc, int n, uint8_t const random[RAY_NBR])
+{
+	t_ray			r;
+	t_fcolor		rcolor;
+	t_intersections	xs;
+	t_intersection	*i;
+	double			distance;
+	
+	if (n < 1)
+		return (fcolor(0, 0, 0));
+	r = ray(pc->over_point, random_bounce(random, pc->normalv));
+	xs = world_intersec(w, r);
+	i = hit(&xs);
+	if (!i)
+	{
+		w->xs.count-= xs.count;
+		return (fcolor(0, 0, 0));
+	}
+	distance = i->t;
+	w->xs.count -= xs.count;
+	rcolor = color_at(w, r, -1, random);
+	if (distance < 1)
+		distance = 1;
+	return (col_scalar(color_mul(rcolor, pc->obj->mat.col), 1.0 / (distance * distance)));
+}
+
+t_fcolor	blend_additives(t_world *w, t_fcolor col, t_pre_compute *pc, int n, uint8_t const random[RAY_NBR])
 {
 	double		reflectance;
+	t_fcolor	bounce;
 
 	if (pc->obj->mat.reflective > 0 && pc->obj->mat.transparency > 0)
 	{
 		reflectance = schlick(pc);
 		// col = col_scalar(col, 1 - pc->obj->mat.transparency * (1 - reflectance)
 		// - pc->obj->mat.reflective * reflectance);
-		col = color_add(col, col_scalar(reflect_color(w, pc, n), reflectance));
-		col = color_add(col, col_scalar(refract_color(w, pc, n), 1 - reflectance));
+		col = color_add(col, col_scalar(reflect_color(w, pc, n, random), reflectance));
+		col = color_add(col, col_scalar(refract_color(w, pc, n, random), 1 - reflectance));
 		return (col);
 	}
 	// col = col_scalar(col, 1 - pc->obj->mat.transparency
 	// 	- pc->obj->mat.reflective);
-	col = color_add(col, reflect_color(w, pc, n));
-	col = color_add(col, refract_color(w, pc, n));
+	col = color_add(col, reflect_color(w, pc, n, random));
+	col = color_add(col, refract_color(w, pc, n, random));
+	col = color_add(col, col_scalar(indirect_light(w, pc, n, random), 0.4));
 	return (col);
 }
 
-t_fcolor		light_hit(t_world *w, t_pre_compute *pc, int n)
+t_fcolor		light_hit(t_world *w, t_pre_compute *pc, int n, uint8_t const random[RAY_NBR])
 {
 	t_fcolor	color;
 	t_light		l;
@@ -57,10 +86,10 @@ t_fcolor		light_hit(t_world *w, t_pre_compute *pc, int n)
 		if (!is_in_shadow(w, pc->over_point, &l))
 			color = color_add(color, phong(pc->obj->mat, l, pc));
 	}
-	return (blend_additives(w, color, pc, n));
+	return (blend_additives(w, color, pc, n, random));
 }
 
-t_fcolor	color_at(t_world *w, t_ray r, int n)
+t_fcolor	color_at(t_world *w, t_ray r, int n, uint8_t const random[RAY_NBR])
 {
 	t_intersections	xs;
 	t_intersection	*i;
@@ -75,10 +104,10 @@ t_fcolor	color_at(t_world *w, t_ray r, int n)
 	}
 	pc = pre_compute(i, r, &xs);
 	w->xs.count -= xs.count;
-	return (light_hit(w, &pc, n));
+	return (light_hit(w, &pc, n, random));
 }
 
-t_fcolor	reflect_color(t_world *w, t_pre_compute *pc, int n)
+t_fcolor	reflect_color(t_world *w, t_pre_compute *pc, int n, uint8_t const random[RAY_NBR])
 {
 	t_fcolor	rcolor;
 	t_ray		r;
@@ -86,6 +115,6 @@ t_fcolor	reflect_color(t_world *w, t_pre_compute *pc, int n)
 	if (n < 1 || d_equal(pc->obj->mat.reflective, 0))
 		return (fcolor(0, 0, 0));
 	r = ray(pc->over_point, pc->reflectv);
-	rcolor = color_at(w, r, n - 1);
+	rcolor = color_at(w, r, n - 1, random);
 	return (col_scalar(rcolor, pc->obj->mat.reflective));
 }
