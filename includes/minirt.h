@@ -17,8 +17,8 @@
 # include "render.h"
 # include "world.h"
 
-# define WIN_W 600
-# define WIN_H 400
+# define WIN_W 900
+# define WIN_H 600
 
 typedef struct s_gctx
 {

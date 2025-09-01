@@ -31,6 +31,8 @@ void obj_intersect(t_ray r, t_obj *o, t_intersections *xs)
 		plane_intersect(r, o, xs);
 	else if (o->type == CUBE)
 		cube_intersect(r, o, xs);
+	else if (o->type == CYLINDER)
+		cylinder_intersect(r, o, xs);
 }
 
 t_intersection	*hit(t_intersections *inters)

@@ -1,23 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   normals.h                                          :+:      :+:    :+:   */
+/*   cylinder.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/12 18:11:12 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/08/12 18:11:12 by pjarnac          ###   ########.fr       */
+/*   Created: 2025/09/01 09:41:04 by pjarnac           #+#    #+#             */
+/*   Updated: 2025/09/01 09:41:04 by pjarnac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINIRT_NORMALS_H
-# define MINIRT_NORMALS_H
+#include <float.h>
 
+#include "normals.h"
 #include "objects.h"
+#include "ray.h"
+#include "tuple.h"
 
-t_tuple	obj_normal(t_obj *o, t_tuple pt);
-t_tuple	sphere_normal(t_tuple pt);
-t_tuple	plane_normal(t_tuple pt);
-t_tuple	cylinder_normal(t_tuple pt);
+t_obj	cylinder(void)
+{
+	t_obj	o;
 
-#endif
+	o = (t_obj){.type = CYLINDER, .uid = get_uid(), .mat = g_default_mat,
+		.min = (double)-4849848494964964879, .max = DBL_MAX};
+	mtx4_dup(g_identity_matrix, o.transform);
+	mtx4_dup(g_identity_matrix, o.inv_transform);
+	return (o);
+}
+
+t_tuple	cylinder_normal(t_tuple pt)
+{
+	return (vector(pt.x, 0, pt.z));
+}

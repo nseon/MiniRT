@@ -47,6 +47,8 @@ typedef struct s_obj
 	t_mtx4		transform;
 	t_mtx4		inv_transform;
 	t_material	mat;
+	double		min;
+	double		max;
 }	t_obj;
 
 typedef struct s_camera
@@ -64,7 +66,9 @@ typedef struct s_camera
 uint32_t	get_uid(void);
 t_camera	camera(double hsize, double vsize, double fov);
 t_obj		sphere(void);
+t_obj		cylinder(void);
 t_obj		cube(void);
+double		cube_max(double x, double y, double z, int sign);
 t_tuple		cube_normal(t_tuple pt);
 t_obj		glass_sphere(void);
 t_obj		plane(void);

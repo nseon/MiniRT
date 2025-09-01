@@ -14,8 +14,8 @@
 # define PATTERNS_H
 
 # include "fcolors.h"
-# include "tuple.h"
 # include "matrix.h"
+# include "tuple.h"
 
 typedef enum e_pattern_type
 {

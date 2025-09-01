@@ -45,7 +45,7 @@
 // 	p.mat.reflective = 0.8;
 // 	// p.mat.transparency = 0.9;
 // 	// p.mat.refractive = 1.5;
-// 	p.mat.pat.type = CHECKER;
+// 	p.mat.pat.type = RING;
 // 	p.mat.pat.a = fcolor(1, (float)170/255, 0);
 // 	p.mat.pat.b = fcolor((float)173/255, (float)0, 1);
 // 	set_pattern_transf(&p.mat.pat, mx_rotation_y(M_PI_4, mx_scaling(0.3, 0.3, 0.3, translation(0, 0, 0, s.mat.pat.transf))));
@@ -197,7 +197,7 @@
 // 	set_transform(&s,mx_rotation_y(M_PI_4, mx_rotation_x(0, mx_scaling(0.6, 0.6, 0.6, translation(2, 1.5, -2.5, buf)))));
 // 	s.mat.col = fcolor(1, 0.8, 0.1);
 // 	s.mat.specular = 0.6;
-// 	s.mat.pat.type = CHECKER;
+// 	s.mat.pat.type = RING;
 // 	s.mat.pat.a = fcolor((float)18/255, (float)255/255, (float)93/255);
 // 	s.mat.pat.b = fcolor((float)108/255, (float)200/255, (float)231/255);
 // 	set_pattern_transf(&s.mat.pat,mx_scaling(0.2, 0.2, 0.2, translation(0, 0, 0, s.mat.pat.transf)));
@@ -377,6 +377,25 @@ void	test_render(t_ctx * const ctx)
 	.mat.pat.transf)));
 	set_transform(&s, mx_scaling(1, 1, 1, translation(-0.5, 2.01, -2, s.transform)));
 	add_world_obj(&w, s);
+
+	s = cylinder();
+	s.max = 2;
+	s.min = 1;
+	s.mat.col = fcolor(0.1, 0.1, 0.1);
+	s.mat.pat.a = fcolor((float)197/255, (float)186/255, (float)255/255);
+	s.mat.pat.b = fcolor((float)196/255, (float)217/255, (float)255/255);
+	s.mat.transparency = 0;
+	s.mat.reflective = 1;
+	s.mat.refractive = 1.5;
+	s.mat.diffuse = 0.2;
+	s.mat.pat.type = CHECKER;
+	s.mat.has_pat = false;
+	set_pattern_transf(&s.mat.pat, mx_scaling(0.2, 0.2, 0.2, translation(1, 0,
+	0, s
+	.mat.pat.transf)));
+	set_transform(&s, mx_scaling(1, 1, 1, translation(2, 1, -5, s.transform)));
+	add_world_obj(&w, s);
+
 	render(&ctx->img, cam, &w);
 	free_world(&w);
 	// end_loop(&ctx->win);

@@ -22,6 +22,15 @@ static void	ft_swap(t_intersection *a, t_intersection *b)
 	*b = buf;
 }
 
+void	dswap(double *a, double *b)
+{
+	double	buf;
+
+	buf = *a;
+	*a = *b;
+	*b = buf;
+}
+
 static int	get_pivot(t_intersection *xs, int first, int last)
 {
 	int				i;

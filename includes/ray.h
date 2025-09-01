@@ -42,6 +42,7 @@ void			obj_intersect(t_ray r, t_obj *o, t_intersections *xs);
 void			sphere_intersect(t_ray r, t_obj *o, t_intersections *xs);
 void			plane_intersect(t_ray r, t_obj *o, t_intersections *xs);
 void			cube_intersect(t_ray r, t_obj *o, t_intersections *xs);
+void			cylinder_intersect(t_ray r, t_obj *o, t_intersections *xs);
 t_intersection	intersection(double t, t_obj *obj);
 t_intersection	*hit(t_intersections *inters);
 

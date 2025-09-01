@@ -60,6 +60,7 @@ OBJECTS_SRC	=		objects_creation.c \
 					camera.c \
 					plane.c \
 					cube.c \
+					cylinder.c \
 
 # ===============WORLD================= #
 
@@ -114,6 +115,10 @@ SRC += $(addprefix $(RAY_DIR), $(RAY_SRC))
 RAY_DIR	=		$(MATHS_DIR)ray/
 RAY_SRC	=		ray.c \
 				intersections.c \
+				sphere_intersec.c \
+				cube_intersec.c \
+				plane_intersec.c \
+				cylinder_intersec.c \
 
 # ===============MATHS/TRANSFORMATIONS================= #
 

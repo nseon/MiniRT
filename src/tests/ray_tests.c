@@ -1116,6 +1116,104 @@ void	test_cube_normal()
 	TEST_ASSERT(tp_equal(vector(1, 0, 0), cube_normal(point(1, 1, 1))));
 }
 
+void	test_cylinder_intersec_miss()
+{
+	t_obj	o = cylinder();
+	t_ray	r;
+	t_intersections	xs;
+	xs.i = malloc(sizeof (t_intersection) * 2);
+	xs.count = 0;
+
+	r = ray(point(1, 0, 0), tp_normalize(vector(0, 1, 0)));
+	obj_intersect(r, &o, &xs);
+	TEST_ASSERT_EQUAL_INT32(0, xs.count);
+
+	r = ray(point(0, 0, 0), tp_normalize(vector(0, 1, 0)));
+	obj_intersect(r, &o, &xs);
+	TEST_ASSERT_EQUAL_INT32(0, xs.count);
+
+	r = ray(point(0, 0, -5), tp_normalize(vector(1, 1, 1)));
+	obj_intersect(r, &o, &xs);
+	TEST_ASSERT_EQUAL_INT32(0, xs.count);
+
+	free(xs.i);
+}
+
+void	test_cylinder_intersec()
+{
+	t_obj	o = cylinder();
+	t_ray	r;
+	t_intersections	xs;
+	xs.i = malloc(sizeof (t_intersection) * 2);
+	xs.count = 0;
+
+	r = ray(point(1, 0, -5), tp_normalize(vector(0, 0, 1)));
+	xs.count = 0;
+	obj_intersect(r, &o, &xs);
+	TEST_ASSERT_EQUAL_INT32(2, xs.count);
+	TEST_ASSERT_EQUAL_DOUBLE(5, xs.i[0].t);
+	TEST_ASSERT_EQUAL_DOUBLE(5, xs.i[1].t);
+
+	r = ray(point(0, 0, -5), tp_normalize(vector(0, 0, 1)));
+	xs.count = 0;
+	obj_intersect(r, &o, &xs);
+	TEST_ASSERT_EQUAL_INT32(2, xs.count);
+	TEST_ASSERT_EQUAL_DOUBLE(4, xs.i[0].t);
+	TEST_ASSERT_EQUAL_DOUBLE(6, xs.i[1].t);
+
+	r = ray(point(0.5, 0, -5), tp_normalize(vector(0.1, 1, 1)));
+	xs.count = 0;
+	obj_intersect(r, &o, &xs);
+	TEST_ASSERT_EQUAL_INT32(2, xs.count);
+	TEST_ASSERT(d_equal(6.80798167, xs.i[0].t));
+	TEST_ASSERT(d_equal(7.08872, xs.i[1].t));
+
+	free(xs.i);
+}
+
+void	test_cylinder_trunc()
+{
+	t_obj	o = cylinder();
+	o.min = 1;
+	o.max = 2;
+	t_ray	r;
+	t_intersections	xs;
+	xs.i = malloc(sizeof (t_intersection) * 2);
+	xs.count = 0;
+
+	r = ray(point(0, 1.5, 0), tp_normalize(vector(0.1, 1, 0)));
+	xs.count = 0;
+	obj_intersect(r, &o, &xs);
+	TEST_ASSERT_EQUAL_INT32(0, xs.count);
+
+	r = ray(point(0, 3, -5), tp_normalize(vector(0, 0, 1)));
+	xs.count = 0;
+	obj_intersect(r, &o, &xs);
+	TEST_ASSERT_EQUAL_INT32(0, xs.count);
+
+	r = ray(point(0, 0, -5), tp_normalize(vector(0, 0, 1)));
+	xs.count = 0;
+	obj_intersect(r, &o, &xs);
+	TEST_ASSERT_EQUAL_INT32(0, xs.count);
+
+	r = ray(point(0, 2, -5), tp_normalize(vector(0, 0, 1)));
+	xs.count = 0;
+	obj_intersect(r, &o, &xs);
+	TEST_ASSERT_EQUAL_INT32(0, xs.count);
+
+	r = ray(point(0, 1, -5), tp_normalize(vector(0, 0, 1)));
+	xs.count = 0;
+	obj_intersect(r, &o, &xs);
+	TEST_ASSERT_EQUAL_INT32(0, xs.count);
+
+	r = ray(point(0, 1.5, -2), tp_normalize(vector(0, 0, 1)));
+	xs.count = 0;
+	obj_intersect(r, &o, &xs);
+	TEST_ASSERT_EQUAL_INT32(2, xs.count);
+
+	free(xs.i);
+}
+
 int	test_rays()
 {
 	RUN_TEST(test_ray_creation);
@@ -1196,5 +1294,8 @@ int	test_rays()
 	RUN_TEST(test_cube_intersection);
 	RUN_TEST(test_cube_intersection_miss);
 	RUN_TEST(test_cube_normal);
+	RUN_TEST(test_cylinder_intersec_miss);
+	RUN_TEST(test_cylinder_intersec);
+	RUN_TEST(test_cylinder_trunc);
 	return 0;
 }
