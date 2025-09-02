@@ -18,6 +18,6 @@
 t_tuple	obj_normal(t_obj *o, t_tuple pt);
 t_tuple	sphere_normal(t_tuple pt);
 t_tuple	plane_normal(t_tuple pt);
-t_tuple	cylinder_normal(t_tuple pt);
+t_tuple	cylinder_normal(t_obj *o, t_tuple pt);
 
 #endif

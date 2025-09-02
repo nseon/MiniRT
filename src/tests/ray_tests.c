@@ -1214,6 +1214,59 @@ void	test_cylinder_trunc()
 	free(xs.i);
 }
 
+void	test_cylinder_capped()
+{
+	t_obj	o = cylinder();
+	o.min = 1;
+	o.max = 2;
+	o.closed = true;
+	t_ray	r;
+	t_intersections	xs;
+	xs.i = malloc(sizeof (t_intersection) * 2);
+
+	r = ray(point(0, 3, 0), tp_normalize(vector(0, -1, 0)));
+	xs.count = 0;
+	obj_intersect(r, &o, &xs);
+	TEST_ASSERT_EQUAL_INT32(2, xs.count);
+
+	r = ray(point(0, 3, -2), tp_normalize(vector(0, -1, 2)));
+	xs.count = 0;
+	obj_intersect(r, &o, &xs);
+	TEST_ASSERT_EQUAL_INT32(2, xs.count);
+
+	r = ray(point(0, 4, -2), tp_normalize(vector(0, -1, 1)));
+	xs.count = 0;
+	obj_intersect(r, &o, &xs);
+	TEST_ASSERT_EQUAL_INT32(2, xs.count);
+
+	r = ray(point(0, 0, -2), tp_normalize(vector(0, 1, 2)));
+	xs.count = 0;
+	obj_intersect(r, &o, &xs);
+	TEST_ASSERT_EQUAL_INT32(2, xs.count);
+
+	r = ray(point(0, -1, -2), tp_normalize(vector(0, 1, 1)));
+	xs.count = 0;
+	obj_intersect(r, &o, &xs);
+	TEST_ASSERT_EQUAL_INT32(2, xs.count);
+
+	free(xs.i);
+}
+
+void	test_cylinder_capped_normal()
+{
+	t_obj	o = cylinder();
+	o.min = 1;
+	o.max = 2;
+	o.closed = true;
+
+	TEST_ASSERT(tp_equal(vector(0, -1, 0), obj_normal(&o, point(0, 1, 0))));
+	TEST_ASSERT(tp_equal(vector(0, -1, 0), obj_normal(&o, point(0.5, 1, 0))));
+	TEST_ASSERT(tp_equal(vector(0, -1, 0), obj_normal(&o, point(0, 1, 0.5))));
+	TEST_ASSERT(tp_equal(vector(0, 1, 0), obj_normal(&o, point(0, 2, 0))));
+	TEST_ASSERT(tp_equal(vector(0, 1, 0), obj_normal(&o, point(0.5, 2, 0))));
+	TEST_ASSERT(tp_equal(vector(0, 1, 0), obj_normal(&o, point(0, 2, 0.5))));
+}
+
 int	test_rays()
 {
 	RUN_TEST(test_ray_creation);
@@ -1297,5 +1350,7 @@ int	test_rays()
 	RUN_TEST(test_cylinder_intersec_miss);
 	RUN_TEST(test_cylinder_intersec);
 	RUN_TEST(test_cylinder_trunc);
+	RUN_TEST(test_cylinder_capped);
+	RUN_TEST(test_cylinder_capped_normal);
 	return 0;
 }

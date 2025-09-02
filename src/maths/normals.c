@@ -27,7 +27,7 @@ t_tuple	obj_normal(t_obj *o, t_tuple pt)
 	else if (o->type == CUBE)
 		n = cube_normal(local_pt);
 	else if (o->type == CYLINDER)
-		n = cylinder_normal(local_pt);
+		n = cylinder_normal(o, local_pt);
 	mtx_tup_mul2(&n, mtx_transpose2(o->inv_transform, tbuf));
 	n.w = 0;
 	return (tp_normalize(n));

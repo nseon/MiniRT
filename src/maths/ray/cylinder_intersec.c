@@ -36,6 +36,30 @@ void	trunc_intersec(t_ray r, double dis, double b, t_intersections *xs)
 		xs->i[xs->count++].t = t1;
 }
 
+bool	check_cap(t_ray r, double t)
+{
+	double const	x = r.origin.x + r.dir.x * t;
+	double const	z = r.origin.z + r.dir.z * t;
+
+	if (x * x + z * z <= 1)
+		return (true);
+	return (false);
+}
+
+void	cap_intersect(t_ray r, t_obj *o, t_intersections *xs)
+{
+	double	t;
+
+	if (!o->closed || d_equal(0, r.dir.y))
+		return ;
+	t = (o->min - r.origin.y) / r.dir.y;
+	if (check_cap(r, t))
+		xs->i[xs->count++].t = t;
+	t = (o->max - r.origin.y) / r.dir.y;
+	if (check_cap(r, t))
+		xs->i[xs->count++].t = t;
+}
+
 void	cylinder_intersect(t_ray r, t_obj *o, t_intersections *xs)
 {
 	double const	a = r.dir.x * r.dir.x + r.dir.z * r.dir.z;
@@ -43,14 +67,16 @@ void	cylinder_intersect(t_ray r, t_obj *o, t_intersections *xs)
 	double			c;
 	double			dis;
 
-	if (d_equal(a, 0))
-		return ;
-	b = 2 * r.origin.x * r.dir.x + 2 * r.origin.z * r.dir.z;
-	c = r.origin.x * r.origin.x + r.origin.z * r.origin.z - 1;
-	dis = b * b - 4 * a * c;
-	if (dis < 0)
-		return ;
 	xs->i[xs->count].obj = o;
 	xs->i[xs->count + 1].obj = o;
-	trunc_intersec(r, dis, b, xs);
+	if (!d_equal(a, 0))
+	{
+		b = 2 * r.origin.x * r.dir.x + 2 * r.origin.z * r.dir.z;
+		c = r.origin.x * r.origin.x + r.origin.z * r.origin.z - 1;
+		dis = b * b - 4 * a * c;
+		if (dis < 0)
+			return ;
+		trunc_intersec(r, dis, b, xs);
+	}
+	cap_intersect(r, o, xs);
 }

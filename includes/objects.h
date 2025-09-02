@@ -49,6 +49,7 @@ typedef struct s_obj
 	t_material	mat;
 	double		min;
 	double		max;
+	bool		closed;
 }	t_obj;
 
 typedef struct s_camera
