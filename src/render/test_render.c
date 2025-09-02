@@ -381,13 +381,13 @@ void	test_render(t_ctx * const ctx)
 	s = cylinder();
 	s.max = 2;
 	s.min = 1;
-	s.mat.col = fcolor(0.1, 0.1, 0.1);
+	s.mat.col = fcolor(1, 1, 1);
 	s.mat.pat.a = fcolor((float)197/255, (float)186/255, (float)255/255);
 	s.mat.pat.b = fcolor((float)196/255, (float)217/255, (float)255/255);
 	s.mat.transparency = 0;
-	s.mat.reflective = 1;
+	s.mat.reflective = 0;
 	s.mat.refractive = 1.5;
-	s.mat.diffuse = 0.2;
+	s.mat.diffuse = 0.7;
 	s.mat.pat.type = CHECKER;
 	s.mat.has_pat = false;
 	set_pattern_transf(&s.mat.pat, mx_scaling(0.2, 0.2, 0.2, translation(1, 0,
