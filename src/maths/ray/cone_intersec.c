@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cylinder_intersec.c                                :+:      :+:    :+:   */
+/*   cone_intersec.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/01 09:40:54 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/09/01 09:40:54 by pjarnac          ###   ########.fr       */
+/*   Created: 2025/09/03 21:43:48 by pjarnac           #+#    #+#             */
+/*   Updated: 2025/09/03 21:43:48 by pjarnac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static void	cap_intersect(t_ray r, t_obj *o, t_intersections *xs)
 		xs->i[xs->count++].t = t;
 }
 
-void	cylinder_intersect(t_ray r, t_obj *o, t_intersections *xs)
+void	cone_intersect(t_ray r, t_obj *o, t_intersections *xs)
 {
 	double const	a = r.dir.x * r.dir.x + r.dir.z * r.dir.z;
 	double			b;

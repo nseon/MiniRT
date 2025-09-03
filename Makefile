@@ -61,6 +61,7 @@ OBJECTS_SRC	=		objects_creation.c \
 					plane.c \
 					cube.c \
 					cylinder.c \
+					cone.c \
 
 # ===============WORLD================= #
 
@@ -119,6 +120,7 @@ RAY_SRC	=		ray.c \
 				cube_intersec.c \
 				plane_intersec.c \
 				cylinder_intersec.c \
+				cone_intersec.c \
 
 # ===============MATHS/TRANSFORMATIONS================= #
 

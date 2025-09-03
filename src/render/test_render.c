@@ -255,7 +255,7 @@
 // 	add_world_obj(&w, p);
 //
 // 	p = plane();
-// 	set_transform(&p, mx_rotation_z(0, mx_rotation_y(0, translation(0, -5, 0, buf))));
+// 	set_transform(&p, mx_rotation_z(0, mx_rotation_y(0, translation(0, -10, 0, buf))));
 // 	p.mat.col = fcolor(1, 0.9, 0.9);
 // 	p.mat.pat.type = CHECKER;
 //
@@ -266,18 +266,30 @@
 // 	p.mat.specular = 0;
 // 	add_world_obj(&w, p);
 //
+// 	p = sphere();
+// 	set_transform(&p, mx_rotation_z(0, mx_rotation_y(0, translation(0, -2, -14, buf))));
+// 	p.mat.col = fcolor(1, 0.9, 0.9);
+// 	p.mat.pat.type = CHECKER;
+//
+// 	p.mat.pat.a = fcolor(0.3, 0.8, 0.8);
+// 	p.mat.pat.b = fcolor(0.1, 0.7, 0.1);
+// 	set_pattern_transf(&p.mat.pat, mx_scaling(2, 2, 2, translation(-1, 0, 0, s.mat.pat.transf)));
+// 	p.mat.has_pat = false;
+// 	p.mat.specular = 0;
+// 	add_world_obj(&w, p);
+//
 // 	p = plane();
 // 	set_transform(&p, mx_rotation_z(0, mx_rotation_y(0, translation(0, -0.5, 0, buf))));
 // 	p.mat.col = fcolor(0.1, 0.13, 0.2);
 // 	p.mat.pat.type = CHECKER;
 // 	p.mat.pat.a = fcolor(1, 0.8, 0.8);
-// 	p.mat.pat.b = fcolor(0.1, 0.1, 0.1);
+// 	p.mat.pat.b = fcolor(0.1, 0.15, 0.25);
 // 	set_pattern_transf(&p.mat.pat, mx_scaling(3, 3, 3, translation(-1, 0, 0, s.mat.pat.transf)));
 // 	p.mat.has_pat = false;
 // 	p.mat.specular = 0.4;
 // 	p.mat.diffuse = 0.7;
-// 	p.mat.transparency = 1;
-// 	p.mat.reflective = 0.4;
+// 	p.mat.transparency = 0.4;
+// 	p.mat.reflective = 0.7;
 // 	p.mat.refractive = 1.33;
 // 	add_world_obj(&w, p);
 //
@@ -385,7 +397,7 @@ void	test_render(t_ctx * const ctx)
 	s.mat.col = fcolor(1, 0.6, 0.8);
 	s.mat.pat.a = fcolor((float)197/255, (float)186/255, (float)255/255);
 	s.mat.pat.b = fcolor((float)196/255, (float)217/255, (float)255/255);
-	s.mat.transparency = 0.6;
+	s.mat.transparency = 0;
 	s.mat.reflective = 0;
 	s.mat.refractive = 1.1;
 	s.mat.diffuse = 0.7;
