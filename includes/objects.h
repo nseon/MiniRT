@@ -31,7 +31,6 @@ typedef enum e_obj_type
 	PLANE,
 	CYLINDER,
 	CUBE,
-	CONE,
 }	t_obj_type;
 
 typedef struct s_light
@@ -70,7 +69,6 @@ t_camera	camera(double hsize, double vsize, double fov);
 t_obj		sphere(void);
 t_obj		cylinder(void);
 t_obj		cube(void);
-t_obj		cone(void);
 double		cube_max(double x, double y, double z, int sign);
 t_obj		glass_sphere(void);
 t_obj		plane(void);

@@ -33,8 +33,6 @@ void obj_intersect(t_ray r, t_obj *o, t_intersections *xs)
 		cube_intersect(r, o, xs);
 	else if (o->type == CYLINDER)
 		cylinder_intersect(r, o, xs);
-	else if (o->type == CONE)
-		cone_intersect(r, o, xs);
 }
 
 t_intersection	*hit(t_intersections *inters)

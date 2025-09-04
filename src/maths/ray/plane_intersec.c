@@ -17,6 +17,6 @@ void	plane_intersect(t_ray r, t_obj *o, t_intersections *xs)
 {
 	if (dabs(r.dir.y) < EPSILON)
 		return ;
-	xs->i[xs->count] = intersection(-r.origin.y / r.dir.y, o);
+	xs->i[xs->count] = intersection(-r.ori.y / r.dir.y, o);
 	xs->count++;
 }

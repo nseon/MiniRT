@@ -17,7 +17,7 @@
 
 void	sphere_intersect(t_ray r, t_obj *o, t_intersections *xs)
 {
-	t_tuple const	d = tp_sub(r.origin, point(0, 0, 0));
+	t_tuple const	d = tp_sub(r.ori, point(0, 0, 0));
 	double const	b = 2 * tp_dot(r.dir, d);
 	double const	a = tp_dot(r.dir, r.dir);
 	double const	dis = b * b - 4 * a * (tp_dot(d, d) - 1);

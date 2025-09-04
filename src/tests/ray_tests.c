@@ -38,7 +38,7 @@ void	test_ray_creation()
 	t_tuple	vt = vector(1, 0, 0);
 
 	t_ray	r = ray(pt, vt);
-	TEST_ASSERT(tp_equal(pt, r.origin));
+	TEST_ASSERT(tp_equal(pt, r.ori));
 	TEST_ASSERT(tp_equal(vt, r.dir));
 }
 
@@ -191,7 +191,7 @@ void	test_ray_transform_translate()
 
 	translation(3, 4, 5, trans);
 	r2 = ray_transform(r, trans);
-	TEST_ASSERT(tp_equal(point(4, 6, 8), r2.origin));
+	TEST_ASSERT(tp_equal(point(4, 6, 8), r2.ori));
 	TEST_ASSERT(tp_equal(vector(0, 1, 0), r2.dir));
 }
 
@@ -203,7 +203,7 @@ void	test_ray_transform_scaling()
 
 	scaling(2, 3, 4, trans);
 	r2 = ray_transform(r, trans);
-	TEST_ASSERT(tp_equal(point(2, 6, 12), r2.origin));
+	TEST_ASSERT(tp_equal(point(2, 6, 12), r2.ori));
 	TEST_ASSERT(tp_equal(vector(0, 3, 0), r2.dir));
 }
 
@@ -517,7 +517,7 @@ void	test_pixel_ray_center()
 	t_camera cam = camera(201, 101, M_PI_2);
 	t_ray	ray = ray_for_pixel(cam, 100, 50);
 
-	TEST_ASSERT(tp_equal(point(0, 0, 0), ray.origin));
+	TEST_ASSERT(tp_equal(point(0, 0, 0), ray.ori));
 	TEST_ASSERT(tp_equal(vector(0, 0, -1), ray.dir));
 }
 
@@ -526,7 +526,7 @@ void	test_pixel_ray_corner()
 	t_camera cam = camera(201, 101, M_PI_2);
 	t_ray	ray = ray_for_pixel(cam, 0, 0);
 
-	TEST_ASSERT(tp_equal(point(0, 0, 0), ray.origin));
+	TEST_ASSERT(tp_equal(point(0, 0, 0), ray.ori));
 	TEST_ASSERT(tp_equal(vector(0.66519, 0.33259, -0.66851), ray.dir));
 }
 
@@ -538,7 +538,7 @@ void	test_pixel_ray_cam_trans()
 
 	set_cam_transform(&cam, mx_translation(0, -2, 5, rotation_y(M_PI_4, buf)));
 	ray = ray_for_pixel(cam, 100, 50);
-	TEST_ASSERT(tp_equal(point(0, 2, -5), ray.origin));
+	TEST_ASSERT(tp_equal(point(0, 2, -5), ray.ori));
 	TEST_ASSERT(tp_equal(vector(sqrtf(2) / 2, 0, -sqrtf(2) / 2), ray.dir));
 }
 

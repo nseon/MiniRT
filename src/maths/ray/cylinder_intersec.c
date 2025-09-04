@@ -28,18 +28,18 @@ static void	trunc_intersec(t_ray r, double dis, double b, t_intersections *xs)
 	t1 = (- b + sqrt(dis)) / (2 * a);
 	if (t0 > t1)
 		dswap(&t0, &t1);
-	y = r.origin.y + r.dir.y * t0;
+	y = r.ori.y + r.dir.y * t0;
 	if (xs->i[xs->count].obj->min < y && y < xs->i[xs->count].obj->max)
 		xs->i[xs->count++].t = t0;
-	y = r.origin.y + r.dir.y * t1;
+	y = r.ori.y + r.dir.y * t1;
 	if (xs->i[xs->count].obj->min < y && y < xs->i[xs->count].obj->max)
 		xs->i[xs->count++].t = t1;
 }
 
 static bool	check_cap(t_ray r, double t)
 {
-	double const	x = r.origin.x + r.dir.x * t;
-	double const	z = r.origin.z + r.dir.z * t;
+	double const	x = r.ori.x + r.dir.x * t;
+	double const	z = r.ori.z + r.dir.z * t;
 
 	if (x * x + z * z <= 1)
 		return (true);
@@ -52,10 +52,10 @@ static void	cap_intersect(t_ray r, t_obj *o, t_intersections *xs)
 
 	if (!o->closed || d_equal(0, r.dir.y))
 		return ;
-	t = (o->min - r.origin.y) / r.dir.y;
+	t = (o->min - r.ori.y) / r.dir.y;
 	if (check_cap(r, t))
 		xs->i[xs->count++].t = t;
-	t = (o->max - r.origin.y) / r.dir.y;
+	t = (o->max - r.ori.y) / r.dir.y;
 	if (check_cap(r, t))
 		xs->i[xs->count++].t = t;
 }
@@ -71,8 +71,8 @@ void	cylinder_intersect(t_ray r, t_obj *o, t_intersections *xs)
 	xs->i[xs->count + 1].obj = o;
 	if (!d_equal(a, 0))
 	{
-		b = 2 * r.origin.x * r.dir.x + 2 * r.origin.z * r.dir.z;
-		c = r.origin.x * r.origin.x + r.origin.z * r.origin.z - 1;
+		b = 2 * r.ori.x * r.dir.x + 2 * r.ori.z * r.dir.z;
+		c = r.ori.x * r.ori.x + r.ori.z * r.ori.z - 1;
 		dis = b * b - 4 * a * c;
 		if (dis < 0)
 			return ;
