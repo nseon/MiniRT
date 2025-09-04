@@ -186,6 +186,8 @@ P_OBJECTS_SRC =		parsing_ambi_light.c \
 					parsing_plane.c \
 					parsing_sphere.c \
 					parsing_cylinder.c \
+					parsing_backlight.c \
+					parsing_cube.c \
 
 # ===============HOOKS================ #
 
@@ -242,7 +244,8 @@ MAKEFLAGS	+=	--no-print-directory
 
 # ================MODES================ #
 
-MODES		:= debug optimize full-optimize test bonus memsan asan test_asan test_memsan
+MODES		:= debug optimize full-optimize test bonus memsan asan test_asan \
+test_memsan asan-bonus
 
 MODE_TRACE	:= $(BUILD_DIR).mode_trace
 LAST_MODE	:= $(shell cat $(MODE_TRACE) 2>/dev/null)
@@ -261,6 +264,10 @@ else ifeq ($(MODE), asan)
 	CFLAGS = -g -fsanitize=address -fno-omit-frame-pointer -O1
     LDFLAGS += -fsanitize=address -fno-omit-frame-pointer
     CPPFLAGS += -DDEBUG=1
+else ifeq ($(MODE), asan-bonus)
+	CFLAGS = -g -fsanitize=address -fno-omit-frame-pointer -O1
+    LDFLAGS += -fsanitize=address -fno-omit-frame-pointer
+    CPPFLAGS += -DDEBUG=1 -DBONUS
 else ifeq ($(MODE), memsan)
  	CFLAGS = -g -fsanitize=memory -fno-omit-frame-pointer -O1
     LDFLAGS += -fsanitize=memory -fno-omit-frame-pointer

@@ -1,35 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   loop.c                                             :+:      :+:    :+:   */
+/*   parsing_backlight.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/27 12:15:25 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/05/27 12:15:25 by pjarnac          ###   ########.fr       */
+/*   Created: 2025/09/04 17:44:38 by pjarnac           #+#    #+#             */
+/*   Updated: 2025/09/04 17:44:38 by pjarnac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "image.h"
-#include "minirt.h"
+#include <stdio.h>
+
+#include "errors.h"
+#include "render.h"
 #include "parsing.h"
 
-void	main_loop(void *p)
+int32_t	parse_backlight(char **split, t_fcolor *bl)
 {
-	t_ctx *const	ctx = p;
+	int32_t	res;
 
-	if (!ctx->parsing)
-		draw_file_status(ctx);
-	if (ctx->parsing)
-	{
-		render(&ctx->img, ctx->gctx.cam, &ctx->gctx.w);
-	}
-	put_img(&ctx->img, 0, 0, true);
-}
-
-void	end_main_loop(void *p)
-{
-	t_window *const	win = p;
-
-	end_loop(win);
+	res = parse_color(*(split++), bl);
+	if (res != SUCCESS)
+		return (res);
+	return (res);
 }

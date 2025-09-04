@@ -110,6 +110,8 @@ int32_t	parse_normal(char *str, t_tuple *vct)
 		return (res);
 	if (f_equal(tp_magnitude(*vct), 1.0f))
 		return (SUCCESS);
+	if (f_equal(vct->x, 0) && f_equal(vct->y, 0) && f_equal(vct->z, 0))
+		return (ft_fprintf(2, PARSE_INVAL_UNIT, str));
 	printf(PARSE_INVAL_VCT_MSG, str);
 	*vct = tp_normalize(*vct);
 	printf(PARSE_INVAL_VCT_MSG2, vct->x, vct->y, vct->z);

@@ -21,7 +21,7 @@
 # ifdef BONUS
 #  define BONUS_STATE 1
 #  define MANDATORY "C"
-#  define P_ELEMENTS "A lpt ldir C sp pl cy"
+#  define P_ELEMENTS "A lpt ldir C sp pl cy bl cb #"
 #  define P_AMBI_LIGHT "A"
 #  define P_PT_LIGHT "lpt"
 #  define P_DIR_LIGHT "ldir"
@@ -29,16 +29,20 @@
 #  define P_SPHERE "sp"
 #  define P_PLANE "pl"
 #  define P_CYLINDER "cy"
+#  define P_BACKLIGHT "bl"
+#  define P_CUBE "cb"
 # else
 #  define BONUS_STATE 0
 #  define MANDATORY "A L C"
-#  define P_ELEMENTS "A L C sp pl cy"
+#  define P_ELEMENTS "A L C sp pl cy #"
 #  define P_AMBI_LIGHT "A"
 #  define P_PT_LIGHT "L"
 #  define P_CAMERA "C"
 #  define P_SPHERE "sp"
 #  define P_PLANE "pl"
 #  define P_CYLINDER "cy"
+#  define P_BACKLIGHT "bl"
+#  define P_CUBE "cb"
 # endif
 
 # include "minirt.h"
@@ -60,7 +64,9 @@ int32_t	parse_ambi_light(char **split, t_amb *amb_light);
 int32_t	parse_camera(char **split, t_camera *cam);
 int32_t	parse_light(char **split, t_light *light);
 int32_t	parse_sphere(char **split, t_world *w);
-int32_t	parse_plane(char **split, t_obj *obj);
-int32_t	parse_cylinder(char **split, t_obj *obj);
+int32_t	parse_plane(char **split, t_world *w);
+int32_t	parse_cylinder(char **split, t_world *w);
+int32_t	parse_backlight(char **split, t_fcolor *bl);
+int32_t	parse_cube(char **split, t_world *w);
 
 #endif

@@ -1,35 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   loop.c                                             :+:      :+:    :+:   */
+/*   parsing_cube.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/27 12:15:25 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/05/27 12:15:25 by pjarnac          ###   ########.fr       */
+/*   Created: 2025/09/04 17:45:03 by pjarnac           #+#    #+#             */
+/*   Updated: 2025/09/04 17:45:03 by pjarnac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "image.h"
-#include "minirt.h"
+#include <stdio.h>
+
+#include "errors.h"
+#include "render.h"
+#include "debug.h"
 #include "parsing.h"
 
-void	main_loop(void *p)
+int32_t	parse_cube(char **split, t_world *w)
 {
-	t_ctx *const	ctx = p;
+	int32_t	res;
 
-	if (!ctx->parsing)
-		draw_file_status(ctx);
-	if (ctx->parsing)
-	{
-		render(&ctx->img, ctx->gctx.cam, &ctx->gctx.w);
-	}
-	put_img(&ctx->img, 0, 0, true);
-}
-
-void	end_main_loop(void *p)
-{
-	t_window *const	win = p;
-
-	end_loop(win);
+	res = 0;
+	return (res);
 }
