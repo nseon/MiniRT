@@ -41,19 +41,18 @@ int32_t	parse_plane(char **split, t_world *w)
 {
 	int32_t	res;
 	t_mtx4	tbu;
-	t_tuple	pos;
-	t_tuple	to;
+	t_tuple	tp;
 	t_obj	obj;
 
 	obj = plane();
-	res = parse_xyz(*(split++), &pos);
+	res = parse_xyz(*(split++), &tp);
 	if (res != SUCCESS)
 		return (res);
-	mul_transform(&obj, translation(pos.x, pos.y, pos.z, tbu));
-	res = parse_normal(*(split++), &to);
+	mul_transform(&obj, translation(tp.x, tp.y, tp.z, tbu));
+	res = parse_normal(*(split++), &tp);
 	if (res != SUCCESS)
 		return (res);
-	mul_transform(&obj, mtx4_view(pos, tp_add(pos, point(0, 0, 1)), to, tbu));
+	mul_transform(&obj, mtx4_dir_rota(tp, tbu));
 	res = parse_color(*(split++), &obj.mat.col);
 	if (res != SUCCESS)
 		return (res);

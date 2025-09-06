@@ -16,31 +16,40 @@
 #include "render.h"
 #include "debug.h"
 #include "parsing.h"
+#include "rt_maths.h"
 
 int32_t	parse_cylinder(char **split, t_world *w)
 {
 	int32_t	res;
+	t_mtx4	tbu;
+	t_tuple	tp;
+	double	db;
+	t_obj	obj;
 
-	res = 0;
-	// *obj = (t_obj){0};
-	// obj->type = CYLINDER;
-	// res = parse_xyz(split[0], &obj->pos);
-	// if (res != SUCCESS)
-	// 	return (res);
-	// res = parse_normal(split[1], &obj->ori);
-	// if (res != SUCCESS)
-	// 	return (res);
-	// res = parse_double(split[2], &obj->w);
-	// if (res != SUCCESS)
-	// 	return (res);
-	// obj->w /= 2;
-	// res = parse_double(split[3], &obj->h);
-	// if (res != SUCCESS)
-	// 	return (res);
-	// res = parse_color(split[4], &obj->col);
-	// if (res != SUCCESS)
-	// 	return (res);
-	// if (DEBUG)
-	// 	debug_cylinder(*obj);
+	obj = cylinder();
+	obj.closed = true;
+	res = parse_xyz(*(split++), &tp);
+	if (res != SUCCESS)
+		return (res);
+	mul_transform(&obj, translation(tp.x, tp.y, tp.z, tbu));
+	res = parse_normal(*(split++), &tp);
+	if (res != SUCCESS)
+		return (res);
+	mul_transform(&obj, mtx4_dir_rota(tp, tbu));
+	res = parse_double(*(split++), &db);
+	if (res != SUCCESS)
+		return (res);
+	obj.min = -db / 2;
+	obj.max = db / 2;
+	res = parse_double(*(split++), &db);
+	if (res != SUCCESS)
+		return (res);
+	mul_transform(&obj, scaling(db, 1, db, tbu));
+	res = parse_color(*(split++), &obj.mat.col);
+	if (res != SUCCESS)
+		return (res);
+	// if (BONUS_STATE)
+	// 	res = parse_plane_bonus(split, &obj);
+	add_world_obj(w, obj);
 	return (res);
 }

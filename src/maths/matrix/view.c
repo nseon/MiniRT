@@ -10,7 +10,20 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <math.h>
+
 #include "matrix.h"
+#include "rt_maths.h"
+
+t_mtx4_ret	mtx4_dir_rota(t_tuple dir, t_mtx4 res)
+{
+	double const	angle = atan2(dir.z, dir.x);
+	double const	angle_y = -asin(dir.y);
+
+	rotation_y(angle, res);
+	mx_rotation_z(angle_y, res);
+	return (res);
+}
 
 t_mtx4_ret	mtx4_view(t_tuple from, t_tuple to, t_tuple up, t_mtx4 res)
 {

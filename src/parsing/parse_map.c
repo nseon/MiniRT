@@ -51,8 +51,8 @@ static int8_t	dispatch_element(char **split, t_gctx * const gctx)
 		res = parse_light(split + 1, vct_add_dest(&gctx->w.lights));
 	else if (ft_strcmp(split[0], P_SPHERE) == 0)
 		res = parse_sphere(split + 1, &gctx->w);
-	// else if (ft_strcmp(split[0], P_CYLINDER) == 0)
-	// 	res = parse_cylinder(split + 1, &gctx->w);
+	else if (ft_strcmp(split[0], P_CYLINDER) == 0)
+		res = parse_cylinder(split + 1, &gctx->w);
 	else if (ft_strcmp(split[0], P_PLANE) == 0)
 		res = parse_plane(split + 1, &gctx->w);
 	else if (ft_strcmp(split[0], P_BACKLIGHT) == 0)
