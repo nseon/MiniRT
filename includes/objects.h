@@ -69,6 +69,8 @@ typedef struct s_camera
 	double	half_width;
 	t_tuple	pos;
 	t_tuple	orient;
+	double	y_rot;
+	double	x_rot;
 	t_mtx4	transform;
 	t_mtx4	inverse;
 }	t_camera;
