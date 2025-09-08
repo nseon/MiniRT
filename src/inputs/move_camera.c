@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 14:56:56 by nseon             #+#    #+#             */
-/*   Updated: 2025/09/08 15:59:10 by nseon            ###   ########.fr       */
+/*   Updated: 2025/09/08 16:05:56 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ void	rotate_cam(int x, int y, void *args)
     t_ctx * const	ctx = args;
     t_mtx4			buff;
     t_tuple			tmp;
-    double			angle_x;
-    double			angle_y;
 
     if (x == WIN_W / 2 && y == WIN_H / 2)
         return ;
@@ -35,18 +33,9 @@ void	rotate_cam(int x, int y, void *args)
             mlx_mouse_move(ctx->win.mlx, ctx->win.win, WIN_W / 2, WIN_H / 2);
             if (ctx->render == false)
             {
-                // Calcul des angles de rotation selon la souris
-                angle_y = ((double)(x - WIN_W / 2)) * M_PI / 5000; // rotation autour de Y
-                angle_x = ((double)(y - WIN_H / 2)) * M_PI / 5000; // rotation autour de X
-
-                // Applique la rotation Y puis X à l’orientation
-                tmp = ctx->gctx.cam.orient;
-                tmp = mtx_tup_mul(tmp, mx_rotation_y(-angle_y, buff));
-                tmp = mtx_tup_mul(tmp, mx_rotation_x(angle_x, buff));
-
-                tmp = tp_normalize(tmp);
-                if (dabs(tp_dot(tmp, vector(0, 1, 0))) < 0.95)
-                    ctx->gctx.cam.orient = tmp;
+                ctx->gctx.cam.y_rot += (x - WIN_W / 2) * 0.002;
+				ctx->gctx.cam.x_rot -= (y - WIN_H / 2) * 0.002;
+				
             }
         }
     }

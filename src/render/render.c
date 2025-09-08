@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 12:51:14 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/09/08 15:15:48 by nseon            ###   ########.fr       */
+/*   Updated: 2025/09/08 16:02:29 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 #include "render.h"
 #include "supersampling.h"
 #include "minirt.h"
+
+#include <math.h>
+
 #include "lighting.h"
 
 void	compute_obj_matrice(t_obj *o)
@@ -30,8 +33,12 @@ void	compute_obj_matrice(t_obj *o)
 
 void	compute_cam_matrice(t_camera *cam)
 {
-	set_cam_transform(cam, mtx4_view(cam->pos, tp_add(cam->pos, cam->orient),
-		vector(0, 1, 0), cam->transform));
+	t_mtx4	buf;
+
+	set_cam_transform(cam, rotation_y(cam->y_rot, buf));
+	mul_cam_transform(cam, rotation_x(cam->x_rot, buf));
+	mul_cam_transform(cam, mtx4_view(cam->pos, tp_add(cam->pos, cam->orient),
+		vector(0, 1, 0), buf));
 }
 
 void	compute_matrices(t_camera *cam, t_obj *objs)

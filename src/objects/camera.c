@@ -23,6 +23,8 @@ t_camera	camera(double hsize, double vsize, double fov)
 	cam.hsize = hsize;
 	cam.vsize = vsize;
 	cam.fov = fov;
+	cam.y_rot = 0;
+	cam.x_rot = 0;
 	mtx4_dup(g_identity_matrix, cam.transform);
 	mtx4_dup(g_identity_matrix, cam.inverse);
 	if (aspect >= 1)
