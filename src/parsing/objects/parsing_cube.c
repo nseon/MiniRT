@@ -1,26 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   rt_maths.h                                         :+:      :+:    :+:   */
+/*   parsing_cube.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/24 16:51:23 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/07/24 16:51:23 by pjarnac          ###   ########.fr       */
+/*   Created: 2025/09/04 17:45:03 by pjarnac           #+#    #+#             */
+/*   Updated: 2025/09/04 17:45:03 by pjarnac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RT_MATHS_H
-# define RT_MATHS_H
+#include <stdio.h>
 
-# define EPSILON 0.0001
-# define DEPSILON 0.00001
+#include "errors.h"
+#include "render.h"
+#include "debug.h"
+#include "parsing.h"
 
-# include <stdbool.h>
+int32_t	parse_cube(char **split, t_world *w)
+{
+	int32_t	res;
 
-bool	d_equal(double a, double b);
-bool	f_equal(float a, float b);
-double	dabs(double n);
-void	dswap(double *a, double *b);
-
-#endif
+	res = 0;
+	return (res);
+}

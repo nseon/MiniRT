@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 17:45:33 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/09/04 16:34:01 by nseon            ###   ########.fr       */
+/*   Updated: 2025/09/08 15:16:55 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ void	parse(char *str, void *p)
 			clear_image(&ctx->img);
 			ctx->parsing = true;
 			ctx->render = true;
-			test_render(ctx);
 			window_focus(1, 0, 0, ctx);
 		}
 	}

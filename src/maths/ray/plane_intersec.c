@@ -1,26 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   rt_maths.h                                         :+:      :+:    :+:   */
+/*   plane_intersec.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/24 16:51:23 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/07/24 16:51:23 by pjarnac          ###   ########.fr       */
+/*   Created: 2025/09/01 09:39:25 by pjarnac           #+#    #+#             */
+/*   Updated: 2025/09/01 09:39:25 by pjarnac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RT_MATHS_H
-# define RT_MATHS_H
+#include "ray.h"
+#include "rt_maths.h"
 
-# define EPSILON 0.0001
-# define DEPSILON 0.00001
-
-# include <stdbool.h>
-
-bool	d_equal(double a, double b);
-bool	f_equal(float a, float b);
-double	dabs(double n);
-void	dswap(double *a, double *b);
-
-#endif
+void	plane_intersect(t_ray r, t_obj *o, t_intersections *xs)
+{
+	if (dabs(r.dir.y) < EPSILON)
+		return ;
+	xs->i[xs->count] = intersection(-r.ori.y / r.dir.y, o);
+	xs->count++;
+}

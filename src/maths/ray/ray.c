@@ -23,12 +23,12 @@ t_ray	ray(t_tuple origin, t_tuple direction)
 
 t_tuple	position(t_ray ray, double t)
 {
-	return (tp_add(ray.origin, tp_mul(ray.dir, t)));
+	return (tp_add(ray.ori, tp_mul(ray.dir, t)));
 }
 
 t_ray	ray_transform(t_ray r, t_mtx4 m)
 {
-	return ((t_ray){mtx_tup_mul(r.origin, m), mtx_tup_mul(r.dir, m)});
+	return ((t_ray){mtx_tup_mul(r.ori, m), mtx_tup_mul(r.dir, m)});
 }
 
 t_ray	ray_for_pixel(t_camera cam, double x, double y)

@@ -30,6 +30,7 @@
 # define PARSE_INVAL_FORMAT -6
 # define PARSE_INVAL_COLOR_MSG "invalid color format: (%s)\n"
 # define PARSE_INVAL_XYZ_MSG "invalid xyz coordinates format: (%s)\n"
+# define PARSE_INVAL_UNIT "invalid unit vector: (%s)\n"
 # define PARSE_INVAL_VCT_MSG "vector is not unit vector: (%s): "
 # define PARSE_INVAL_VCT_MSG2 "auto-normalizing -> (%f, %f, %f)\n"
 # define PARSE_INVAL_FOV "invalid fov range (%d) needs to be [0, 180]\n"

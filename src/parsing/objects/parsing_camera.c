@@ -24,7 +24,6 @@ int32_t	parse_camera(char **split, t_camera *cam)
 	t_tuple	from;
 	t_tuple	to;
 	double	fov;
-	t_mtx4	buf;
 
 	res = parse_xyz(split[0], &from);
 	if (res != SUCCESS)
@@ -38,6 +37,7 @@ int32_t	parse_camera(char **split, t_camera *cam)
 	if (fov > 180 || fov < 0)
 		return (PARSE_INVAL_LINE);
 	*cam = camera(WIN_W, WIN_H, fov * M_PI / 180);
-	set_cam_transform(cam, mtx4_view(from, tp_add(from, to), vector(0, 1, 0), buf));
+	cam->pos = from;
+	cam->orient = to;
 	return (res);
 }

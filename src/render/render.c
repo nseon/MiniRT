@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 12:51:14 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/09/04 15:19:23 by nseon            ###   ########.fr       */
+/*   Updated: 2025/09/08 15:15:48 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,40 @@
 #include "minirt.h"
 #include "lighting.h"
 
+void	compute_obj_matrice(t_obj *o)
+{
+	t_mtx4	tbuf;
 
+	set_transform(o, translation(o->pos.x, o->pos.y, o->pos.z, tbuf));
+	mul_transform(o, scaling(o->x_size / 2, o->y_size / 2, o->z_size / 2,
+		tbuf));
+	mul_transform(o, rotation_x(o->x_rot, tbuf));
+	mul_transform(o, rotation_y(o->y_rot, tbuf));
+	mul_transform(o, rotation_z(o->z_rot, tbuf));
+}
+
+void	compute_cam_matrice(t_camera *cam)
+{
+	set_cam_transform(cam, mtx4_view(cam->pos, tp_add(cam->pos, cam->orient),
+		vector(0, 1, 0), cam->transform));
+}
+
+void	compute_matrices(t_camera *cam, t_obj *objs)
+{
+	size_t	i;
+
+	compute_cam_matrice(cam);
+	i = -1;
+	while (++i < vct_size(objs))
+		compute_obj_matrice(objs + i);
+}
 t_image		*render(t_ctx *ctx, t_camera cam, t_world *world, int32_t nb_rays)
 {
 	int32_t		x;
 	int32_t		y;
 	t_fcolor	color;
 
+	compute_matrices(&cam, world->objs);
 	y = -1;
 	while (++y < cam.vsize)
 	{

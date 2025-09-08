@@ -62,6 +62,7 @@ OBJECTS_SRC	=		objects_creation.c \
 					camera.c \
 					plane.c \
 					cube.c \
+					cylinder.c \
 
 # ===============WORLD================= #
 
@@ -116,6 +117,10 @@ SRC += $(addprefix $(RAY_DIR), $(RAY_SRC))
 RAY_DIR	=		$(MATHS_DIR)ray/
 RAY_SRC	=		ray.c \
 				intersections.c \
+				sphere_intersec.c \
+				cube_intersec.c \
+				plane_intersec.c \
+				cylinder_intersec.c \
 
 # ===============MATHS/TRANSFORMATIONS================= #
 
@@ -183,6 +188,8 @@ P_OBJECTS_SRC =		parsing_ambi_light.c \
 					parsing_plane.c \
 					parsing_sphere.c \
 					parsing_cylinder.c \
+					parsing_backlight.c \
+					parsing_cube.c \
 
 # ===============HOOKS================ #
 
@@ -240,7 +247,8 @@ MAKEFLAGS	+=	--no-print-directory
 
 # ================MODES================ #
 
-MODES		:= debug optimize full-optimize test bonus memsan asan test_asan test_memsan
+MODES		:= debug optimize full-optimize test bonus memsan asan test_asan \
+test_memsan asan-bonus
 
 MODE_TRACE	:= $(BUILD_DIR).mode_trace
 LAST_MODE	:= $(shell cat $(MODE_TRACE) 2>/dev/null)
@@ -259,6 +267,10 @@ else ifeq ($(MODE), asan)
 	CFLAGS = -g -fsanitize=address -fno-omit-frame-pointer -O1
     LDFLAGS += -fsanitize=address -fno-omit-frame-pointer
     CPPFLAGS += -DDEBUG=1
+else ifeq ($(MODE), asan-bonus)
+	CFLAGS = -g -fsanitize=address -fno-omit-frame-pointer -O1
+    LDFLAGS += -fsanitize=address -fno-omit-frame-pointer
+    CPPFLAGS += -DDEBUG=1 -DBONUS
 else ifeq ($(MODE), memsan)
  	CFLAGS = -g -fsanitize=memory -fno-omit-frame-pointer -O1
     LDFLAGS += -fsanitize=memory -fno-omit-frame-pointer

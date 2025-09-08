@@ -17,26 +17,47 @@
 #include "debug.h"
 #include "parsing.h"
 
-int32_t	parse_sphere(char **split, t_world *w)
+static int32_t	parse_sphere_bonus(char **split, t_obj *o)
 {
 	int32_t	res;
 	double	buf;
-	t_mtx4	tbuf;
-	t_tuple	pos;
+
+	res = parse_double(*(split++), &buf);
+	if (res != SUCCESS)
+		return (res);
+	o->mat.reflective = buf;
+	res = parse_double(*(split++), &buf);
+	if (res != SUCCESS)
+		return (res);
+	o->mat.transparency = buf;
+	res = parse_double(*(split++), &buf);
+	if (res != SUCCESS)
+		return (res);
+	o->mat.refractive = buf;
+	return (res);
+}
+
+int32_t	parse_sphere(char **split, t_world *w)
+{
+	int32_t	res;
+	double	dbuf;
 	t_obj	obj;
 
 	obj = sphere();
-	res = parse_xyz(split[0], &pos);
+	res = parse_xyz(*(split++), &obj.pos);
 	if (res != SUCCESS)
 		return (res);
-	res = parse_double(split[1], &buf);
+	res = parse_double(*(split++), &dbuf);
 	if (res != SUCCESS)
 		return (res);
-	mul_transform(&obj, translation(pos.x, pos.y, pos.z, tbuf));
-	mul_transform(&obj, scaling(buf / 2, buf / 2, buf / 2, tbuf));
-	res = parse_color(split[2], &obj.mat.col);
+	obj.x_size = dbuf / 2;
+	obj.y_size = dbuf / 2;
+	obj.z_size = dbuf / 2;
+	res = parse_color(*(split++), &obj.mat.col);
 	if (res != SUCCESS)
 		return (res);
+	if (BONUS_STATE)
+		res = parse_sphere_bonus(split, &obj);
 	add_world_obj(w, obj);
 	return (res);
 }

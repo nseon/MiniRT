@@ -10,7 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <math.h>
+
 #include "matrix.h"
+#include "objects.h"
+#include "rt_maths.h"
 
 t_mtx4_ret	mtx4_view(t_tuple from, t_tuple to, t_tuple up, t_mtx4 res)
 {

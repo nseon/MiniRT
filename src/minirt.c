@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:22:55 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/09/04 16:29:22 by nseon            ###   ########.fr       */
+/*   Updated: 2025/09/08 15:19:06 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ int	main(int c, char **args)
 	ctx = (t_ctx){0};
 	if (init(&ctx) != SUCCESS)
 		return (EXIT_FAILURE);
-	test_render(&ctx);
 	set_events(&ctx);
 	init_gui(&ctx);
 	draw_background(&ctx.img, BACK_COLOR);

@@ -17,25 +17,45 @@
 #include "debug.h"
 #include "parsing.h"
 
-int32_t	parse_plane(char **split, t_obj *obj)
+static int32_t	parse_plane_bonus(char **split, t_obj *o)
 {
 	int32_t	res;
+	double	buf;
 
-	res = 0;
-	(void)split;
-	(void)obj;
-	// *obj = (t_obj){0};
-	// obj->type = PLANE;
-	// res = parse_xyz(split[0], &obj->pos);
-	// if (res != SUCCESS)
-	// 	return (res);
-	// res = parse_normal(split[1], &obj->ori);
-	// if (res != SUCCESS)
-	// 	return (res);
-	// res = parse_color(split[2], &obj->col);
-	// if (res != SUCCESS)
-	// 	return (res);
-	// if (DEBUG)
-	// 	debug_plane(*obj);
+	res = parse_double(*(split++), &buf);
+	if (res != SUCCESS)
+		return (res);
+	o->mat.reflective = buf;
+	res = parse_double(*(split++), &buf);
+	if (res != SUCCESS)
+		return (res);
+	o->mat.transparency = buf;
+	res = parse_double(*(split++), &buf);
+	if (res != SUCCESS)
+		return (res);
+	o->mat.refractive = buf;
+	return (res);
+}
+
+int32_t	parse_plane(char **split, t_world *w)
+{
+	int32_t	res;
+	t_tuple	tp;
+	t_obj	obj;
+
+	obj = plane();
+	res = parse_xyz(*(split++), &obj.pos);
+	if (res != SUCCESS)
+		return (res);
+	res = parse_normal(*(split++), &tp);
+	if (res != SUCCESS)
+		return (res);
+	set_rota_from_dir(tp, &obj);
+	res = parse_color(*(split++), &obj.mat.col);
+	if (res != SUCCESS)
+		return (res);
+	if (BONUS_STATE)
+		res = parse_plane_bonus(split, &obj);
+	add_world_obj(w, obj);
 	return (res);
 }

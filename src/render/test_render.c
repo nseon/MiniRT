@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 15:10:21 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/09/02 16:31:30 by nseon            ###   ########.fr       */
+/*   Updated: 2025/09/08 15:16:24 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,7 +203,7 @@
 // 	set_transform(&s,mx_rotation_y(M_PI_4, mx_rotation_x(0, mx_scaling(0.6, 0.6, 0.6, translation(2, 1.5, -2.5, buf)))));
 // 	s.mat.col = fcolor(1, 0.8, 0.1);
 // 	s.mat.specular = 0.6;
-// 	s.mat.pat.type = CHECKER;
+// 	s.mat.pat.type = RING;
 // 	s.mat.pat.a = fcolor((float)18/255, (float)255/255, (float)93/255);
 // 	s.mat.pat.b = fcolor((float)108/255, (float)200/255, (float)231/255);
 // 	set_pattern_transf(&s.mat.pat,mx_scaling(0.2, 0.2, 0.2, translation(0, 0, 0, s.mat.pat.transf)));
@@ -267,7 +267,7 @@
 // 	add_world_obj(&w, p);
 
 // 	p = plane();
-// 	set_transform(&p, mx_rotation_z(0, mx_rotation_y(0, translation(0, -5, 0, buf))));
+// 	set_transform(&p, mx_rotation_z(0, mx_rotation_y(0, translation(0, -10, 0, buf))));
 // 	p.mat.col = fcolor(1, 0.9, 0.9);
 // 	p.mat.pat.type = CHECKER;
 
@@ -278,18 +278,31 @@
 // 	p.mat.specular = 0;
 // 	add_world_obj(&w, p);
 
+//
+// 	p = sphere();
+// 	set_transform(&p, mx_rotation_z(0, mx_rotation_y(0, translation(0, -2, -14, buf))));
+// 	p.mat.col = fcolor(1, 0.9, 0.9);
+// 	p.mat.pat.type = CHECKER;
+//
+// 	p.mat.pat.a = fcolor(0.3, 0.8, 0.8);
+// 	p.mat.pat.b = fcolor(0.1, 0.7, 0.1);
+// 	set_pattern_transf(&p.mat.pat, mx_scaling(2, 2, 2, translation(-1, 0, 0, s.mat.pat.transf)));
+// 	p.mat.has_pat = false;
+// 	p.mat.specular = 0;
+// 	add_world_obj(&w, p);
+//
 // 	p = plane();
 // 	set_transform(&p, mx_rotation_z(0, mx_rotation_y(0, translation(0, -0.5, 0, buf))));
 // 	p.mat.col = fcolor(0.1, 0.13, 0.2);
 // 	p.mat.pat.type = CHECKER;
 // 	p.mat.pat.a = fcolor(1, 0.8, 0.8);
-// 	p.mat.pat.b = fcolor(0.1, 0.1, 0.1);
+// 	p.mat.pat.b = fcolor(0.1, 0.15, 0.25);
 // 	set_pattern_transf(&p.mat.pat, mx_scaling(3, 3, 3, translation(-1, 0, 0, s.mat.pat.transf)));
 // 	p.mat.has_pat = false;
 // 	p.mat.specular = 0.4;
 // 	p.mat.diffuse = 0.7;
-// 	p.mat.transparency = 1;
-// 	p.mat.reflective = 0.4;
+// 	p.mat.transparency = 0.4;
+// 	p.mat.reflective = 0.7;
 // 	p.mat.refractive = 1.33;
 // 	add_world_obj(&w, p);
 
@@ -477,6 +490,71 @@ void	test_render(t_ctx * const ctx)
 // 		render(ctx, cam, &w, rays);
 // 		put_img(&ctx->img, 0, 0, true);
 // 	}
+// 	t_obj		c;
+// 	t_light		l;
+// 	t_camera	cam;
+//
+// 	cam = camera(WIN_W, WIN_H, M_PI / 2);
+// 	set_cam_transform(&cam, mtx4_view(point(4, 4.5, -6), point(0, 0, 0), vector(0, 1, 0), buf));
+// 	// mul_cam_transform(&cam, rotation_z(M_PI / 8, buf));
+// 	l = light(point(6, 10, -10), fcolor(0.5, 0.5, 0.5), POINT);
+// 	vct_add(&w.lights, &l);
+// 	// l = light(point(-15, 5, -15), fcolor(1, 1, 1), POINT);
+// 	// vct_add(&w.lights, &l)3
+// 	w.back_col = fcolor((float)115/255, (float)205/255, (float)255/255);
+// 	c = cube();
+// 	c.mat.diffuse = 1;
+// 	set_transform(&c, mx_scaling(10, 0.0001, 10, c.transform));
+// 	add_world_obj(&w, c);
+// 	s = cube();
+// 	s.mat.col = fcolor(0.1, 0.1, 0.1);
+// 	s.mat.transparency = 1;
+// 	s.mat.reflective = 0.8;
+// 	s.mat.refractive = 1.5;
+// 	s.mat.diffuse = 0.2;
+// 	set_transform(&s, mx_scaling(2, 2, 2, translation(-0.5, 2.01, -2, s.transform)));
+// 	add_world_obj(&w, s);
+// 	// s = cube();
+// 	// s.mat.col = fcolor(0.1, 0.1, 0.1);
+// 	// s.mat.transparency = 1;
+// 	// s.mat.reflective = 0.8;
+// 	// s.mat.refractive = 1.5;
+// 	// s.mat.diffuse = 0.2;
+// 	// set_transform(&s, mx_scaling(2, 2, 2, translation(4, 4.5, -6, s.transform)));
+// 	// add_world_obj(&w, s);
+// 	s = sphere();
+// 	s.mat.col = fcolor((float)197/255, (float)186/255, (float)255/255);
+// 	s.mat.pat.a = fcolor((float)197/255, (float)186/255, (float)255/255);
+// 	s.mat.pat.b = fcolor((float)196/255, (float)217/255, (float)255/255);
+// 	s.mat.pat.type = CHECKER;
+// 	s.mat.has_pat = true;
+// 	set_pattern_transf(&s.mat.pat, mx_scaling(0.2, 0.2, 0.2, translation(1, 0,
+// 	0, s
+// 	.mat.pat.transf)));
+// 	set_transform(&s, mx_scaling(1, 1, 1, translation(-0.5, 2.01, -2, s.transform)));
+// 	add_world_obj(&w, s);
+//
+// 	s = cylinder();
+// 	s.max = 0;
+// 	s.min = -1;
+// 	s.closed = true;
+// 	s.mat.col = fcolor(1, 0.6, 0.8);
+// 	s.mat.pat.a = fcolor((float)197/255, (float)186/255, (float)255/255);
+// 	s.mat.pat.b = fcolor((float)196/255, (float)217/255, (float)255/255);
+// 	s.mat.transparency = 0;
+// 	s.mat.reflective = 0;
+// 	s.mat.refractive = 1.1;
+// 	s.mat.diffuse = 0.7;
+// 	s.mat.pat.type = CHECKER;
+// 	s.mat.has_pat = false;
+// 	set_pattern_transf(&s.mat.pat, mx_scaling(0.2, 0.2, 0.2, translation(1, 0,
+// 	0, s
+// 	.mat.pat.transf)));
+// 	set_transform(&s, mx_rotation_z(M_PI, mx_scaling(1, 3, 1, translation(3.8, 0, -2, s
+// 	.transform))));
+// 	add_world_obj(&w, s);
+//
+// 	render(&ctx->img, cam, &w);
 // 	free_world(&w);
 // 	// end_loop(&ctx->win);
 // }

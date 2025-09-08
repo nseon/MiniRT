@@ -38,7 +38,7 @@ void	test_ray_creation()
 	t_tuple	vt = vector(1, 0, 0);
 
 	t_ray	r = ray(pt, vt);
-	TEST_ASSERT(tp_equal(pt, r.origin));
+	TEST_ASSERT(tp_equal(pt, r.ori));
 	TEST_ASSERT(tp_equal(vt, r.dir));
 }
 
@@ -191,7 +191,7 @@ void	test_ray_transform_translate()
 
 	translation(3, 4, 5, trans);
 	r2 = ray_transform(r, trans);
-	TEST_ASSERT(tp_equal(point(4, 6, 8), r2.origin));
+	TEST_ASSERT(tp_equal(point(4, 6, 8), r2.ori));
 	TEST_ASSERT(tp_equal(vector(0, 1, 0), r2.dir));
 }
 
@@ -203,7 +203,7 @@ void	test_ray_transform_scaling()
 
 	scaling(2, 3, 4, trans);
 	r2 = ray_transform(r, trans);
-	TEST_ASSERT(tp_equal(point(2, 6, 12), r2.origin));
+	TEST_ASSERT(tp_equal(point(2, 6, 12), r2.ori));
 	TEST_ASSERT(tp_equal(vector(0, 3, 0), r2.dir));
 }
 
@@ -517,7 +517,7 @@ void	test_pixel_ray_center()
 	t_camera cam = camera(201, 101, M_PI_2);
 	t_ray	ray = ray_for_pixel(cam, 100, 50);
 
-	TEST_ASSERT(tp_equal(point(0, 0, 0), ray.origin));
+	TEST_ASSERT(tp_equal(point(0, 0, 0), ray.ori));
 	TEST_ASSERT(tp_equal(vector(0, 0, -1), ray.dir));
 }
 
@@ -526,7 +526,7 @@ void	test_pixel_ray_corner()
 	t_camera cam = camera(201, 101, M_PI_2);
 	t_ray	ray = ray_for_pixel(cam, 0, 0);
 
-	TEST_ASSERT(tp_equal(point(0, 0, 0), ray.origin));
+	TEST_ASSERT(tp_equal(point(0, 0, 0), ray.ori));
 	TEST_ASSERT(tp_equal(vector(0.66519, 0.33259, -0.66851), ray.dir));
 }
 
@@ -538,7 +538,7 @@ void	test_pixel_ray_cam_trans()
 
 	set_cam_transform(&cam, mx_translation(0, -2, 5, rotation_y(M_PI_4, buf)));
 	ray = ray_for_pixel(cam, 100, 50);
-	TEST_ASSERT(tp_equal(point(0, 2, -5), ray.origin));
+	TEST_ASSERT(tp_equal(point(0, 2, -5), ray.ori));
 	TEST_ASSERT(tp_equal(vector(sqrtf(2) / 2, 0, -sqrtf(2) / 2), ray.dir));
 }
 
@@ -1116,6 +1116,157 @@ void	test_cube_normal()
 	TEST_ASSERT(tp_equal(vector(1, 0, 0), cube_normal(point(1, 1, 1))));
 }
 
+void	test_cylinder_intersec_miss()
+{
+	t_obj	o = cylinder();
+	t_ray	r;
+	t_intersections	xs;
+	xs.i = malloc(sizeof (t_intersection) * 2);
+	xs.count = 0;
+
+	r = ray(point(1, 0, 0), tp_normalize(vector(0, 1, 0)));
+	obj_intersect(r, &o, &xs);
+	TEST_ASSERT_EQUAL_INT32(0, xs.count);
+
+	r = ray(point(0, 0, 0), tp_normalize(vector(0, 1, 0)));
+	obj_intersect(r, &o, &xs);
+	TEST_ASSERT_EQUAL_INT32(0, xs.count);
+
+	r = ray(point(0, 0, -5), tp_normalize(vector(1, 1, 1)));
+	obj_intersect(r, &o, &xs);
+	TEST_ASSERT_EQUAL_INT32(0, xs.count);
+
+	free(xs.i);
+}
+
+void	test_cylinder_intersec()
+{
+	t_obj	o = cylinder();
+	t_ray	r;
+	t_intersections	xs;
+	xs.i = malloc(sizeof (t_intersection) * 2);
+	xs.count = 0;
+
+	r = ray(point(1, 0, -5), tp_normalize(vector(0, 0, 1)));
+	xs.count = 0;
+	obj_intersect(r, &o, &xs);
+	TEST_ASSERT_EQUAL_INT32(2, xs.count);
+	TEST_ASSERT_EQUAL_DOUBLE(5, xs.i[0].t);
+	TEST_ASSERT_EQUAL_DOUBLE(5, xs.i[1].t);
+
+	r = ray(point(0, 0, -5), tp_normalize(vector(0, 0, 1)));
+	xs.count = 0;
+	obj_intersect(r, &o, &xs);
+	TEST_ASSERT_EQUAL_INT32(2, xs.count);
+	TEST_ASSERT_EQUAL_DOUBLE(4, xs.i[0].t);
+	TEST_ASSERT_EQUAL_DOUBLE(6, xs.i[1].t);
+
+	r = ray(point(0.5, 0, -5), tp_normalize(vector(0.1, 1, 1)));
+	xs.count = 0;
+	obj_intersect(r, &o, &xs);
+	TEST_ASSERT_EQUAL_INT32(2, xs.count);
+	TEST_ASSERT(d_equal(6.80798167, xs.i[0].t));
+	TEST_ASSERT(d_equal(7.08872, xs.i[1].t));
+
+	free(xs.i);
+}
+
+void	test_cylinder_trunc()
+{
+	t_obj	o = cylinder();
+	o.min = 1;
+	o.max = 2;
+	t_ray	r;
+	t_intersections	xs;
+	xs.i = malloc(sizeof (t_intersection) * 2);
+	xs.count = 0;
+
+	r = ray(point(0, 1.5, 0), tp_normalize(vector(0.1, 1, 0)));
+	xs.count = 0;
+	obj_intersect(r, &o, &xs);
+	TEST_ASSERT_EQUAL_INT32(0, xs.count);
+
+	r = ray(point(0, 3, -5), tp_normalize(vector(0, 0, 1)));
+	xs.count = 0;
+	obj_intersect(r, &o, &xs);
+	TEST_ASSERT_EQUAL_INT32(0, xs.count);
+
+	r = ray(point(0, 0, -5), tp_normalize(vector(0, 0, 1)));
+	xs.count = 0;
+	obj_intersect(r, &o, &xs);
+	TEST_ASSERT_EQUAL_INT32(0, xs.count);
+
+	r = ray(point(0, 2, -5), tp_normalize(vector(0, 0, 1)));
+	xs.count = 0;
+	obj_intersect(r, &o, &xs);
+	TEST_ASSERT_EQUAL_INT32(0, xs.count);
+
+	r = ray(point(0, 1, -5), tp_normalize(vector(0, 0, 1)));
+	xs.count = 0;
+	obj_intersect(r, &o, &xs);
+	TEST_ASSERT_EQUAL_INT32(0, xs.count);
+
+	r = ray(point(0, 1.5, -2), tp_normalize(vector(0, 0, 1)));
+	xs.count = 0;
+	obj_intersect(r, &o, &xs);
+	TEST_ASSERT_EQUAL_INT32(2, xs.count);
+
+	free(xs.i);
+}
+
+void	test_cylinder_capped()
+{
+	t_obj	o = cylinder();
+	o.min = 1;
+	o.max = 2;
+	o.closed = true;
+	t_ray	r;
+	t_intersections	xs;
+	xs.i = malloc(sizeof (t_intersection) * 2);
+
+	r = ray(point(0, 3, 0), tp_normalize(vector(0, -1, 0)));
+	xs.count = 0;
+	obj_intersect(r, &o, &xs);
+	TEST_ASSERT_EQUAL_INT32(2, xs.count);
+
+	r = ray(point(0, 3, -2), tp_normalize(vector(0, -1, 2)));
+	xs.count = 0;
+	obj_intersect(r, &o, &xs);
+	TEST_ASSERT_EQUAL_INT32(2, xs.count);
+
+	r = ray(point(0, 4, -2), tp_normalize(vector(0, -1, 1)));
+	xs.count = 0;
+	obj_intersect(r, &o, &xs);
+	TEST_ASSERT_EQUAL_INT32(2, xs.count);
+
+	r = ray(point(0, 0, -2), tp_normalize(vector(0, 1, 2)));
+	xs.count = 0;
+	obj_intersect(r, &o, &xs);
+	TEST_ASSERT_EQUAL_INT32(2, xs.count);
+
+	r = ray(point(0, -1, -2), tp_normalize(vector(0, 1, 1)));
+	xs.count = 0;
+	obj_intersect(r, &o, &xs);
+	TEST_ASSERT_EQUAL_INT32(2, xs.count);
+
+	free(xs.i);
+}
+
+void	test_cylinder_capped_normal()
+{
+	t_obj	o = cylinder();
+	o.min = 1;
+	o.max = 2;
+	o.closed = true;
+
+	TEST_ASSERT(tp_equal(vector(0, -1, 0), obj_normal(&o, point(0, 1, 0))));
+	TEST_ASSERT(tp_equal(vector(0, -1, 0), obj_normal(&o, point(0.5, 1, 0))));
+	TEST_ASSERT(tp_equal(vector(0, -1, 0), obj_normal(&o, point(0, 1, 0.5))));
+	TEST_ASSERT(tp_equal(vector(0, 1, 0), obj_normal(&o, point(0, 2, 0))));
+	TEST_ASSERT(tp_equal(vector(0, 1, 0), obj_normal(&o, point(0.5, 2, 0))));
+	TEST_ASSERT(tp_equal(vector(0, 1, 0), obj_normal(&o, point(0, 2, 0.5))));
+}
+
 int	test_rays()
 {
 	RUN_TEST(test_ray_creation);
@@ -1196,5 +1347,10 @@ int	test_rays()
 	RUN_TEST(test_cube_intersection);
 	RUN_TEST(test_cube_intersection_miss);
 	RUN_TEST(test_cube_normal);
+	RUN_TEST(test_cylinder_intersec_miss);
+	RUN_TEST(test_cylinder_intersec);
+	RUN_TEST(test_cylinder_trunc);
+	RUN_TEST(test_cylinder_capped);
+	RUN_TEST(test_cylinder_capped_normal);
 	return 0;
 }

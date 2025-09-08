@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 16:10:47 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/09/04 16:09:15 by nseon            ###   ########.fr       */
+/*   Updated: 2025/09/08 15:13:20 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,9 @@ typedef struct s_ctx
 	bool render;
 }	t_ctx;
 
+void		compute_matrices(t_camera *cam, t_obj *objs);
+void		compute_cam_matrice(t_camera *cam);
+void		compute_obj_matrice(t_obj *o);
 uint32_t	get_pixel_color(t_image *image, int x, int y);
 t_image		*render(t_ctx *ctx, t_camera cam, t_world *world, int32_t nb_rays);
 t_tuple			random_bounce(uint8_t const random[RAY_NBR], t_tuple ojb_norm);

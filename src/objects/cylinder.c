@@ -1,28 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   plane.c                                            :+:      :+:    :+:   */
+/*   cylinder.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/20 23:31:46 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/08/20 23:31:46 by pjarnac          ###   ########.fr       */
+/*   Created: 2025/09/01 09:41:04 by pjarnac           #+#    #+#             */
+/*   Updated: 2025/09/01 09:41:04 by pjarnac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <math.h>
+#include <float.h>
 
 #include "normals.h"
-#include "tuple.h"
 #include "objects.h"
 #include "ray.h"
 #include "rt_maths.h"
+#include "tuple.h"
 
-t_obj	plane(void)
+t_obj	cylinder(void)
 {
 	t_obj	o;
 
-	o = (t_obj){.type = PLANE, .uid = get_uid(), .mat = g_default_mat,
+	o = (t_obj){.type = CYLINDER, .uid = get_uid(), .mat = g_default_mat,
+		.min = (double)-DBL_MAX, .max = DBL_MAX, .closed = false,
 		.pos = point(0, 0, 0), .x_size = 1, .y_size = 1, .z_size = 1,
 		.x_rot = 0, .y_rot = 0, .z_rot = 0};
 	mtx4_dup(g_identity_matrix, o.transform);
@@ -30,8 +31,13 @@ t_obj	plane(void)
 	return (o);
 }
 
-t_tuple	plane_normal(t_tuple pt)
+t_tuple	cylinder_normal(t_obj *o, t_tuple pt)
 {
-	(void)pt;
-	return (vector(0, 1, 0));
+	double const	dis = pt.x * pt.x + pt.z * pt.z;
+
+	if (dis <= 1 && pt.y >= o->max - DEPSILON)
+		return (vector(0, 1, 0));
+	if (dis <= 1 && pt.y <= o->min + DEPSILON)
+		return (vector(0, -1, 0));
+	return (vector(pt.x, 0, pt.z));
 }
