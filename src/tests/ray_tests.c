@@ -556,7 +556,7 @@ void	test_render_at()
 	cam = camera(11, 11, M_PI_2);
 	mtx4_view(point(0, 0, -5), point(0, 0, 0), vector(0, 1, 0), view);
 	set_cam_transform(&cam, view);
-	render(&img, cam, &w);
+	render(&img, &cam, &w);
 	put_img(&img, 0, 0, false);
 	assert_fcolor(fcolor(0.38066, 0.47583, 0.2855), color_at(&w, ray_for_pixel(cam, 5, 5), 1));
 	destroy_image(&img);

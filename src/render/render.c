@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 12:51:14 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/09/08 18:12:14 by nseon            ###   ########.fr       */
+/*   Updated: 2025/09/08 18:28:01 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,21 +23,22 @@ void	compute_obj_matrice(t_obj *o)
 {
 	t_mtx4	tbuf;
 
-	set_transform(o, translation(o->pos.x, o->pos.y, o->pos.z, tbuf));
-	mul_transform(o, scaling(o->x_size / 2, o->y_size / 2, o->z_size / 2,
-		tbuf));
-	mul_transform(o, rotation_x(o->x_rot, tbuf));
-	mul_transform(o, rotation_y(o->y_rot, tbuf));
-	mul_transform(o, rotation_z(o->z_rot, tbuf));
+	set_transform(o, mx_rotation_y(o->y_rot, mx_rotation_z(o->z_rot,
+		mx_rotation_x(o->x_rot, mx_scaling(o->x_size / 2, o->y_size / 2,
+		o->z_size / 2, translation(o->pos.x, o->pos.y, o->pos.z, tbuf))))));
 }
 
 void	compute_cam_matrice(t_camera *cam)
 {
 	t_mtx4	buf;
 
+<<<<<<< HEAD
 	
 	set_cam_transform(cam, rotation_x(cam->x_rot, buf));
 	mul_cam_transform(cam, rotation_y(cam->y_rot, buf));
+=======
+	set_cam_transform(cam, mx_rotation_y(cam->y_rot, rotation_x(cam->x_rot, buf)));
+>>>>>>> 2eeb925cf150779b45c52c21c9af3c8134b5f051
 	mul_cam_transform(cam, mtx4_view(cam->pos, tp_add(cam->pos, cam->orient),
 		vector(0, 1, 0), buf));
 }
