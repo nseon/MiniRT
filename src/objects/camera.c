@@ -23,6 +23,7 @@ t_camera	camera(double hsize, double vsize, double fov)
 	cam.hsize = hsize;
 	cam.vsize = vsize;
 	cam.fov = fov;
+	cam.mpos = point(0, 0, 0);
 	cam.y_rot = 0;
 	cam.x_rot = 0;
 	mtx4_dup(g_identity_matrix, cam.transform);

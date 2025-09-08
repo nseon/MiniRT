@@ -68,6 +68,7 @@ typedef struct s_camera
 	double	half_height;
 	double	half_width;
 	t_tuple	pos;
+	t_tuple	mpos;
 	t_tuple	orient;
 	double	y_rot;
 	double	x_rot;
