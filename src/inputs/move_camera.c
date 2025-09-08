@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 14:56:56 by nseon             #+#    #+#             */
-/*   Updated: 2025/09/08 16:20:22 by nseon            ###   ########.fr       */
+/*   Updated: 2025/09/08 18:09:32 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ void	rotate_cam(int x, int y, void *args)
             mlx_mouse_move(ctx->win.mlx, ctx->win.win, WIN_W / 2, WIN_H / 2);
             if (ctx->render == false)
             {
-                cam->y_rot -= (x - WIN_W / 2) * 0.002;
-				cam->x_rot += (y - WIN_H / 2) * 0.002;
+                cam->y_rot -= (x - WIN_W / 2) * 0.001;
+				cam->x_rot += (y - WIN_H / 2) * 0.001;
 				if ((cam->x_rot + cam->orient.y * M_PI) < - M_PI / 2 + 0.2 || (cam->x_rot + cam->orient.y * M_PI) > M_PI / 2 - 0.2)
 					cam->x_rot -= (y - WIN_H / 2) * 0.002;
             }
@@ -60,24 +60,20 @@ void	cam_height(int keycode, void *args)
 
 void	cam_translation(int keycode, void *args)
 {
-	t_ctx * const	ctx = args;
-	t_mtx4			buff;
-	double			x;
-	double			z;
-
+	t_ctx * const		ctx = args;
+	t_mtx4				buff;
+	t_mtx4				buf2;
+	t_camera * const	cam = &ctx->gctx.cam;
 	
 	if (ctx->render == false && ctx->parsing)
 	{
-		x = 0;
-		z = 0;
 		if (keycode == XK_w)
-			ctx->gctx.cam.pos.z += 0.1;
+			cam->pos = tp_sub(cam->pos, tp_mul(mtx_tup_mul(vector(0, 0, 1), cam->inverse), 0.1));
 		if (keycode == XK_s)
-			ctx->gctx.cam.pos.z -= 0.1;
+			cam->pos = tp_add(cam->pos, tp_mul(mtx_tup_mul(vector(0, 0, 1), cam->inverse), 0.1));
 		if (keycode == XK_d)
-			ctx->gctx.cam.pos.x += 0.1;
+			cam->pos = tp_sub(cam->pos, tp_mul(mtx_tup_mul(vector(1, 0, 0), cam->inverse), 0.1));
 		if (keycode == XK_a)
-			ctx->gctx.cam.pos.x -= 0.1;
-		set_cam_transform(&ctx->gctx.cam, mtx_mul2(translation(x, 0, z, buff), ctx->gctx.cam.transform));
+			cam->pos = tp_add(cam->pos, tp_mul(mtx_tup_mul(vector(1, 0, 0), cam->inverse), 0.1));
 	}
 }

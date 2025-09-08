@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 12:15:25 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/09/08 15:13:30 by nseon            ###   ########.fr       */
+/*   Updated: 2025/09/08 18:12:36 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,12 @@ void	main_loop(void *p)
 	if (!ctx->render && ctx->parsing)
 	{
 		ft_bzero(ctx->gctx.color_px, sizeof (t_rgb96_t) * WIN_H * WIN_W);
-		render(ctx, ctx->gctx.cam, &ctx->gctx.w, -1);
+		render(ctx, &ctx->gctx.cam, &ctx->gctx.w, -1);
 		rays = 0;
 	}
 	else if (ctx->parsing && ++rays < RAY_NBR)
 	{
-		render(ctx, ctx->gctx.cam, &ctx->gctx.w, rays);
+		render(ctx, &ctx->gctx.cam, &ctx->gctx.w, rays);
 	}
 	put_img(&ctx->img, 0, 0, true);
 }

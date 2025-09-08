@@ -1,6 +1,6 @@
 # bonus parsing: reflective(float) transparency(float) refractive(float)
 
-A   0.35           255,255,255
+A   0           255,255,255
 
 C   0,1,-15 0,0,1  70
 
