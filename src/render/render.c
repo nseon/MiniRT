@@ -35,7 +35,9 @@ void	compute_cam_matrice(t_camera *cam)
 {
 	t_mtx4	buf;
 
-	set_cam_transform(cam, rotation_x(cam->x_rot, buf));
+	set_cam_transform(cam, translation(cam->mpos.x, cam->mpos.y,
+		cam->mpos.z, buf));
+	mul_cam_transform(cam, rotation_x(cam->x_rot, buf));
 	mul_cam_transform(cam, rotation_y(cam->y_rot, buf));
 	mul_cam_transform(cam, mtx4_view(cam->pos, tp_add(cam->pos, cam->orient),
 		vector(0, 1, 0), buf));
