@@ -6,7 +6,7 @@
 #    By: nseon <nseon@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/19 11:53:22 by pjarnac           #+#    #+#              #
-#    Updated: 2025/08/27 09:58:51 by nseon            ###   ########.fr        #
+#    Updated: 2025/09/04 16:18:52 by nseon            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,8 @@ SRC += $(addprefix $(INPUTS_DIR), $(INPUTS_SRC))
 
 INPUTS_DIR	=		inputs/
 INPUTS_SRC	=		camera.c \
+					move_camera.c \
+					window.c \
 
 # ===============DEBUG================= #
 

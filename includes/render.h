@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 16:10:47 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/08/28 10:47:27 by nseon            ###   ########.fr       */
+/*   Updated: 2025/09/04 16:09:15 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,13 @@ typedef struct s_gctx
 	t_rgb96_t	*color_px;
 }	t_gctx;
 
+typedef	struct s_mouse
+{
+	bool		focus;
+	t_point2	axes;
+}	t_mouse;
+
+
 typedef struct s_ctx
 {
 	t_window		win;
@@ -51,6 +58,7 @@ typedef struct s_ctx
 	int32_t			error;
 	int32_t			file;
 	uint8_t			random[RAY_NBR];
+	t_mouse			mouse;
 	bool parsing;
 	bool render;
 }	t_ctx;

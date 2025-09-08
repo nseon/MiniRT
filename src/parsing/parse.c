@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 17:45:33 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/05/14 17:45:33 by pjarnac          ###   ########.fr       */
+/*   Updated: 2025/09/04 16:34:01 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include "minirt.h"
 #include "neflibx.h"
 #include "parsing.h"
+#include "inputs.h"
 
 void	open_file(char *str, t_ctx *ctx)
 {
@@ -64,7 +65,9 @@ void	parse(char *str, void *p)
 			get_by_id(&ctx->win, FILENAME_ID)->hide = true;
 			clear_image(&ctx->img);
 			ctx->parsing = true;
+			ctx->render = true;
 			test_render(ctx);
+			window_focus(1, 0, 0, ctx);
 		}
 	}
 }

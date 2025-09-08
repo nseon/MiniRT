@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   operations.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 13:11:21 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/07/31 13:11:21 by pjarnac          ###   ########.fr       */
+/*   Updated: 2025/09/08 09:02:58 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,30 @@ t_mtx4_ret	mtx_mul2(t_mtx4 m1, t_mtx4 const m2)
 				+ m1_dup[y][1] * m2[1][x]
 				+ m1_dup[y][2] * m2[2][x]
 				+ m1_dup[y][3] * m2[3][x];
+			++y;
+		}
+		++x;
+	}
+	return (m1);
+}
+
+t_mtx4_ret	mtx4_scale(t_mtx4 m1, float const m)
+{
+	int32_t	x;
+	int32_t	y;
+	t_mtx4	m1_dup;
+
+	mtx4_dup(m1, m1_dup);
+	x = 0;
+	while (x < 4)
+	{
+		y = 0;
+		while (y < 4)
+		{
+			m1[y][x] = m1_dup[y][0] * m
+				+ m1_dup[y][1] * m
+				+ m1_dup[y][2] * m
+				+ m1_dup[y][3] * m;
 			++y;
 		}
 		++x;

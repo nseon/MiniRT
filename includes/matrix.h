@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   matrix.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 11:59:02 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/07/31 11:59:02 by pjarnac          ###   ########.fr       */
+/*   Updated: 2025/09/08 09:02:37 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,5 +88,6 @@ t_mtx4_ret	mx_shearing(double const x[2], double const y[2], double const z[2],
 							t_mtx4 res);
 
 t_mtx4_ret	mtx4_view(t_tuple from, t_tuple to, t_tuple up, t_mtx4 res);
+t_mtx4_ret	mtx4_scale(t_mtx4 m1, float const m);
 
 #endif

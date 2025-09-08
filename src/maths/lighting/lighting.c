@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 15:24:02 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/09/01 16:40:55 by nseon            ###   ########.fr       */
+/*   Updated: 2025/09/04 15:20:17 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,15 +56,21 @@ t_fcolor	blend_additives(t_world *w, t_fcolor col, t_pre_compute *pc, int n, uin
 		reflectance = schlick(pc);
 		// col = col_scalar(col, 1 - pc->obj->mat.transparency * (1 - reflectance)
 		// - pc->obj->mat.reflective * reflectance);
-		col = color_add(col, col_scalar(reflect_color(w, pc, n, random), reflectance));
-		col = color_add(col, col_scalar(refract_color(w, pc, n, random), 1 - reflectance));
+		if (random)
+		{
+			col = color_add(col, col_scalar(reflect_color(w, pc, n, random), reflectance));
+			col = color_add(col, col_scalar(refract_color(w, pc, n, random), 1 - reflectance));
+		}
 		return (col);
 	}
 	// col = col_scalar(col, 1 - pc->obj->mat.transparency
 	// 	- pc->obj->mat.reflective);
-	col = color_add(col, reflect_color(w, pc, n, random));
-	col = color_add(col, refract_color(w, pc, n, random));
-	col = color_add(col, col_scalar(indirect_light(w, pc, n, random), 0.4));
+	if (random)
+	{
+		col = color_add(col, reflect_color(w, pc, n, random));
+		col = color_add(col, refract_color(w, pc, n, random));
+		col = color_add(col, indirect_light(w, pc, n, random));
+	}
 	return (col);
 }
 
