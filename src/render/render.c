@@ -30,8 +30,7 @@ void	compute_cam_matrice(t_camera *cam)
 {
 	t_mtx4	buf;
 
-	set_cam_transform(cam, mx_rotation_y(cam->y_rot, mx_rotation_x(cam->x_rot,
-		translation(cam->mpos.x, cam->mpos.y, cam->mpos.z, buf))));
+	set_cam_transform(cam, mx_rotation_y(cam->y_rot, rotation_x(cam->x_rot, buf)));
 	mul_cam_transform(cam, mtx4_view(cam->pos, tp_add(cam->pos, cam->orient),
 		vector(0, 1, 0), buf));
 }
@@ -45,20 +44,20 @@ void	compute_matrices(t_camera *cam, t_obj *objs)
 	while (++i < vct_size(objs))
 		compute_obj_matrice(objs + i);
 }
-t_image		*render(t_image *img, t_camera cam, t_world *world)
+t_image		*render(t_image *img, t_camera *cam, t_world *world)
 {
 	int32_t		x;
 	int32_t		y;
 	t_fcolor	color;
 
-	compute_matrices(&cam, world->objs);
+	compute_matrices(cam, world->objs);
 	y = -1;
-	while (++y < cam.vsize)
+	while (++y < cam->vsize)
 	{
 		x = -1;
-		while (++x < cam.hsize)
+		while (++x < cam->hsize)
 		{
-			color = color_at(world, ray_for_pixel(cam, x, y), MAX_RECURSIVE);
+			color = color_at(world, ray_for_pixel(*cam, x, y), MAX_RECURSIVE);
 			put_pixel_img(img, point_s(x, y, fcolor_to_uint(color)));
 		}
 	}

@@ -22,7 +22,7 @@ void	main_loop(void *p)
 		draw_file_status(ctx);
 	if (ctx->parsing)
 	{
-		render(&ctx->img, ctx->gctx.cam, &ctx->gctx.w);
+		render(&ctx->img, &ctx->gctx.cam, &ctx->gctx.w);
 	}
 	put_img(&ctx->img, 0, 0, true);
 }
