@@ -22,7 +22,9 @@ t_obj	plane(void)
 {
 	t_obj	o;
 
-	o = (t_obj){.type = PLANE, .uid = get_uid(), .mat = g_default_mat};
+	o = (t_obj){.type = PLANE, .uid = get_uid(), .mat = g_default_mat,
+		.pos = point(0, 0, 0), .x_size = 1, .y_size = 1, .z_size = 1,
+		.x_rot = 0, .y_rot = 0, .z_rot = 0};
 	mtx4_dup(g_identity_matrix, o.transform);
 	mtx4_dup(g_identity_matrix, o.inv_transform);
 	return (o);

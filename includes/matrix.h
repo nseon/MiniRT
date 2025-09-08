@@ -88,6 +88,5 @@ t_mtx4_ret	mx_shearing(double const x[2], double const y[2], double const z[2],
 							t_mtx4 res);
 
 t_mtx4_ret	mtx4_view(t_tuple from, t_tuple to, t_tuple up, t_mtx4 res);
-t_mtx4_ret	mtx4_dir_rota(t_tuple dir, t_mtx4 res);
 
 #endif

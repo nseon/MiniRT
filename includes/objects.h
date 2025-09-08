@@ -44,6 +44,13 @@ typedef struct s_obj
 {
 	t_obj_type	type;
 	uint32_t	uid;
+	t_tuple		pos;
+	double		x_rot;
+	double		y_rot;
+	double		z_rot;
+	double		x_size;
+	double		y_size;
+	double		z_size;
 	t_mtx4		transform;
 	t_mtx4		inv_transform;
 	t_material	mat;
@@ -60,6 +67,8 @@ typedef struct s_camera
 	double	pixel_size;
 	double	half_height;
 	double	half_width;
+	t_tuple	pos;
+	t_tuple	orient;
 	t_mtx4	transform;
 	t_mtx4	inverse;
 }	t_camera;
@@ -78,5 +87,6 @@ t_light		light(t_tuple pos, t_fcolor intensity, t_light_type type);
 void		set_cam_transform(t_camera *cam, t_mtx4 transf);
 void		mul_cam_transform(t_camera *cam, t_mtx4 transf);
 t_fcolor	pattern_at_obj(t_pattern pat, t_obj *o, t_tuple pt);
+void		set_rota_from_dir(t_tuple dir, t_obj *o);
 
 #endif

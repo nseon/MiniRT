@@ -48,7 +48,9 @@ typedef struct s_ren_calc
 	int32_t		s;
 }	t_ren_calc;
 
-
+void		compute_matrices(t_camera *cam, t_obj *objs);
+void		compute_cam_matrice(t_camera *cam);
+void		compute_obj_matrice(t_obj *o);
 uint32_t	get_pixel_color(t_image *image, int x, int y);
 t_image		*render(t_image *img, t_camera cam, t_world *world);
 

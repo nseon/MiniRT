@@ -21,21 +21,19 @@
 int32_t	parse_cylinder(char **split, t_world *w)
 {
 	int32_t	res;
-	t_mtx4	tbu;
 	t_tuple	tp;
 	double	db;
 	t_obj	obj;
 
 	obj = cylinder();
 	obj.closed = true;
-	res = parse_xyz(*(split++), &tp);
+	res = parse_xyz(*(split++), &obj.pos);
 	if (res != SUCCESS)
 		return (res);
-	mul_transform(&obj, translation(tp.x, tp.y, tp.z, tbu));
 	res = parse_normal(*(split++), &tp);
 	if (res != SUCCESS)
 		return (res);
-	mul_transform(&obj, mtx4_dir_rota(tp, tbu));
+	set_rota_from_dir(tp, &obj);
 	res = parse_double(*(split++), &db);
 	if (res != SUCCESS)
 		return (res);
@@ -44,7 +42,8 @@ int32_t	parse_cylinder(char **split, t_world *w)
 	res = parse_double(*(split++), &db);
 	if (res != SUCCESS)
 		return (res);
-	mul_transform(&obj, scaling(db, 1, db, tbu));
+	obj.x_size = db;
+	obj.z_size = db;
 	res = parse_color(*(split++), &obj.mat.col);
 	if (res != SUCCESS)
 		return (res);

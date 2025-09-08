@@ -40,20 +40,19 @@ static int32_t	parse_sphere_bonus(char **split, t_obj *o)
 int32_t	parse_sphere(char **split, t_world *w)
 {
 	int32_t	res;
-	double	buf;
-	t_mtx4	tbuf;
-	t_tuple	pos;
+	double	dbuf;
 	t_obj	obj;
 
 	obj = sphere();
-	res = parse_xyz(*(split++), &pos);
+	res = parse_xyz(*(split++), &obj.pos);
 	if (res != SUCCESS)
 		return (res);
-	mul_transform(&obj, translation(pos.x, pos.y, pos.z, tbuf));
-	res = parse_double(*(split++), &buf);
+	res = parse_double(*(split++), &dbuf);
 	if (res != SUCCESS)
 		return (res);
-	mul_transform(&obj, scaling(buf / 2, buf / 2, buf / 2, tbuf));
+	obj.x_size = dbuf / 2;
+	obj.y_size = dbuf / 2;
+	obj.z_size = dbuf / 2;
 	res = parse_color(*(split++), &obj.mat.col);
 	if (res != SUCCESS)
 		return (res);
