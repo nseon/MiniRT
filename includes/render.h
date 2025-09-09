@@ -57,7 +57,6 @@ typedef struct s_ctx
 	t_gctx			gctx;
 	int32_t			error;
 	int32_t			file;
-	uint8_t			random[RAY_NBR];
 	t_mouse			mouse;
 	bool parsing;
 	bool render;
@@ -68,6 +67,7 @@ void		compute_cam_matrice(t_camera *cam);
 void		compute_obj_matrice(t_obj *o);
 uint32_t	get_pixel_color(t_image *image, int x, int y);
 t_image		*render(t_ctx *ctx, t_camera *cam, t_world *world, int32_t nb_rays);
-t_tuple			random_bounce(uint8_t const random[RAY_NBR], t_tuple ojb_norm);
+t_tuple		random_bounce(t_tuple ojb_norm);
+int32_t		init_ss(t_ctx *ctx);
 
 #endif

@@ -39,7 +39,7 @@ double			schlick(t_pre_compute *pc)
 	return (r0 + (1 - r0) * pow(1 - cos, 5));
 }
 
-t_fcolor	refract_color(t_world *w, t_pre_compute *pc, int n, uint8_t const random[RAY_NBR])
+t_fcolor	refract_color(t_world *w, t_pre_compute *pc, int n)
 {
 	t_ray		r;
 	t_tuple		dir;

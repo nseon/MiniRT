@@ -41,7 +41,7 @@ t_ray	ray_for_pixel(t_camera cam, double x, double y)
 	return ((t_ray){origin, tp_normalize(tp_sub(pixel, origin))});
 }
 
-t_tuple random_bounce(uint8_t const random[RAY_NBR], t_tuple ojb_norm)
+t_tuple random_bounce(t_tuple ojb_norm)
 {
 	t_tuple bounce;
 

@@ -175,6 +175,7 @@ SRC += $(addprefix $(UTILS_DIR), $(UTILS_SRC))
 
 UTILS_DIR =		utils/
 UTILS_SRC =		sort.c \
+				rt_random.c \
 
 # ===============PARSING/OBJECTS================ #
 
@@ -247,8 +248,8 @@ MAKEFLAGS	+=	--no-print-directory
 
 # ================MODES================ #
 
-MODES		:= debug optimize full-optimize test bonus memsan asan test_asan \
-test_memsan asan-bonus
+MODES		:= debug optimize full-optimize full-optimize-bonus test bonus \
+memsan asan asan-bonus test_asan test_memsan
 
 MODE_TRACE	:= $(BUILD_DIR).mode_trace
 LAST_MODE	:= $(shell cat $(MODE_TRACE) 2>/dev/null)
@@ -270,15 +271,17 @@ else ifeq ($(MODE), asan)
 else ifeq ($(MODE), asan-bonus)
 	CFLAGS = -g -fsanitize=address -fno-omit-frame-pointer -O1
     LDFLAGS += -fsanitize=address -fno-omit-frame-pointer
-    CPPFLAGS += -DDEBUG=1 -DBONUS
+    CPPFLAGS += -DBONUS
 else ifeq ($(MODE), memsan)
  	CFLAGS = -g -fsanitize=memory -fno-omit-frame-pointer -O1
     LDFLAGS += -fsanitize=memory -fno-omit-frame-pointer
     CPPFLAGS += -DDEBUG=1
 else ifeq ($(MODE), optimize)
 	CFLAGS += -O3
-else ifeq ($(MODE), full-optimize)
+else ifeq ($(MODE), full-optimize-bonus)
 	CFLAGS = -Ofast -DBONUS
+else ifeq ($(MODE), full-optimize)
+    CFLAGS = -Ofast
 else ifeq ($(MODE), bonus)
 	CFLAGS += -Ofast
 	CPPFLAGS += -DBONUS
