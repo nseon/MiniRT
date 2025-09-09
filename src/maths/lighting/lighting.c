@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 15:24:02 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/09/09 08:51:58 by nseon            ###   ########.fr       */
+/*   Updated: 2025/09/09 15:22:09 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ t_fcolor	indirect_light(t_world *w, t_pre_compute *pc, int n, uint8_t const rand
 	distance = i->t;
 	w->xs.count -= xs.count;
 	rcolor = color_at(w, r, -1, random);
-	if (distance < 1)
-		distance = 1;
+		if (distance < 1)
+			distance = 1;
 	return (col_scalar(color_mul(rcolor, pc->obj->mat.col), 1.0 / (distance * distance)));
 }
 
