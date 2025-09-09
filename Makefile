@@ -6,7 +6,7 @@
 #    By: nseon <nseon@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/19 11:53:22 by pjarnac           #+#    #+#              #
-#    Updated: 2025/09/04 16:18:52 by nseon            ###   ########.fr        #
+#    Updated: 2025/09/09 10:14:44 by nseon            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -278,7 +278,7 @@ else ifeq ($(MODE), memsan)
 else ifeq ($(MODE), optimize)
 	CFLAGS += -O3
 else ifeq ($(MODE), full-optimize)
-	CFLAGS = -Ofast
+	CFLAGS = -Ofast -DBONUS
 else ifeq ($(MODE), bonus)
 	CFLAGS += -Ofast
 	CPPFLAGS += -DBONUS

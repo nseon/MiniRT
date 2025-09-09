@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 15:24:02 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/09/08 17:31:04 by nseon            ###   ########.fr       */
+/*   Updated: 2025/09/09 08:51:58 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,21 +56,15 @@ t_fcolor	blend_additives(t_world *w, t_fcolor col, t_pre_compute *pc, int n, uin
 		reflectance = schlick(pc);
 		// col = col_scalar(col, 1 - pc->obj->mat.transparency * (1 - reflectance)
 		// - pc->obj->mat.reflective * reflectance);
-		if (random)
-		{
 			col = color_add(col, col_scalar(reflect_color(w, pc, n, random), reflectance));
 			col = color_add(col, col_scalar(refract_color(w, pc, n, random), 1 - reflectance));
-		}
 		return (col);
 	}
 	// col = col_scalar(col, 1 - pc->obj->mat.transparency
 	// 	- pc->obj->mat.reflective);
-	if (random)
-	{
 		col = color_add(col, reflect_color(w, pc, n, random));
 		col = color_add(col, refract_color(w, pc, n, random));
 		col = color_add(col, indirect_light(w, pc, n, random));
-	}
 	return (col);
 }
 
@@ -89,9 +83,11 @@ t_fcolor		light_hit(t_world *w, t_pre_compute *pc, int n, uint8_t const random[R
 	while (++i < vct_size(w->lights))
 	{
 		l = w->lights[i];
-		if (!is_in_shadow(w, pc->over_point, &l))
+		if (!random || !is_in_shadow(w, pc->over_point, &l))
 			color = color_add(color, phong(pc->obj->mat, l, pc));
 	}
+	if (!random)
+		return (color);
 	return (blend_additives(w, color, pc, n, random));
 }
 

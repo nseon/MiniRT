@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 13:16:30 by nseon             #+#    #+#             */
-/*   Updated: 2025/08/27 10:51:12 by nseon            ###   ########.fr       */
+/*   Updated: 2025/09/09 09:29:56 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ float frandom(uint8_t const random[RAY_NBR], int min, int max)
 		i -= RAY_NBR;
 	nb = (float)(random[i]) / ((float)256 / (max - min));
 	nb += min;
-	i += 3;
+	i += 1;
 	return (nb);
 }
 

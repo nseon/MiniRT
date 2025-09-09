@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 12:51:14 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/09/08 18:28:01 by nseon            ###   ########.fr       */
+/*   Updated: 2025/09/08 18:33:46 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,7 @@ void	compute_cam_matrice(t_camera *cam)
 {
 	t_mtx4	buf;
 
-<<<<<<< HEAD
-	
-	set_cam_transform(cam, rotation_x(cam->x_rot, buf));
-	mul_cam_transform(cam, rotation_y(cam->y_rot, buf));
-=======
 	set_cam_transform(cam, mx_rotation_y(cam->y_rot, rotation_x(cam->x_rot, buf)));
->>>>>>> 2eeb925cf150779b45c52c21c9af3c8134b5f051
 	mul_cam_transform(cam, mtx4_view(cam->pos, tp_add(cam->pos, cam->orient),
 		vector(0, 1, 0), buf));
 }
