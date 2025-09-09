@@ -24,16 +24,15 @@ void	main_loop(void *p)
 	test = 0;
 	if (!ctx->parsing)
 		draw_file_status(ctx);
-	if (!ctx->render && ctx->parsing)
+	if (ctx->parsing)
 	{
-		ft_bzero(ctx->gctx.color_px, sizeof (t_rgb96_t) * WIN_H * WIN_W);
 		render(ctx, &ctx->gctx.cam, &ctx->gctx.w, -1);
 		rays = 0;
 	}
-	else if (ctx->parsing && ++rays < RAY_NBR)
-	{
-		render(ctx, &ctx->gctx.cam, &ctx->gctx.w, rays);
-	}
+	// else if (ctx->parsing && ++rays < RAY_NBR)
+	// {
+	// 	render(ctx, &ctx->gctx.cam, &ctx->gctx.w, rays);
+	// }
 	put_img(&ctx->img, 0, 0, true);
 }
 

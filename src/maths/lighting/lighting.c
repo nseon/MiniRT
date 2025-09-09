@@ -49,22 +49,19 @@ t_fcolor	indirect_light(t_world *w, t_pre_compute *pc, int n)
 t_fcolor	blend_additives(t_world *w, t_fcolor col, t_pre_compute *pc, int n)
 {
 	double		reflectance;
-	t_fcolor	bounce;
 
+	if (!w->advanced)
+		return (col);
 	if (pc->obj->mat.reflective > 0 && pc->obj->mat.transparency > 0)
 	{
 		reflectance = schlick(pc);
-		// col = col_scalar(col, 1 - pc->obj->mat.transparency * (1 - reflectance)
-		// - pc->obj->mat.reflective * reflectance);
-			col = color_add(col, col_scalar(reflect_color(w, pc, n), reflectance));
-			col = color_add(col, col_scalar(refract_color(w, pc, n), 1 - reflectance));
+		col = color_add(col, col_scalar(reflect_color(w, pc, n), reflectance));
+		col = color_add(col, col_scalar(refract_color(w, pc, n), 1 - reflectance));
 		return (col);
 	}
-	// col = col_scalar(col, 1 - pc->obj->mat.transparency
-	// 	- pc->obj->mat.reflective);
-		col = color_add(col, reflect_color(w, pc, n));
-		col = color_add(col, refract_color(w, pc, n));
-		col = color_add(col, indirect_light(w, pc, n));
+	col = color_add(col, reflect_color(w, pc, n));
+	col = color_add(col, refract_color(w, pc, n));
+	col = color_add(col, indirect_light(w, pc, n));
 	return (col);
 }
 
@@ -83,8 +80,9 @@ t_fcolor		light_hit(t_world *w, t_pre_compute *pc, int n)
 	while (++i < vct_size(w->lights))
 	{
 		l = w->lights[i];
-		if (!is_in_shadow(w, pc->over_point, &l))
-			color = color_add(color, phong(pc->obj->mat, l, pc));
+		// if (w->advanced)
+			is_in_shadow(w, pc->over_point, &l);
+		color = color_add(color, phong(pc->obj->mat, l, pc));
 	}
 	return (blend_additives(w, color, pc, n));
 }

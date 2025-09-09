@@ -24,5 +24,12 @@ void	authorize_cam_move(int keycode, void *args)
 	t_ctx * const	ctx = args;
 
 	if (keycode == XK_Return && ctx->parsing)
-		ctx->render ^= true;
+	{
+		ft_bzero(ctx->gctx.color_px, sizeof (t_rgb96_t) * WIN_H * WIN_W);
+		ctx->gctx.w.advanced ^= true;
+		if (ctx->gctx.w.frac == 4)
+			ctx->gctx.w.frac = 1;
+		else
+			ctx->gctx.w.frac = 4;
+	}
 }
