@@ -15,6 +15,7 @@
 #include "ray.h"
 
 #include <math.h>
+#include <stdio.h>
 
 #include "lighting.h"
 #include "random.h"
@@ -67,8 +68,8 @@ t_image		*render(t_ctx *ctx, t_camera *cam, t_world *world, int32_t nb_rays)
 			else
 			{
 				color = color_at(world, ray_for_pixel(*cam, x + frandom( 0, 1), y + frandom(0, 1)), MAX_RECURSIVE);
-				ctx->gctx.color_px[x * WIN_H + y] = color_add(ctx->gctx.color_px[x * WIN_H + y], color);
-				put_pixel_img(&ctx->img, point_s(x, y, fcolor_to_uint(col_scalar(ctx->gctx.color_px[x * WIN_H + y], (double)1 / nb_rays))));
+				ctx->gctx.color_px[x * WIN_H + y] = color_add(ctx->gctx.color_px[x * WIN_H + y], cap_color(color));
+				put_pixel_img(&ctx->img, point_s(x, y, fcolor_to_uint(col_scalar(ctx->gctx.color_px[x * WIN_H + y], 1.0 / nb_rays))));
 			}
 		}
 	}

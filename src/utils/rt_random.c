@@ -21,7 +21,7 @@
 #include "tuple.h"
 #include "errors.h"
 
-static int32_t	xor_state;
+static uint32_t	xor_state;
 
 int32_t	init_random(void)
 {
@@ -41,7 +41,7 @@ double frandom(int min, int max)
 	xor_state ^= xor_state << 13;
 	xor_state ^= xor_state >> 17;
 	xor_state ^= xor_state << 5;
-	return ((double)xor_state / (INT32_MAX / (max - min)) + min);
+	return ((double)xor_state / (UINT32_MAX / (max - min)) + min);
 }
 
 t_tuple	random_vec(void)
