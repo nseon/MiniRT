@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 16:10:47 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/09/08 18:27:38 by nseon            ###   ########.fr       */
+/*   Updated: 2025/09/09 16:34:37 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ typedef struct s_ctx
 	t_gctx			gctx;
 	int32_t			error;
 	int32_t			file;
-	uint8_t			random[RAY_NBR];
 	t_mouse			mouse;
 	bool parsing;
 	bool render;
@@ -68,6 +67,9 @@ void		compute_cam_matrice(t_camera *cam);
 void		compute_obj_matrice(t_obj *o);
 uint32_t	get_pixel_color(t_image *image, int x, int y);
 t_image		*render(t_ctx *ctx, t_camera *cam, t_world *world, int32_t nb_rays);
-t_tuple			random_bounce(uint8_t const random[RAY_NBR], t_tuple ojb_norm);
+t_tuple		random_bounce(t_tuple ojb_norm);
+int32_t		init_ss(t_ctx *ctx);
+int32_t		get_mixed_color(t_rgb96_t comps, int div);
+void		add_rgb96_t(t_rgb96_t *comps, uint32_t color);
 
 #endif

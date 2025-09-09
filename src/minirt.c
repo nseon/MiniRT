@@ -16,6 +16,7 @@
 #include "neflibx.h"
 #include "errors.h"
 #include "hooks.h"
+#include "random.h"
 
 #include <stdlib.h>
 #include <unistd.h>
@@ -26,17 +27,10 @@
 
 static int8_t	init(t_ctx *const ctx)
 {
-	int32_t fd;
-
-	fd = open("/dev/urandom", O_RDONLY);
-	if (fd == -1)
+	if (init_random() != SUCCESS)
 		return (FATAL);
-	if (read(fd, ctx->random, RAY_NBR) == -1)
+	if (init_ss(ctx) != SUCCESS)
 		return (FATAL);
-	ctx->gctx.color_px = malloc(sizeof (t_rgb96_t) * WIN_H * WIN_W);
-	if (!ctx->gctx.color_px)
-		return (FATAL);
-	ft_bzero(ctx->gctx.color_px, sizeof (t_rgb96_t) * WIN_H * WIN_W);
 	if (init_window(&ctx->win, WIN_W, WIN_H, "MiniRT") != SUCCESS)
 		return (FATAL);
 	if (create_image(&ctx->img, WIN_W, WIN_H, &ctx->win) != SUCCESS)
@@ -79,6 +73,7 @@ int	main(int c, char **args)
 	loop(&ctx.win);
 	destroy_image(&ctx.img);
 	destroy_window(&ctx.win);
+	free(ctx.gctx.color_px);
 	free_world(&ctx.gctx.w);
 	return (0);
 }

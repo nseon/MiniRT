@@ -12,6 +12,8 @@
 
 #include "fcolors.h"
 
+#include <math.h>
+
 t_fcolor	fcolor(float r, float g, float b)
 {
 	return ((t_fcolor){r, g, b});
@@ -19,7 +21,14 @@ t_fcolor	fcolor(float r, float g, float b)
 
 t_fcolor	color_add(t_fcolor c1, t_fcolor c2)
 {
-	return ((t_fcolor){c1.r + c2.r, c1.g + c2.g, c1.b + c2.b});
+	t_fcolor	c;
+
+	c.r = c1.r + c2.r;
+	c.g = c1.g + c2.g;
+	c.b = c1.b + c2.b;
+	if (c.r == INFINITY || c.g == INFINITY || c.b == INFINITY)
+		return (c);
+	return (c);
 }
 
 t_fcolor	color_sub(t_fcolor c1, t_fcolor c2)
@@ -39,20 +48,22 @@ t_fcolor	color_mul(t_fcolor c1, t_fcolor c2)
 	return ((t_fcolor){c1.r * c2.r, c1.g * c2.g, c1.b * c2.b});
 }
 
-void		cap_color(t_fcolor *col)
+t_fcolor	cap_color(t_fcolor col)
 {
-	float	div;
+	float		div;
+	t_fcolor	ncol;
 
 	div = 1;
-	if (col->r > div)
-		div = col->r;
-	if (col->g > div)
-		div = col->g;
-	if (col->b > div)
-		div = col->b;
-	col->r /= div;
-	col->g /= div;
-	col->b /= div;
+	if (col.r > div)
+		div = col.r;
+	if (col.g > div)
+		div = col.g;
+	if (col.b > div)
+		div = col.b;
+	ncol.r = col.r / div;
+	ncol.g = col.g / div;
+	ncol.b = col.b / div;
+	return (ncol);
 }
 
 uint32_t	fcolor_to_uint(t_fcolor col)
@@ -61,7 +72,7 @@ uint32_t	fcolor_to_uint(t_fcolor col)
 	double		buf;
 
 	res = 0;
-	cap_color(&col);
+	col = cap_color(col);
 	buf = col.r * 256 - 0.5;
 	res += (uint8_t)buf << 16;
 	buf = col.g * 256 - 0.5;

@@ -6,19 +6,25 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 13:16:30 by nseon             #+#    #+#             */
-/*   Updated: 2025/09/09 10:20:35 by nseon            ###   ########.fr       */
+/*   Updated: 2025/09/09 16:31:00 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <fcntl.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <math.h>
 #include <stdlib.h>
 
+#include "errors.h"
+#include "minirt.h"
 #include "neflibx.h"
 #include "render.h"
-#include "tuple.h"
+
+int32_t	init_ss(t_ctx *ctx)
+{
+	ctx->gctx.color_px = malloc(sizeof (t_rgb96_t) * WIN_H * WIN_W);
+	if (!ctx->gctx.color_px)
+		return (FATAL);
+	ft_bzero(ctx->gctx.color_px, sizeof (t_rgb96_t) * WIN_H * WIN_W);
+	return (SUCCESS);
+}
 
 uint32_t	get_pixel_color(t_image *image, int x, int y)
 {
@@ -26,22 +32,6 @@ uint32_t	get_pixel_color(t_image *image, int x, int y)
 
 	color = image->addr + y * image->len + x * (image->bpp / 8);
 	return (*(uint32_t *)color);
-}
-/*!
- *
- * @return A random float between min & max.
- */
-float frandom(uint8_t const random[RAY_NBR], int min, int max)
-{
-	static int	i;
-	float		nb;
-
-	if (i >= RAY_NBR)
-		i -= RAY_NBR;
-	nb = (float)(random[i]) / ((float)256 / (max - min));
-	nb += min;
-	i += 3;
-	return (nb);
 }
 
 void	add_rgb96_t(t_rgb96_t *comps, uint32_t color)
@@ -62,9 +52,4 @@ int32_t	get_mixed_color(t_rgb96_t comps, int div)
 	color.g = comps.g / div;
 	color.b = comps.b / div;
 	return (color.argb);
-}
-
-t_tuple	random_vec(uint8_t const random[RAY_NBR])
-{
-	return(vector(frandom(random, -1, 1), frandom(random, -1, 1), frandom(random, -1, 1)));
 }
