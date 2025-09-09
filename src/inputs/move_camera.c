@@ -21,26 +21,21 @@
 void	rotate_cam(int x, int y, void *args)
 {
     t_ctx * const		ctx = args;
-    t_mtx4				buff;
-    t_tuple				tmp;
 	t_camera * const	cam = &ctx->gctx.cam;
 
     if (x == WIN_W / 2 && y == WIN_H / 2)
-        return ;
-    if (ctx->parsing)
-    {
-        if (ctx->mouse.focus == true)
-        {
-            mlx_mouse_move(ctx->win.mlx, ctx->win.win, WIN_W / 2, WIN_H / 2);
-            if (ctx->render == false)
-            {
-                cam->y_rot -= (x - WIN_W / 2) * 0.001;
-				cam->x_rot += (y - WIN_H / 2) * 0.001;
-				if ((cam->x_rot + cam->orient.y * M_PI) < - M_PI / 2 + 0.2 || (cam->x_rot + cam->orient.y * M_PI) > M_PI / 2 - 0.2)
-					cam->x_rot -= (y - WIN_H / 2) * 0.002;
-            }
-        }
-    }
+    	return ;
+	if (ctx->mouse.focus == true)
+	{
+		mlx_mouse_move(ctx->win.mlx, ctx->win.win, WIN_W / 2, WIN_H / 2);
+		if (ctx->gctx.w.advanced == false)
+		{
+			cam->y_rot -= (x - WIN_W / 2) * 0.001;
+			cam->x_rot += (y - WIN_H / 2) * 0.001;
+			if ((cam->x_rot + cam->orient.y * M_PI) < - M_PI / 2 + 0.2 || (cam->x_rot + cam->orient.y * M_PI) > M_PI / 2 - 0.2)
+				cam->x_rot -= (y - WIN_H / 2) * 0.001;
+		}
+	}
 }
 
 void	cam_height(int keycode, void *args)
@@ -49,7 +44,7 @@ void	cam_height(int keycode, void *args)
 	t_mtx4			buff;
 	double			y;
 
-	if (ctx->render == false && ctx->parsing)
+	if (ctx->gctx.w.advanced == false)
 	{
 		if (keycode == XK_c)
 			ctx->gctx.cam.pos.y -= 0.1;
@@ -61,11 +56,9 @@ void	cam_height(int keycode, void *args)
 void	cam_translation(int keycode, void *args)
 {
 	t_ctx * const		ctx = args;
-	t_mtx4				buff;
-	t_mtx4				buf2;
 	t_camera * const	cam = &ctx->gctx.cam;
 	
-	if (ctx->render == false && ctx->parsing)
+	if (ctx->gctx.w.advanced == false)
 	{
 		if (keycode == XK_w)
 			cam->pos = tp_sub(cam->pos, tp_mul(mtx_tup_mul(vector(0, 0, 1), cam->inverse), 0.1));

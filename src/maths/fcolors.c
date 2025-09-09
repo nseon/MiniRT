@@ -26,8 +26,6 @@ t_fcolor	color_add(t_fcolor c1, t_fcolor c2)
 	c.r = c1.r + c2.r;
 	c.g = c1.g + c2.g;
 	c.b = c1.b + c2.b;
-	if (c.r == INFINITY || c.g == INFINITY || c.b == INFINITY)
-		return (c);
 	return (c);
 }
 

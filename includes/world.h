@@ -29,6 +29,8 @@ typedef struct s_world
 	t_intersections		xs;
 	t_amb				amb;
 	t_fcolor			back_col;
+	int32_t				frac;
+	bool				advanced;
 }	t_world;
 
 void			sort_inter(t_intersections xs);

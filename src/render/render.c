@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 12:51:14 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/09/09 16:25:20 by nseon            ###   ########.fr       */
+/*   Updated: 2025/09/09 17:30:30 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,23 +47,35 @@ void	compute_matrices(t_camera *cam, t_obj *objs)
 	while (++i < vct_size(objs))
 		compute_obj_matrice(objs + i);
 }
+
+t_fcolor	compute_color(t_ctx *ctx, t_camera *cam, t_world *world, int32_t nb_rays)
+{
+	t_fcolor	color;
+
+
+	return (color);
+}
+
 t_image		*render(t_ctx *ctx, t_camera *cam, t_world *world, int32_t nb_rays)
 {
 	int32_t		x;
 	int32_t		y;
+	int32_t		i;
+	int32_t		j;
 	t_fcolor	color;
+	uint32_t	ucol;
 
 	compute_matrices(cam, world->objs);
-	y = -1;
-	while (++y < cam->vsize)
+	y = 0;
+	while (y < cam->vsize)
 	{
-		x = -1;
-		while (++x < cam->hsize)
+		x = 0;
+		while (x < cam->hsize)
 		{
 			if (nb_rays == -1)
 			{
 				color = color_at(world, ray_for_pixel(*cam, x, y), 1);
-				put_pixel_img(&ctx->img, point_s(x, y, fcolor_to_uint(color)));
+				ucol = fcolor_to_uint(color);
 			}
 			else
 			{
@@ -71,7 +83,16 @@ t_image		*render(t_ctx *ctx, t_camera *cam, t_world *world, int32_t nb_rays)
 				add_rgb96_t(&ctx->gctx.color_px[x * WIN_H + y], fcolor_to_uint(color));
 				put_pixel_img(&ctx->img, point_s(x, y, get_mixed_color(ctx->gctx.color_px[x * WIN_H + y], nb_rays)));
 			}
+			i = -1;
+			while (++i < world->frac)
+			{
+				j = -1;
+				while (++j < world->frac)
+					put_pixel_img(&ctx->img, point_s(x + j, y + i, ucol));
+			}
+			x += world->frac;
 		}
+		y += world->frac;
 	}
 	return (&ctx->img);
 }
