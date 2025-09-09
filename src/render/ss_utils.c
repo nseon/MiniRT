@@ -19,10 +19,10 @@
 
 int32_t	init_ss(t_ctx *ctx)
 {
-	ctx->gctx.color_px = malloc(sizeof (t_rgb96_t) * WIN_H * WIN_W);
+	ctx->gctx.color_px = malloc(sizeof (t_fcolor) * WIN_H * WIN_W);
 	if (!ctx->gctx.color_px)
 		return (FATAL);
-	ft_bzero(ctx->gctx.color_px, sizeof (t_rgb96_t) * WIN_H * WIN_W);
+	ft_bzero(ctx->gctx.color_px, sizeof (t_fcolor) * WIN_H * WIN_W);
 	return (SUCCESS);
 }
 

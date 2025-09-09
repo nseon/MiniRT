@@ -20,7 +20,7 @@
 #include "rt_maths.h"
 #include "render.h"
 
-t_fcolor	indirect_light(t_world *w, t_pre_compute *pc, int n, uint8_t const random[RAY_NBR])
+t_fcolor	indirect_light(t_world *w, t_pre_compute *pc, int n)
 {
 	t_ray			r;
 	t_fcolor		rcolor;
@@ -46,7 +46,7 @@ t_fcolor	indirect_light(t_world *w, t_pre_compute *pc, int n, uint8_t const rand
 	return (col_scalar(color_mul(rcolor, pc->obj->mat.col), 1.0 / (distance * distance)));
 }
 
-t_fcolor	blend_additives(t_world *w, t_fcolor col, t_pre_compute *pc, int n, uint8_t const random[RAY_NBR])
+t_fcolor	blend_additives(t_world *w, t_fcolor col, t_pre_compute *pc, int n)
 {
 	double		reflectance;
 	t_fcolor	bounce;
@@ -64,7 +64,7 @@ t_fcolor	blend_additives(t_world *w, t_fcolor col, t_pre_compute *pc, int n, uin
 	// 	- pc->obj->mat.reflective);
 		col = color_add(col, reflect_color(w, pc, n));
 		col = color_add(col, refract_color(w, pc, n));
-		col = color_add(col, indirect_light(w, pc, n, random));
+		col = color_add(col, indirect_light(w, pc, n));
 	return (col);
 }
 
@@ -83,12 +83,10 @@ t_fcolor		light_hit(t_world *w, t_pre_compute *pc, int n)
 	while (++i < vct_size(w->lights))
 	{
 		l = w->lights[i];
-		if (!random || !is_in_shadow(w, pc->over_point, &l))
+		if (!is_in_shadow(w, pc->over_point, &l))
 			color = color_add(color, phong(pc->obj->mat, l, pc));
 	}
-	if (!random)
-		return (color);
-	return (blend_additives(w, color, pc, n, random));
+	return (blend_additives(w, color, pc, n));
 }
 
 t_fcolor	color_at(t_world *w, t_ray r, int n)

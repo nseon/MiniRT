@@ -57,5 +57,5 @@ t_fcolor	refract_color(t_world *w, t_pre_compute *pc, int n)
 	dir = tp_sub(tp_mul(pc->normalv, ratio * cos_i - sqrt(1 - sin2_t)),
 		tp_mul(pc->eyev, ratio));
 	r = ray(pc->under_point, dir);
-	return (col_scalar(color_at(w, r, n - 1, random), pc->obj->mat.transparency));
+	return (col_scalar(color_at(w, r, n - 1), pc->obj->mat.transparency));
 }

@@ -10,14 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ray.h"
 #include "render.h"
-#include "supersampling.h"
 #include "minirt.h"
+#include "ray.h"
 
 #include <math.h>
 
 #include "lighting.h"
+#include "random.h"
 
 void	compute_obj_matrice(t_obj *o)
 {
@@ -61,14 +61,14 @@ t_image		*render(t_ctx *ctx, t_camera *cam, t_world *world, int32_t nb_rays)
 		{
 			if (nb_rays == -1)
 			{
-				color = color_at(world, ray_for_pixel(*cam, x, y), 1,);
+				color = color_at(world, ray_for_pixel(*cam, x, y), 1);
 				put_pixel_img(&ctx->img, point_s(x, y, fcolor_to_uint(color)));
 			}
 			else
 			{
-				color = color_at(world, ray_for_pixel(*cam, x + frandom(ctx->random, 0, 1), y + frandom(ctx->random, 0, 1)), MAX_RECURSIVE);
-				add_rgb96_t(&ctx->gctx.color_px[x * WIN_H + y], fcolor_to_uint(color));
-				put_pixel_img(&ctx->img, point_s(x, y, get_mixed_color(ctx->gctx.color_px[x * WIN_H + y], nb_rays)));
+				color = color_at(world, ray_for_pixel(*cam, x + frandom( 0, 1), y + frandom(0, 1)), MAX_RECURSIVE);
+				ctx->gctx.color_px[x * WIN_H + y] = color_add(ctx->gctx.color_px[x * WIN_H + y], color);
+				put_pixel_img(&ctx->img, point_s(x, y, fcolor_to_uint(col_scalar(ctx->gctx.color_px[x * WIN_H + y], (double)1 / nb_rays))));
 			}
 		}
 	}

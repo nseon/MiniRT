@@ -73,6 +73,7 @@ int	main(int c, char **args)
 	loop(&ctx.win);
 	destroy_image(&ctx.img);
 	destroy_window(&ctx.win);
+	free(ctx.gctx.color_px);
 	free_world(&ctx.gctx.w);
 	return (0);
 }

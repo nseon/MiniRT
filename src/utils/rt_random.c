@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include <fcntl.h>
+#include <iso646.h>
+#include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
 
@@ -30,20 +32,16 @@ int32_t	init_random(void)
 		return (FATAL);
 	if (read(fd, &xor_state, 4) == -1)
 		return (FATAL);
+	close(fd);
 	return (SUCCESS);
 }
 
 double frandom(int min, int max)
 {
-	static int	i;
-	float		nb;
-
-	if (i >= RAY_NBR)
-		i -= RAY_NBR;
-	nb = (float)(random[i]) / ((float)256 / (max - min));
-	nb += min;
-	i += 3;
-	return (nb);
+	xor_state ^= xor_state << 13;
+	xor_state ^= xor_state >> 17;
+	xor_state ^= xor_state << 5;
+	return ((double)xor_state / (INT32_MAX / (max - min)) + min);
 }
 
 t_tuple	random_vec(void)

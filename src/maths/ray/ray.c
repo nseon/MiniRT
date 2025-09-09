@@ -10,11 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "matrix.h"
-#include "tuple.h"
 #include "ray.h"
-#include "supersampling.h"
+#include "matrix.h"
+#include "random.h"
 #include "render.h"
+#include "tuple.h"
 
 t_ray	ray(t_tuple origin, t_tuple direction)
 {
@@ -45,7 +45,7 @@ t_tuple random_bounce(t_tuple ojb_norm)
 {
 	t_tuple bounce;
 
-	bounce = random_vec(random);
+	bounce = random_vec();
 	// while (get_distance(bounce, (t_point3){0, 0, 0}) > 1)
 	// 	bounce = random_vec(random);
 	tp_normalize(bounce);

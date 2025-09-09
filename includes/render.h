@@ -40,7 +40,7 @@ typedef struct s_gctx
 {
 	t_world		w;
 	t_camera	cam;
-	t_rgb96_t	*color_px;
+	t_fcolor	*color_px;
 }	t_gctx;
 
 typedef	struct s_mouse
