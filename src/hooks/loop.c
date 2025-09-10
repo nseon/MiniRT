@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 12:15:25 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/09/08 18:27:47 by nseon            ###   ########.fr       */
+/*   Updated: 2025/09/10 11:12:44 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,8 @@ void	main_loop(void *p)
 	test = 0;
 	if (!ctx->parsing)
 		draw_file_status(ctx);
-	if (!ctx->render && ctx->parsing)
+	if (ctx->parsing && !ctx->gctx.w.advanced)
 	{
-		ft_bzero(ctx->gctx.color_px, sizeof (t_rgb96_t) * WIN_H * WIN_W);
 		render(ctx, &ctx->gctx.cam, &ctx->gctx.w, -1);
 		rays = 0;
 	}

@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 15:24:02 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/09/10 10:38:29 by nseon            ###   ########.fr       */
+/*   Updated: 2025/09/10 11:47:57 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,35 +40,32 @@ t_fcolor	indirect_light(t_world *w, t_pre_compute *pc, int n)
 	}
 	distance = i->t;
 	w->xs.count -= xs.count;
-	rcolor = color_at(w, r, -1);
+	rcolor = color_at(w, r, n - 1);
 	// color_add(rcolor, color_at(w, r, 1));
 	if (distance < 1)
 		distance = 1;
 	// rcolor = cap_color(rcolor);
 	// if (rcolor.r > 1 && rcolor.g > 1 && rcolor.b > 1)
 	// 	printf("r: %f\ng: %f\nb: %f\n\n", rcolor.r, rcolor.g, rcolor.b);
-	return (color_mul(rcolor, pc->obj->mat.col));
+	return (col_scalar(color_mul(rcolor, pc->obj->mat.col), 1.0 / (distance * distance)));
 }
 
 t_fcolor	blend_additives(t_world *w, t_fcolor col, t_pre_compute *pc, int n)
 {
 	double		reflectance;
-	t_fcolor	bounce;
 
+	if (!w->advanced)
+		return (col);
 	if (pc->obj->mat.reflective > 0 && pc->obj->mat.transparency > 0)
 	{
 		reflectance = schlick(pc);
-		// col = col_scalar(col, 1 - pc->obj->mat.transparency * (1 - reflectance)
-		// - pc->obj->mat.reflective * reflectance);
-			col = color_add(col, col_scalar(reflect_color(w, pc, n), reflectance));
-			col = color_add(col, col_scalar(refract_color(w, pc, n), 1 - reflectance));
+		col = color_add(col, col_scalar(reflect_color(w, pc, n), reflectance));
+		col = color_add(col, col_scalar(refract_color(w, pc, n), 1 - reflectance));
 		return (col);
 	}
-	// col = col_scalar(col, 1 - pc->obj->mat.transparency
-	// 	- pc->obj->mat.reflective);
-		col = color_add(col, reflect_color(w, pc, n));
-		col = color_add(col, refract_color(w, pc, n));
-		col = color_add(col, indirect_light(w, pc, n));
+	col = color_add(col, reflect_color(w, pc, n));
+	col = color_add(col, refract_color(w, pc, n));
+	col = color_add(col, indirect_light(w, pc, n));
 	return (col);
 }
 
@@ -87,8 +84,9 @@ t_fcolor		light_hit(t_world *w, t_pre_compute *pc, int n)
 	while (++i < vct_size(w->lights))
 	{
 		l = w->lights[i];
-		if (!is_in_shadow(w, pc->over_point, &l))
-			color = color_add(color, phong(pc->obj->mat, l, pc));
+		// if (w->advanced)
+			is_in_shadow(w, pc->over_point, &l);
+		color = color_add(color, phong(pc->obj->mat, l, pc));
 	}
 	return (blend_additives(w, color, pc, n));
 }
