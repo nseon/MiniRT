@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 18:37:03 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/09/10 11:05:26 by nseon            ###   ########.fr       */
+/*   Updated: 2025/09/10 13:21:18 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 # include "render.h"
 # include "world.h"
 
-# define WIN_W 1920
-# define WIN_H 1080
+# define WIN_W 600
+# define WIN_H 500
 
 int8_t	init_gui(t_ctx *ctx);
 void	test_render(t_ctx * const ctx);

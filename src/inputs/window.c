@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 15:53:20 by nseon             #+#    #+#             */
-/*   Updated: 2025/09/08 09:20:33 by nseon            ###   ########.fr       */
+/*   Updated: 2025/09/10 12:47:32 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,12 @@ void	window_unfocus(int keycode, void *args)
 		ctx->mouse.focus = false;
 		mlx_mouse_show(ctx->win.mlx, ctx->win.win);
 	}
+}
+
+void	focus_swicth(t_ctx	*ctx)
+{
+	if (ctx->mouse.focus)
+		window_unfocus(XK_Escape, ctx);
+	else
+		window_focus(1, 0, 0, ctx);
 }

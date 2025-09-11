@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 12:06:54 by nseon             #+#    #+#             */
-/*   Updated: 2025/09/04 16:23:21 by nseon            ###   ########.fr       */
+/*   Updated: 2025/09/10 12:47:56 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,6 @@ void	authorize_cam_move(int keycode, void *args)
 			ctx->gctx.w.frac = 1;
 		else
 			ctx->gctx.w.frac = 4;
+		focus_swicth(ctx);
 	}
 }
