@@ -73,18 +73,15 @@ t_image		*render(t_ctx *ctx, t_camera *cam, t_world *world, int32_t nb_rays)
 		while (x < cam->hsize)
 		{
 			if (nb_rays == -1)
-			{
-				color = color_at(world, ray_for_pixel(*cam, x, y), 1);
-				ucol = fcolor_to_uint(color);
-			}
+				ucol = fcolor_to_uint(color_at(world, ray_for_pixel(*cam, x, y), 1));
 			else
 			{
 				color = color_at(world, ray_for_pixel(*cam, x + frandom(0, 1), y + frandom(0, 1)), MAX_RECURSIVE);
 				add_rgb96_t(&ctx->gctx.color_px[x * WIN_H + y], fcolor_to_uint(color));
-				put_pixel_img(&ctx->img, point_s(x, y, get_mixed_color(ctx->gctx.color_px[x * WIN_H + y], nb_rays)));
+				ucol = get_mixed_color(ctx->gctx.color_px[x * WIN_H + y], nb_rays);
 			}
 			i = -1;
-			while (world->frac != 1 && ++i < world->frac)
+			while (++i < world->frac)
 			{
 				j = -1;
 				while (++j < world->frac)

@@ -31,6 +31,28 @@ void	window_unfocus(int keycode, void *args)
 {
 	t_ctx * const	ctx = args;
 
+	if (keycode == XK_1)
+		ctx->gctx.w.gparam ^= SPECULAR;
+	else if (keycode == XK_2)
+		ctx->gctx.w.gparam ^= DIFFUSE;
+	else if (keycode == XK_3)
+		ctx->gctx.w.gparam ^= AMBIENT;
+	else if (keycode == XK_4)
+		ctx->gctx.w.gparam ^= SHADOWS;
+	else if (keycode == XK_5)
+		ctx->gctx.w.gparam ^= REFLECT;
+	else if (keycode == XK_6)
+		ctx->gctx.w.gparam ^= TRANSPARENCY;
+	else if (keycode == XK_7)
+	{
+		ft_bzero(ctx->gctx.color_px, sizeof (t_rgb96_t) * WIN_H * WIN_W);
+		ctx->gctx.w.gparam ^= INDIRECT;
+	}
+	else if (keycode == XK_9)
+	{
+		ft_bzero(ctx->gctx.color_px, sizeof (t_rgb96_t) * WIN_H * WIN_W);
+		ctx->gctx.w.gparam ^= SS;
+	}
 	if (keycode == XK_Escape)
 	{
 		ctx->mouse.focus = false;

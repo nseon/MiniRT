@@ -306,7 +306,7 @@ void	test_direct_light_eye()
 	t_pre_compute	c = {0, 0, pos, eyev, normalv, false, pos};
 	t_fcolor		col;
 
-	col = phong(g_default_mat, l, &c);
+	col = phong(g_default_mat, l, &c, 0);
 	assert_fcolor(fcolor(1.9 - 0.1, 1.9 - 0.1, 1.9 - 0.1), col);
 }
 
@@ -318,7 +318,7 @@ void	test_direct_light_eye_45()
 	t_light	l = light(point(0, 0, -10), fcolor(1, 1, 1), POINT);
 	t_pre_compute	c = {0, 0, pos, eyev, normalv, false, pos};
 
-	assert_fcolor(fcolor(1.0 - 0.1, 1.0 - 0.1, 1.0 - 0.1), phong(g_default_mat, l, &c));
+	assert_fcolor(fcolor(1.0 - 0.1, 1.0 - 0.1, 1.0 - 0.1), phong(g_default_mat, l, &c, 0));
 }
 
 void	test_direct_light_45_eye()
@@ -329,7 +329,7 @@ void	test_direct_light_45_eye()
 	t_light	l = light(point(0, 10, -10), fcolor(1, 1, 1), POINT);
 	t_pre_compute	c = {0, 0, pos, eyev, normalv, false, pos};
 
-	assert_fcolor(fcolor(0.7364 - 0.1, 0.7364 - 0.1, 0.7364 - 0.1), phong(g_default_mat, l, &c));
+	assert_fcolor(fcolor(0.7364 - 0.1, 0.7364 - 0.1, 0.7364 - 0.1), phong(g_default_mat, l, &c, 0));
 }
 
 void	test_direct_light_45_eye_45()
@@ -340,7 +340,7 @@ void	test_direct_light_45_eye_45()
 	t_light	l = light(point(0, 10, -10), fcolor(1, 1, 1), POINT);
 	t_pre_compute	c = {0, 0, pos, eyev, normalv, false, pos};
 
-	assert_fcolor(fcolor(1.6364 - 0.1, 1.6364 - 0.1, 1.6364 - 0.1), phong(g_default_mat, l, &c));
+	assert_fcolor(fcolor(1.6364 - 0.1, 1.6364 - 0.1, 1.6364 - 0.1), phong(g_default_mat, l, &c, 0));
 }
 
 void	test_direct_light_eye_behind()
@@ -351,7 +351,7 @@ void	test_direct_light_eye_behind()
 	t_light	l = light(point(0, 0, 10), fcolor(1, 1, 1), POINT);
 	t_pre_compute	c = {0, 0, pos, eyev, normalv, false, pos};
 
-	assert_fcolor(fcolor(0, 0, 0), phong(g_default_mat, l, &c));
+	assert_fcolor(fcolor(0, 0, 0), phong(g_default_mat, l, &c, 0));
 }
 
 void	test_world_intersection()

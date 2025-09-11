@@ -27,7 +27,6 @@
 # define T_MAX 3.402823466e+38
 # define T_MIN 0.01
 # define BACKGROUND_COLOR 0x000001
-# define RAY_NUM 2
 # define RAY_NBR 100000
 
 typedef struct s_amb_light

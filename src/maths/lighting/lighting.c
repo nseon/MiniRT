@@ -40,13 +40,9 @@ t_fcolor	indirect_light(t_world *w, t_pre_compute *pc, int n)
 	}
 	distance = i->t;
 	w->xs.count -= xs.count;
-	rcolor = color_at(w, r, n - 1);
-	// color_add(rcolor, color_at(w, r, 1));
+	rcolor = color_at(w, r, n - 3);
 	if (distance < 1)
 		distance = 1;
-	// rcolor = cap_color(rcolor);
-	// if (rcolor.r > 1 && rcolor.g > 1 && rcolor.b > 1)
-	// 	printf("r: %f\ng: %f\nb: %f\n\n", rcolor.r, rcolor.g, rcolor.b);
 	return (col_scalar(color_mul(rcolor, pc->obj->mat.col), 1.0 / (distance * distance)));
 }
 
@@ -54,18 +50,20 @@ t_fcolor	blend_additives(t_world *w, t_fcolor col, t_pre_compute *pc, int n)
 {
 	double		reflectance;
 
-	if (!w->advanced)
-		return (col);
-	if (pc->obj->mat.reflective > 0 && pc->obj->mat.transparency > 0)
+	if (pc->obj->mat.reflective > 0 && pc->obj->mat.transparency > 0 &&
+		w->gparam & REFLECT && w->gparam & TRANSPARENCY)
 	{
 		reflectance = schlick(pc);
 		col = color_add(col, col_scalar(reflect_color(w, pc, n), reflectance));
 		col = color_add(col, col_scalar(refract_color(w, pc, n), 1 - reflectance));
 		return (col);
 	}
-	col = color_add(col, reflect_color(w, pc, n));
-	col = color_add(col, refract_color(w, pc, n));
-	col = color_add(col, indirect_light(w, pc, n - 2));
+	if (w->gparam & REFLECT)
+		col = color_add(col, reflect_color(w, pc, n));
+	if (w->gparam & TRANSPARENCY)
+		col = color_add(col, refract_color(w, pc, n));
+	if (w->gparam & INDIRECT)
+		col = color_add(col, indirect_light(w, pc, n));
 	return (col);
 }
 
@@ -76,17 +74,21 @@ t_fcolor		light_hit(t_world *w, t_pre_compute *pc, int n)
 	size_t		i;
 
 	i = -1;
-	if (pc->obj->mat.has_pat)
-		color = col_scalar(color_mul(pattern_at_obj(pc->obj->mat.pat, pc->obj,
-			pc->pos), w->amb.col), w->amb.i);
-	else
-		color = col_scalar(color_mul(pc->obj->mat.col, w->amb.col), w->amb.i);
+	color = fcolor(0, 0, 0);
+	if (w->gparam & AMBIENT)
+	{
+		if (pc->obj->mat.has_pat)
+			color = col_scalar(color_mul(pattern_at_obj(pc->obj->mat.pat, pc->obj,
+				pc->pos), w->amb.col), w->amb.i);
+		else
+			color = col_scalar(color_mul(pc->obj->mat.col, w->amb.col), w->amb.i);
+	}
 	while (++i < vct_size(w->lights))
 	{
 		l = w->lights[i];
-		// if (w->advanced)
+		if (w->gparam & SHADOWS)
 			is_in_shadow(w, pc->over_point, &l);
-		color = color_add(color, phong(pc->obj->mat, l, pc));
+		color = color_add(color, phong(pc->obj->mat, l, pc, w->gparam));
 	}
 	return (blend_additives(w, color, pc, n));
 }

@@ -22,6 +22,19 @@ typedef struct s_amb
 	t_fcolor	col;
 }	t_amb;
 
+typedef enum e_gparam
+{
+	SPECULAR = 1,
+	DIFFUSE = 1 << 1,
+	AMBIENT = 1 << 2,
+	SHADOWS = 1 << 3,
+	REFLECT = 1 << 4,
+	TRANSPARENCY = 1 << 5,
+	INDIRECT = 1 << 6,
+	MOVING = 1 << 7,
+	SS = 1 << 8,
+}	t_gparam;
+
 typedef struct s_world
 {
 	t_obj				*objs;
@@ -30,7 +43,7 @@ typedef struct s_world
 	t_amb				amb;
 	t_fcolor			back_col;
 	int32_t				frac;
-	bool				advanced;
+	int32_t				gparam;
 }	t_world;
 
 void			sort_inter(t_intersections xs);

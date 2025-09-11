@@ -18,20 +18,18 @@ void	main_loop(void *p)
 {
 	t_ctx *const	ctx = p;
 	static int32_t	rays;
-	bool			test;
 
-	
-	test = 0;
 	if (!ctx->parsing)
 		draw_file_status(ctx);
-	if (ctx->parsing && !ctx->gctx.w.advanced)
+	if (ctx->parsing && ctx->gctx.w.gparam & SS &&
+		!(ctx->gctx.w.gparam & MOVING)  && rays < RAY_NBR)
+	{
+		render(ctx, &ctx->gctx.cam, &ctx->gctx.w, ++rays);
+	}
+	else if (ctx->parsing)
 	{
 		render(ctx, &ctx->gctx.cam, &ctx->gctx.w, -1);
 		rays = 0;
-	}
-	else if (ctx->parsing && ++rays < RAY_NBR)
-	{
-		render(ctx, &ctx->gctx.cam, &ctx->gctx.w, rays);
 	}
 	put_img(&ctx->img, 0, 0, true);
 }
