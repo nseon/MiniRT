@@ -13,6 +13,7 @@
 #include "lighting.h"
 #include "normals.h"
 #include "rt_maths.h"
+#include "random.h"
 
 void	add_remove_last(t_intersection *last, int32_t *j, t_intersection it)
 {
@@ -73,6 +74,8 @@ t_pre_compute	pre_compute(t_intersection *i, t_ray r, t_intersections *xs)
 	pc.pos = position(r, pc.t);
 	pc.eyev = tp_negate(r.dir);
 	pc.normalv = obj_normal(i->obj, pc.pos);
+	pc.normalv = tp_mul(pc.normalv, frandom(0, 1));
+	// pc.normalv = tp_normalize(tp_mul(pc.normalv, frandom(0, 1)));
 	if (tp_dot(pc.normalv, pc.eyev) < 0)
 	{
 		pc.inside = true;

@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 15:24:02 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/09/10 13:24:39 by nseon            ###   ########.fr       */
+/*   Updated: 2025/09/11 10:51:00 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,10 @@ t_fcolor	indirect_light(t_world *w, t_pre_compute *pc, int n)
 	w->xs.count -= xs.count;
 	rcolor = color_at(w, r, n - 1);
 	// color_add(rcolor, color_at(w, r, 1));
-	if (distance < 1)
-		distance = 1;
 	// rcolor = cap_color(rcolor);
 	// if (rcolor.r > 1 && rcolor.g > 1 && rcolor.b > 1)
 	// 	printf("r: %f\ng: %f\nb: %f\n\n", rcolor.r, rcolor.g, rcolor.b);
-	return (col_scalar(color_mul(rcolor, pc->obj->mat.col), 1.0 / (distance * distance)));
+	return (col_scalar(color_mul(rcolor, pc->obj->mat.col), 1.0 /  (1 + distance * distance)));
 }
 
 t_fcolor	blend_additives(t_world *w, t_fcolor col, t_pre_compute *pc, int n)
