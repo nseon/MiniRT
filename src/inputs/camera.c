@@ -25,7 +25,7 @@ void	authorize_cam_move(int keycode, void *args)
 
 	if (keycode == XK_Return && ctx->parsing)
 	{
-		ft_bzero(ctx->gctx.color_px, sizeof (t_rgb96_t) * WIN_H * WIN_W);
+		clear_ss(&ctx->gctx.ss);
 		ctx->gctx.w.gparam ^= MOVING;
 		if (ctx->gctx.w.frac == 4)
 			ctx->gctx.w.frac = 1;

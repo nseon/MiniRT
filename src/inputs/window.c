@@ -31,6 +31,7 @@ void	window_unfocus(int keycode, void *args)
 {
 	t_ctx * const	ctx = args;
 
+	clear_ss(&ctx->gctx.ss);
 	if (keycode == XK_1)
 		ctx->gctx.w.gparam ^= SPECULAR;
 	else if (keycode == XK_2)
@@ -44,15 +45,9 @@ void	window_unfocus(int keycode, void *args)
 	else if (keycode == XK_6)
 		ctx->gctx.w.gparam ^= TRANSPARENCY;
 	else if (keycode == XK_7)
-	{
-		ft_bzero(ctx->gctx.color_px, sizeof (t_rgb96_t) * WIN_H * WIN_W);
 		ctx->gctx.w.gparam ^= INDIRECT;
-	}
 	else if (keycode == XK_9)
-	{
-		ft_bzero(ctx->gctx.color_px, sizeof (t_rgb96_t) * WIN_H * WIN_W);
 		ctx->gctx.w.gparam ^= SS;
-	}
 	if (keycode == XK_Escape)
 	{
 		ctx->mouse.focus = false;

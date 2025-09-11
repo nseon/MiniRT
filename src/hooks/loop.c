@@ -21,16 +21,8 @@ void	main_loop(void *p)
 
 	if (!ctx->parsing)
 		draw_file_status(ctx);
-	if (ctx->parsing && ctx->gctx.w.gparam & SS &&
-		!(ctx->gctx.w.gparam & MOVING)  && rays < RAY_NBR)
-	{
-		render(ctx, &ctx->gctx.cam, &ctx->gctx.w, ++rays);
-	}
-	else if (ctx->parsing)
-	{
-		render(ctx, &ctx->gctx.cam, &ctx->gctx.w, -1);
-		rays = 0;
-	}
+	if (ctx->parsing)
+		render(ctx, &ctx->gctx.cam, &ctx->gctx.w);
 	put_img(&ctx->img, 0, 0, true);
 }
 

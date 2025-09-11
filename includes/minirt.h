@@ -17,8 +17,8 @@
 # include "render.h"
 # include "world.h"
 
-# define WIN_W 1200
-# define WIN_H 800
+# define WIN_W 500
+# define WIN_H 300
 
 int8_t	init_gui(t_ctx *ctx);
 void	test_render(t_ctx * const ctx);

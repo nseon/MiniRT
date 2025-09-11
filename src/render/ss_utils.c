@@ -19,10 +19,14 @@
 
 int32_t	init_ss(t_ctx *ctx)
 {
-	ctx->gctx.color_px = malloc(sizeof (t_rgb96_t) * WIN_H * WIN_W);
-	if (!ctx->gctx.color_px)
+	t_ss	ss;
+
+	ss.color_px = malloc(sizeof (t_rgb96_t) * WIN_H * WIN_W);
+	if (!ss.color_px)
 		return (FATAL);
-	ft_bzero(ctx->gctx.color_px, sizeof (t_rgb96_t) * WIN_H * WIN_W);
+	ft_bzero(ss.color_px, sizeof (t_rgb96_t) * WIN_H * WIN_W);
+	ss.rays = 0;
+	ctx->gctx.ss = ss;
 	return (SUCCESS);
 }
 
@@ -34,22 +38,30 @@ uint32_t	get_pixel_color(t_image *image, int x, int y)
 	return (*(uint32_t *)color);
 }
 
-void	add_rgb96_t(t_rgb96_t *comps, uint32_t color)
+void	clear_ss(t_ss *ss)
+{
+	ft_bzero(ss->color_px, sizeof (t_rgb96_t) * WIN_H * WIN_W);
+	ss->rays = 0;
+}
+
+void	add_rgb96_t(t_ss *ss, t_fcolor color, int32_t x, int32_t y)
 {
 	t_color col;
 
-	col.argb = color;
-	comps->r += col.r;
-	comps->g += col.g;
-	comps->b += col.b;
+	col.argb = fcolor_to_uint(color);
+	ss->color_px[x * WIN_H + y].r += col.r;
+	ss->color_px[x * WIN_H + y].g += col.g;
+	ss->color_px[x * WIN_H + y].b += col.b;
 }
 
-int32_t	get_mixed_color(t_rgb96_t comps, int div)
+int32_t	get_mixed_color(t_ss *ss, int32_t x, int32_t y)
 {
-	t_color	color;
+	t_color		color;
+	t_rgb96_t	col96;
 
-	color.r = comps.r / div;
-	color.g = comps.g / div;
-	color.b = comps.b / div;
+	col96 = ss->color_px[x * WIN_H + y];
+	color.r = col96.r / ss->rays;
+	color.g = col96.g / ss->rays;
+	color.b = col96.b / ss->rays;
 	return (color.argb);
 }

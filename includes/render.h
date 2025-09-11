@@ -35,11 +35,17 @@ typedef struct s_amb_light
 	t_fcolor	col;
 }	t_amb_light;
 
+typedef struct s_ss
+{
+	int32_t		rays;
+	t_rgb96_t	*color_px;
+}	t_ss;
+
 typedef struct s_gctx
 {
 	t_world		w;
 	t_camera	cam;
-	t_rgb96_t	*color_px;
+	t_ss		ss;
 }	t_gctx;
 
 typedef	struct s_mouse
@@ -65,10 +71,11 @@ void		compute_matrices(t_camera *cam, t_obj *objs);
 void		compute_cam_matrice(t_camera *cam);
 void		compute_obj_matrice(t_obj *o);
 uint32_t	get_pixel_color(t_image *image, int x, int y);
-t_image		*render(t_ctx *ctx, t_camera *cam, t_world *world, int32_t nb_rays);
+t_image		*render(t_ctx *ctx, t_camera *cam, t_world *world);
 t_tuple		random_bounce(t_tuple ojb_norm);
 int32_t		init_ss(t_ctx *ctx);
-int32_t		get_mixed_color(t_rgb96_t comps, int div);
-void		add_rgb96_t(t_rgb96_t *comps, uint32_t color);
+int32_t		get_mixed_color(t_ss *ss, int32_t x, int32_t y);
+void		add_rgb96_t(t_ss *ss, t_fcolor color, int32_t x, int32_t y);
+void		clear_ss(t_ss *ss);
 
 #endif
