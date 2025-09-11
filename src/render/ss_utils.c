@@ -44,7 +44,7 @@ void	clear_ss(t_ss *ss)
 	ss->rays = 0;
 }
 
-void	add_rgb96_t(t_ss *ss, t_fcolor color, int32_t x, int32_t y)
+void	add_ss_color(t_ss *ss, t_fcolor color, int32_t x, int32_t y)
 {
 	t_color col;
 
@@ -54,7 +54,7 @@ void	add_rgb96_t(t_ss *ss, t_fcolor color, int32_t x, int32_t y)
 	ss->color_px[x * WIN_H + y].b += col.b;
 }
 
-int32_t	get_mixed_color(t_ss *ss, int32_t x, int32_t y)
+int32_t	get_ss_color(t_ss *ss, int32_t x, int32_t y)
 {
 	t_color		color;
 	t_rgb96_t	col96;

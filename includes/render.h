@@ -74,8 +74,8 @@ uint32_t	get_pixel_color(t_image *image, int x, int y);
 t_image		*render(t_ctx *ctx, t_camera *cam, t_world *world);
 t_tuple		random_bounce(t_tuple ojb_norm);
 int32_t		init_ss(t_ctx *ctx);
-int32_t		get_mixed_color(t_ss *ss, int32_t x, int32_t y);
-void		add_rgb96_t(t_ss *ss, t_fcolor color, int32_t x, int32_t y);
+int32_t		get_ss_color(t_ss *ss, int32_t x, int32_t y);
+void		add_ss_color(t_ss *ss, t_fcolor color, int32_t x, int32_t y);
 void		clear_ss(t_ss *ss);
 
 #endif

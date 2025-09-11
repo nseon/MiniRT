@@ -76,8 +76,8 @@ t_image		*render(t_ctx *ctx, t_camera *cam, t_world *world)
 			if (world->gparam & SS && !(world->gparam & MOVING))
 			{
 				color = color_at(world, ray_for_pixel(*cam, x + frandom(0, 1), y + frandom(0, 1)), MAX_RECURSIVE);
-				add_rgb96_t(&ctx->gctx.ss, color, x, y);
-				ucol = get_mixed_color(&ctx->gctx.ss, x, y);
+				add_ss_color(&ctx->gctx.ss, color, x, y);
+				ucol = get_ss_color(&ctx->gctx.ss, x, y);
 			}
 			else
 				ucol = fcolor_to_uint(color_at(world, ray_for_pixel(*cam, x, y), MAX_RECURSIVE));
