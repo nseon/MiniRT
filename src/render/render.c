@@ -19,6 +19,7 @@
 
 #include "lighting.h"
 #include "random.h"
+#include "rt_maths.h"
 
 void	compute_obj_matrice(t_obj *o)
 {
@@ -34,8 +35,12 @@ void	compute_cam_matrice(t_camera *cam)
 	t_mtx4	buf;
 
 	set_cam_transform(cam, mx_rotation_y(cam->y_rot, rotation_x(cam->x_rot, buf)));
-	mul_cam_transform(cam, mtx4_view(cam->pos, tp_add(cam->pos, cam->orient),
-		vector(0, 1, 0), buf));
+	if (dabs(tp_dot(vector(0, 1, 0), cam->orient)) > 0.95)
+		mul_cam_transform(cam, mtx4_view(cam->pos, tp_add(cam->pos, cam->orient),
+			vector(0, 0, 1), buf));
+	else
+		mul_cam_transform(cam, mtx4_view(cam->pos, tp_add(cam->pos, cam->orient),
+			vector(0, 1, 0), buf));
 }
 
 void	compute_matrices(t_camera *cam, t_obj *objs)

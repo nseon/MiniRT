@@ -17,11 +17,14 @@
 
 #include <X11/keysym.h>
 #include <math.h>
+#include <stdio.h>
 
 void	rotate_cam(int x, int y, void *args)
 {
     t_ctx * const		ctx = args;
 	t_camera * const	cam = &ctx->gctx.cam;
+	t_mtx4				tbuf;
+	t_tuple				ori;
 
     if (x == WIN_W / 2 && y == WIN_H / 2)
     	return ;
@@ -32,8 +35,6 @@ void	rotate_cam(int x, int y, void *args)
 		{
 			cam->y_rot -= (x - WIN_W / 2) * 0.001;
 			cam->x_rot += (y - WIN_H / 2) * 0.001;
-			if ((cam->x_rot + cam->orient.y * M_PI) < - M_PI / 2 + 0.2 || (cam->x_rot + cam->orient.y * M_PI) > M_PI / 2 - 0.2)
-				cam->x_rot -= (y - WIN_H / 2) * 0.001;
 		}
 	}
 }

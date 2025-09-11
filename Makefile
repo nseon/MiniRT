@@ -132,6 +132,7 @@ TRANSFORMATIONS_SRC	=	translation.c \
 						rotation_x.c \
 						rotation_y.c \
 						rotation_z.c \
+						rotation_axis.c \
 						shearing.c \
 
 
