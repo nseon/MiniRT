@@ -27,9 +27,10 @@
 
 static int8_t	init(t_ctx *const ctx)
 {
+	ctx->gctx.frame = malloc(sizeof (t_fcolor) * WIN_H * WIN_W);
 	if (init_random() != SUCCESS)
 		return (FATAL);
-	if (init_ss(ctx) != SUCCESS)
+	if (init_ss(&ctx->gctx, 50) != SUCCESS)
 		return (FATAL);
 	if (init_window(&ctx->win, WIN_W, WIN_H, "MiniRT") != SUCCESS)
 		return (FATAL);
@@ -73,7 +74,8 @@ int	main(int c, char **args)
 	loop(&ctx.win);
 	destroy_image(&ctx.img);
 	destroy_window(&ctx.win);
-	free(ctx.gctx.ss.color_px);
+	free(ctx.gctx.ss.samples);
+	free(ctx.gctx.frame);
 	free_world(&ctx.gctx.w);
 	return (0);
 }

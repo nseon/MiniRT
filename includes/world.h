@@ -37,6 +37,7 @@ typedef enum e_gparam
 
 typedef struct s_world
 {
+	t_camera			cam;
 	t_obj				*objs;
 	t_light				*lights;
 	t_intersections		xs;

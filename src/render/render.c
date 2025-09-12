@@ -53,49 +53,31 @@ void	compute_matrices(t_camera *cam, t_obj *objs)
 		compute_obj_matrice(objs + i);
 }
 
-t_fcolor	compute_color(t_ctx *ctx, t_camera *cam, t_world *world, int32_t nb_rays)
+void	render(t_gctx *gctx, t_world *w)
 {
-	t_fcolor	color;
-
-
-	return (color);
-}
-
-t_image		*render(t_ctx *ctx, t_camera *cam, t_world *world)
-{
-	int32_t		x;
 	int32_t		y;
-	int32_t		i;
-	int32_t		j;
+	int32_t		x;
 	t_fcolor	color;
-	uint32_t	ucol;
 
-	compute_matrices(cam, world->objs);
-	ctx->gctx.ss.rays++;
+	compute_matrices(&w->cam, w->objs);
+	if (gctx->ss.sample_num >= gctx->ss.max_sample)
+		return ;
 	y = 0;
-	while (y < cam->vsize)
+	while (y < w->cam.vsize)
 	{
 		x = 0;
-		while (x < cam->hsize)
+		while (x < w->cam.hsize)
 		{
-			if (world->gparam & SS && !(world->gparam & MOVING))
-			{
-				color = color_at(world, ray_for_pixel(*cam, x + frandom(0, 1), y + frandom(0, 1)), MAX_RECURSIVE);
-				add_ss_color(&ctx->gctx.ss, color, x, y);
-				ucol = get_ss_color(&ctx->gctx.ss, x, y);
-			}
+			if (gctx->w.gparam & SS && !(gctx->w.gparam & MOVING))
+				color = color_at(w, ray_for_pixel(w->cam, x + frandom(0, 1),
+					y + frandom(0, 1)), MAX_RECUR);
 			else
-				ucol = fcolor_to_uint(color_at(world, ray_for_pixel(*cam, x, y), MAX_RECURSIVE));
-			i = -1;
-			while (++i < world->frac)
-			{
-				j = -1;
-				while (++j < world->frac)
-					put_pixel_img(&ctx->img, point_s(x + j, y + i, ucol));
-			}
-			x += world->frac;
+				color = color_at(w, ray_for_pixel(w->cam, x, y), MAX_RECUR);
+			gctx->frame[y * WIN_W + x] = color;
+			x += 1;
 		}
-		y += world->frac;
+		y += 1;
 	}
-	return (&ctx->img);
+	if (gctx->w.gparam & SS && !(gctx->w.gparam & MOVING))
+		add_ss_frame(&gctx->ss, gctx->frame);
 }

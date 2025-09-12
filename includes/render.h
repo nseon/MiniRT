@@ -37,14 +37,15 @@ typedef struct s_amb_light
 
 typedef struct s_ss
 {
-	int32_t		rays;
-	t_rgb96_t	*color_px;
+	int32_t		sample_num;
+	int32_t		max_sample;
+	t_rgb96_t	*samples;
 }	t_ss;
 
 typedef struct s_gctx
 {
 	t_world		w;
-	t_camera	cam;
+	t_fcolor	*frame;
 	t_ss		ss;
 }	t_gctx;
 
@@ -54,28 +55,26 @@ typedef	struct s_mouse
 	t_point2	axes;
 }	t_mouse;
 
-
 typedef struct s_ctx
 {
-	t_window		win;
-	t_image			img;
-	t_gctx			gctx;
-	int32_t			error;
-	int32_t			file;
-	t_mouse			mouse;
-	bool parsing;
-	bool render;
+	t_window	win;
+	t_image		img;
+	t_gctx		gctx;
+	int32_t		error;
+	int32_t		file;
+	t_mouse		mouse;
+	bool		parsing;
+	bool		render;
 }	t_ctx;
 
 void		compute_matrices(t_camera *cam, t_obj *objs);
 void		compute_cam_matrice(t_camera *cam);
 void		compute_obj_matrice(t_obj *o);
-uint32_t	get_pixel_color(t_image *image, int x, int y);
-t_image		*render(t_ctx *ctx, t_camera *cam, t_world *world);
+void		render(t_gctx *gctx, t_world *w);
 t_tuple		random_bounce(t_tuple ojb_norm);
-int32_t		init_ss(t_ctx *ctx);
-int32_t		get_ss_color(t_ss *ss, int32_t x, int32_t y);
-void		add_ss_color(t_ss *ss, t_fcolor color, int32_t x, int32_t y);
+int32_t		init_ss(t_gctx *gctx, int32_t max_rays);
+t_fcolor	get_ss_color(t_ss *ss, int32_t x, int32_t y);
+void		add_ss_frame(t_ss *ss, t_fcolor *frame);
 void		clear_ss(t_ss *ss);
 
 #endif

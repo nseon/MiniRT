@@ -22,7 +22,7 @@
 void	rotate_cam(int x, int y, void *args)
 {
     t_ctx * const		ctx = args;
-	t_camera * const	cam = &ctx->gctx.cam;
+	t_camera * const	cam = &ctx->gctx.w.cam;
 	t_mtx4				tbuf;
 	t_tuple				ori;
 
@@ -48,16 +48,16 @@ void	cam_height(int keycode, void *args)
 	if (ctx->gctx.w.gparam & MOVING)
 	{
 		if (keycode == XK_c)
-			ctx->gctx.cam.pos.y -= 0.1;
+			ctx->gctx.w.cam.pos.y -= 0.1;
 		if (keycode == XK_space)
-			ctx->gctx.cam.pos.y += 0.1;
+			ctx->gctx.w.cam.pos.y += 0.1;
 	}
 }
 
 void	cam_translation(int keycode, void *args)
 {
 	t_ctx * const		ctx = args;
-	t_camera * const	cam = &ctx->gctx.cam;
+	t_camera * const	cam = &ctx->gctx.w.cam;
 	
 	if (ctx->gctx.w.gparam & MOVING)
 	{

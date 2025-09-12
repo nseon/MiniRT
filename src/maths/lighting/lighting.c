@@ -41,9 +41,7 @@ t_fcolor	indirect_light(t_world *w, t_pre_compute *pc, int n)
 	distance = i->t;
 	w->xs.count -= xs.count;
 	rcolor = color_at(w, r, n - 3);
-	if (distance < 1)
-		distance = 1;
-	return (col_scalar(color_mul(rcolor, pc->obj->mat.col), 1.0 / (distance * distance)));
+	return (col_scalar(color_mul(rcolor, pc->obj->mat.col), 1.0 / (1 + distance * distance)));
 }
 
 t_fcolor	blend_additives(t_world *w, t_fcolor col, t_pre_compute *pc, int n)

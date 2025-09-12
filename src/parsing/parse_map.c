@@ -46,7 +46,7 @@ static int8_t	dispatch_element(char **split, t_gctx * const gctx)
 	if (ft_strcmp(split[0], P_AMBI_LIGHT) == 0)
 		res = parse_ambi_light(split + 1, &gctx->w.amb);
 	else if (ft_strcmp(split[0], P_CAMERA) == 0)
-		res = parse_camera(split + 1, &gctx->cam);
+		res = parse_camera(split + 1, &gctx->w.cam);
 	else if (ft_strcmp(split[0], P_PT_LIGHT) == 0)
 		res = parse_light(split + 1, vct_add_dest(&gctx->w.lights));
 	else if (ft_strcmp(split[0], P_SPHERE) == 0)

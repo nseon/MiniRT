@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
 #include <stdlib.h>
 
 #include "errors.h"
@@ -17,51 +18,59 @@
 #include "neflibx.h"
 #include "render.h"
 
-int32_t	init_ss(t_ctx *ctx)
+int32_t	init_ss(t_gctx *gctx, int32_t max_rays)
 {
 	t_ss	ss;
 
-	ss.color_px = malloc(sizeof (t_rgb96_t) * WIN_H * WIN_W);
-	if (!ss.color_px)
+	ss.samples = malloc(sizeof (t_rgb96_t) * WIN_H * WIN_W);
+	if (!ss.samples)
 		return (FATAL);
-	ft_bzero(ss.color_px, sizeof (t_rgb96_t) * WIN_H * WIN_W);
-	ss.rays = 0;
-	ctx->gctx.ss = ss;
+	ft_bzero(ss.samples, sizeof (t_rgb96_t) * WIN_H * WIN_W);
+	ss.sample_num = 0;
+	ss.max_sample = max_rays;
+	gctx->ss = ss;
 	return (SUCCESS);
-}
-
-uint32_t	get_pixel_color(t_image *image, int x, int y)
-{
-	char *color;
-
-	color = image->addr + y * image->len + x * (image->bpp / 8);
-	return (*(uint32_t *)color);
 }
 
 void	clear_ss(t_ss *ss)
 {
-	ft_bzero(ss->color_px, sizeof (t_rgb96_t) * WIN_H * WIN_W);
-	ss->rays = 0;
+	ft_bzero(ss->samples, sizeof (t_rgb96_t) * WIN_H * WIN_W);
+	ss->sample_num = 0;
 }
 
-void	add_ss_color(t_ss *ss, t_fcolor color, int32_t x, int32_t y)
+void	add_ss_frame(t_ss *ss, t_fcolor *frame)
 {
 	t_color col;
+	int32_t	x;
+	int32_t	y;
 
-	col.argb = fcolor_to_uint(color);
-	ss->color_px[x * WIN_H + y].r += col.r;
-	ss->color_px[x * WIN_H + y].g += col.g;
-	ss->color_px[x * WIN_H + y].b += col.b;
+	ss->sample_num += 1;
+	y = -1;
+	while (++y < WIN_H)
+	{
+		x = -1;
+		while (++x < WIN_W)
+		{
+			col.argb = fcolor_to_uint(frame[y * WIN_W + x]);
+			ss->samples[y * WIN_W + x].r += col.r;
+			ss->samples[y * WIN_W + x].g += col.g;
+			ss->samples[y * WIN_W + x].b += col.b;
+			frame[y * WIN_W + x] = get_ss_color(ss, x, y);
+		}
+	}
 }
 
-int32_t	get_ss_color(t_ss *ss, int32_t x, int32_t y)
+t_fcolor	get_ss_color(t_ss *ss, int32_t x, int32_t y)
 {
-	t_color		color;
+	t_fcolor	color;
 	t_rgb96_t	col96;
 
-	col96 = ss->color_px[x * WIN_H + y];
-	color.r = col96.r / ss->rays;
-	color.g = col96.g / ss->rays;
-	color.b = col96.b / ss->rays;
-	return (color.argb);
+	col96 = ss->samples[y * WIN_W + x];
+	color.r = col96.r / ss->sample_num;
+	color.g = col96.g / ss->sample_num;
+	color.b = col96.b / ss->sample_num;
+	color.r /= 255;
+	color.g /= 255;
+	color.b /= 255;
+	return (color);
 }

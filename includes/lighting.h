@@ -14,7 +14,7 @@
 # define MINIRT_LIGHTING_H
 
 # define AIR_REFRACTIVE 1.00029
-# define MAX_RECURSIVE 5
+# define MAX_RECUR 5
 # define REFRACT_XS_OFFSET 1
 
 # include "fcolors.h"
