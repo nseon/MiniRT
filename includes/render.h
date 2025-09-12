@@ -46,6 +46,7 @@ typedef struct s_gctx
 {
 	t_world		w;
 	t_fcolor	*frame;
+	int32_t		frac;
 	t_ss		ss;
 }	t_gctx;
 

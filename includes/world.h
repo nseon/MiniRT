@@ -43,7 +43,6 @@ typedef struct s_world
 	t_intersections		xs;
 	t_amb				amb;
 	t_fcolor			back_col;
-	int32_t				frac;
 	int32_t				gparam;
 }	t_world;
 

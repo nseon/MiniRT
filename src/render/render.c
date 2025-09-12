@@ -74,9 +74,9 @@ void	render(t_gctx *gctx, t_world *w)
 			else
 				color = color_at(w, ray_for_pixel(w->cam, x, y), MAX_RECUR);
 			gctx->frame[y * WIN_W + x] = color;
-			x += 1;
+			x += gctx->frac;
 		}
-		y += 1;
+		y += gctx->frac;
 	}
 	if (gctx->w.gparam & SS && !(gctx->w.gparam & MOVING))
 		add_ss_frame(&gctx->ss, gctx->frame);

@@ -27,10 +27,11 @@
 
 static int8_t	init(t_ctx *const ctx)
 {
+	ctx->gctx.frac = 1;
 	ctx->gctx.frame = malloc(sizeof (t_fcolor) * WIN_H * WIN_W);
 	if (init_random() != SUCCESS)
 		return (FATAL);
-	if (init_ss(&ctx->gctx, 50) != SUCCESS)
+	if (init_ss(&ctx->gctx, 800) != SUCCESS)
 		return (FATAL);
 	if (init_window(&ctx->win, WIN_W, WIN_H, "MiniRT") != SUCCESS)
 		return (FATAL);

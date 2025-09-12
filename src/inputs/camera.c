@@ -27,10 +27,10 @@ void	authorize_cam_move(int keycode, void *args)
 	{
 		clear_ss(&ctx->gctx.ss);
 		ctx->gctx.w.gparam ^= MOVING;
-		if (ctx->gctx.w.frac == 4)
-			ctx->gctx.w.frac = 1;
+		if (ctx->gctx.frac == 2)
+			ctx->gctx.frac = 1;
 		else
-			ctx->gctx.w.frac = 4;
+			ctx->gctx.frac = 2;
 		focus_swicth(ctx);
 	}
 }

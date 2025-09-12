@@ -13,12 +13,10 @@
 #ifndef MINIRT_H
 # define MINIRT_H
 
-# include "neflibx.h"
 # include "render.h"
-# include "world.h"
 
-# define WIN_W 1000
-# define WIN_H 500
+# define WIN_W 300
+# define WIN_H 200
 
 int8_t	init_gui(t_ctx *ctx);
 void	test_render(t_ctx * const ctx);
