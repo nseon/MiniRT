@@ -92,6 +92,8 @@ t_fcolor	filter_pixel(t_fcolor *frame, int32_t x, int32_t y, float or, float od,
 		j = -(n - 1) / 2 - 1;
 		while (++j < (n - 1) / 2)
 		{
+			if (y + i < 0 || x + j < 0 || y + i >= WIN_H || x + j >= WIN_W)
+				continue ;
 			w = gaussian(pix_dis(y, x, y + i, x + j), od);
 			w *= gaussian(col_dis(frame[(y + i) * WIN_W + (x + j)], frame[(y) * WIN_W + (x)]), or);
 			total_w += w;
@@ -109,13 +111,13 @@ void	bilateral_filter(t_gctx *gctx, float or, float od)
 
 	if (gctx->w.gparam & MOVING)
 		return ;
-	y = 2;
-	while (++y < WIN_H - 2)
+	y = -1;
+	while (++y < WIN_H)
 	{
-		x = 2;
-		while (++x < WIN_W - 2)
+		x = -1;
+		while (++x < WIN_W)
 		{
-			gctx->buf_frame[y * WIN_W + x] = filter_pixel(gctx->frame, x, y, or, od, 5);
+			gctx->buf_frame[y * WIN_W + x] = filter_pixel(gctx->frame, x, y, or, od, 21);
 		}
 	}
 	buf = gctx->frame;
@@ -150,7 +152,8 @@ void	render(t_gctx *gctx, t_world *w)
 	}
 	if (gctx->w.gparam & SS && !(gctx->w.gparam & MOVING))
 		add_ss_frame(&gctx->ss, gctx->frame);
-	bilateral_filter(gctx, 0.1, 2);
+	if (gctx->ss.sample_num == gctx->ss.max_sample)
+		bilateral_filter(gctx, 0.2, 10);
 	if (gctx->ss.sample_num == gctx->ss.max_sample)
 		printf("Rendered!\n");
 }

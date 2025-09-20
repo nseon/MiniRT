@@ -32,7 +32,7 @@ static int8_t	init(t_ctx *const ctx)
 	ctx->gctx.buf_frame = malloc(sizeof (t_fcolor) * WIN_H * WIN_W);
 	if (init_random() != SUCCESS)
 		return (FATAL);
-	if (init_ss(&ctx->gctx, 200) != SUCCESS)
+	if (init_ss(&ctx->gctx, 20) != SUCCESS)
 		return (FATAL);
 	if (init_window(&ctx->win, WIN_W, WIN_H, "MiniRT") != SUCCESS)
 		return (FATAL);
