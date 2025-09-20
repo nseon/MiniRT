@@ -153,7 +153,7 @@ void	render(t_gctx *gctx, t_world *w)
 	if (gctx->w.gparam & SS && !(gctx->w.gparam & MOVING))
 		add_ss_frame(&gctx->ss, gctx->frame);
 	if (gctx->ss.sample_num == gctx->ss.max_sample)
-		bilateral_filter(gctx, 0.2, 10);
+		bilateral_filter(gctx, 0.1, 16);
 	if (gctx->ss.sample_num == gctx->ss.max_sample)
 		printf("Rendered!\n");
 }
