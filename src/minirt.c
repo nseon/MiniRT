@@ -29,9 +29,10 @@ static int8_t	init(t_ctx *const ctx)
 {
 	ctx->gctx.frac = 1;
 	ctx->gctx.frame = malloc(sizeof (t_fcolor) * WIN_H * WIN_W);
+	ctx->gctx.buf_frame = malloc(sizeof (t_fcolor) * WIN_H * WIN_W);
 	if (init_random() != SUCCESS)
 		return (FATAL);
-	if (init_ss(&ctx->gctx, 800) != SUCCESS)
+	if (init_ss(&ctx->gctx, 200) != SUCCESS)
 		return (FATAL);
 	if (init_window(&ctx->win, WIN_W, WIN_H, "MiniRT") != SUCCESS)
 		return (FATAL);
@@ -77,6 +78,7 @@ int	main(int c, char **args)
 	destroy_window(&ctx.win);
 	free(ctx.gctx.ss.samples);
 	free(ctx.gctx.frame);
+	free(ctx.gctx.buf_frame);
 	free_world(&ctx.gctx.w);
 	return (0);
 }

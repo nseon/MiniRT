@@ -15,8 +15,8 @@
 
 # include "render.h"
 
-# define WIN_W 300
-# define WIN_H 200
+# define WIN_W 1920
+# define WIN_H 1080
 
 int8_t	init_gui(t_ctx *ctx);
 void	test_render(t_ctx * const ctx);

@@ -26,6 +26,7 @@ t_fcolor	fcolor(float r, float g, float b);
 t_fcolor	color_add(t_fcolor c1, t_fcolor c2);
 t_fcolor	color_sub(t_fcolor c1, t_fcolor c2);
 t_fcolor	col_scalar(t_fcolor c1, double k);
+t_fcolor	col_scalar2(t_fcolor c1, double k);
 t_fcolor	color_mul(t_fcolor c1, t_fcolor c2);
 uint32_t	fcolor_to_uint(t_fcolor col);
 t_fcolor	cap_color(t_fcolor col);
