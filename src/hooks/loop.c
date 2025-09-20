@@ -53,7 +53,7 @@ void	main_loop(void *p)
 	{
 		render(&ctx->gctx, &ctx->gctx.w);
 		if ((ctx->gctx.w.gparam & SS) && !(ctx->gctx.w.gparam & MOVING)
-			&& ctx->gctx.ss.sample_num == ctx->gctx.ss.max_sample)
+			&& ctx->gctx.ss.sample_num >= ctx->gctx.ss.max_sample)
 			bilateral_filter(&ctx->gctx);
 		put_frame_to_img(&ctx->img, ctx->gctx.frame, ctx->gctx.frac);
 	}
