@@ -45,13 +45,13 @@ static int32_t	parse_cylinder2(char **split, t_obj *obj)
 	res = parse_double(*(split++), &db);
 	if (res != SUCCESS)
 		return (res);
-	obj->min = -db / 2;
-	obj->max = db / 2;
+	obj->x_size = db;
+	obj->z_size = db;
 	res = parse_double(*(split++), &db);
 	if (res != SUCCESS)
 		return (res);
-	obj->x_size = db;
-	obj->z_size = db;
+	obj->min = -db / 2;
+	obj->max = db / 2;
 	res = parse_color(*(split++), &obj->mat.col);
 	if (res != SUCCESS)
 		return (res);

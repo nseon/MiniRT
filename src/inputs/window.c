@@ -32,6 +32,7 @@ void	window_unfocus(int keycode, void *args)
 	t_ctx * const	ctx = args;
 
 	clear_ss(&ctx->gctx.ss);
+	ctx->gctx.bil_passes = 0;
 	if (keycode == XK_1)
 		ctx->gctx.w.gparam ^= SPECULAR;
 	else if (keycode == XK_2)
