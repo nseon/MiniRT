@@ -207,6 +207,7 @@ SRC += $(addprefix $(RENDER_DIR), $(RENDER_SRC))
 RENDER_DIR	=		render/
 RENDER_SRC	=		render.c \
 					ss_utils.c \
+					bilateral_filtering.c \
 
 # ===============GUI================ #
 

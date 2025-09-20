@@ -28,6 +28,11 @@
 static int8_t	init(t_ctx *const ctx)
 {
 	ctx->gctx.frac = 1;
+	ctx->gctx.bil_size = 21;
+	ctx->gctx.o_d = 8;
+	ctx->gctx.o_r = 0.1;
+	ctx->gctx.bil_passes = 0;
+	ctx->gctx.bil_max = 1;
 	ctx->gctx.frame = malloc(sizeof (t_fcolor) * WIN_H * WIN_W);
 	ctx->gctx.buf_frame = malloc(sizeof (t_fcolor) * WIN_H * WIN_W);
 	if (init_random() != SUCCESS)

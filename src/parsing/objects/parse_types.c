@@ -33,22 +33,22 @@ int32_t	parse_double(char *str, double *f)
 
 int32_t	parse_color(char *str, t_fcolor *color)
 {
-	int32_t		r;
-	int32_t		g;
-	int32_t		b;
+	float		r;
+	float		g;
+	float		b;
 	char *const	buf = str;
 
 	if (!str)
 		return (ft_fprintf(2, PARSE_MISSING_COLOR));
-	r = ft_atoi_ptr(&str, false);
+	r = ft_atof_ptr(&str);
 	if (*str != ',')
 		return (ft_fprintf(2, PARSE_INVAL_COLOR_MSG, buf));
 	str++;
-	g = ft_atoi_ptr(&str, false);
+	g = ft_atof_ptr(&str);
 	if (*str != ',')
 		return (ft_fprintf(2, PARSE_INVAL_COLOR_MSG, buf));
 	str++;
-	b = ft_atoi_ptr(&str, false);
+	b = ft_atof_ptr(&str);
 	if ((0 > r || r > 255) || (0 > g || g > 255) || (0 > b || b > 255))
 	{
 		ft_fprintf(2, PARSE_INVAL_COLOR_MSG, buf);

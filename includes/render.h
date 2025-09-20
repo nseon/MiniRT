@@ -49,6 +49,11 @@ typedef struct s_gctx
 	t_fcolor	*buf_frame;
 	int32_t		frac;
 	t_ss		ss;
+	float		o_r;
+	float		o_d;
+	float		bil_size;
+	int32_t		bil_passes;
+	int32_t		bil_max;
 }	t_gctx;
 
 typedef	struct s_mouse
@@ -78,5 +83,6 @@ int32_t		init_ss(t_gctx *gctx, int32_t max_rays);
 t_fcolor	get_ss_color(t_ss *ss, int32_t x, int32_t y);
 void		add_ss_frame(t_ss *ss, t_fcolor *frame);
 void		clear_ss(t_ss *ss);
+void		bilateral_filter(t_gctx *gctx);
 
 #endif

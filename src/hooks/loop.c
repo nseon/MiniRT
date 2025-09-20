@@ -46,13 +46,15 @@ void	put_frame_to_img(t_image *img, t_fcolor *frame, int32_t frac)
 void	main_loop(void *p)
 {
 	t_ctx *const	ctx = p;
-	static int32_t	rays;
 
 	if (!ctx->parsing)
 		draw_file_status(ctx);
 	if (ctx->parsing)
 	{
 		render(&ctx->gctx, &ctx->gctx.w);
+		if ((ctx->gctx.w.gparam & SS) && !(ctx->gctx.w.gparam & MOVING)
+			&& ctx->gctx.ss.sample_num == ctx->gctx.ss.max_sample)
+			bilateral_filter(&ctx->gctx);
 		put_frame_to_img(&ctx->img, ctx->gctx.frame, ctx->gctx.frac);
 	}
 	put_img(&ctx->img, 0, 0, true);
