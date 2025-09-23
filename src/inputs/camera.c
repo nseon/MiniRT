@@ -21,7 +21,7 @@
 
 void	authorize_cam_move(int keycode, void *args)
 {
-	t_ctx * const	ctx = args;
+	t_ctx *const	ctx = args;
 
 	if (keycode == XK_Return && ctx->parsing)
 	{

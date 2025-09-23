@@ -10,20 +10,16 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "inputs.h"
-#include "render.h"
 #include "minirt.h"
-#include "neflibx.h"
 #include "errors.h"
 #include "hooks.h"
+#include "inputs.h"
+#include "neflibx.h"
+#include "parsing.h"
 #include "random.h"
+#include "render.h"
 
 #include <stdlib.h>
-#include <unistd.h>
-#include <fcntl.h>
-
-#include "mlx.h"
-#include "parsing.h"
 
 static int32_t	free_on_fatal(t_ctx *const ctx, int32_t index_fatal)
 {
@@ -56,13 +52,14 @@ static int8_t	init(t_ctx *const ctx)
 		return (free_on_fatal(ctx, 1));
 	if (init_random() != SUCCESS)
 		return (free_on_fatal(ctx, 2));
-	if (init_ss(&ctx->gctx, 70) != SUCCESS)
+	if (init_ss(&ctx->gctx, 50) != SUCCESS)
 		return (free_on_fatal(ctx, 3));
 	if (init_window(&ctx->win, WIN_W, WIN_H, "MiniRT") != SUCCESS)
 		return (free_on_fatal(ctx, 4));
 	if (create_image(&ctx->img, WIN_W, WIN_H, &ctx->win) != SUCCESS)
 		return (free_on_fatal(ctx, 5));
-	world(&ctx->gctx.w);
+	if (world(&ctx->gctx.w) != SUCCESS)
+		return (free_on_fatal(ctx, 6));
 	return (SUCCESS);
 }
 
@@ -85,9 +82,7 @@ int	main(int c, char **args)
 
 	ctx = (t_ctx){0};
 	if (init(&ctx) != SUCCESS)
-	{
 		return (EXIT_FAILURE);
-	}
 	set_events(&ctx);
 	init_gui(&ctx);
 	draw_background(&ctx.img, BACK_COLOR);

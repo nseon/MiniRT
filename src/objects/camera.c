@@ -16,7 +16,7 @@
 
 t_camera	camera(double hsize, double vsize, double fov)
 {
-	t_camera	cam;
+	t_camera		cam;
 	double const	half = tan(fov / 2);
 	double const	aspect = hsize / vsize;
 

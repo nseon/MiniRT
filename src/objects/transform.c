@@ -23,4 +23,3 @@ void	set_transform(t_obj *o, t_mtx4 transf)
 	mtx4_dup(transf, o->transform);
 	mtx4_inverse2(o->transform, o->inv_transform);
 }
-

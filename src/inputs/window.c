@@ -18,7 +18,7 @@
 
 void	window_focus(int keycode, int x, int y, void *args)
 {
-	t_ctx * const	ctx = args;
+	t_ctx *const	ctx = args;
 
 	if (keycode == 1 && ctx->parsing)
 	{
@@ -27,9 +27,10 @@ void	window_focus(int keycode, int x, int y, void *args)
 		mlx_mouse_move(ctx->win.mlx, ctx->win.win, WIN_W / 2, WIN_H / 2);
 	}
 }
+
 void	window_unfocus(int keycode, void *args)
 {
-	t_ctx * const	ctx = args;
+	t_ctx *const	ctx = args;
 
 	clear_ss(&ctx->gctx.ss);
 	ctx->gctx.bil_passes = 0;

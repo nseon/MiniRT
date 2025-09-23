@@ -41,13 +41,12 @@ int32_t	world(t_world *w)
 	return (SUCCESS);
 }
 
-// Add more than 2 intersection if not a quadratic object
 int32_t	add_world_obj(t_world *w, t_obj obj)
 {
 	vct_add(&w->objs, &obj);
 	realloc_wintersec(w);
 	if (!w->xs.i)
-		return(FATAL);
+		return (FATAL);
 	return (SUCCESS);
 }
 
