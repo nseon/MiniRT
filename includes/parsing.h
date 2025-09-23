@@ -15,6 +15,8 @@
 
 # define FILENAME "Map filename:"
 # define FILENAME_ID "filename_input"
+# define PARSE_CTN_ID "parse_ctn"
+# define PARSE_TXT_ID "parse_txt_box"
 # define LOADED "Map loaded !"
 # define WHITESPACES "\t\n\v\f\r "
 

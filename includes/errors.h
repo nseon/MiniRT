@@ -14,6 +14,7 @@
 # define ERRORS_H
 
 # define PARSE_INVAL_MAP -255
+# define INVAL_MAP_MSG "Invalid map"
 
 # define PARSE_INVAL_TYPE -2
 # define PARSE_INVAL_TYPE_MSG "invalid object type: %s\n"

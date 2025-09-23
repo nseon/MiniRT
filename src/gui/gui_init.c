@@ -17,16 +17,28 @@
 
 static int8_t	parse_gui(t_ctx *ctx)
 {
-	t_guielem *const	filename = create_txt_input(&ctx->win, 0,
-			parse, ctx);
+	t_guielem *const	parse_ctn = create_container(&ctx->win, 0);
+	t_guielem			*el;
 
-	filename->vw = 30;
-	filename->vh = 6;
-	filename->vx = 50;
-	filename->vy = 50;
-	filename->label = FILENAME;
-	filename->id = FILENAME_ID;
-	filename->size = 2;
+	parse_ctn->id = PARSE_CTN_ID;
+	parse_ctn->w = ctx->win.w;
+	parse_ctn->h = ctx->win.h;
+	el = create_txt_input(&ctx->win, get_by_id(&ctx->win,
+		"parse_ctn")->uid, parse, ctx);
+	el->vw = 30;
+	el->vh = 6;
+	el->z += 1;
+	el->vx = 50;
+	el->vy = 50;
+	el->label = FILENAME;
+	el->id = FILENAME_ID;
+	el = create_text_box(&ctx->win, get_by_id(&ctx->win, "parse_ctn")->uid);
+	el->size = 1;
+	el->vw = 60;
+	el->h = WIN_H / 2 - 50;
+	el->vx = 68;
+	el->y = WIN_H / 2 + 50;
+	el->id = PARSE_TXT_ID;
 	return (SUCCESS);
 }
 
