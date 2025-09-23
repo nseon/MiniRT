@@ -31,7 +31,10 @@ int32_t	init_random(void)
 	if (fd == -1)
 		return (FATAL);
 	if (read(fd, &xor_state, 4) == -1)
+	{
+		close(fd);
 		return (FATAL);
+	}
 	close(fd);
 	return (SUCCESS);
 }

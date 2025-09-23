@@ -76,6 +76,6 @@ int32_t	parse_cylinder(char **split, t_world *w)
 		return (res);
 	set_rota_from_dir(tp, &obj);
 	parse_cylinder2(split, &obj);
-	add_world_obj(w, obj);
+	res = add_world_obj(w, obj);
 	return (res);
 }

@@ -51,7 +51,7 @@ void			create_wintersec(t_world *w);
 void			realloc_wintersec(t_world *w);
 t_intersections	world_intersec(t_world *w, t_ray r);
 int32_t			world(t_world *w);
-void			add_world_obj(t_world *w, t_obj obj);
+int32_t			add_world_obj(t_world *w, t_obj obj);
 int32_t			default_world(t_world *w);
 void			free_world(t_world *w);
 

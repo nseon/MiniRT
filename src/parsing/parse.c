@@ -55,7 +55,6 @@ void	parse(char *str, void *p)
 {
 	t_ctx *const	ctx = p;
 
-	draw_background(&ctx->img, BACK_COLOR);
 	open_file(str, ctx);
 	draw_file_status(ctx);
 	if (ctx->error == 0)

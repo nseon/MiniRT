@@ -42,10 +42,13 @@ int32_t	world(t_world *w)
 }
 
 // Add more than 2 intersection if not a quadratic object
-void	add_world_obj(t_world *w, t_obj obj)
+int32_t	add_world_obj(t_world *w, t_obj obj)
 {
 	vct_add(&w->objs, &obj);
 	realloc_wintersec(w);
+	if (!w->xs.i)
+		return(FATAL);
+	return (SUCCESS);
 }
 
 int32_t	default_world(t_world *w)
@@ -65,9 +68,9 @@ int32_t	default_world(t_world *w)
 	s.mat.col = fcolor(0.8, 1, 0.6);
 	s.mat.diffuse = 0.7;
 	s.mat.specular = 0.2;
-	add_world_obj(w, s);
+	res = add_world_obj(w, s);
 	s = sphere();
 	mul_transform(&s, scaling(0.5, 0.5, 0.5, buf));
-	add_world_obj(w, s);
+	res = add_world_obj(w, s);
 	return (res);
 }

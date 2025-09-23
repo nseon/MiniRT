@@ -25,6 +25,21 @@
 #include "mlx.h"
 #include "parsing.h"
 
+static int32_t	free_on_fatal(t_ctx *const ctx, int32_t index_fatal)
+{
+	if (index_fatal >= 1)
+		free(ctx->gctx.frame);
+	if (index_fatal >= 2)
+		free(ctx->gctx.buf_frame);
+	if (index_fatal >= 4)
+		free(ctx->gctx.ss.samples);
+	if (index_fatal >= 5)
+		destroy_window(&ctx->win);
+	if (index_fatal >= 6)
+		destroy_image(&ctx->img);
+	return (FATAL);
+}
+
 static int8_t	init(t_ctx *const ctx)
 {
 	ctx->gctx.frac = 1;
@@ -34,18 +49,19 @@ static int8_t	init(t_ctx *const ctx)
 	ctx->gctx.bil_passes = 0;
 	ctx->gctx.bil_max = 1;
 	ctx->gctx.frame = malloc(sizeof (t_fcolor) * WIN_H * WIN_W);
+	if (!ctx->gctx.frame)
+		return (free_on_fatal(ctx, 0));
 	ctx->gctx.buf_frame = malloc(sizeof (t_fcolor) * WIN_H * WIN_W);
+	if (!ctx->gctx.buf_frame)
+		return (free_on_fatal(ctx, 1));
 	if (init_random() != SUCCESS)
-		return (FATAL);
+		return (free_on_fatal(ctx, 2));
 	if (init_ss(&ctx->gctx, 70) != SUCCESS)
-		return (FATAL);
+		return (free_on_fatal(ctx, 3));
 	if (init_window(&ctx->win, WIN_W, WIN_H, "MiniRT") != SUCCESS)
-		return (FATAL);
+		return (free_on_fatal(ctx, 4));
 	if (create_image(&ctx->img, WIN_W, WIN_H, &ctx->win) != SUCCESS)
-	{
-		destroy_window(&ctx->win);
-		return (FATAL);
-	}
+		return (free_on_fatal(ctx, 5));
 	world(&ctx->gctx.w);
 	return (SUCCESS);
 }
@@ -69,7 +85,9 @@ int	main(int c, char **args)
 
 	ctx = (t_ctx){0};
 	if (init(&ctx) != SUCCESS)
+	{
 		return (EXIT_FAILURE);
+	}
 	set_events(&ctx);
 	init_gui(&ctx);
 	draw_background(&ctx.img, BACK_COLOR);
