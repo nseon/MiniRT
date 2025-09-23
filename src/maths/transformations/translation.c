@@ -21,7 +21,7 @@ t_mtx4_ret	translation(double x, double y, double z, t_mtx4 res)
 	return (res);
 }
 
-t_tuple		tp_translation(double x, double y, double z, t_tuple tp)
+t_tuple	tp_translation(double x, double y, double z, t_tuple tp)
 {
 	t_mtx4	rot;
 

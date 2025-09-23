@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINIRT_WORLD_H
-# define MINIRT_WORLD_H
+#ifndef WORLD_H
+# define WORLD_H
 
 # include "objects.h"
 # include "ray.h"

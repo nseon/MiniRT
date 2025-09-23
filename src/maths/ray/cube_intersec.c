@@ -55,7 +55,6 @@ void	cube_intersect(t_ray r, t_obj *o, t_intersections *xs)
 	check_axis(r.ori.x, r.dir.x, xt);
 	check_axis(r.ori.y, r.dir.y, yt);
 	check_axis(r.ori.z, r.dir.z, zt);
-
 	tmin = cube_max(xt[0], yt[0], zt[0], 1);
 	tmax = cube_max(xt[1], yt[1], zt[1], 0);
 	if (tmin > tmax)

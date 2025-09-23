@@ -24,7 +24,7 @@ t_mtx4_ret	rotation_x(double r, t_mtx4 res)
 	return (res);
 }
 
-t_tuple		tp_rotation_x(double r, t_tuple tp)
+t_tuple	tp_rotation_x(double r, t_tuple tp)
 {
 	t_mtx4	rot;
 

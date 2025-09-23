@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include <math.h>
+#include <stdio.h>
+
 #include "fcolors.h"
 #include "world.h"
 #include "minirt.h"
@@ -28,7 +30,7 @@ float	pix_dis(int32_t y, int32_t x, int32_t i, int32_t j)
 float	col_dis(t_fcolor c1, t_fcolor c2)
 {
 	return (sqrt(pow(c1.r - c2.r, 2) + pow(c1.g - c2.g, 2)
-		+ pow(c1.b - c2.b, 2)));
+			+ pow(c1.b - c2.b, 2)));
 }
 
 t_fcolor	filter_pixel(t_gctx *gctx, int32_t x, int32_t y)
@@ -51,10 +53,10 @@ t_fcolor	filter_pixel(t_gctx *gctx, int32_t x, int32_t y)
 				continue ;
 			w = gaussian(pix_dis(y, x, y + i, x + j), gctx->o_d);
 			w *= gaussian(col_dis(gctx->frame[(y + i) * WIN_W + (x + j)],
-				gctx->frame[(y) * WIN_W + (x)]), gctx->o_r);
+						gctx->frame[(y) * WIN_W + (x)]), gctx->o_r);
 			total_w += w;
-			col = color_add(col, col_scalar2(gctx->frame[(y + i) * WIN_W +
-				(x + j)], w));
+			col = color_add(col, col_scalar2(gctx->frame[(y + i) * WIN_W
+						+ (x + j)], w));
 		}
 	}
 	return (col_scalar(col, 1.0 / total_w));

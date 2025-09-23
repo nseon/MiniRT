@@ -1,24 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   normals.h                                          :+:      :+:    :+:   */
+/*   fcolors_mul.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/12 18:11:12 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/08/12 18:11:12 by pjarnac          ###   ########.fr       */
+/*   Created: 2025/09/22 10:11:05 by pjarnac           #+#    #+#             */
+/*   Updated: 2025/09/22 10:11:05 by pjarnac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef NORMALS_H
-# define NORMALS_H
+#include "fcolors.h"
 
-# include "objects.h"
+t_fcolor	col_scalar(t_fcolor c1, double k)
+{
+	if (k < 0)
+		return (fcolor(0, 0, 0));
+	return ((t_fcolor){c1.r * k, c1.g * k, c1.b * k});
+}
 
-t_tuple	obj_normal(t_obj *o, t_tuple pt);
-t_tuple	sphere_normal(t_tuple pt);
-t_tuple	plane_normal(t_tuple pt);
-t_tuple	cube_normal(t_tuple pt);
-t_tuple	cylinder_normal(t_obj *o, t_tuple pt);
+t_fcolor	col_scalar2(t_fcolor c1, double k)
+{
+	return ((t_fcolor){c1.r * k, c1.g * k, c1.b * k});
+}
 
-#endif
+t_fcolor	color_mul(t_fcolor c1, t_fcolor c2)
+{
+	return ((t_fcolor){c1.r * c2.r, c1.g * c2.g, c1.b * c2.b});
+}

@@ -80,6 +80,7 @@ SRC += $(addprefix $(MATHS_DIR), $(MATHS_SRC))
 MATHS_DIR	=		maths/
 MATHS_SRC	=		float.c \
 					fcolors.c \
+					fcolors_mul.c \
 					normals.c \
 
 # ===============MATHS/TUPLE================= #

@@ -40,7 +40,7 @@ void	clear_ss(t_ss *ss)
 
 void	add_ss_frame(t_ss *ss, t_fcolor *frame)
 {
-	t_color col;
+	t_color	col;
 	int32_t	x;
 	int32_t	y;
 

@@ -22,7 +22,7 @@ t_intersection	intersection(double t, t_obj *obj)
 	return ((t_intersection){t, obj});
 }
 
-void obj_intersect(t_ray r, t_obj *o, t_intersections *xs)
+void	obj_intersect(t_ray r, t_obj *o, t_intersections *xs)
 {
 	r = ray_transform(r, o->inv_transform);
 	if (o->type == SPHERE)

@@ -10,9 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <float.h>
 #include <math.h>
-#include <stdio.h>
 
 #include "ray.h"
 #include "rt_maths.h"
@@ -24,8 +22,8 @@ static void	trunc_intersec(t_ray r, double dis, double b, t_intersections *xs)
 	double			t0;
 	double			t1;
 
-	t0 = (- b - sqrt(dis)) / (2 * a);
-	t1 = (- b + sqrt(dis)) / (2 * a);
+	t0 = (0 - b - sqrt(dis)) / (2 * a);
+	t1 = (0 - b + sqrt(dis)) / (2 * a);
 	if (t0 > t1)
 		dswap(&t0, &t1);
 	y = r.ori.y + r.dir.y * t0;

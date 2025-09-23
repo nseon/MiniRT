@@ -32,12 +32,13 @@ t_fcolor	phong(t_material m, t_light light, t_pre_compute *pc,
 	if (tp_dot(lightv, pc->normalv) >= 0)
 	{
 		if (gparam & DIFFUSE)
-			diffuse = col_scalar(eff_color, m.diffuse * tp_dot(lightv, pc->normalv));
+			diffuse = col_scalar(eff_color, m.diffuse
+					* tp_dot(lightv, pc->normalv));
 		reflect_dot_eye = tp_dot(reflect(tp_mul(lightv, -1),
-			pc->normalv), pc->eyev);
+					pc->normalv), pc->eyev);
 		if (gparam & SPECULAR && reflect_dot_eye > 0)
 			specular = col_scalar(light.i, m.specular
-				* powf(reflect_dot_eye, m.shine));
+					* powf(reflect_dot_eye, m.shine));
 	}
 	return (color_add(diffuse, specular));
 }

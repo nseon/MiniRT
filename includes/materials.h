@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINIRT_MATERIALS_H
-# define MINIRT_MATERIALS_H
+#ifndef MATERIALS_H
+# define MATERIALS_H
 
 # include "fcolors.h"
 # include "patterns.h"

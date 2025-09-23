@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINIRT_LIGHTING_H
-# define MINIRT_LIGHTING_H
+#ifndef LIGHTING_H
+# define LIGHTING_H
 
 # define AIR_REFRACTIVE 1.00029
 # define MAX_RECUR 5
@@ -40,7 +40,7 @@ typedef struct s_pre_compute
 }	t_pre_compute;
 
 t_fcolor		phong(t_material m, t_light light, t_pre_compute *pc,
-	uint32_t gparam);
+					uint32_t gparam);
 t_pre_compute	pre_compute(t_intersection *i, t_ray r, t_intersections *xs);
 t_fcolor		light_hit(t_world *w, t_pre_compute *pc, int n);
 t_fcolor		color_at(t_world *w, t_ray r, int n);

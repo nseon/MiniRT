@@ -21,7 +21,7 @@ t_mtx4_ret	scaling(double x, double y, double z, t_mtx4 res)
 	return (res);
 }
 
-t_tuple		tp_scaling(double x, double y, double z, t_tuple tp)
+t_tuple	tp_scaling(double x, double y, double z, t_tuple tp)
 {
 	t_mtx4	rot;
 

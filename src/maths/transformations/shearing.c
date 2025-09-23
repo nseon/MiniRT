@@ -12,10 +12,8 @@
 
 #include "matrix.h"
 
-const double	g_arr2_0[2] = {0, 0};
-
 t_mtx4_ret	shearing(double const x[2], double const y[2], double const z[2],
-						t_mtx4     res)
+						t_mtx4 res)
 {
 	mtx4_dup(g_identity_matrix, res);
 	res[0][1] = x[0];
@@ -27,8 +25,8 @@ t_mtx4_ret	shearing(double const x[2], double const y[2], double const z[2],
 	return (res);
 }
 
-t_tuple		tp_shearing(double const x[2], double const y[2], double const z[2],
-							t_tuple tp)
+t_tuple	tp_shearing(double const x[2], double const y[2], double const z[2],
+					t_tuple tp)
 {
 	t_mtx4	rot;
 

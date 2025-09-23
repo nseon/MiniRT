@@ -24,7 +24,6 @@ typedef float			t_mtx2[2][2];
 typedef float			(*t_mtx2_ret)[2];
 
 extern const t_mtx4		g_identity_matrix;
-extern const double		g_arr2_0[2];
 
 bool		mtx4_equal(t_mtx4 const m1, t_mtx4 const m2);
 bool		mtx3_equal(t_mtx3 const m1, t_mtx3 const m2);
@@ -62,11 +61,9 @@ t_mtx4_ret	translation(double x, double y, double z, t_mtx4 res);
 t_tuple		tp_translation(double x, double y, double z, t_tuple tp);
 t_mtx4_ret	mx_translation(double x, double y, double z, t_mtx4 res);
 
-
 t_mtx4_ret	scaling(double x, double y, double z, t_mtx4 res);
 t_tuple		tp_scaling(double x, double y, double z, t_tuple tp);
 t_mtx4_ret	mx_scaling(double x, double y, double z, t_mtx4 res);
-
 
 t_mtx4_ret	rotation_x(double r, t_mtx4 res);
 t_mtx4_ret	rotation_y(double r, t_mtx4 res);
@@ -81,11 +78,11 @@ t_mtx4_ret	mx_rotation_y(double r, t_mtx4 res);
 t_mtx4_ret	mx_rotation_z(double r, t_mtx4 res);
 
 t_mtx4_ret	shearing(double const x[2], double const y[2], double const z[2],
-						t_mtx4 res);
+				t_mtx4 res);
 t_tuple		tp_shearing(double const x[2], double const y[2], double const z[2],
-							t_tuple tp);
+				t_tuple tp);
 t_mtx4_ret	mx_shearing(double const x[2], double const y[2], double const z[2],
-							t_mtx4 res);
+				t_mtx4 res);
 
 t_mtx4_ret	mtx4_view(t_tuple from, t_tuple to, t_tuple up, t_mtx4 res);
 t_mtx4_ret	mtx4_scale(t_mtx4 m1, float const m);

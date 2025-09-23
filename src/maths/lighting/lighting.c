@@ -27,7 +27,7 @@ t_fcolor	indirect_light(t_world *w, t_pre_compute *pc, int n)
 	t_intersections	xs;
 	t_intersection	*i;
 	double			distance;
-	
+
 	if (n < 1)
 		return (fcolor(0, 0, 0));
 	r = ray(pc->over_point, random_bounce(pc->normalv));
@@ -35,25 +35,27 @@ t_fcolor	indirect_light(t_world *w, t_pre_compute *pc, int n)
 	i = hit(&xs);
 	if (!i)
 	{
-		w->xs.count-= xs.count;
+		w->xs.count -= xs.count;
 		return (fcolor(0, 0, 0));
 	}
 	distance = i->t;
 	w->xs.count -= xs.count;
 	rcolor = color_at(w, r, n - 3);
-	return (col_scalar(color_mul(rcolor, pc->obj->mat.col), 1.0 / (1 + distance * distance)));
+	return (col_scalar(color_mul(rcolor, pc->obj->mat.col),
+			1.0 / (1 + distance * distance)));
 }
 
 t_fcolor	blend_additives(t_world *w, t_fcolor col, t_pre_compute *pc, int n)
 {
 	double		reflectance;
 
-	if (pc->obj->mat.reflective > 0 && pc->obj->mat.transparency > 0 &&
-		w->gparam & REFLECT && w->gparam & TRANSPARENCY)
+	if (pc->obj->mat.reflective > 0 && pc->obj->mat.transparency > 0
+		&& w->gparam & REFLECT && w->gparam & TRANSPARENCY)
 	{
 		reflectance = schlick(pc);
 		col = color_add(col, col_scalar(reflect_color(w, pc, n), reflectance));
-		col = color_add(col, col_scalar(refract_color(w, pc, n), 1 - reflectance));
+		col = color_add(col, col_scalar(refract_color(w, pc, n),
+					1 - reflectance));
 		return (col);
 	}
 	if (w->gparam & REFLECT)
@@ -65,7 +67,7 @@ t_fcolor	blend_additives(t_world *w, t_fcolor col, t_pre_compute *pc, int n)
 	return (col);
 }
 
-t_fcolor		light_hit(t_world *w, t_pre_compute *pc, int n)
+t_fcolor	light_hit(t_world *w, t_pre_compute *pc, int n)
 {
 	t_fcolor	color;
 	t_light		l;
@@ -76,10 +78,11 @@ t_fcolor		light_hit(t_world *w, t_pre_compute *pc, int n)
 	if (w->gparam & AMBIENT)
 	{
 		if (pc->obj->mat.has_pat)
-			color = col_scalar(color_mul(pattern_at_obj(pc->obj->mat.pat, pc->obj,
-				pc->pos), w->amb.col), w->amb.i);
+			color = col_scalar(color_mul(pattern_at_obj(pc->obj->mat.pat,
+							pc->obj, pc->pos), w->amb.col), w->amb.i);
 		else
-			color = col_scalar(color_mul(pc->obj->mat.col, w->amb.col), w->amb.i);
+			color = col_scalar(color_mul(pc->obj->mat.col, w->amb.col),
+					w->amb.i);
 	}
 	while (++i < vct_size(w->lights))
 	{

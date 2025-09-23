@@ -15,11 +15,11 @@
 
 # include "render.h"
 
-# define WIN_W 600
-# define WIN_H 400
+# define WIN_W 500
+# define WIN_H 300
 
 int8_t	init_gui(t_ctx *ctx);
-void	test_render(t_ctx * const ctx);
+void	test_render(t_ctx *ctx);
 void	keyevent(int keycode, void *p);
 
 #endif

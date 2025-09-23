@@ -24,11 +24,12 @@ void	sphere_intersect(t_ray r, t_obj *o, t_intersections *xs)
 
 	if (dis >= 0)
 	{
-		xs->i[xs->count] = intersection((- b - sqrt(dis)) / (2 * a), o);
+		xs->i[xs->count] = intersection((0 - b - sqrt(dis)) / (2 * a), o);
 		if (d_equal(0, dis))
 			xs->i[xs->count + 1] = xs->i[0];
 		else
-			xs->i[xs->count + 1] = intersection((- b + sqrt(dis)) / (2 * a), o);
+			xs->i[xs->count + 1] = intersection((0 - b + sqrt(dis))
+					/ (2 * a), o);
 		xs->count += 2;
 	}
 }

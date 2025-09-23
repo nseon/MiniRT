@@ -35,19 +35,17 @@ t_ray	ray_for_pixel(t_camera cam, double x, double y)
 {
 	double const		wx = cam.half_width - (x + 0.5) * cam.pixel_size;
 	double const		wy = cam.half_height - (y + 0.5) * cam.pixel_size;
-	t_tuple const	pixel = mtx_tup_mul(point(wx, wy, -1), cam.inverse);
-	t_tuple const	origin = mtx_tup_mul(point(0, 0, 0), cam.inverse);
+	t_tuple const		pixel = mtx_tup_mul(point(wx, wy, -1), cam.inverse);
+	t_tuple const		origin = mtx_tup_mul(point(0, 0, 0), cam.inverse);
 
 	return ((t_ray){origin, tp_normalize(tp_sub(pixel, origin))});
 }
 
-t_tuple random_bounce(t_tuple ojb_norm)
+t_tuple	random_bounce(t_tuple ojb_norm)
 {
-	t_tuple bounce;
+	t_tuple	bounce;
 
 	bounce = random_vec();
-	// while (get_distance(bounce, (t_point3){0, 0, 0}) > 1)
-	// 	bounce = random_vec(random);
 	tp_normalize(bounce);
 	if (tp_dot(bounce, ojb_norm) <= 0)
 		tp_invert(&bounce);
