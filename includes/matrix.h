@@ -90,4 +90,6 @@ t_mtx4_ret	mx_shearing(double const x[2], double const y[2], double const z[2],
 t_mtx4_ret	mtx4_view(t_tuple from, t_tuple to, t_tuple up, t_mtx4 res);
 t_mtx4_ret	mtx4_scale(t_mtx4 m1, float const m);
 
+t_mtx4_ret	rotation_axis(double r, t_tuple u, t_mtx4 res);
+
 #endif

@@ -6,16 +6,14 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 18:37:03 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/09/11 10:50:35 by nseon            ###   ########.fr       */
+/*   Updated: 2025/09/12 10:46:27 by pjarnac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIRT_H
 # define MINIRT_H
 
-# include "neflibx.h"
 # include "render.h"
-# include "world.h"
 
 # define WIN_W 800
 # define WIN_H 600

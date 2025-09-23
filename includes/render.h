@@ -27,7 +27,6 @@
 # define T_MAX 3.402823466e+38
 # define T_MIN 0.01
 # define BACKGROUND_COLOR 0x000001
-# define RAY_NUM 2
 # define RAY_NBR 100000
 
 typedef struct s_amb_light
@@ -36,11 +35,25 @@ typedef struct s_amb_light
 	t_fcolor	col;
 }	t_amb_light;
 
+typedef struct s_ss
+{
+	int32_t		sample_num;
+	int32_t		max_sample;
+	t_rgb96_t	*samples;
+}	t_ss;
+
 typedef struct s_gctx
 {
 	t_world		w;
-	t_camera	cam;
-	t_rgb96_t	*color_px;
+	t_fcolor	*frame;
+	t_fcolor	*buf_frame;
+	int32_t		frac;
+	t_ss		ss;
+	float		o_r;
+	float		o_d;
+	float		bil_size;
+	int32_t		bil_passes;
+	int32_t		bil_max;
 }	t_gctx;
 
 typedef	struct s_mouse
@@ -49,27 +62,27 @@ typedef	struct s_mouse
 	t_point2	axes;
 }	t_mouse;
 
-
 typedef struct s_ctx
 {
-	t_window		win;
-	t_image			img;
-	t_gctx			gctx;
-	int32_t			error;
-	int32_t			file;
-	t_mouse			mouse;
-	bool parsing;
-	bool render;
+	t_window	win;
+	t_image		img;
+	t_gctx		gctx;
+	int32_t		error;
+	int32_t		file;
+	t_mouse		mouse;
+	bool		parsing;
+	bool		render;
 }	t_ctx;
 
 void		compute_matrices(t_camera *cam, t_obj *objs);
 void		compute_cam_matrice(t_camera *cam);
 void		compute_obj_matrice(t_obj *o);
-uint32_t	get_pixel_color(t_image *image, int x, int y);
-t_image		*render(t_ctx *ctx, t_camera *cam, t_world *world, int32_t nb_rays);
+void		render(t_gctx *gctx, t_world *w);
 t_tuple		random_bounce(t_tuple ojb_norm);
-int32_t		init_ss(t_ctx *ctx);
-int32_t		get_mixed_color(t_rgb96_t comps, int div);
-void		add_rgb96_t(t_rgb96_t *comps, uint32_t color);
+int32_t		init_ss(t_gctx *gctx, int32_t max_rays);
+t_fcolor	get_ss_color(t_ss *ss, int32_t x, int32_t y);
+void		add_ss_frame(t_ss *ss, t_fcolor *frame);
+void		clear_ss(t_ss *ss);
+void		bilateral_filter(t_gctx *gctx);
 
 #endif

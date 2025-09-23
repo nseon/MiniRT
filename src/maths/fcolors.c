@@ -41,6 +41,11 @@ t_fcolor	col_scalar(t_fcolor c1, double k)
 	return ((t_fcolor){c1.r * k, c1.g * k, c1.b * k});
 }
 
+t_fcolor	col_scalar2(t_fcolor c1, double k)
+{
+	return ((t_fcolor){c1.r * k, c1.g * k, c1.b * k});
+}
+
 t_fcolor	color_mul(t_fcolor c1, t_fcolor c2)
 {
 	return ((t_fcolor){c1.r * c2.r, c1.g * c2.g, c1.b * c2.b});

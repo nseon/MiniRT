@@ -10,28 +10,52 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
+
 #include "image.h"
 #include "minirt.h"
 #include "parsing.h"
 
+void	put_frame_to_img(t_image *img, t_fcolor *frame, int32_t frac)
+{
+	int32_t	x;
+	int32_t	y;
+	int32_t	i;
+	int32_t	j;
+
+	y = 0;
+	while (y < WIN_H)
+	{
+		x = 0;
+		while (x < WIN_W)
+		{
+			i = -1;
+			while (++i < frac)
+			{
+				j = -1;
+				while (++j < frac)
+					put_pixel_img(img, point_s(x + j, y + i,
+					fcolor_to_uint(frame[y * WIN_W + x])));
+			}
+			x += frac;
+		}
+		y += frac;
+	}
+}
+
 void	main_loop(void *p)
 {
 	t_ctx *const	ctx = p;
-	static int32_t	rays;
-	bool			test;
 
-	
-	test = 0;
 	if (!ctx->parsing)
 		draw_file_status(ctx);
-	if (ctx->parsing && !ctx->gctx.w.advanced)
+	if (ctx->parsing)
 	{
-		render(ctx, &ctx->gctx.cam, &ctx->gctx.w, -1);
-		rays = 0;
-	}
-	else if (ctx->parsing && ++rays < RAY_NBR)
-	{
-		render(ctx, &ctx->gctx.cam, &ctx->gctx.w, rays);
+		render(&ctx->gctx, &ctx->gctx.w);
+		if ((ctx->gctx.w.gparam & SS) && !(ctx->gctx.w.gparam & MOVING)
+			&& ctx->gctx.ss.sample_num >= ctx->gctx.ss.max_sample)
+			bilateral_filter(&ctx->gctx);
+		put_frame_to_img(&ctx->img, ctx->gctx.frame, ctx->gctx.frac);
 	}
 	put_img(&ctx->img, 0, 0, true);
 }

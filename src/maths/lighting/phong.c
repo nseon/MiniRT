@@ -14,7 +14,8 @@
 
 #include "lighting.h"
 
-t_fcolor	phong(t_material m, t_light light, t_pre_compute *pc)
+t_fcolor	phong(t_material m, t_light light, t_pre_compute *pc,
+	uint32_t gparam)
 {
 	t_fcolor		eff_color;
 	t_tuple const	lightv = tp_normalize(tp_sub(light.pos, pc->over_point));
@@ -30,10 +31,11 @@ t_fcolor	phong(t_material m, t_light light, t_pre_compute *pc)
 	specular = fcolor(0, 0, 0);
 	if (tp_dot(lightv, pc->normalv) >= 0)
 	{
-		diffuse = col_scalar(eff_color, m.diffuse * tp_dot(lightv, pc->normalv));
+		if (gparam & DIFFUSE)
+			diffuse = col_scalar(eff_color, m.diffuse * tp_dot(lightv, pc->normalv));
 		reflect_dot_eye = tp_dot(reflect(tp_mul(lightv, -1),
 			pc->normalv), pc->eyev);
-		if (reflect_dot_eye > 0)
+		if (gparam & SPECULAR && reflect_dot_eye > 0)
 			specular = col_scalar(light.i, m.specular
 				* powf(reflect_dot_eye, m.shine));
 	}

@@ -35,8 +35,8 @@ int32_t	world(t_world *w)
 		return (FATAL);
 	}
 	w->back_col = fcolor(0, 0, 0);
-	w->advanced = true;
-	w->frac = 1;
+	w->gparam = SPECULAR | DIFFUSE | AMBIENT | SHADOWS | REFLECT | TRANSPARENCY
+		| INDIRECT | SS;
 	create_wintersec(w);
 	return (SUCCESS);
 }

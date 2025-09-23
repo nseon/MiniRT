@@ -132,6 +132,7 @@ TRANSFORMATIONS_SRC	=	translation.c \
 						rotation_x.c \
 						rotation_y.c \
 						rotation_z.c \
+						rotation_axis.c \
 						shearing.c \
 
 
@@ -204,9 +205,9 @@ HOOKS_SRC =		loop.c \
 SRC += $(addprefix $(RENDER_DIR), $(RENDER_SRC))
 
 RENDER_DIR	=		render/
-RENDER_SRC	=		test_render.c \
-					render.c \
+RENDER_SRC	=		render.c \
 					ss_utils.c \
+					bilateral_filtering.c \
 
 # ===============GUI================ #
 

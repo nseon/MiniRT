@@ -25,12 +25,13 @@ void	authorize_cam_move(int keycode, void *args)
 
 	if (keycode == XK_Return && ctx->parsing)
 	{
-		ft_bzero(ctx->gctx.color_px, sizeof (t_rgb96_t) * WIN_H * WIN_W);
-		ctx->gctx.w.advanced ^= true;
-		if (ctx->gctx.w.frac == 4)
-			ctx->gctx.w.frac = 1;
+		clear_ss(&ctx->gctx.ss);
+		ctx->gctx.bil_passes = 0;
+		ctx->gctx.w.gparam ^= MOVING;
+		if (ctx->gctx.frac == 2)
+			ctx->gctx.frac = 1;
 		else
-			ctx->gctx.w.frac = 4;
+			ctx->gctx.frac = 2;
 		focus_swicth(ctx);
 	}
 }

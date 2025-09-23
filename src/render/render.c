@@ -11,14 +11,16 @@
 /* ************************************************************************** */
 
 #include "render.h"
-#include "minirt.h"
-#include "ray.h"
 
 #include <math.h>
 #include <stdio.h>
 
 #include "lighting.h"
+#include "minirt.h"
+#include "neflibx.h"
 #include "random.h"
+#include "ray.h"
+#include "rt_maths.h"
 
 void	compute_obj_matrice(t_obj *o)
 {
@@ -34,8 +36,12 @@ void	compute_cam_matrice(t_camera *cam)
 	t_mtx4	buf;
 
 	set_cam_transform(cam, mx_rotation_y(cam->y_rot, rotation_x(cam->x_rot, buf)));
-	mul_cam_transform(cam, mtx4_view(cam->pos, tp_add(cam->pos, cam->orient),
-		vector(0, 1, 0), buf));
+	if (dabs(tp_dot(vector(0, 1, 0), cam->orient)) > 0.95)
+		mul_cam_transform(cam, mtx4_view(cam->pos, tp_add(cam->pos, cam->orient),
+			vector(0, 0, 1), buf));
+	else
+		mul_cam_transform(cam, mtx4_view(cam->pos, tp_add(cam->pos, cam->orient),
+			vector(0, 1, 0), buf));
 }
 
 void	compute_matrices(t_camera *cam, t_obj *objs)
@@ -48,51 +54,38 @@ void	compute_matrices(t_camera *cam, t_obj *objs)
 		compute_obj_matrice(objs + i);
 }
 
-t_fcolor	compute_color(t_ctx *ctx, t_camera *cam, t_world *world, int32_t nb_rays)
+t_fcolor	get_fcolor(t_fcolor *col, int32_t x, int32_t y)
 {
-	t_fcolor	color;
-
-
-	return (color);
+	if (x < 0 || y < 0 || x == WIN_W || y == WIN_H)
+		return (fcolor(0, 0, 0));
+	return (col[y * WIN_W + x]);
 }
 
-t_image		*render(t_ctx *ctx, t_camera *cam, t_world *world, int32_t nb_rays)
+void	render(t_gctx *gctx, t_world *w)
 {
-	int32_t		x;
 	int32_t		y;
-	int32_t		i;
-	int32_t		j;
+	int32_t		x;
 	t_fcolor	color;
-	uint32_t	ucol;
 
-	compute_matrices(cam, world->objs);
+	compute_matrices(&w->cam, w->objs);
+	if (gctx->ss.sample_num >= gctx->ss.max_sample)
+		return ;
 	y = 0;
-	while (y < cam->vsize)
+	while (y < w->cam.vsize)
 	{
 		x = 0;
-		while (x < cam->hsize)
+		while (x < w->cam.hsize)
 		{
-			if (nb_rays == -1)
-			{
-				color = color_at(world, ray_for_pixel(*cam, x, y), 1);
-				ucol = fcolor_to_uint(color);
-			}
+			if (gctx->w.gparam & SS && !(gctx->w.gparam & MOVING))
+				color = color_at(w, ray_for_pixel(w->cam, x + frandom(0, 1),
+					y + frandom(0, 1)), MAX_RECUR);
 			else
-			{
-				color = color_at(world, ray_for_pixel(*cam, x + frandom(0, 1), y + frandom(0, 1)), MAX_RECURSIVE);
-				add_rgb96_t(&ctx->gctx.color_px[x * WIN_H + y], fcolor_to_uint(color));
-				put_pixel_img(&ctx->img, point_s(x, y, get_mixed_color(ctx->gctx.color_px[x * WIN_H + y], nb_rays)));
-			}
-			i = -1;
-			while (world->frac != 1 && ++i < world->frac)
-			{
-				j = -1;
-				while (++j < world->frac)
-					put_pixel_img(&ctx->img, point_s(x + j, y + i, ucol));
-			}
-			x += world->frac;
+				color = color_at(w, ray_for_pixel(w->cam, x, y), MAX_RECUR);
+			gctx->frame[y * WIN_W + x] = color;
+			x += gctx->frac;
 		}
-		y += world->frac;
+		y += gctx->frac;
 	}
-	return (&ctx->img);
+	if (gctx->w.gparam & SS && !(gctx->w.gparam & MOVING))
+		add_ss_frame(&gctx->ss, gctx->frame);
 }

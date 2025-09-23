@@ -17,23 +17,24 @@
 
 #include <X11/keysym.h>
 #include <math.h>
+#include <stdio.h>
 
 void	rotate_cam(int x, int y, void *args)
 {
     t_ctx * const		ctx = args;
-	t_camera * const	cam = &ctx->gctx.cam;
+	t_camera * const	cam = &ctx->gctx.w.cam;
+	t_mtx4				tbuf;
+	t_tuple				ori;
 
     if (x == WIN_W / 2 && y == WIN_H / 2)
     	return ;
 	if (ctx->mouse.focus == true)
 	{
 		mlx_mouse_move(ctx->win.mlx, ctx->win.win, WIN_W / 2, WIN_H / 2);
-		if (ctx->gctx.w.advanced == false)
+		if (ctx->gctx.w.gparam & MOVING)
 		{
 			cam->y_rot -= (x - WIN_W / 2) * 0.001;
 			cam->x_rot += (y - WIN_H / 2) * 0.001;
-			if ((cam->x_rot + cam->orient.y * M_PI) < - M_PI / 2 + 0.2 || (cam->x_rot + cam->orient.y * M_PI) > M_PI / 2 - 0.2)
-				cam->x_rot -= (y - WIN_H / 2) * 0.001;
 		}
 	}
 }
@@ -44,21 +45,21 @@ void	cam_height(int keycode, void *args)
 	t_mtx4			buff;
 	double			y;
 
-	if (ctx->gctx.w.advanced == false)
+	if (ctx->gctx.w.gparam & MOVING)
 	{
 		if (keycode == XK_c)
-			ctx->gctx.cam.pos.y -= 0.1;
+			ctx->gctx.w.cam.pos.y -= 0.1;
 		if (keycode == XK_space)
-			ctx->gctx.cam.pos.y += 0.1;
+			ctx->gctx.w.cam.pos.y += 0.1;
 	}
 }
 
 void	cam_translation(int keycode, void *args)
 {
 	t_ctx * const		ctx = args;
-	t_camera * const	cam = &ctx->gctx.cam;
+	t_camera * const	cam = &ctx->gctx.w.cam;
 	
-	if (ctx->gctx.w.advanced == false)
+	if (ctx->gctx.w.gparam & MOVING)
 	{
 		if (keycode == XK_w)
 			cam->pos = tp_sub(cam->pos, tp_mul(mtx_tup_mul(vector(0, 0, 1), cam->inverse), 0.1));

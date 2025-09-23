@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
 #include <stdlib.h>
 
 #include "errors.h"
@@ -17,39 +18,59 @@
 #include "neflibx.h"
 #include "render.h"
 
-int32_t	init_ss(t_ctx *ctx)
+int32_t	init_ss(t_gctx *gctx, int32_t max_rays)
 {
-	ctx->gctx.color_px = malloc(sizeof (t_rgb96_t) * WIN_H * WIN_W);
-	if (!ctx->gctx.color_px)
+	t_ss	ss;
+
+	ss.samples = malloc(sizeof (t_rgb96_t) * WIN_H * WIN_W);
+	if (!ss.samples)
 		return (FATAL);
-	ft_bzero(ctx->gctx.color_px, sizeof (t_rgb96_t) * WIN_H * WIN_W);
+	ft_bzero(ss.samples, sizeof (t_rgb96_t) * WIN_H * WIN_W);
+	ss.sample_num = 0;
+	ss.max_sample = max_rays;
+	gctx->ss = ss;
 	return (SUCCESS);
 }
 
-uint32_t	get_pixel_color(t_image *image, int x, int y)
+void	clear_ss(t_ss *ss)
 {
-	char *color;
-
-	color = image->addr + y * image->len + x * (image->bpp / 8);
-	return (*(uint32_t *)color);
+	ft_bzero(ss->samples, sizeof (t_rgb96_t) * WIN_H * WIN_W);
+	ss->sample_num = 0;
 }
 
-void	add_rgb96_t(t_rgb96_t *comps, uint32_t color)
+void	add_ss_frame(t_ss *ss, t_fcolor *frame)
 {
 	t_color col;
+	int32_t	x;
+	int32_t	y;
 
-	col.argb = color;
-	comps->r += col.r;
-	comps->g += col.g;
-	comps->b += col.b;
+	ss->sample_num += 1;
+	y = -1;
+	while (++y < WIN_H)
+	{
+		x = -1;
+		while (++x < WIN_W)
+		{
+			col.argb = fcolor_to_uint(frame[y * WIN_W + x]);
+			ss->samples[y * WIN_W + x].r += col.r;
+			ss->samples[y * WIN_W + x].g += col.g;
+			ss->samples[y * WIN_W + x].b += col.b;
+			frame[y * WIN_W + x] = get_ss_color(ss, x, y);
+		}
+	}
 }
 
-int32_t	get_mixed_color(t_rgb96_t comps, int div)
+t_fcolor	get_ss_color(t_ss *ss, int32_t x, int32_t y)
 {
-	t_color	color;
+	t_fcolor	color;
+	t_rgb96_t	col96;
 
-	color.r = comps.r / div;
-	color.g = comps.g / div;
-	color.b = comps.b / div;
-	return (color.argb);
+	col96 = ss->samples[y * WIN_W + x];
+	color.r = col96.r / ss->sample_num;
+	color.g = col96.g / ss->sample_num;
+	color.b = col96.b / ss->sample_num;
+	color.r /= 255;
+	color.g /= 255;
+	color.b /= 255;
+	return (color);
 }
