@@ -32,6 +32,12 @@ void	set_pattern_transf(t_pattern *pat, t_mtx4 transf)
 	mtx4_inverse2(pat->transf, pat->inv_transf);
 }
 
+void	mul_pattern_transf(t_pattern *pat, t_mtx4 transf)
+{
+	mtx_mul2(pat->transf, transf);
+	mtx4_inverse2(pat->transf, pat->inv_transf);
+}
+
 t_fcolor	pattern_at_obj(t_pattern pat, t_obj *o, t_tuple pt)
 {
 	mtx_tup_mul2(&pt, o->inv_transform);

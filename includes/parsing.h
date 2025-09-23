@@ -61,6 +61,7 @@ int32_t	parse_double(char *str, double *f);
 int32_t	parse_xyz(char *str, t_tuple *tp);
 int32_t	parse_trans(char *str, t_obj *o);
 int32_t	parse_normal(char *str, t_tuple *vct);
+int32_t	parse_ptype(char *str, t_pattern_type *p);
 
 int32_t	parse_ambi_light(char **split, t_amb *amb_light);
 int32_t	parse_camera(char **split, t_camera *cam);
@@ -70,5 +71,6 @@ int32_t	parse_plane(char **split, t_world *w);
 int32_t	parse_cylinder(char **split, t_world *w);
 int32_t	parse_backlight(char **split, t_fcolor *bl);
 int32_t	parse_cube(char **split, t_world *w);
+int32_t	parse_pattern(char **split, t_obj *o);
 
 #endif

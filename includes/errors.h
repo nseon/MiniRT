@@ -27,6 +27,7 @@
 # define PARSE_MISSING_COLOR "missing color field\n"
 # define PARSE_MISSING_XYZ "missing xyz coordinates field\n"
 # define PARSE_MISSING_VCT "missing normal vector field\n"
+# define PARSE_MISSING_BOOL "missins bool field\n"
 
 # define PARSE_INVAL_FORMAT -6
 # define PARSE_INVAL_COLOR_MSG "invalid color format: (%s)\n"
@@ -36,6 +37,7 @@
 # define PARSE_INVAL_VCT_MSG2 "auto-normalizing -> (%f, %f, %f)\n"
 # define PARSE_INVAL_FOV "invalid fov range (%d) needs to be [0, 180]\n"
 # define PARSE_INVAL_MAND "mandatory elements misconfiguration\n"
+# define PARSE_INVAL_BOOL "invalid bool: %s (true, false, yes, no, y, n)\n"
 
 # define FATAL -1
 # define SUCCESS 0

@@ -15,6 +15,7 @@
 #include "errors.h"
 #include "render.h"
 #include "debug.h"
+#include "lighting.h"
 #include "parsing.h"
 
 static int32_t	parse_plane_bonus(char **split, t_obj *o)
@@ -22,15 +23,22 @@ static int32_t	parse_plane_bonus(char **split, t_obj *o)
 	int32_t	res;
 	double	buf;
 
-	res = parse_double(*(split++), &buf);
+	res = 0;
+	buf = 0;
+	if (split[0])
+		res = parse_double(*(split++), &buf);
 	if (res != SUCCESS)
 		return (res);
 	o->mat.reflective = buf;
-	res = parse_double(*(split++), &buf);
+	if (split[0])
+		res = parse_double(*(split++), &buf);
 	if (res != SUCCESS)
 		return (res);
 	o->mat.transparency = buf;
-	res = parse_double(*(split++), &buf);
+	if (split[0])
+		res = parse_double(*(split++), &buf);
+	else
+		buf = AIR_REFRACTIVE;
 	if (res != SUCCESS)
 		return (res);
 	o->mat.refractive = buf;

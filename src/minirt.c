@@ -52,7 +52,7 @@ static int8_t	init(t_ctx *const ctx)
 		return (free_on_fatal(ctx, 1));
 	if (init_random() != SUCCESS)
 		return (free_on_fatal(ctx, 2));
-	if (init_ss(&ctx->gctx, 50) != SUCCESS)
+	if (init_ss(&ctx->gctx, 200) != SUCCESS)
 		return (free_on_fatal(ctx, 3));
 	if (init_window(&ctx->win, WIN_W, WIN_H, "MiniRT") != SUCCESS)
 		return (free_on_fatal(ctx, 4));

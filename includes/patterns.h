@@ -35,6 +35,7 @@ typedef struct s_pattern
 }	t_pattern;
 
 void		set_pattern_transf(t_pattern *pat, t_mtx4 transf);
+void		mul_pattern_transf(t_pattern *pat, t_mtx4 transf);
 t_pattern	pattern(t_fcolor a, t_fcolor b, t_pattern_type type);
 t_fcolor	stripe_at(t_pattern pat, t_tuple pt);
 t_fcolor	gradient_at(t_pattern pat, t_tuple pt);

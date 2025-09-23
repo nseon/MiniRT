@@ -33,16 +33,17 @@ t_fcolor	indirect_light(t_world *w, t_pre_compute *pc, int n)
 	r = ray(pc->over_point, random_bounce(pc->normalv));
 	xs = world_intersec(w, r);
 	i = hit(&xs);
-	if (!i)
-	{
-		w->xs.count -= xs.count;
-		return (fcolor(0, 0, 0));
-	}
-	distance = i->t;
 	w->xs.count -= xs.count;
+	if (!i)
+		return (fcolor(0, 0, 0));
+	distance = i->t;
 	rcolor = color_at(w, r, n - 3);
-	return (col_scalar(color_mul(rcolor, pc->obj->mat.col),
-			1.0 / (1 + distance * distance)));
+	if (pc->obj->mat.has_pat == false)
+		return (col_scalar(color_mul(rcolor, pc->obj->mat.col),
+				1.0 / (1 + distance * distance)));
+	else
+		return (col_scalar(color_mul(rcolor, pattern_at_obj(pc->obj->mat.pat,
+				pc->obj, pc->pos)), 1.0 / (1 + distance * distance)));
 }
 
 t_fcolor	blend_additives(t_world *w, t_fcolor col, t_pre_compute *pc, int n)

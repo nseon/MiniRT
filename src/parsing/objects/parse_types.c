@@ -79,27 +79,6 @@ int32_t	parse_xyz(char *str, t_tuple *tp)
 	return (SUCCESS);
 }
 
-int32_t	parse_trans(char *str, t_obj *o)
-{
-	char *const	buf = str;
-	t_mtx4		tbuf;
-	t_tuple		tp;
-
-	if (!str)
-		return (ft_fprintf(STDERR_FILENO, PARSE_MISSING_XYZ));
-	tp.x = ft_atof_ptr(&str);
-	if (*str != ',')
-		return (ft_fprintf(2, PARSE_INVAL_XYZ_MSG, buf));
-	str++;
-	tp.y = ft_atof_ptr(&str);
-	if (*str != ',')
-		return (ft_fprintf(2, PARSE_INVAL_XYZ_MSG, buf));
-	str++;
-	tp.z = ft_atof_ptr(&str);
-	mul_transform(o, translation(tp.x, tp.y, tp.z, tbuf));
-	return (SUCCESS);
-}
-
 int32_t	parse_normal(char *str, t_tuple *vct)
 {
 	int32_t	res;
@@ -115,5 +94,25 @@ int32_t	parse_normal(char *str, t_tuple *vct)
 	printf(PARSE_INVAL_VCT_MSG, str);
 	*vct = tp_normalize(*vct);
 	printf(PARSE_INVAL_VCT_MSG2, vct->x, vct->y, vct->z);
+	return (SUCCESS);
+}
+
+int32_t	parse_ptype(char *str, t_pattern_type *p)
+{
+	if (!str)
+		return (PARSE_MISSING_FIELD);
+	if (!ft_strcmp(str, "stripe"))
+		*p = STRIPE;
+	else if (!ft_strcmp(str, "gradient"))
+		*p = GRADIENT;
+	else if (!ft_strcmp(str, "ring"))
+		*p = RING;
+	else if (!ft_strcmp(str, "checker"))
+		*p = CHECKER;
+	else
+	{
+		printf(PARSE_INVAL_BOOL, str);
+		return (FATAL);
+	}
 	return (SUCCESS);
 }

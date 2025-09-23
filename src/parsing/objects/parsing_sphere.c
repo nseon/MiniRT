@@ -15,26 +15,59 @@
 #include "errors.h"
 #include "render.h"
 #include "debug.h"
+#include "lighting.h"
 #include "parsing.h"
+
+int32_t	parse_pattern(char **split, t_obj *o)
+{
+	t_tuple	buf;
+	t_mtx4	tbuf;
+
+	if (!split[0])
+		return (SUCCESS);
+	if (parse_ptype(*(split++), &o->mat.pat.type) != SUCCESS)
+		return (PARSE_INVAL_LINE);
+	o->mat.has_pat = true;
+	if (parse_color(*(split++), &o->mat.pat.a) != SUCCESS)
+		return (PARSE_INVAL_LINE);
+	if (parse_color(*(split++), &o->mat.pat.b) != SUCCESS)
+		return (PARSE_INVAL_LINE);
+	if (!split[0])
+		return (SUCCESS);
+	if (parse_xyz(*(split++), &buf))
+		return (PARSE_INVAL_LINE);
+	set_pattern_transf(&o->mat.pat, translation(buf.x, buf.y, buf.z, tbuf));
+	if (parse_xyz(*(split++), &buf))
+		return (PARSE_INVAL_LINE);
+	mul_pattern_transf(&o->mat.pat, scaling(buf.x, buf.y, buf.z, tbuf));
+	return (SUCCESS);
+}
 
 static int32_t	parse_sphere_bonus(char **split, t_obj *o)
 {
 	int32_t	res;
 	double	buf;
 
-	res = parse_double(*(split++), &buf);
+	res = 0;
+	buf = 0;
+	if (split[0])
+		res = parse_double(*(split++), &buf);
 	if (res != SUCCESS)
 		return (res);
 	o->mat.reflective = buf;
-	res = parse_double(*(split++), &buf);
+	if (split[0])
+		res = parse_double(*(split++), &buf);
 	if (res != SUCCESS)
 		return (res);
 	o->mat.transparency = buf;
-	res = parse_double(*(split++), &buf);
+	if (split[0])
+		res = parse_double(*(split++), &buf);
+	else
+		buf = AIR_REFRACTIVE;
 	if (res != SUCCESS)
 		return (res);
 	o->mat.refractive = buf;
-	return (res);
+	return (parse_pattern(split, o));
 }
 
 int32_t	parse_sphere(char **split, t_world *w)

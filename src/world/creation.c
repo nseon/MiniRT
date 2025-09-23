@@ -49,27 +49,3 @@ int32_t	add_world_obj(t_world *w, t_obj obj)
 		return (FATAL);
 	return (SUCCESS);
 }
-
-int32_t	default_world(t_world *w)
-{
-	int32_t	res;
-	t_mtx4	buf;
-	t_obj	s;
-
-	res = world(w);
-	if (res != SUCCESS)
-		return (res);
-	w->amb.i = 0.1;
-	w->amb.col = fcolor(1, 1, 1);
-	vct_add(&w->lights, &(t_light){POINT, point(-10, 10, -10),
-		fcolor(1, 1, 1)});
-	s = sphere();
-	s.mat.col = fcolor(0.8, 1, 0.6);
-	s.mat.diffuse = 0.7;
-	s.mat.specular = 0.2;
-	res = add_world_obj(w, s);
-	s = sphere();
-	mul_transform(&s, scaling(0.5, 0.5, 0.5, buf));
-	res = add_world_obj(w, s);
-	return (res);
-}
