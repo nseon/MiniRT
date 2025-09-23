@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include <fcntl.h>
-#include <iso646.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -21,16 +20,16 @@
 #include "tuple.h"
 #include "errors.h"
 
-static uint32_t	xor_state;
+static uint32_t	g_xor_state;
 
 int32_t	init_random(void)
 {
-	int32_t fd;
+	int32_t	fd;
 
 	fd = open("/dev/urandom", O_RDONLY);
 	if (fd == -1)
 		return (FATAL);
-	if (read(fd, &xor_state, 4) == -1)
+	if (read(fd, &g_xor_state, 4) == -1)
 	{
 		close(fd);
 		return (FATAL);
@@ -39,15 +38,15 @@ int32_t	init_random(void)
 	return (SUCCESS);
 }
 
-double frandom(int min, int max)
+double	frandom(int min, int max)
 {
-	xor_state ^= xor_state << 13;
-	xor_state ^= xor_state >> 17;
-	xor_state ^= xor_state << 5;
-	return ((double)xor_state / (UINT32_MAX / (max - min)) + min);
+	g_xor_state ^= g_xor_state << 13;
+	g_xor_state ^= g_xor_state >> 17;
+	g_xor_state ^= g_xor_state << 5;
+	return ((double)g_xor_state / (UINT32_MAX / (max - min)) + min);
 }
 
 t_tuple	random_vec(void)
 {
-	return(vector(frandom(-1, 1), frandom(-1, 1), frandom(-1, 1)));
+	return (vector(frandom(-1, 1), frandom(-1, 1), frandom(-1, 1)));
 }

@@ -72,7 +72,7 @@ t_mtx4_ret	mtx4_inverse2(t_mtx4 const m, t_mtx4 res)
 t_mtx4_ret	mtx4_inverse3(t_mtx4 m)
 {
 	double const	det = mtx4_determinant(m);
-	t_mtx4		m_dup;
+	t_mtx4			m_dup;
 
 	if (!mtx4_invertible(m))
 		return (m);

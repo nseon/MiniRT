@@ -19,7 +19,7 @@
 # define WIN_H 600
 
 int8_t	init_gui(t_ctx *ctx);
-void	test_render(t_ctx * const ctx);
+void	test_render(t_ctx *ctx);
 void	keyevent(int keycode, void *p);
 
 #endif

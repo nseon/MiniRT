@@ -19,7 +19,7 @@
 #include "normals.h"
 #include "rt_maths.h"
 
-double			schlick(t_pre_compute *pc)
+double	schlick(t_pre_compute *pc)
 {
 	double	cos;
 	double	n_ratio;
@@ -55,7 +55,7 @@ t_fcolor	refract_color(t_world *w, t_pre_compute *pc, int n)
 	if (sin2_t > 1)
 		return (fcolor(0, 0, 0));
 	dir = tp_sub(tp_mul(pc->normalv, ratio * cos_i - sqrt(1 - sin2_t)),
-		tp_mul(pc->eyev, ratio));
+			tp_mul(pc->eyev, ratio));
 	r = ray(pc->under_point, dir);
 	return (col_scalar(color_at(w, r, n - 1), pc->obj->mat.transparency));
 }

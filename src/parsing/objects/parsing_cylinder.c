@@ -42,6 +42,7 @@ static int32_t	parse_cylinder2(char **split, t_obj *obj)
 {
 	int32_t	res;
 	double	db;
+
 	res = parse_double(*(split++), &db);
 	if (res != SUCCESS)
 		return (res);

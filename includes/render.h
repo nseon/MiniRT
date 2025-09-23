@@ -13,16 +13,15 @@
 #ifndef RENDER_H
 # define RENDER_H
 
-# include <stdint.h>
 # include <stdbool.h>
+# include <stdint.h>
 
-# include "tuple.h"
-# include "points.h"
-# include "objects.h"
-# include "neflibx.h"
 # include "fcolors.h"
-# include "matrix.h"
-#include "world.h"
+# include "neflibx.h"
+# include "objects.h"
+# include "points.h"
+# include "tuple.h"
+# include "world.h"
 
 # define T_MAX 3.402823466e+38
 # define T_MIN 0.01
@@ -31,7 +30,7 @@
 
 typedef struct s_amb_light
 {
-	double	i;
+	double		i;
 	t_fcolor	col;
 }	t_amb_light;
 
@@ -56,7 +55,7 @@ typedef struct s_gctx
 	int32_t		bil_max;
 }	t_gctx;
 
-typedef	struct s_mouse
+typedef struct s_mouse
 {
 	bool		focus;
 	t_point2	axes;

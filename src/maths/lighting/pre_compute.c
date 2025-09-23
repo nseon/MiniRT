@@ -39,9 +39,9 @@ void	add_remove_last(t_intersection *last, int32_t *j, t_intersection it)
 
 void	compute_refract_points(t_pre_compute *pc, t_intersections *xs)
 {
-	t_intersection	*last = xs->i + xs->count * REFRACT_XS_OFFSET;
-	int32_t	j;
-	int32_t	i;
+	t_intersection *const	last = xs->i + xs->count * REFRACT_XS_OFFSET;
+	int32_t					j;
+	int32_t					i;
 
 	i = -1;
 	j = 0;

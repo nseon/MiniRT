@@ -35,7 +35,7 @@ void	put_frame_to_img(t_image *img, t_fcolor *frame, int32_t frac)
 				j = -1;
 				while (++j < frac)
 					put_pixel_img(img, point_s(x + j, y + i,
-					fcolor_to_uint(frame[y * WIN_W + x])));
+							fcolor_to_uint(frame[y * WIN_W + x])));
 			}
 			x += frac;
 		}
@@ -51,6 +51,7 @@ void	main_loop(void *p)
 		draw_file_status(ctx);
 	if (ctx->parsing)
 	{
+		printf("Samples: %d\n", ctx->gctx.ss.sample_num);
 		render(&ctx->gctx, &ctx->gctx.w);
 		if ((ctx->gctx.w.gparam & SS) && !(ctx->gctx.w.gparam & MOVING)
 			&& ctx->gctx.ss.sample_num >= ctx->gctx.ss.max_sample)

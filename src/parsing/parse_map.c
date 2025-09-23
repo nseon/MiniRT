@@ -38,7 +38,7 @@ static int8_t	is_element(char const *const str)
 	return (PARSE_INVAL_TYPE);
 }
 
-static int8_t	dispatch_element(char **split, t_gctx * const gctx)
+static int8_t	dispatch_element(char **split, t_gctx *const gctx)
 {
 	int32_t	res;
 
