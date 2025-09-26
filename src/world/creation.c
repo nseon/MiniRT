@@ -38,6 +38,8 @@ int32_t	world(t_world *w)
 	w->gparam = SPECULAR | DIFFUSE | AMBIENT | SHADOWS | REFLECT | TRANSPARENCY
 		| INDIRECT | SS;
 	create_wintersec(w);
+	if (!w->xs.i)
+		return (FATAL);
 	return (SUCCESS);
 }
 
