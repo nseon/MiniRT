@@ -216,6 +216,7 @@ SRC += $(addprefix $(GUI_DIR), $(GUI_SRC))
 
 GUI_DIR =		gui/
 GUI_SRC =		gui_init.c \
+				xor_switcher.c \
 
 # ==========LIBS / INCLUDES============ #
 

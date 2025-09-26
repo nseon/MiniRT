@@ -68,8 +68,6 @@ void	bilateral_filter(t_gctx *gctx)
 	int32_t		x;
 	t_fcolor	*buf;
 
-	if (gctx->bil_passes >= gctx->bil_max)
-		return ;
 	y = -1;
 	while (++y < WIN_H)
 	{
@@ -79,8 +77,7 @@ void	bilateral_filter(t_gctx *gctx)
 			gctx->buf_frame[y * WIN_W + x] = filter_pixel(gctx, x, y);
 		}
 	}
-	buf = gctx->frame;
-	gctx->frame = gctx->buf_frame;
-	gctx->buf_frame = buf;
-	gctx->bil_passes++;
+	// buf = gctx->frame;
+	// gctx->frame = gctx->buf_frame;
+	// gctx->buf_frame = buf;
 }

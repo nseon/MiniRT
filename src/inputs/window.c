@@ -20,12 +20,12 @@ void	window_focus(int keycode, int x, int y, void *args)
 {
 	t_ctx *const	ctx = args;
 
-	if (keycode == 1 && ctx->parsing)
-	{
-		ctx->mouse.focus = true;
-		mlx_mouse_hide(ctx->win.mlx, ctx->win.win);
-		mlx_mouse_move(ctx->win.mlx, ctx->win.win, WIN_W / 2, WIN_H / 2);
-	}
+	// if (keycode == 1 && ctx->parsing)
+	// {
+	// 	ctx->mouse.focus = true;
+	// 	mlx_mouse_hide(ctx->win.mlx, ctx->win.win);
+	// 	mlx_mouse_move(ctx->win.mlx, ctx->win.win, WIN_W / 2, WIN_H / 2);
+	// }
 }
 
 void	window_unfocus(int keycode, void *args)
@@ -33,7 +33,6 @@ void	window_unfocus(int keycode, void *args)
 	t_ctx *const	ctx = args;
 
 	clear_ss(&ctx->gctx.ss);
-	ctx->gctx.bil_passes = 0;
 	if (keycode == XK_1)
 		ctx->gctx.w.gparam ^= SPECULAR;
 	else if (keycode == XK_2)

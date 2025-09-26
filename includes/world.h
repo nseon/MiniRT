@@ -33,6 +33,7 @@ typedef enum e_gparam
 	INDIRECT = 1 << 6,
 	MOVING = 1 << 7,
 	SS = 1 << 8,
+	DENOISE = 1 << 9,
 }	t_gparam;
 
 typedef struct s_world

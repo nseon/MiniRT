@@ -14,6 +14,7 @@
 #include "neflibx.h"
 #include "minirt.h"
 #include "parsing.h"
+#include "rt_gui.h"
 
 static int8_t	parse_gui(t_ctx *ctx)
 {
@@ -42,10 +43,48 @@ static int8_t	parse_gui(t_ctx *ctx)
 	return (SUCCESS);
 }
 
+int32_t	render_gui(t_ctx *ctx)
+{
+	t_guielem *const	render_ctn = create_container(&ctx->win, 0);
+	t_guielem			*el;
+
+	render_ctn->id = RENDER_CTN_ID;
+	render_ctn->vw = 30;
+	render_ctn->vh = 80;
+	render_ctn->vy = 50;
+	render_ctn->z = 5;
+	el = create_check(&ctx->win, render_ctn->uid, xor_denoise,
+		&ctx->gctx.w.gparam);
+	el->label = "Denoise";
+	el->checked = (ctx->gctx.w.gparam & DENOISE) > 0;
+	el->vx = 10;
+	el->vy = 10;
+	el->w = 15;
+	el->h = 15;
+	el = create_check(&ctx->win, render_ctn->uid, xor_ss,
+		ctx);
+	el->label = "Supersampling";
+	el->checked = (ctx->gctx.w.gparam & SS) > 0;
+	el->vx = 50;
+	el->vy = 10;
+	el->w = 15;
+	el->h = 15;
+	el = create_check(&ctx->win, render_ctn->uid, xor_indirect,
+		ctx);
+	el->label = "Indirect Light";
+	el->checked = (ctx->gctx.w.gparam & INDIRECT) > 0;
+	el->vx = 10;
+	el->vy = 20;
+	el->w = 15;
+	el->h = 15;
+	return (SUCCESS);
+}
+
 int8_t	init_gui(t_ctx *ctx)
 {
 	int8_t	res;
 
 	res = parse_gui(ctx);
+	res = render_gui(ctx);
 	return (res);
 }

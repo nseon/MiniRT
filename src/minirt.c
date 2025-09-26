@@ -39,11 +39,9 @@ static int32_t	free_on_fatal(t_ctx *const ctx, int32_t index_fatal)
 static int8_t	init(t_ctx *const ctx)
 {
 	ctx->gctx.frac = 1;
-	ctx->gctx.bil_size = 21;
+	ctx->gctx.bil_size = 5;
 	ctx->gctx.o_d = 8;
-	ctx->gctx.o_r = 0.1;
-	ctx->gctx.bil_passes = 0;
-	ctx->gctx.bil_max = 1;
+	ctx->gctx.o_r = 0.08;
 	ctx->gctx.frame = malloc(sizeof (t_fcolor) * WIN_H * WIN_W);
 	if (!ctx->gctx.frame)
 		return (free_on_fatal(ctx, 0));

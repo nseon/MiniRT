@@ -1,0 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   rt_gui.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/25 17:14:49 by pjarnac           #+#    #+#             */
+/*   Updated: 2025/09/25 17:14:49 by pjarnac          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef RT_GUI_H
+# define RT_GUI_H
+
+# include <stdbool.h>
+
+void	xor_denoise(bool b, void *p);
+void	xor_ss(bool b, void *p);
+void	xor_indirect(bool b, void *p);
+
+#endif

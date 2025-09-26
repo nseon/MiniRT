@@ -28,6 +28,8 @@
 # define BACKGROUND_COLOR 0x000001
 # define RAY_NBR 100000
 
+# define RENDER_CTN_ID "render_ctn"
+
 typedef struct s_amb_light
 {
 	double		i;
@@ -51,8 +53,6 @@ typedef struct s_gctx
 	float		o_r;
 	float		o_d;
 	float		bil_size;
-	int32_t		bil_passes;
-	int32_t		bil_max;
 }	t_gctx;
 
 typedef struct s_mouse

@@ -41,14 +41,14 @@ t_fcolor	indirect_light(t_world *w, t_pre_compute *pc, int n)
 	if (pc->obj->mat.has_pat == false)
 		return (col_scalar(color_mul(rcolor, pc->obj->mat.col),
 				1.0 / (1 + distance * distance)));
-	else
-		return (col_scalar(color_mul(rcolor, pattern_at_obj(pc->obj->mat.pat,
+	return (col_scalar(color_mul(rcolor, pattern_at_obj(pc->obj->mat.pat,
 				pc->obj, pc->pos)), 1.0 / (1 + distance * distance)));
 }
 
 t_fcolor	blend_additives(t_world *w, t_fcolor col, t_pre_compute *pc, int n)
 {
 	double		reflectance;
+	int			i;
 
 	if (pc->obj->mat.reflective > 0 && pc->obj->mat.transparency > 0
 		&& w->gparam & REFLECT && w->gparam & TRANSPARENCY)

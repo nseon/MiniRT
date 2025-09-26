@@ -53,10 +53,13 @@ void	main_loop(void *p)
 	{
 		printf("Samples: %d\n", ctx->gctx.ss.sample_num);
 		render(&ctx->gctx, &ctx->gctx.w);
-		if ((ctx->gctx.w.gparam & SS) && !(ctx->gctx.w.gparam & MOVING)
-			&& ctx->gctx.ss.sample_num >= ctx->gctx.ss.max_sample)
+		if ((ctx->gctx.w.gparam & DENOISE))
+		{
 			bilateral_filter(&ctx->gctx);
-		put_frame_to_img(&ctx->img, ctx->gctx.frame, ctx->gctx.frac);
+			put_frame_to_img(&ctx->img, ctx->gctx.buf_frame, ctx->gctx.frac);
+		}
+		else
+			put_frame_to_img(&ctx->img, ctx->gctx.frame, ctx->gctx.frac);
 	}
 	put_img(&ctx->img, 0, 0, true);
 }
