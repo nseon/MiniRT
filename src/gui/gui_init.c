@@ -57,7 +57,7 @@ int32_t	render_gui(t_ctx *ctx)
 		&ctx->gctx.w.gparam);
 	el->label = "Denoise";
 	el->checked = (ctx->gctx.w.gparam & DENOISE) > 0;
-	el->vx = 10;
+	el->vx = 20;
 	el->vy = 10;
 	el->w = 15;
 	el->h = 15;
@@ -65,15 +65,15 @@ int32_t	render_gui(t_ctx *ctx)
 		ctx);
 	el->label = "Supersampling";
 	el->checked = (ctx->gctx.w.gparam & SS) > 0;
-	el->vx = 50;
+	el->vx = 70;
 	el->vy = 10;
 	el->w = 15;
 	el->h = 15;
 	el = create_check(&ctx->win, render_ctn->uid, xor_indirect,
 		ctx);
-	el->label = "Indirect Light";
+	el->label = "Indir. Light";
 	el->checked = (ctx->gctx.w.gparam & INDIRECT) > 0;
-	el->vx = 10;
+	el->vx = 20;
 	el->vy = 20;
 	el->w = 15;
 	el->h = 15;
