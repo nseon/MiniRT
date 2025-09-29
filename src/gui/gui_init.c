@@ -11,8 +11,8 @@
 /* ************************************************************************** */
 
 #include "errors.h"
-#include "neflibx.h"
 #include "minirt.h"
+#include "neflibx.h"
 #include "parsing.h"
 #include "rt_gui.h"
 
@@ -47,36 +47,42 @@ int32_t	render_gui(t_ctx *ctx)
 {
 	t_guielem *const	render_ctn = create_container(&ctx->win, 0);
 	t_guielem			*el;
+	const uint32_t		cuid = render_ctn->uid;
 
 	render_ctn->id = RENDER_CTN_ID;
 	render_ctn->vw = 30;
 	render_ctn->vh = 80;
 	render_ctn->vy = 50;
 	render_ctn->z = 5;
-	el = create_check(&ctx->win, render_ctn->uid, xor_denoise,
-		&ctx->gctx.w.gparam);
+	el = create_check(&ctx->win, cuid, xor_denoise, &ctx->gctx.w.gparam);
 	el->label = "Denoise";
 	el->checked = (ctx->gctx.w.gparam & DENOISE) > 0;
 	el->vx = 20;
 	el->vy = 10;
 	el->w = 15;
 	el->h = 15;
-	el = create_check(&ctx->win, render_ctn->uid, xor_ss,
-		ctx);
+	el = create_check(&ctx->win, cuid, xor_ss, ctx);
 	el->label = "Supersampling";
 	el->checked = (ctx->gctx.w.gparam & SS) > 0;
 	el->vx = 70;
 	el->vy = 10;
 	el->w = 15;
 	el->h = 15;
-	el = create_check(&ctx->win, render_ctn->uid, xor_indirect,
-		ctx);
+	el = create_check(&ctx->win, cuid, xor_indirect, ctx);
 	el->label = "Indir. Light";
 	el->checked = (ctx->gctx.w.gparam & INDIRECT) > 0;
 	el->vx = 20;
 	el->vy = 20;
 	el->w = 15;
 	el->h = 15;
+	el = create_check(&ctx->win, cuid, xor_render, ctx);
+	el->label = "Render";
+	el->checked = (ctx->gctx.w.gparam & INDIRECT) > 0;
+	el->vx = 50;
+	el->vy = 95;
+	el->w = 15;
+	el->h = 15;
+	get_by_uid(&ctx->win, cuid)->hide = true;
 	return (SUCCESS);
 }
 

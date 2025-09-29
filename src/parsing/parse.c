@@ -62,6 +62,7 @@ void	parse(char *str, void *p)
 		if (parse_map(ctx) == SUCCESS)
 		{
 			get_by_id(&ctx->win, PARSE_CTN_ID)->hide = true;
+			set_events(ctx);
 			ctx->parsing = true;
 			ctx->render = true;
 		}

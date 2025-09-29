@@ -52,7 +52,8 @@ void	main_loop(void *p)
 	if (ctx->parsing)
 	{
 		printf("Samples: %d\n", ctx->gctx.ss.sample_num);
-		render(&ctx->gctx, &ctx->gctx.w);
+		if (ctx->gctx.w.gparam & RENDER)
+			render(&ctx->gctx, &ctx->gctx.w);
 		if ((ctx->gctx.w.gparam & DENOISE))
 		{
 			bilateral_filter(&ctx->gctx);

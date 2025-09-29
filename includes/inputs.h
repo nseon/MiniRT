@@ -29,5 +29,6 @@ void	rotate_cam(int x, int y, void *args);
 void	window_focus(int keycode, int x, int y, void *args);
 void	window_unfocus(int keycode, void *args);
 void	focus_swicth(t_ctx	*ctx);
+void	gui_keys(int keycode, void *p);
 
 #endif

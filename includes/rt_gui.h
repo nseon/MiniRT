@@ -18,5 +18,6 @@
 void	xor_denoise(bool b, void *p);
 void	xor_ss(bool b, void *p);
 void	xor_indirect(bool b, void *p);
+void	xor_render(bool b, void *p);
 
 #endif

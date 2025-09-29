@@ -42,7 +42,6 @@ SRC += $(addprefix $(INPUTS_DIR), $(INPUTS_SRC))
 INPUTS_DIR	=		inputs/
 INPUTS_SRC	=		camera.c \
 					move_camera.c \
-					window.c \
 
 # ===============DEBUG================= #
 
@@ -200,6 +199,7 @@ SRC += $(addprefix $(HOOKS_DIR), $(HOOKS_SRC))
 
 HOOKS_DIR =		hooks/
 HOOKS_SRC =		loop.c \
+				keys.c \
 
 # ===============RENDER================= #
 

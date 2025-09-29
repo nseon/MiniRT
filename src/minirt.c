@@ -63,14 +63,12 @@ static int8_t	init(t_ctx *const ctx)
 
 int8_t	set_events(t_ctx *ctx)
 {
-	register_loop(ctx->win.events, main_loop, ctx);
-	register_destroy(ctx->win.events, end_main_loop, &ctx->win);
+
 	register_keypress(ctx->win.events, cam_translation, ctx);
 	register_keypress(ctx->win.events, cam_height, ctx);
+	register_keypress(ctx->win.events, gui_keys, ctx);
 	register_keypress(ctx->win.events, authorize_cam_move, ctx);
-	register_keypress(ctx->win.events, window_unfocus, ctx);
 	register_pointer(ctx->win.events, rotate_cam, ctx);
-	register_btnpress(ctx->win.events, window_focus, ctx);
 	return (SUCCESS);
 }
 
@@ -81,7 +79,8 @@ int	main(int c, char **args)
 	ctx = (t_ctx){0};
 	if (init(&ctx) != SUCCESS)
 		return (EXIT_FAILURE);
-	set_events(&ctx);
+	register_loop(ctx.win.events, main_loop, &ctx);
+	register_destroy(ctx.win.events, end_main_loop, &ctx.win);
 	init_gui(&ctx);
 	draw_background(&ctx.img, BACK_COLOR);
 	if (c == 2)

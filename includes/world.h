@@ -34,6 +34,7 @@ typedef enum e_gparam
 	MOVING = 1 << 7,
 	SS = 1 << 8,
 	DENOISE = 1 << 9,
+	RENDER = 1 << 10,
 }	t_gparam;
 
 typedef struct s_world

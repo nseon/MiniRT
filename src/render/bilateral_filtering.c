@@ -66,7 +66,6 @@ void	bilateral_filter(t_gctx *gctx)
 {
 	int32_t		y;
 	int32_t		x;
-	t_fcolor	*buf;
 
 	y = -1;
 	while (++y < WIN_H)
@@ -77,7 +76,4 @@ void	bilateral_filter(t_gctx *gctx)
 			gctx->buf_frame[y * WIN_W + x] = filter_pixel(gctx, x, y);
 		}
 	}
-	// buf = gctx->frame;
-	// gctx->frame = gctx->buf_frame;
-	// gctx->buf_frame = buf;
 }

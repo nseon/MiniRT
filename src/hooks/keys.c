@@ -1,26 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minirt.h                                           :+:      :+:    :+:   */
+/*   keys.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
+/*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/23 18:37:03 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/09/12 10:46:27 by pjarnac          ###   ########.fr       */
+/*   Created: 2025/09/29 15:23:23 by pjarnac           #+#    #+#             */
+/*   Updated: 2025/09/29 15:23:23 by pjarnac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINIRT_H
-# define MINIRT_H
+#include <X11/keysym.h>
 
-# include "render.h"
+#include "render.h"
+#include "gui/gui.h"
 
-# define WIN_W 800
-# define WIN_H 600
+void	gui_keys(int keycode, void *p)
+{
+	t_ctx *const	ctx = p;
 
-int8_t	set_events(t_ctx *ctx);
-int8_t	init_gui(t_ctx *ctx);
-void	test_render(t_ctx *ctx);
-void	keyevent(int keycode, void *p);
-
-#endif
+	if (keycode == XK_quoteleft)
+		get_by_id(&ctx->win, RENDER_CTN_ID)->hide ^= true;
+}

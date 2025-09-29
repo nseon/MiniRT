@@ -44,3 +44,13 @@ void	xor_indirect(bool b, void *p)
 		ctx->gctx.w.gparam &= ~INDIRECT;
 	clear_ss(&ctx->gctx.ss);
 }
+
+void	xor_render(bool b, void *p)
+{
+	t_ctx *const	ctx = p;
+
+	if (b)
+		ctx->gctx.w.gparam |= RENDER;
+	else
+		ctx->gctx.w.gparam &= ~RENDER;
+}
