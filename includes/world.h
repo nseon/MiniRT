@@ -24,17 +24,17 @@ typedef struct s_amb
 
 typedef enum e_gparam
 {
-	SPECULAR = 1,
-	DIFFUSE = 1 << 1,
-	AMBIENT = 1 << 2,
-	SHADOWS = 1 << 3,
-	REFLECT = 1 << 4,
-	TRANSPARENCY = 1 << 5,
-	INDIRECT = 1 << 6,
-	MOVING = 1 << 7,
-	SS = 1 << 8,
-	DENOISE = 1 << 9,
-	RENDER = 1 << 10,
+	SPECULAR = 1U,
+	DIFFUSE = 1U << 1U,
+	AMBIENT = 1U << 2U,
+	SHADOWS = 1U << 3U,
+	REFLECT = 1U << 4U,
+	TRANSPARENCY = 1U << 5U,
+	INDIRECT = 1U << 6U,
+	MOVING = 1U << 7U,
+	SS = 1U << 8U,
+	DENOISE = 1U << 9U,
+	RENDER = 1U << 10U,
 }	t_gparam;
 
 typedef struct s_world
@@ -45,7 +45,7 @@ typedef struct s_world
 	t_intersections		xs;
 	t_amb				amb;
 	t_fcolor			back_col;
-	int32_t				gparam;
+	uint32_t				gparam;
 }	t_world;
 
 void			sort_inter(t_intersections xs);

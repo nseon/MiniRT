@@ -37,6 +37,8 @@ t_camera	camera(double hsize, double vsize, double fov)
 		cam.half_width = half * aspect;
 		cam.half_height = half;
 	}
+	cam.pos = point(0, 0, 0);
+	cam.orient = vector(0, 0, 1);
 	cam.pixel_size = cam.half_width * 2 / cam.hsize;
 	return (cam);
 }
