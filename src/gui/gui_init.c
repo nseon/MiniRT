@@ -77,6 +77,7 @@ int32_t	render_gui(t_ctx *ctx)
 	el->h = 15;
 	el = create_check(&ctx->win, cuid, xor_render, ctx);
 	el->label = "Render";
+	el->id = "render_btn";
 	el->checked = (ctx->gctx.w.gparam & INDIRECT) > 0;
 	el->vx = 50;
 	el->vy = 95;

@@ -15,8 +15,8 @@
 
 # include "render.h"
 
-# define WIN_W 800
-# define WIN_H 600
+# define WIN_W 1920
+# define WIN_H 1080
 
 int8_t	set_events(t_ctx *ctx);
 int8_t	init_gui(t_ctx *ctx);
