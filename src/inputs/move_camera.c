@@ -24,14 +24,11 @@ void	rotate_cam(int x, int y, void *args)
 
 	if (x == WIN_W / 2 && y == WIN_H / 2)
 		return ;
-	if (ctx->mouse.focus == true)
+	if (ctx->gctx.w.gparam & MOVING)
 	{
 		mlx_mouse_move(ctx->win.mlx, ctx->win.win, WIN_W / 2, WIN_H / 2);
-		if (ctx->gctx.w.gparam & MOVING)
-		{
-			cam->y_rot -= (x - WIN_W / 2) * 0.001;
-			cam->x_rot += (y - WIN_H / 2) * 0.001;
-		}
+		cam->y_rot -= (x - WIN_W / 2) * 0.001;
+		cam->x_rot += (y - WIN_H / 2) * 0.001;
 	}
 }
 

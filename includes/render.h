@@ -55,12 +55,6 @@ typedef struct s_gctx
 	float		bil_size;
 }	t_gctx;
 
-typedef struct s_mouse
-{
-	bool		focus;
-	t_point2	axes;
-}	t_mouse;
-
 typedef struct s_ctx
 {
 	t_window	win;
@@ -68,7 +62,6 @@ typedef struct s_ctx
 	t_gctx		gctx;
 	int32_t		error;
 	int32_t		file;
-	t_mouse		mouse;
 	bool		parsing;
 	bool		render;
 }	t_ctx;

@@ -17,7 +17,14 @@
 #include "render.h"
 #include "minirt.h"
 #include <X11/keysym.h>
+
+#include "mlx.h"
 #include "neflibx.h"
+
+void	focused_mouse()
+{
+
+}
 
 void	authorize_cam_move(int keycode, void *args)
 {
@@ -29,6 +36,13 @@ void	authorize_cam_move(int keycode, void *args)
 		ctx->gctx.w.gparam |= RENDER;
 		get_by_id(&ctx->win, "render_btn")->checked = true;
 		ctx->gctx.w.gparam ^= MOVING;
+		if (ctx->gctx.w.gparam & MOVING)
+		{
+			mlx_mouse_move(ctx->win.mlx, ctx->win.win, WIN_W / 2, WIN_H / 2);
+			mlx_mouse_hide(ctx->win.mlx, ctx->win.win);
+		}
+		else
+			mlx_mouse_show(ctx->win.mlx, ctx->win.win);
 		if (ctx->gctx.frac == WIN_W / 200)
 			ctx->gctx.frac = 1;
 		else
