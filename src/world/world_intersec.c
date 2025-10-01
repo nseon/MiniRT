@@ -38,7 +38,8 @@ t_intersections	world_intersec(t_world *w, t_ray r)
 	i = -1;
 	while (++i < vct_size(w->objs))
 	{
-		obj_intersect(r, w->objs + i, &inter);
+		if (!w->objs[i].hide)
+			obj_intersect(r, w->objs + i, &inter);
 	}
 	sort_inter(inter);
 	w->xs.count += inter.count;

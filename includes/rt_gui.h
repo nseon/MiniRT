@@ -13,6 +13,8 @@
 #ifndef RT_GUI_H
 # define RT_GUI_H
 
+# define EDIT_CTN_ID "edit_ctn"
+
 # include <stdbool.h>
 # include "minirt.h"
 
@@ -23,5 +25,7 @@ void	xor_render(bool b, void *p);
 void	object_click(int keycode, int x, int y, void *p);
 void	switch_gui_param(t_ctx *ctx, char *id, bool val);
 void	gui_loop(t_ctx *ctx);
+void	color_slide(float f, void *p);
+void	show_edit(t_ctx *ctx, t_obj *o);
 
 #endif

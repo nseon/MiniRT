@@ -57,6 +57,7 @@ typedef struct s_obj
 	double		min;
 	double		max;
 	bool		closed;
+	bool		hide;
 }	t_obj;
 
 typedef struct s_camera

@@ -17,54 +17,38 @@
 
 void	set_edit(t_ctx *ctx, bool b)
 {
+	size_t	i;
+
 	if (b)
 		ctx->gctx.w.gparam |= EDIT;
 	else
 		ctx->gctx.w.gparam &= ~EDIT;
 	switch_gui_param(ctx, "ss_btn", b ^ true);
-	switch_gui_param(ctx, "indir_light_btn", b ^ true);
+	i = -1;
+	while (++i < vct_size(ctx->gctx.w.objs))
+		ctx->gctx.w.objs[i].hide = b;
 }
 
-void	set_selected_col(t_obj *o, bool b)
+void	set_selected_obj(t_ctx *ctx, t_obj *o)
 {
-	if (!b)
-	{
-		if (!o->mat.has_pat)
-		{
-			o->mat.col = o->mat.o_col;
-			return ;
-		}
-		o->mat.pat.a = o->mat.pat.o_a;
-		o->mat.pat.b = o->mat.pat.o_b;
-		return ;
-	}
-	if (!o->mat.has_pat)
-	{
-		o->mat.o_col = o->mat.col;
-		o->mat.col = col_scalar(o->mat.col, 1.3);
-		return ;
-	}
-	o->mat.pat.o_a = o->mat.pat.a;
-	o->mat.pat.a = col_scalar(o->mat.pat.a, 1.3);
-	o->mat.pat.o_b = o->mat.pat.b;
-	o->mat.pat.b = col_scalar(o->mat.pat.b, 1.3);
-}
+	size_t	i;
 
-void	set_selected_obj(t_world *w, t_obj *o)
-{
 	if (!o)
 	{
-		if (!w->selec_o)
-			return ;
-		set_selected_col(w->selec_o, false);
-		w->selec_o = NULL;
-	}
-	if (w->selec_o == o)
+		ctx->gctx.w.selec_o = NULL;
+		get_by_id(&ctx->win, EDIT_CTN_ID)->hide = true;
 		return ;
-	if (w->selec_o)
-		set_selected_col(w->selec_o, false);
-	set_selected_col(o, true);
-	w->selec_o = o;
+	}
+	i = -1;
+	while (++i < vct_size(ctx->gctx.w.objs))
+	{
+		if (ctx->gctx.w.objs + i == o)
+		{
+			ctx->gctx.w.objs[i].hide = false;
+			show_edit(ctx, o);
+			ctx->gctx.w.selec_o = o;
+		}
+	}
 }
 
 bool	check_click_gui(t_ctx *ctx, int x, int y)
@@ -92,12 +76,10 @@ void	object_click(int keycode, int x, int y, void *p)
 	ctx->gctx.w.xs.count -= xs.count;
 	if (!i)
 	{
-		if (ctx->gctx.w.selec_o)
-			set_edit(ctx, false);
-		set_selected_obj(&ctx->gctx.w, NULL);
+		set_edit(ctx, false);
+		set_selected_obj(ctx, NULL);
 		return ;
 	}
 	set_edit(ctx, true);
-	set_selected_obj(&ctx->gctx.w, i->obj);
-	printf("Obj selected !\n");
+	set_selected_obj(ctx, i->obj);
 }

@@ -219,6 +219,7 @@ GUI_DIR =		gui/
 GUI_SRC =		gui_init.c \
 				xor_switcher.c \
 				rt_gui.c \
+				slides.c \
 
 # ==========LIBS / INCLUDES============ #
 

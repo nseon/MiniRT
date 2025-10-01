@@ -54,6 +54,7 @@ int32_t	render_gui(t_ctx *ctx)
 	render_ctn->vh = 80;
 	render_ctn->vy = 50;
 	render_ctn->z = 5;
+	render_ctn->hide = true;
 	el = create_check(&ctx->win, cuid, xor_denoise, &ctx->gctx.w.gparam);
 	el->label = "Denoise";
 	el->checked = (ctx->gctx.w.gparam & DENOISE) > 0;
@@ -92,7 +93,44 @@ int32_t	render_gui(t_ctx *ctx)
 	el->vw = 40;
 	el->vh = 10;
 	el->txt_color = 0xFFFFFF;
-	get_by_uid(&ctx->win, cuid)->hide = true;
+	return (SUCCESS);
+}
+
+int32_t	edit_gui(t_ctx *ctx)
+{
+	t_guielem *const	render_ctn = create_container(&ctx->win, 0);
+	t_guielem			*el;
+	const uint32_t		cuid = render_ctn->uid;
+
+	render_ctn->id = EDIT_CTN_ID;
+	render_ctn->vw = 22;
+	render_ctn->vh = 40;
+	render_ctn->vy = 0;
+	render_ctn->vx = 100;
+	render_ctn->z = 5;
+	render_ctn->hide = true;
+	el = create_slide(&ctx->win, cuid, color_slide, NULL);
+	el->label = "Red";
+	el->id = "red_slide";
+	el->vy = 10;
+	el->vh = 5;
+	el->vw = 50;
+	el->vx = 30;
+	el = create_slide(&ctx->win, cuid, color_slide, NULL);
+	el->label = "Green";
+	el->id = "green_slide";
+	el->vy = 22;
+	el->vh = 5;
+	el->vw = 50;
+	el->vx = 30;
+	el = create_slide(&ctx->win, cuid, color_slide, NULL);
+	el->label = "Blue";
+	el->id = "blue_slide";
+	el->vy = 34;
+	el->vh = 5;
+	el->vw = 50;
+	el->vx = 30;
+
 	return (SUCCESS);
 }
 
@@ -102,5 +140,6 @@ int8_t	init_gui(t_ctx *ctx)
 
 	res = parse_gui(ctx);
 	res = render_gui(ctx);
+	res = edit_gui(ctx);
 	return (res);
 }

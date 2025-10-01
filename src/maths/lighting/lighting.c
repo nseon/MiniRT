@@ -62,7 +62,7 @@ t_fcolor	blend_additives(t_world *w, t_fcolor col, t_pre_compute *pc, int n)
 		col = color_add(col, reflect_color(w, pc, n));
 	if (w->gparam & TRANSPARENCY)
 		col = color_add(col, refract_color(w, pc, n));
-	if (w->gparam & INDIRECT)
+	if ((w->gparam & INDIRECT) && !(w->gparam & EDIT))
 		col = color_add(col, indirect_light(w, pc, n));
 	return (col);
 }
