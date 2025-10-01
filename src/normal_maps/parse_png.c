@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_maps.c                                       :+:      :+:    :+:   */
+/*   parse_png.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 14:57:28 by nseon             #+#    #+#             */
-/*   Updated: 2025/10/01 15:55:05 by nseon            ###   ########.fr       */
+/*   Updated: 2025/10/01 17:52:16 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
-
-// #ifdef BONUS
 #include <png.h>
-// #endif
+
+#include "tuple.h"
+#include "normals_maps.h"
 
 int32_t	init_png_struct(png_structp *png, png_infop *info)
 {
@@ -54,72 +54,66 @@ int32_t	open_png(const char *mapname, png_structp *png, png_infop *info, FILE **
 	return (0);
 }
 
-void	free_map(png_bytepp image, int32_t nb_lines)
-{
-	while (--nb_lines >= 0)
-		free(image[nb_lines]);
-	free(image);
-}
-
-png_bytepp	alloc_map(png_structp *png, png_infop *info)
-{
-	png_bytepp		image;
-	int32_t			y;
-	int32_t	const	height = png_get_image_height(*png, *info);
-
-	y = -1;
-	image = malloc(sizeof(png_bytep) * height);
-	if (!image)
-		return (NULL);
-	while (++y < height)
-	{
-		image[y] = malloc(png_get_rowbytes(*png, *info));
-		if (!image[y])
-		{
-			free_map(image, y);
-			return (NULL);
-		}
-	}
-	return (image);
-}
-
-int32_t	parse_map(const char *mapname)
+int32_t	parse_map(const char *mapname, png_bytepp *map, t_data *data)
 {
 	FILE 		*file;
 	png_structp	png;
 	png_infop	info;
-	png_bytepp	map;
 
 	if (open_png(mapname, &png, &info, &file) == -1)
 		return (-1);
-	map = alloc_map(&png, &info);
-	if (!map)
-	{
-		png_destroy_info_struct(png, &info);
-		png_destroy_read_struct(&png, NULL, NULL);
-		fclose(file);
-		return (-1);
-	}
+	data->height = png_get_image_height(png, info);
+	data->width = png_get_image_width(png, info);
+	data->channels = png_get_channels(png, info);
+	*map = alloc_map(&png, &info);
+	if (!*map)
+		return (destroy_all(file, &png, &info));
 	if (setjmp(png_jmpbuf(png)))
 	{
-		free_map(map, png_get_image_height(png, info));
+		free_map(*map, data->height);
 		png_destroy_info_struct(png, &info);
 		png_destroy_read_struct(&png, NULL, NULL);
 		fclose(file);
 		return (-1);
 	}
-	png_read_image(png, map);
-	free_map(map, png_get_image_height(png, info));
-	png_destroy_info_struct(png, &info);
-	png_destroy_read_struct(&png, NULL, NULL);
-	fclose(file);
+	png_read_image(png, *map);
+	destroy_all(file, &png, &info);
 	return (0);
 }
 
-int	main(int argc, char **argv)
+t_tuple rgb_to_vct(png_bytepp map, t_data data, int32_t x, int32_t y)
 {
-	if (argc != 2)
+	t_tuple	vct;
+
+	vct.x = map[y][x * data.channels] / 255;
+	vct.y = map[y][x * data.channels + 1] / 255;
+	vct.z = map[y][x * data.channels + 2] / 255;
+	return (tp_normalize(vct));
+}
+
+int32_t	create_normal_map(const char *mapname, t_tuple **normal_map)
+{
+	t_data		data;
+	png_bytepp	map;
+	int32_t		x;
+	int32_t		y;
+
+	y = -1;
+	if (parse_map(mapname, &map, &data) == -1)
 		return (-1);
-	parse_map(argv[1]);
+	normal_map = malloc(sizeof(t_tuple) * data.height * data.width);
+	if (!normal_map || data.channels < 3)
+	{
+		free_map(map, data.height);
+		if (data.channels < 3)
+			printf("Invalid normal map\n");
+		return (-1);
+	}
+	while (++y < data.height)
+	{
+		x = -1;
+		while (++x < data.width)
+			*normal_map[y * data.width + x] = rgb_to_vct(map, data, x, y);
+	}
 	return (0);
 }
