@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 14:57:28 by nseon             #+#    #+#             */
-/*   Updated: 2025/10/01 15:15:34 by nseon            ###   ########.fr       */
+/*   Updated: 2025/10/01 15:55:05 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,33 +32,31 @@ int32_t	init_png_struct(png_structp *png, png_infop *info)
 	return (0);
 }
 
-int32_t	open_png(const char *mapname, png_structp *png, png_infop *info)
+int32_t	open_png(const char *mapname, png_structp *png, png_infop *info, FILE **file)
 {
-	FILE *const	file = fopen(mapname, "rb");
-
+	*file = fopen(mapname, "rb");
 	if (!file)
 		return (-1);
 	if (init_png_struct(png, info) == -1)
 	{
-		fclose(file);
+		fclose(*file);
 		return (-1);
 	}
 	if (setjmp(png_jmpbuf(*png)))
 	{
 		png_destroy_info_struct(*png, info);
 		png_destroy_read_struct(png, NULL, NULL);
-		fclose(file);
+		fclose(*file);
 		return (-1);
 	}
-	png_init_io(*png, file);
+	png_init_io(*png, *file);
 	png_read_info(*png, *info);
-	fclose(file);
 	return (0);
 }
 
 void	free_map(png_bytepp image, int32_t nb_lines)
 {
-	while (--nb_lines < 0)
+	while (--nb_lines >= 0)
 		free(image[nb_lines]);
 	free(image);
 }
@@ -87,17 +85,19 @@ png_bytepp	alloc_map(png_structp *png, png_infop *info)
 
 int32_t	parse_map(const char *mapname)
 {
+	FILE 		*file;
 	png_structp	png;
 	png_infop	info;
 	png_bytepp	map;
 
-	if (open_png(mapname, &png, &info) == -1)
+	if (open_png(mapname, &png, &info, &file) == -1)
 		return (-1);
 	map = alloc_map(&png, &info);
 	if (!map)
 	{
 		png_destroy_info_struct(png, &info);
 		png_destroy_read_struct(&png, NULL, NULL);
+		fclose(file);
 		return (-1);
 	}
 	if (setjmp(png_jmpbuf(png)))
@@ -105,11 +105,14 @@ int32_t	parse_map(const char *mapname)
 		free_map(map, png_get_image_height(png, info));
 		png_destroy_info_struct(png, &info);
 		png_destroy_read_struct(&png, NULL, NULL);
+		fclose(file);
 		return (-1);
 	}
 	png_read_image(png, map);
+	free_map(map, png_get_image_height(png, info));
 	png_destroy_info_struct(png, &info);
 	png_destroy_read_struct(&png, NULL, NULL);
+	fclose(file);
 	return (0);
 }
 
