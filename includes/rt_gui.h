@@ -25,7 +25,11 @@ void	xor_render(bool b, void *p);
 void	object_click(int keycode, int x, int y, void *p);
 void	switch_gui_param(t_ctx *ctx, char *id, bool val);
 void	gui_loop(t_ctx *ctx);
-void	color_slide(float f, void *p);
-void	show_edit(t_ctx *ctx, t_obj *o);
+void	float_switch(float f, void *p);
+void	show_edit(t_ctx *ctx);
+void	set_color(t_ctx *ctx, t_fcolor *col);
+void	pat_a_col_set(void *p);
+void	pat_b_col_set(void *p);
+void	base_col_set(void *p);
 
 #endif

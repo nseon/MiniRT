@@ -109,28 +109,41 @@ int32_t	edit_gui(t_ctx *ctx)
 	render_ctn->vx = 100;
 	render_ctn->z = 5;
 	render_ctn->hide = true;
-	el = create_slide(&ctx->win, cuid, color_slide, NULL);
+	el = create_slide(&ctx->win, cuid, float_switch, NULL);
 	el->label = "Red";
 	el->id = "red_slide";
 	el->vy = 10;
 	el->vh = 5;
 	el->vw = 50;
 	el->vx = 30;
-	el = create_slide(&ctx->win, cuid, color_slide, NULL);
+	el = create_slide(&ctx->win, cuid, float_switch, NULL);
 	el->label = "Green";
 	el->id = "green_slide";
 	el->vy = 22;
 	el->vh = 5;
 	el->vw = 50;
 	el->vx = 30;
-	el = create_slide(&ctx->win, cuid, color_slide, NULL);
+	el = create_slide(&ctx->win, cuid, float_switch, NULL);
 	el->label = "Blue";
 	el->id = "blue_slide";
 	el->vy = 34;
 	el->vh = 5;
 	el->vw = 50;
 	el->vx = 30;
-
+	el = create_button(&ctx->win, cuid, pat_a_col_set, ctx);
+	el->txt = "Color A";
+	el->id = "col_a_btn";
+	el->vy = 10;
+	el->vx = 80;
+	el->vh = 10;
+	el->vw = 30;
+	el = create_button(&ctx->win, cuid, pat_b_col_set, ctx);
+	el->txt = "Color B";
+	el->id = "col_b_btn";
+	el->vy = 22;
+	el->vx = 80;
+	el->vh = 10;
+	el->vw = 30;
 	return (SUCCESS);
 }
 

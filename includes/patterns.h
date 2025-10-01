@@ -29,8 +29,6 @@ typedef struct s_pattern
 {
 	t_pattern_type	type;
 	t_fcolor		a;
-	t_fcolor		o_a;
-	t_fcolor		o_b;
 	t_fcolor		b;
 	t_mtx4			transf;
 	t_mtx4			inv_transf;

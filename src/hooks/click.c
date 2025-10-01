@@ -45,8 +45,8 @@ void	set_selected_obj(t_ctx *ctx, t_obj *o)
 		if (ctx->gctx.w.objs + i == o)
 		{
 			ctx->gctx.w.objs[i].hide = false;
-			show_edit(ctx, o);
 			ctx->gctx.w.selec_o = o;
+			show_edit(ctx);
 		}
 	}
 }

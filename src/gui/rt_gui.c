@@ -36,18 +36,29 @@ void	gui_loop(t_ctx *ctx)
 		vct_empty_str(get_by_id(&ctx->win, "state_box")->txt);
 }
 
-void	show_edit(t_ctx *ctx, t_obj *o)
+void	set_color(t_ctx *ctx, t_fcolor *col)
 {
 	t_guielem	*slide;
 
-	get_by_id(&ctx->win, EDIT_CTN_ID)->hide = false;
 	slide = get_by_id(&ctx->win, "red_slide");
-	slide->cb.cb_param = &o->mat.col.r;
-	slide->value = o->mat.col.r;
+	slide->cb.cb_param = &col->r;
+	slide->value = col->r;
 	slide = get_by_id(&ctx->win, "green_slide");
-	slide->cb.cb_param = &o->mat.col.g;
-	slide->value = o->mat.col.g;
+	slide->cb.cb_param = &col->g;
+	slide->value = col->g;
 	slide = get_by_id(&ctx->win, "blue_slide");
-	slide->cb.cb_param = &o->mat.col.b;
-	slide->value = o->mat.col.b;
+	slide->cb.cb_param = &col->b;
+	slide->value = col->b;
+}
+
+void	show_edit(t_ctx *ctx)
+{
+	t_obj *const	o = ctx->gctx.w.selec_o;
+
+	get_by_id(&ctx->win, EDIT_CTN_ID)->hide = false;
+	if (o->mat.has_pat)
+	{
+
+	}
+	set_color(ctx, &ctx->gctx.w.selec_o->mat.col);
 }
