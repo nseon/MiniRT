@@ -12,19 +12,13 @@
 
 #include <stdio.h>
 
-#include "inputs.h"
-#include "image.h"
-#include "render.h"
-#include "minirt.h"
 #include <X11/keysym.h>
-
+#include "inputs.h"
+#include "minirt.h"
 #include "mlx.h"
 #include "neflibx.h"
-
-void	focused_mouse()
-{
-
-}
+#include "render.h"
+#include "rt_gui.h"
 
 void	authorize_cam_move(int keycode, void *args)
 {
@@ -33,8 +27,7 @@ void	authorize_cam_move(int keycode, void *args)
 	if (keycode == XK_Return)
 	{
 		clear_ss(&ctx->gctx.ss);
-		ctx->gctx.w.gparam |= RENDER;
-		get_by_id(&ctx->win, "render_btn")->checked = true;
+		switch_gui_param(ctx, "render_btn", true);
 		ctx->gctx.w.gparam ^= MOVING;
 		if (ctx->gctx.w.gparam & MOVING)
 		{

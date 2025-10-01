@@ -35,6 +35,7 @@ typedef enum e_gparam
 	SS = 1U << 8U,
 	DENOISE = 1U << 9U,
 	RENDER = 1U << 10U,
+	EDIT = 1U << 11U,
 }	t_gparam;
 
 typedef struct s_world
@@ -45,7 +46,8 @@ typedef struct s_world
 	t_intersections		xs;
 	t_amb				amb;
 	t_fcolor			back_col;
-	uint32_t				gparam;
+	uint32_t			gparam;
+	t_obj				*selec_o;
 }	t_world;
 
 void			sort_inter(t_intersections xs);

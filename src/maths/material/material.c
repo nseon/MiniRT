@@ -14,7 +14,7 @@
 
 t_material const	g_default_mat = {.col = {1, 1, 1}, .diffuse = 0.9,
 	.specular = 0.9, .reflective = 0.0, .shine = 200, .has_pat = false,
-	.transparency = 0, .refractive = 1};
+	.transparency = 0, .refractive = 1, .o_col = {0, 0, 0}};
 
 t_material	material(void)
 {

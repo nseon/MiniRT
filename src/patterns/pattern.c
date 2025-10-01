@@ -20,6 +20,8 @@ t_pattern	pattern(t_fcolor a, t_fcolor b, t_pattern_type type)
 
 	pat.type = type;
 	pat.a = a;
+	pat.o_a = a;
+	pat.o_b = b;
 	pat.b = b;
 	mtx4_dup(g_identity_matrix, pat.transf);
 	mtx4_dup(g_identity_matrix, pat.inv_transf);

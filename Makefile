@@ -200,6 +200,7 @@ SRC += $(addprefix $(HOOKS_DIR), $(HOOKS_SRC))
 HOOKS_DIR =		hooks/
 HOOKS_SRC =		loop.c \
 				keys.c \
+				click.c \
 
 # ===============RENDER================= #
 
@@ -217,6 +218,7 @@ SRC += $(addprefix $(GUI_DIR), $(GUI_SRC))
 GUI_DIR =		gui/
 GUI_SRC =		gui_init.c \
 				xor_switcher.c \
+				rt_gui.c \
 
 # ==========LIBS / INCLUDES============ #
 

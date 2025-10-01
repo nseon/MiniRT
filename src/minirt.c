@@ -21,6 +21,8 @@
 
 #include <stdlib.h>
 
+#include "rt_gui.h"
+
 static int32_t	free_on_fatal(t_ctx *const ctx, int32_t index_fatal)
 {
 	if (index_fatal >= 1)
@@ -69,6 +71,7 @@ int8_t	set_events(t_ctx *ctx)
 	register_keypress(ctx->win.events, gui_keys, ctx);
 	register_keypress(ctx->win.events, authorize_cam_move, ctx);
 	register_pointer(ctx->win.events, rotate_cam, ctx);
+	register_btnpress(ctx->win.events, object_click, ctx);
 	return (SUCCESS);
 }
 

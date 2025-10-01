@@ -15,6 +15,7 @@
 #include "image.h"
 #include "minirt.h"
 #include "parsing.h"
+#include "rt_gui.h"
 
 void	put_frame_to_img(t_image *img, t_fcolor *frame, int32_t frac)
 {
@@ -51,7 +52,6 @@ void	main_loop(void *p)
 		draw_file_status(ctx);
 	if (ctx->parsing)
 	{
-		printf("Samples: %d\n", ctx->gctx.ss.sample_num);
 		if (ctx->gctx.w.gparam & RENDER)
 			render(&ctx->gctx, &ctx->gctx.w);
 		if ((ctx->gctx.w.gparam & DENOISE))
@@ -62,6 +62,7 @@ void	main_loop(void *p)
 		else
 			put_frame_to_img(&ctx->img, ctx->gctx.frame, ctx->gctx.frac);
 	}
+	gui_loop(ctx);
 	put_img(&ctx->img, 0, 0, true);
 }
 

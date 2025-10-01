@@ -63,6 +63,7 @@ int32_t	render_gui(t_ctx *ctx)
 	el->h = 15;
 	el = create_check(&ctx->win, cuid, xor_ss, ctx);
 	el->label = "Supersampling";
+	el->id = "ss_btn";
 	el->checked = (ctx->gctx.w.gparam & SS) > 0;
 	el->vx = 70;
 	el->vy = 10;
@@ -70,6 +71,7 @@ int32_t	render_gui(t_ctx *ctx)
 	el->h = 15;
 	el = create_check(&ctx->win, cuid, xor_indirect, ctx);
 	el->label = "Indir. Light";
+	el->id = "indir_light_btn";
 	el->checked = (ctx->gctx.w.gparam & INDIRECT) > 0;
 	el->vx = 20;
 	el->vy = 20;
@@ -83,6 +85,13 @@ int32_t	render_gui(t_ctx *ctx)
 	el->vy = 95;
 	el->w = 15;
 	el->h = 15;
+	el = create_text_box(&ctx->win, 0);
+	el->id = "state_box";
+	el->vx = 65;
+	el->vy = 10;
+	el->vw = 40;
+	el->vh = 10;
+	el->txt_color = 0xFFFFFF;
 	get_by_uid(&ctx->win, cuid)->hide = true;
 	return (SUCCESS);
 }
