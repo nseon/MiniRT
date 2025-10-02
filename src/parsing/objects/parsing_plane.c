@@ -63,7 +63,7 @@ int32_t	parse_plane(char **split, t_world *w)
 	if (res != SUCCESS)
 		return (res);
 	if (BONUS_STATE)
-		res = parse_plane_bonus(split, &obj);
+		res += parse_plane_bonus(split, &obj);
 	res = add_world_obj(w, obj);
 	return (res);
 }

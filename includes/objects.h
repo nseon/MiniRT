@@ -91,5 +91,6 @@ void		set_cam_transform(t_camera *cam, t_mtx4 transf);
 void		mul_cam_transform(t_camera *cam, t_mtx4 transf);
 t_fcolor	pattern_at_obj(t_pattern pat, t_obj *o, t_tuple pt);
 void		set_rota_from_dir(t_tuple dir, t_obj *o);
+void		free_obj(void *p);
 
 #endif

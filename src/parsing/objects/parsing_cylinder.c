@@ -66,7 +66,7 @@ static int32_t	parse_cylinder2(char **split, t_obj *obj)
 	if (res != SUCCESS)
 		return (res);
 	if (BONUS_STATE)
-		res = parse_cylinder_bonus(split, obj);
+		res += parse_cylinder_bonus(split, obj);
 	return (res);
 }
 
@@ -85,7 +85,7 @@ int32_t	parse_cylinder(char **split, t_world *w)
 	if (res != SUCCESS)
 		return (res);
 	set_rota_from_dir(tp, &obj);
-	parse_cylinder2(split, &obj);
-	res = add_world_obj(w, obj);
+	res = parse_cylinder2(split, &obj);
+	res += add_world_obj(w, obj);
 	return (res);
 }

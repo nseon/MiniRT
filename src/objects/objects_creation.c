@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include <math.h>
+#include <stdlib.h>
 
 #include "matrix.h"
 #include "objects.h"
@@ -26,6 +27,14 @@ void	set_rota_from_dir(t_tuple dir, t_obj *o)
 {
 	o->y_rot = atan2(dir.z, dir.x);
 	o->z_rot = -asin(dir.y);
+}
+
+void	free_obj(void *p)
+{
+	t_obj *const	o = p;
+
+	if (o->mat.has_nmap)
+		free(o->mat.nmap.normal);
 }
 
 t_light	light(t_tuple pos, t_fcolor intensity, t_light_type type)

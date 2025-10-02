@@ -18,14 +18,14 @@
 
 void	free_world(t_world *w)
 {
-	free_vct(w->objs);
+	vct_destroy(w->objs);
 	free_vct(w->lights);
 	free(w->xs.i);
 }
 
 int32_t	world(t_world *w)
 {
-	w->objs = vct_create(sizeof (t_obj), 0, DESTROY_ON_FAIL);
+	w->objs = vct_create(sizeof (t_obj), free_obj, DESTROY_ON_FAIL);
 	if (!w->objs)
 		return (FATAL);
 	w->lights = vct_create(sizeof (t_light), 0, DESTROY_ON_FAIL);

@@ -70,6 +70,6 @@ int32_t	parse_cube(char **split, t_world *w)
 		return (res);
 	if (BONUS_STATE)
 		res = parse_cube_bonus(split, &obj);
-	res = add_world_obj(w, obj);
+	res += add_world_obj(w, obj);
 	return (res);
 }

@@ -15,18 +15,21 @@
 
 # include "fcolors.h"
 # include "patterns.h"
+# include "normal_maps.h"
 
 typedef struct s_material
 {
-	t_fcolor	col;
-	double		diffuse;
-	double		specular;
-	double		shine;
-	double		reflective;
-	double		transparency;
-	double		refractive;
-	bool		has_pat;
-	t_pattern	pat;
+	t_fcolor		col;
+	double			diffuse;
+	double			specular;
+	double			shine;
+	double			reflective;
+	double			transparency;
+	double			refractive;
+	bool			has_nmap;
+	t_normal_map	nmap;
+	bool			has_pat;
+	t_pattern		pat;
 }	t_material;
 
 extern t_material const	g_default_mat;

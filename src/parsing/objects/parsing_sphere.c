@@ -18,9 +18,17 @@
 #include "lighting.h"
 #include "parsing.h"
 
-int32_t	parse_normal_map(char **split, t_obj *o)
+int32_t	parse_maps(char **split, t_obj *o)
 {
-	
+	if (!split[0])
+		return (SUCCESS);
+	if (create_normal_map(*(split++), &o->mat.nmap) != SUCCESS)
+	{
+		ft_fprintf(2, "Invalid normal map: %s\n", split[-1]);
+		return (PARSE_INVAL_LINE);
+	}
+	o->mat.has_nmap = true;
+	return (SUCCESS);
 }
 
 int32_t	parse_pattern(char **split, t_obj *o)
@@ -29,9 +37,9 @@ int32_t	parse_pattern(char **split, t_obj *o)
 	t_mtx4	tbuf;
 
 	if (!split[0])
-		return (SUCCESS);
+		return (PARSE_MISSING_FIELD);
 	if (parse_ptype(*(split++), &o->mat.pat.type) != SUCCESS)
-		return (parse_normal_map(split, o));
+		return (parse_maps(split, o));
 	o->mat.has_pat = true;
 	if (parse_color(*(split++), &o->mat.pat.a) != SUCCESS)
 		return (PARSE_INVAL_LINE);
@@ -45,7 +53,7 @@ int32_t	parse_pattern(char **split, t_obj *o)
 	if (parse_xyz(*(split++), &buf))
 		return (PARSE_INVAL_LINE);
 	mul_pattern_transf(&o->mat.pat, scaling(buf.x, buf.y, buf.z, tbuf));
-	return (parse_normal_map(split, o));
+	return (parse_maps(split, o));
 }
 
 static int32_t	parse_sphere_bonus(char **split, t_obj *o)
@@ -95,7 +103,8 @@ int32_t	parse_sphere(char **split, t_world *w)
 	if (res != SUCCESS)
 		return (res);
 	if (BONUS_STATE)
-		res = parse_sphere_bonus(split, &obj);
+		if (parse_sphere_bonus(split, &obj) != SUCCESS)
+			return (PARSE_INVAL_LINE);
 	res = add_world_obj(w, obj);
 	return (res);
 }
