@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 14:57:28 by nseon             #+#    #+#             */
-/*   Updated: 2025/10/01 17:52:16 by nseon            ###   ########.fr       */
+/*   Updated: 2025/10/02 10:50:21 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <png.h>
 
 #include "tuple.h"
-#include "normals_maps.h"
+#include "normal_maps.h"
 
 int32_t	init_png_struct(png_structp *png, png_infop *info)
 {
@@ -24,7 +24,7 @@ int32_t	init_png_struct(png_structp *png, png_infop *info)
 	if (!*png)
 		return (-1);
 	*info = png_create_info_struct(*png);
-	if (!info)
+	if (!*info)
 	{
 		png_destroy_read_struct(png, NULL, NULL);
 		return (-1);
@@ -32,10 +32,10 @@ int32_t	init_png_struct(png_structp *png, png_infop *info)
 	return (0);
 }
 
-int32_t	open_png(const char *mapname, png_structp *png, png_infop *info, FILE **file)
+int32_t	open_png(char *mapname, png_structp *png, png_infop *info, FILE **file)
 {
 	*file = fopen(mapname, "rb");
-	if (!file)
+	if (!*file)
 		return (-1);
 	if (init_png_struct(png, info) == -1)
 	{
@@ -54,9 +54,9 @@ int32_t	open_png(const char *mapname, png_structp *png, png_infop *info, FILE **
 	return (0);
 }
 
-int32_t	parse_map(const char *mapname, png_bytepp *map, t_data *data)
+int32_t	parse_png_map(const char *mapname, png_bytepp *map, t_data *data)
 {
-	FILE 		*file;
+	FILE		*file;
 	png_structp	png;
 	png_infop	info;
 
@@ -81,39 +81,38 @@ int32_t	parse_map(const char *mapname, png_bytepp *map, t_data *data)
 	return (0);
 }
 
-t_tuple rgb_to_vct(png_bytepp map, t_data data, int32_t x, int32_t y)
+t_tuple	rgb_to_vct(png_bytepp map, t_data data, int32_t x, int32_t y)
 {
-	t_tuple	vct;
-
-	vct.x = map[y][x * data.channels] / 255;
-	vct.y = map[y][x * data.channels + 1] / 255;
-	vct.z = map[y][x * data.channels + 2] / 255;
-	return (tp_normalize(vct));
+	return (tp_normalize(vector(map[y][x * data.channels] / 255.0
+			, map[y][x * data.channels + 1] / 255.0
+		, map[y][x * data.channels + 2] / 255.0)));
 }
 
-int32_t	create_normal_map(const char *mapname, t_tuple **normal_map)
+int32_t	create_normal_map(const char *mapname, t_normal_map *map)
 {
-	t_data		data;
-	png_bytepp	map;
+	png_bytepp	png_map;
 	int32_t		x;
 	int32_t		y;
 
 	y = -1;
-	if (parse_map(mapname, &map, &data) == -1)
+	if (parse_png_map(mapname, &png_map, &map->data) == -1)
 		return (-1);
-	normal_map = malloc(sizeof(t_tuple) * data.height * data.width);
-	if (!normal_map || data.channels < 3)
+	map->normal = malloc(sizeof(t_tuple) * map->data.height * map->data.width);
+	if (!map->normal || map->data.channels < 3)
 	{
-		free_map(map, data.height);
-		if (data.channels < 3)
+		free_map(png_map, map->data.height);
+		free(map->normal);
+		if (map->data.channels < 3)
 			printf("Invalid normal map\n");
 		return (-1);
 	}
-	while (++y < data.height)
+	while (++y < map->data.height)
 	{
 		x = -1;
-		while (++x < data.width)
-			*normal_map[y * data.width + x] = rgb_to_vct(map, data, x, y);
+		while (++x < map->data.width)
+			map->normal[y * map->data.width + x]
+				= rgb_to_vct(png_map, map->data, x, y);
 	}
+	free_map(png_map, map->data.height);
 	return (0);
 }

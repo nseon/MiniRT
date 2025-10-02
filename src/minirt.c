@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:22:55 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/09/08 15:19:06 by nseon            ###   ########.fr       */
+/*   Updated: 2025/10/02 09:07:11 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 
 #include "mlx.h"
 #include "parsing.h"
+#include "normal_maps.h"
 
 static int32_t	free_init(t_ctx *const ctx, int32_t index_fatal)
 {
@@ -82,24 +83,49 @@ int8_t	set_events(t_ctx *ctx)
 	return (SUCCESS);
 }
 
-int	main(int c, char **args)
-{
-	t_ctx		ctx;
+// int	main(int c, char **args)
+// {
+// 	t_ctx		ctx;
 
-	ctx = (t_ctx){0};
-	if (init(&ctx) != SUCCESS)
+// 	ctx = (t_ctx){0};
+// 	if (init(&ctx) != SUCCESS)
+// 	{
+// 		return (EXIT_FAILURE);
+// 	}
+// 	set_events(&ctx);
+// 	init_gui(&ctx);
+// 	draw_background(&ctx.img, BACK_COLOR);
+// 	if (c == 2)
+// 	{
+// 		put_img(&ctx.img, 0, 0, true);
+// 		parse(args[1], &ctx);
+// 	}
+// 	loop(&ctx.win);
+// 	free_init(&ctx, 7);
+// 	return (0);
+// }
+
+int main(int argc, char **argv)
+{
+	t_normal_map	map;
+	int32_t			x;
+	int32_t			y;
+	t_tuple			vct;
+
+	if (argc != 2)
+		return (-1);
+	if (create_normal_map(argv[1], &map) == -1)
+		return (-1);
+	y = -1;
+	while (++y < map.data.height)
 	{
-		return (EXIT_FAILURE);
+		x = -1;
+		while (++x < map.data.width)
+		{
+			vct = map.normal[y * map.data.width + x];
+			printf("Vector: (%f,%f,%f)\n", vct.x, vct.y, vct.z);
+		}
 	}
-	set_events(&ctx);
-	init_gui(&ctx);
-	draw_background(&ctx.img, BACK_COLOR);
-	if (c == 2)
-	{
-		put_img(&ctx.img, 0, 0, true);
-		parse(args[1], &ctx);
-	}
-	loop(&ctx.win);
-	free_init(&ctx, 7);
+	free(map.normal);
 	return (0);
 }
