@@ -110,9 +110,6 @@ int32_t	parse_ptype(char *str, t_pattern_type *p)
 	else if (!ft_strcmp(str, "checker"))
 		*p = CHECKER;
 	else
-	{
-		printf(PARSE_INVAL_BOOL, str);
-		return (FATAL);
-	}
+		return (PARSE_INVAL_FORMAT);
 	return (SUCCESS);
 }

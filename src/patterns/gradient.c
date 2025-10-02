@@ -17,7 +17,7 @@
 t_fcolor	gradient_at(t_pattern pat, t_tuple pt)
 {
 	t_fcolor const	dis = color_sub(pat.b, pat.a);
-	double const	fac = pt.x - floor(pt.x);
+	double	fac = pt.x - floor(pt.x);
 
 	return (color_add(pat.a, col_scalar(dis, fac)));
 }

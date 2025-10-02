@@ -18,6 +18,11 @@
 #include "lighting.h"
 #include "parsing.h"
 
+int32_t	parse_normal_map(char **split, t_obj *o)
+{
+	
+}
+
 int32_t	parse_pattern(char **split, t_obj *o)
 {
 	t_tuple	buf;
@@ -26,7 +31,7 @@ int32_t	parse_pattern(char **split, t_obj *o)
 	if (!split[0])
 		return (SUCCESS);
 	if (parse_ptype(*(split++), &o->mat.pat.type) != SUCCESS)
-		return (PARSE_INVAL_LINE);
+		return (parse_normal_map(split, o));
 	o->mat.has_pat = true;
 	if (parse_color(*(split++), &o->mat.pat.a) != SUCCESS)
 		return (PARSE_INVAL_LINE);
@@ -40,7 +45,7 @@ int32_t	parse_pattern(char **split, t_obj *o)
 	if (parse_xyz(*(split++), &buf))
 		return (PARSE_INVAL_LINE);
 	mul_pattern_transf(&o->mat.pat, scaling(buf.x, buf.y, buf.z, tbuf));
-	return (SUCCESS);
+	return (parse_normal_map(split, o));
 }
 
 static int32_t	parse_sphere_bonus(char **split, t_obj *o)

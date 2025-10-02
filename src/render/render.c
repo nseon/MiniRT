@@ -78,7 +78,7 @@ void	render(t_gctx *gctx, t_world *w)
 		x = 0;
 		while (x < w->cam.hsize)
 		{
-			if (gctx->w.gparam & SS && !(gctx->w.gparam & MOVING))
+			if ((gctx->w.gparam & SS) && !(gctx->w.gparam & MOVING))
 				color = color_at(w, ray_for_pixel(w->cam, x + frandom(0, 1),
 							y + frandom(0, 1)), MAX_RECUR);
 			else

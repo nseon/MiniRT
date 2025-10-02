@@ -42,7 +42,7 @@ static int32_t	parse_plane_bonus(char **split, t_obj *o)
 	if (res != SUCCESS)
 		return (res);
 	o->mat.refractive = buf;
-	return (res);
+	return (parse_pattern(split, o));
 }
 
 int32_t	parse_plane(char **split, t_world *w)

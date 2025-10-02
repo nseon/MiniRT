@@ -17,9 +17,7 @@
 
 t_fcolor	checker_at(t_pattern pat, t_tuple pt)
 {
-	if (pt.y < 0 && pt.y > -DEPSILON)
-		pt.y = 0;
-	if ((int)(floor(pt.x) + floor(pt.y) + floor(pt.z)) % 2 == 0)
+	if ((int)(round(pt.x) + round(pt.y) + round(pt.z)) % 2 == 0)
 		return (pat.a);
 	return (pat.b);
 }

@@ -53,12 +53,29 @@ void	set_color(t_ctx *ctx, t_fcolor *col)
 
 void	show_edit(t_ctx *ctx)
 {
+	t_guielem		*slide;
 	t_obj *const	o = ctx->gctx.w.selec_o;
 
 	get_by_id(&ctx->win, EDIT_CTN_ID)->hide = false;
 	if (o->mat.has_pat)
 	{
-
+		get_by_id(&ctx->win, "col_a_btn")->hide = false;
+		get_by_id(&ctx->win, "col_b_btn")->hide = false;
+		set_color(ctx, &ctx->gctx.w.selec_o->mat.pat.a);
 	}
-	set_color(ctx, &ctx->gctx.w.selec_o->mat.col);
+	else
+	{
+		get_by_id(&ctx->win, "col_a_btn")->hide = true;
+		get_by_id(&ctx->win, "col_b_btn")->hide = true;
+		set_color(ctx, &ctx->gctx.w.selec_o->mat.col);
+	}
+	slide = get_by_id(&ctx->win, "refl_slide");
+	slide->cb.cb_param = &o->mat.reflective;
+	slide->value = o->mat.reflective;
+	slide = get_by_id(&ctx->win, "transp_slide");
+	slide->cb.cb_param = &o->mat.transparency;
+	slide->value = o->mat.transparency;
+	slide = get_by_id(&ctx->win, "refrac_slide");
+	slide->cb.cb_param = &o->mat.refractive;
+	slide->value = o->mat.refractive / 10;
 }

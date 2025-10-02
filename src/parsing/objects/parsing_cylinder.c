@@ -43,7 +43,7 @@ static int32_t	parse_cylinder_bonus(char **split, t_obj *o)
 	if (res != SUCCESS)
 		return (res);
 	o->mat.refractive = buf;
-	return (res);
+	return (parse_pattern(split, o));
 }
 
 static int32_t	parse_cylinder2(char **split, t_obj *obj)

@@ -31,5 +31,7 @@ void	set_color(t_ctx *ctx, t_fcolor *col);
 void	pat_a_col_set(void *p);
 void	pat_b_col_set(void *p);
 void	base_col_set(void *p);
+void	double_switch(float f, void *p);
+void	refrac_switch(float f, void *p);
 
 #endif

@@ -144,6 +144,27 @@ int32_t	edit_gui(t_ctx *ctx)
 	el->vx = 80;
 	el->vh = 10;
 	el->vw = 30;
+	el = create_slide(&ctx->win, cuid, double_switch, NULL);
+	el->label = "Reflection";
+	el->id = "refl_slide";
+	el->vy = 54;
+	el->vh = 5;
+	el->vw = 50;
+	el->vx = 30;
+	el = create_slide(&ctx->win, cuid, double_switch, NULL);
+	el->label = "Transparency";
+	el->id = "transp_slide";
+	el->vy = 66;
+	el->vh = 5;
+	el->vw = 50;
+	el->vx = 30;
+	el = create_slide(&ctx->win, cuid, refrac_switch, NULL);
+	el->label = "Refractive";
+	el->id = "refrac_slide";
+	el->vy = 78;
+	el->vh = 5;
+	el->vw = 50;
+	el->vx = 30;
 	return (SUCCESS);
 }
 
