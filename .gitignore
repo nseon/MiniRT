@@ -5,6 +5,8 @@
 miniRT
 neflibx
 .vscode/
+a.out
+*.png
 
 # Prerequisites
 *.d

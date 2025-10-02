@@ -6,7 +6,7 @@
 #    By: nseon <nseon@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/19 11:53:22 by pjarnac           #+#    #+#              #
-#    Updated: 2025/09/09 16:23:47 by nseon            ###   ########.fr        #
+#    Updated: 2025/10/02 08:44:02 by nseon            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,14 @@ SRC 		=	minirt.c \
 #
 #SAMPLE_DIR =		sample/
 #SAMPLE_SRC =		sample_src.c \
+
+# ==============NORMAL_MAPS============= #
+
+SRC += $(addprefix $(NORMAL_DIR), $(NORMAL_SRC))
+
+NORMAL_DIR	=		normal_maps/
+NORMAL_SRC	=		parse_png.c \
+					png_allocations.c \
 
 # ===============INPUTS================= #
 
@@ -229,7 +237,7 @@ LIBS_PATH	=	neflibx/libneflibx.a minilibx/libmlx.a
 LIBS_PATH	:=	$(addprefix $(LIBS_DIR), $(LIBS_PATH))
 LIBS		=	$(patsubst lib%.a, %, $(notdir $(LIBS_PATH)))
 #SYS_LIBS	=	readline
-SYS_LIBS	=	m X11 Xext
+SYS_LIBS	=	m X11 Xext png
 SYS_LIBS	:=	$(addprefix -l, $(SYS_LIBS))
 
 INCS_DIR	=	includes/
