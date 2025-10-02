@@ -95,7 +95,7 @@ int32_t	create_normal_map(const char *mapname, t_normal_map *map)
 	int32_t		y;
 
 	y = -1;
-	if (parse_png_map(mapname, &png_map, &map->data) == -1)
+	if (!mapname || parse_png_map(mapname, &png_map, &map->data) == -1)
 		return (-1);
 	map->normal = malloc(sizeof(t_tuple) * map->data.height * map->data.width);
 	if (!map->normal || map->data.channels < 3)
