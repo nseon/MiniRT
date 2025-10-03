@@ -14,6 +14,8 @@
 #include "normals.h"
 #include "rt_maths.h"
 #include "random.h"
+#include "objects.h"
+#include <math.h>
 
 void	add_remove_last(t_intersection *last, int32_t *j, t_intersection it)
 {
@@ -65,6 +67,18 @@ void	compute_refract_points(t_pre_compute *pc, t_intersections *xs)
 	}
 }
 
+t_tuple	get_pertubed_normal(t_pre_compute pc)
+{
+	t_tuple			uv;
+
+	uv = mtx_tup_mul(pc.pos, pc.obj->inv_transform);
+	uv = sphere_uv_point(uv);
+	uv.x *= pc.obj->mat.nmap.data.width;
+	uv.z *= pc.obj->mat.nmap.data.height;
+	return (pertube_normal(pc.normalv, pc.obj->mat.nmap.normal[(int)uv.z
+				* pc.obj->mat.nmap.data.width + (int)uv.x]));
+}
+
 t_pre_compute	pre_compute(t_intersection *i, t_ray r, t_intersections *xs)
 {
 	t_pre_compute	pc;
@@ -74,6 +88,8 @@ t_pre_compute	pre_compute(t_intersection *i, t_ray r, t_intersections *xs)
 	pc.pos = position(r, pc.t);
 	pc.eyev = tp_negate(r.dir);
 	pc.normalv = obj_normal(i->obj, pc.pos);
+	if (pc.obj->type == SPHERE && pc.obj->mat.has_nmap)
+		pc.normalv = get_pertubed_normal(pc);
 	if (tp_dot(pc.normalv, pc.eyev) < 0)
 	{
 		pc.inside = true;

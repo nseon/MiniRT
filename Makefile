@@ -6,7 +6,7 @@
 #    By: nseon <nseon@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/19 11:53:22 by pjarnac           #+#    #+#              #
-#    Updated: 2025/10/02 08:44:02 by nseon            ###   ########.fr        #
+#    Updated: 2025/10/03 08:50:15 by nseon            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,6 +42,8 @@ SRC += $(addprefix $(NORMAL_DIR), $(NORMAL_SRC))
 NORMAL_DIR	=		normal_maps/
 NORMAL_SRC	=		parse_png.c \
 					png_allocations.c \
+					create_normal.c \
+					perturbe_normal.c \
 
 # ===============INPUTS================= #
 

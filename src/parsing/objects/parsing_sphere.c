@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_sphere.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 13:06:00 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/07/28 13:06:00 by pjarnac          ###   ########.fr       */
+/*   Updated: 2025/10/03 10:44:41 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "debug.h"
 #include "lighting.h"
 #include "parsing.h"
+#include "normal_maps.h"
 
 int32_t	parse_maps(char **split, t_obj *o)
 {

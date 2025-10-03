@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:21:56 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/05/27 13:01:26 by nseon            ###   ########.fr       */
+/*   Updated: 2025/10/02 17:44:58 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "materials.h"
 # include "matrix.h"
 # include "tuple.h"
+# include "normal_maps.h"
 
 typedef enum e_light_type
 {
@@ -91,6 +92,7 @@ void		set_cam_transform(t_camera *cam, t_mtx4 transf);
 void		mul_cam_transform(t_camera *cam, t_mtx4 transf);
 t_fcolor	pattern_at_obj(t_pattern pat, t_obj *o, t_tuple pt);
 void		set_rota_from_dir(t_tuple dir, t_obj *o);
+t_tuple		sphere_uv_point(t_tuple	pt);
 void		free_obj(void *p);
 
 #endif
