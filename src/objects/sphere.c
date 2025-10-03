@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sphere.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 18:21:04 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/08/12 18:21:04 by pjarnac          ###   ########.fr       */
+/*   Updated: 2025/10/03 09:51:47 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,7 @@ t_tuple	sphere_uv_point(t_tuple	pt)
 {
 	pt = tp_negate(pt);
 	pt.x = 0.5 + atan2(pt.z, pt.x) / (M_PI * 2);
-	pt.z = 0.5 + asin(pt.y) / M_PI;
-	pt.x *= 2;
-	pt.z *= 2;
+	pt.z = 0.5 - asin(pt.y) / M_PI;
 	pt.y = 0;
 	pt.w = 1;
 	return (pt);

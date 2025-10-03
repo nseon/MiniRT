@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:21:56 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/05/27 13:01:26 by nseon            ###   ########.fr       */
+/*   Updated: 2025/10/02 17:44:58 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "materials.h"
 # include "matrix.h"
 # include "tuple.h"
+# include "normal_maps.h"
 
 typedef enum e_light_type
 {
@@ -42,21 +43,22 @@ typedef struct s_light
 
 typedef struct s_obj
 {
-	t_obj_type	type;
-	uint32_t	uid;
-	t_tuple		pos;
-	double		x_rot;
-	double		y_rot;
-	double		z_rot;
-	double		x_size;
-	double		y_size;
-	double		z_size;
-	t_mtx4		transform;
-	t_mtx4		inv_transform;
-	t_material	mat;
-	double		min;
-	double		max;
-	bool		closed;
+	t_obj_type		type;
+	uint32_t		uid;
+	t_tuple			pos;
+	double			x_rot;
+	double			y_rot;
+	double			z_rot;
+	double			x_size;
+	double			y_size;
+	double			z_size;
+	t_mtx4			transform;
+	t_mtx4			inv_transform;
+	t_material		mat;
+	double			min;
+	double			max;
+	bool			closed;
+	t_normal_map	map;
 }	t_obj;
 
 typedef struct s_camera
@@ -90,5 +92,6 @@ void		set_cam_transform(t_camera *cam, t_mtx4 transf);
 void		mul_cam_transform(t_camera *cam, t_mtx4 transf);
 t_fcolor	pattern_at_obj(t_pattern pat, t_obj *o, t_tuple pt);
 void		set_rota_from_dir(t_tuple dir, t_obj *o);
+t_tuple		sphere_uv_point(t_tuple	pt);
 
 #endif

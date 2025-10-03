@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_sphere.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 13:06:00 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/07/28 13:06:00 by pjarnac          ###   ########.fr       */
+/*   Updated: 2025/10/03 10:44:41 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "render.h"
 #include "debug.h"
 #include "parsing.h"
+#include "normal_maps.h"
 
 static int32_t	parse_sphere_bonus(char **split, t_obj *o)
 {
@@ -44,6 +45,7 @@ int32_t	parse_sphere(char **split, t_world *w)
 	t_obj	obj;
 
 	obj = sphere();
+	res = create_normal_map("animal_skin.png", &obj.map);
 	res = parse_xyz(*(split++), &obj.pos);
 	if (res != SUCCESS)
 		return (res);
