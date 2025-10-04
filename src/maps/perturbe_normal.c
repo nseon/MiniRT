@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "normal_maps.h"
+#include "maps.h"
 #include "tuple.h"
 
 t_tbn	calcul_tbn(t_tuple ojb_norm)

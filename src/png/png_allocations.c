@@ -14,7 +14,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-void	free_map(png_bytepp image, int32_t nb_lines)
+void	free_map(uint8_t **image, int32_t nb_lines)
 {
 	while (--nb_lines >= 0)
 		free(image[nb_lines]);

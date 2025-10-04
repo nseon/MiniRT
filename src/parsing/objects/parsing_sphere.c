@@ -17,18 +17,40 @@
 #include "debug.h"
 #include "lighting.h"
 #include "parsing.h"
-#include "normal_maps.h"
+#include "maps.h"
 
-int32_t	parse_maps(char **split, t_obj *o)
+int32_t	parse_maps(char **split, t_material *m)
 {
+	t_mtx4	tbuf;
+	t_tuple	buf;
+	double	dbuf;
+
 	if (!split[0])
 		return (SUCCESS);
-	if (create_normal_map(*(split++), &o->mat.nmap) != SUCCESS)
+	if (parse_xyz(*(split++), &buf))
+		return (PARSE_INVAL_LINE);
+	set_uv_transf(m, translation(buf.x, buf.y, buf.z, tbuf));
+	if (parse_double(*(split++), &dbuf))
+		return (PARSE_INVAL_LINE);
+	mul_uv_transf(m, scaling(dbuf, dbuf, dbuf, tbuf));
+	if (parse_png_map(*(split++), &m->nmap.data, &m->nmap.infos) != SUCCESS)
 	{
 		ft_fprintf(2, "Invalid normal map: %s\n", split[-1]);
 		return (PARSE_INVAL_LINE);
 	}
-	o->mat.has_nmap = true;
+	m->has_nmap = true;
+	if (parse_png_map(*(split++), &m->tmap.data, &m->tmap.infos) != SUCCESS)
+	{
+		ft_fprintf(2, "Invalid normal map: %s\n", split[-1]);
+		return (PARSE_INVAL_LINE);
+	}
+	m->has_texture = true;
+	// if (parse_png_map(*(split++), &m->aomap.data, &m->aomap.infos) != SUCCESS)
+	// {
+	// 	ft_fprintf(2, "Invalid normal map: %s\n", split[-1]);
+	// 	return (PARSE_INVAL_LINE);
+	// }
+	// m->has_ao = true;
 	return (SUCCESS);
 }
 
@@ -37,24 +59,18 @@ int32_t	parse_pattern(char **split, t_obj *o)
 	t_tuple	buf;
 	t_mtx4	tbuf;
 
-	if (!split[0])
-		return (PARSE_MISSING_FIELD);
-	if (parse_ptype(*(split++), &o->mat.pat.type) != SUCCESS)
-		return (parse_maps(split, o));
-	o->mat.has_pat = true;
-	if (parse_color(*(split++), &o->mat.pat.a) != SUCCESS)
-		return (PARSE_INVAL_LINE);
-	if (parse_color(*(split++), &o->mat.pat.b) != SUCCESS)
-		return (PARSE_INVAL_LINE);
-	if (!split[0])
-		return (SUCCESS);
-	if (parse_xyz(*(split++), &buf))
-		return (PARSE_INVAL_LINE);
-	set_pattern_transf(&o->mat.pat, translation(buf.x, buf.y, buf.z, tbuf));
-	if (parse_xyz(*(split++), &buf))
-		return (PARSE_INVAL_LINE);
-	mul_pattern_transf(&o->mat.pat, scaling(buf.x, buf.y, buf.z, tbuf));
-	return (parse_maps(split, o));
+	// if (!split[0])
+	// 	return (PARSE_MISSING_FIELD);
+	// if (parse_ptype(*(split++), &o->mat.pat.type) != SUCCESS)
+	// 	return (parse_maps(split, o));
+	// o->mat.has_pat = true;
+	// if (parse_color(*(split++), &o->mat.pat.a) != SUCCESS)
+	// 	return (PARSE_INVAL_LINE);
+	// if (parse_color(*(split++), &o->mat.pat.b) != SUCCESS)
+	// 	return (PARSE_INVAL_LINE);
+	// if (!split[0])
+	// 	return (SUCCESS);
+	return (parse_maps(split, &o->mat));
 }
 
 static int32_t	parse_sphere_bonus(char **split, t_obj *o)

@@ -13,8 +13,10 @@
 #include "materials.h"
 
 t_material const	g_default_mat = {.col = {1, 1, 1}, .diffuse = 0.8,
-	.specular = 0.9, .reflective = 0.0, .shine = 200, .has_pat = false,
-	.transparency = 0, .refractive = 1, .has_nmap = false};
+	.specular = 0.9, .reflective = 0.0, .shine = 20, .has_pat = false,
+	.transparency = 0, .refractive = 1, .has_nmap = false, .has_texture = false, .has_ao = false,
+	.uv_inv_transf = {{1, 0, 0, 0}, {0, 1, 0, 0}, {0, 0, 1, 0}, {0, 0, 0, 1}},
+	.uv_transf = {{1, 0, 0, 0}, {0, 1, 0, 0}, {0, 0, 1, 0}, {0, 0, 0, 1}}};
 
 t_material	material(void)
 {

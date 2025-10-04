@@ -15,21 +15,25 @@
 
 # include <png.h>
 # include <stdint.h>
+# include <stdio.h>
 
+# include "fcolors.h"
 # include "tuple.h"
+# include "uv.h"
 
-typedef struct s_data
+typedef struct s_map_infos
 {
-	int32_t		height;
-	int32_t		width;
-	png_byte	channels;
-}	t_data;
+	int32_t	h;
+	int32_t	w;
+	uint8_t	channels;
+}	t_map_infos;
 
-typedef struct s_normal_map
+typedef struct s_map
 {
-	t_tuple	*normal;
-	t_data	data;
-}	t_normal_map;
+	uint8_t			**data;
+	t_map_infos		infos;
+}	t_map;
+
 
 typedef struct s_tbn
 {
@@ -38,11 +42,14 @@ typedef struct s_tbn
 	t_tuple	n;
 }	t_tbn;
 
-void		free_map(png_bytepp image, int32_t nb_lines);
+void		free_map(uint8_t **image, int32_t nb_lines);
 int32_t		destroy_all(FILE *file, png_structp *png, png_infop *info);
-png_bytepp	alloc_map(png_structp *png, png_infop *info);
-int32_t		create_normal_map(const char *mapname, t_normal_map *map);
-int32_t		parse_png_map(const char *mapname, png_bytepp *map, t_data *data);
+uint8_t		**alloc_map(png_structp *png, png_infop *info);
+t_tuple		map_to_vct(t_map *map, t_uv uv);
+t_fcolor	map_to_fcol(t_map *map, t_uv uv);
+double		map_to_ao(t_map *map, t_uv uv);
+
+int32_t		parse_png_map(char *mapname, uint8_t ***map, t_map_infos *data);
 t_tuple		pertube_normal(t_tuple ojb_norm, t_tuple map_norm);
 
 #endif

@@ -72,6 +72,6 @@ int32_t	parse_cylinder(char **split, t_world *w);
 int32_t	parse_backlight(char **split, t_fcolor *bl);
 int32_t	parse_cube(char **split, t_world *w);
 int32_t	parse_pattern(char **split, t_obj *o);
-int32_t	parse_maps(char **split, t_obj *o);
+int32_t	parse_maps(char **split, t_material *m);
 
 #endif

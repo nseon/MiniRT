@@ -17,7 +17,7 @@
 # include "materials.h"
 # include "matrix.h"
 # include "tuple.h"
-# include "normal_maps.h"
+# include "maps.h"
 
 typedef enum e_light_type
 {
@@ -92,7 +92,9 @@ void		set_cam_transform(t_camera *cam, t_mtx4 transf);
 void		mul_cam_transform(t_camera *cam, t_mtx4 transf);
 t_fcolor	pattern_at_obj(t_pattern pat, t_obj *o, t_tuple pt);
 void		set_rota_from_dir(t_tuple dir, t_obj *o);
-t_tuple		sphere_uv_point(t_tuple	pt);
+t_uv		obj_uv(t_obj *o, t_tuple pt);;
+
 void		free_obj(void *p);
+t_fcolor	texture_col(t_material *m, t_obj *o, t_tuple pos);
 
 #endif

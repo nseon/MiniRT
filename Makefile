@@ -39,11 +39,17 @@ SRC 		=	minirt.c \
 
 SRC += $(addprefix $(NORMAL_DIR), $(NORMAL_SRC))
 
-NORMAL_DIR	=		normal_maps/
-NORMAL_SRC	=		parse_png.c \
-					png_allocations.c \
-					create_normal.c \
+NORMAL_DIR	=		maps/
+NORMAL_SRC	=		map_retrieve.c \
 					perturbe_normal.c \
+
+# ==============PNG============= #
+
+SRC += $(addprefix $(PNG_DIR), $(PNG_SRC))
+
+PNG_DIR	=		png/
+PNG_SRC	=		parse_png.c \
+				png_allocations.c \
 
 # ===============INPUTS================= #
 
@@ -91,6 +97,7 @@ MATHS_SRC	=		float.c \
 					fcolors.c \
 					fcolors_mul.c \
 					normals.c \
+					uv.c \
 
 # ===============MATHS/TUPLE================= #
 

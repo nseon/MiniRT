@@ -38,11 +38,14 @@ t_fcolor	indirect_light(t_world *w, t_pre_compute *pc, int n)
 		return (fcolor(0, 0, 0));
 	distance = i->t;
 	rcolor = color_at(w, r, n - 3);
-	if (pc->obj->mat.has_pat == false)
-		return (col_scalar(color_mul(rcolor, pc->obj->mat.col),
-				1.0 / (1 + distance * distance)));
-	return (col_scalar(color_mul(rcolor, pattern_at_obj(pc->obj->mat.pat,
+	if (pc->obj->mat.has_pat == true)
+		return (col_scalar(color_mul(rcolor, pattern_at_obj(pc->obj->mat.pat,
 				pc->obj, pc->pos)), 1.0 / (1 + distance * distance)));
+	if (pc->obj->mat.has_texture == true)
+		return (col_scalar(color_mul(rcolor, map_to_fcol(&pc->obj->mat.tmap, pc->uv)),
+			1.0 / (1 + distance * distance)));
+	return (col_scalar(color_mul(rcolor, pc->obj->mat.col),
+				1.0 / (1 + distance * distance)));
 }
 
 t_fcolor	blend_additives(t_world *w, t_fcolor col, t_pre_compute *pc, int n)
@@ -72,17 +75,24 @@ t_fcolor	light_hit(t_world *w, t_pre_compute *pc, int n)
 	t_fcolor	color;
 	t_light		l;
 	size_t		i;
+	t_amb		amb;
 
 	i = -1;
 	color = fcolor(0, 0, 0);
 	if (w->gparam & AMBIENT)
 	{
+		amb = w->amb;
+		if (pc->obj->mat.has_ao)
+			amb.i = map_to_ao(&pc->obj->mat.aomap, pc->uv);
 		if (pc->obj->mat.has_pat)
 			color = col_scalar(color_mul(pattern_at_obj(pc->obj->mat.pat,
-							pc->obj, pc->pos), w->amb.col), w->amb.i);
+							pc->obj, pc->pos), amb.col), amb.i);
+		else if (pc->obj->mat.has_texture)
+			color = col_scalar(color_mul(map_to_fcol(&pc->obj->mat.tmap,
+							pc->uv), amb.col), amb.i);
 		else
-			color = col_scalar(color_mul(pc->obj->mat.col, w->amb.col),
-					w->amb.i);
+			color = col_scalar(color_mul(pc->obj->mat.col, amb.col),
+					amb.i);
 	}
 	while (++i < vct_size(w->lights))
 	{

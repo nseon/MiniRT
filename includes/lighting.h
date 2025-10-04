@@ -35,6 +35,7 @@ typedef struct s_pre_compute
 	t_tuple	over_point;
 	t_tuple	under_point;
 	t_tuple	reflectv;
+	t_uv	uv;
 	double	n1;
 	double	n2;
 }	t_pre_compute;

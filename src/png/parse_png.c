@@ -16,7 +16,7 @@
 #include <png.h>
 
 #include "tuple.h"
-#include "normal_maps.h"
+#include "maps.h"
 
 int32_t	init_png_struct(png_structp *png, png_infop *info)
 {
@@ -54,7 +54,7 @@ int32_t	open_png(char *mapname, png_structp *png, png_infop *info, FILE **file)
 	return (0);
 }
 
-int32_t	parse_png_map(const char *mapname, png_bytepp *map, t_data *data)
+int32_t	parse_png_map(char *mapname, uint8_t ***map, t_map_infos *data)
 {
 	FILE		*file;
 	png_structp	png;
@@ -62,15 +62,15 @@ int32_t	parse_png_map(const char *mapname, png_bytepp *map, t_data *data)
 
 	if (!mapname || open_png(mapname, &png, &info, &file) == -1)
 		return (-1);
-	data->height = png_get_image_height(png, info);
-	data->width = png_get_image_width(png, info);
+	data->h = png_get_image_height(png, info);
+	data->w = png_get_image_width(png, info);
 	data->channels = png_get_channels(png, info);
 	*map = alloc_map(&png, &info);
 	if (!*map)
 		return (destroy_all(file, &png, &info));
 	if (setjmp(png_jmpbuf(png)))
 	{
-		free_map(*map, data->height);
+		free_map(*map, data->h);
 		png_destroy_info_struct(png, &info);
 		png_destroy_read_struct(&png, NULL, NULL);
 		fclose(file);

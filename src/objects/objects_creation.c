@@ -34,7 +34,7 @@ void	free_obj(void *p)
 	t_obj *const	o = p;
 
 	if (o->mat.has_nmap)
-		free(o->mat.nmap.normal);
+		free(o->mat.nmap.data);
 }
 
 t_light	light(t_tuple pos, t_fcolor intensity, t_light_type type)

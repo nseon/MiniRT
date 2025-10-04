@@ -10,44 +10,37 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "fcolors.h"
 #include "stdint.h"
 #include "png.h"
 #include "tuple.h"
-#include "normal_maps.h"
+#include "maps.h"
 #include "stdlib.h"
 
-t_tuple	rgb_to_vct(png_bytepp map, t_data data, int32_t x, int32_t y)
+t_tuple	map_to_vct(t_map *map, t_uv uv)
 {
-	return (tp_normalize(vector((map[y][x * data.channels] / 255.0) * 2 - 1
-			, (map[y][x * data.channels + 1] / 255.0) * 2 - 1
-		, (map[y][x * data.channels + 2] / 255.0) * 2 - 1)));
+	int32_t const	x = uv.u * map->infos.w;
+	int32_t const	y = uv.v * map->infos.h;
+
+	return (tp_normalize(vector((map->data[y][x * map->infos.channels] / 255.0) * 2 - 1
+			, (map->data[y][x * map->infos.channels + 1] / 255.0) * 2 - 1
+		, (map->data[y][x * map->infos.channels + 2] / 255.0) * 2 - 1)));
 }
 
-int32_t	create_normal_map(const char *mapname, t_normal_map *map)
+t_fcolor	map_to_fcol(t_map *map, t_uv uv)
 {
-	png_bytepp	png_map;
-	int32_t		x;
-	int32_t		y;
+	int32_t const	x = uv.u * map->infos.w;
+	int32_t const	y = uv.v * map->infos.h;
 
-	y = -1;
-	if (parse_png_map(mapname, &png_map, &map->data) == -1)
-		return (-1);
-	map->normal = malloc(sizeof(t_tuple) * map->data.height * map->data.width);
-	if (!map->normal || map->data.channels < 3)
-	{
-		free_map(png_map, map->data.height);
-		free(map->normal);
-		if (map->data.channels < 3)
-			printf("Invalid normal map\n");
-		return (-1);
-	}
-	while (++y < map->data.height)
-	{
-		x = -1;
-		while (++x < map->data.width)
-			map->normal[y * map->data.width + x]
-				= rgb_to_vct(png_map, map->data, x, y);
-	}
-	free_map(png_map, map->data.height);
-	return (0);
+	return (fcolor((map->data[y][x * map->infos.channels] / 255.0)
+			, (map->data[y][x * map->infos.channels + 1] / 255.0)
+		, (map->data[y][x * map->infos.channels + 2] / 255.0)));
+}
+
+double	map_to_ao(t_map *map, t_uv uv)
+{
+	int32_t const	x = uv.u * map->infos.w;
+	int32_t const	y = uv.v * map->infos.h;
+
+	return (map->data[y][x * map->infos.channels] / 255.0);
 }
