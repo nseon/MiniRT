@@ -45,12 +45,12 @@ int32_t	parse_maps(char **split, t_material *m)
 		return (PARSE_INVAL_LINE);
 	}
 	m->has_texture = true;
-	// if (parse_png_map(*(split++), &m->aomap.data, &m->aomap.infos) != SUCCESS)
-	// {
-	// 	ft_fprintf(2, "Invalid normal map: %s\n", split[-1]);
-	// 	return (PARSE_INVAL_LINE);
-	// }
-	// m->has_ao = true;
+	if (parse_png_map(*(split++), &m->aomap.data, &m->aomap.infos) != SUCCESS)
+	{
+		ft_fprintf(2, "Invalid normal map: %s\n", split[-1]);
+		return (PARSE_INVAL_LINE);
+	}
+	m->has_ao = true;
 	return (SUCCESS);
 }
 

@@ -83,7 +83,7 @@ t_fcolor	light_hit(t_world *w, t_pre_compute *pc, int n)
 	{
 		amb = w->amb;
 		if (pc->obj->mat.has_ao)
-			amb.i = map_to_ao(&pc->obj->mat.aomap, pc->uv);
+			amb.i *= map_to_ao(&pc->obj->mat.aomap, pc->uv);
 		if (pc->obj->mat.has_pat)
 			color = col_scalar(color_mul(pattern_at_obj(pc->obj->mat.pat,
 							pc->obj, pc->pos), amb.col), amb.i);
