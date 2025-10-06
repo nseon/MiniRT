@@ -237,6 +237,8 @@ GUI_SRC =		gui_init.c \
 				xor_switcher.c \
 				rt_gui.c \
 				elem_switch.c \
+				map_check.c \
+				map_inputs.c \
 
 # ==========LIBS / INCLUDES============ #
 
