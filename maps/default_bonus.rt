@@ -1,19 +1,15 @@
 # bonus parsing: reflective(float) transparency(float) refractive(float)
 
-A   0.2          255,255,255
+A   0.4          255,255,255
 
 bl  115,205,255
 
 C   -5,1.6,-7.5 1,-0.2,-0.5  70
 
 
-lpt -15,5,5 0.6 255,255,255
+lpt -11,5,-15.5 0.6 255,255,255
 
-cb -1,0,-10 0.3,0,1 3,0.01,3 25,25,25   0.7 0 1 none
-
-cb -1,0,-10 0,0,1 3,3,0.01 255,255,255   0 0 1 none
-cb -1,0,-11 0,0,1 3,3,0.3 75,75,75   0.4 1 1.52 none
-cb -1,0,-10 1,1,0 3,3,0.01 255,255,255   0 0 1 none
-
-sp -1,0,-10.2   2  255,128,255 0 0 1.02 none ./ice.png ./texture.png
-
+cb -1,0,-10 0.3,0,1 25,0.01,25 25,25,25   0 0 1    0,0,0 0.05 dirt_normal.png dirt_base.png dirt_ao.png
+cb -1,0.5,-10 0,0,1 1,1,1 200,200,200         0 0 1    0,0,0 1 Wood_Crate_001_normal.png Wood_Crate_001_basecolor.png Wood_Crate_001_ambientOcclusion.png
+cb -1.7,0.5,-10.7 1.3,0,1 1,1,1 200,200,200         0 0 1    0,0,0 1 Wood_Crate_001_normal.png Wood_Crate_001_basecolor.png Wood_Crate_001_ambientOcclusion.png
+cb -1,1.5,-10.9 1.3,0,1 1,1,1 200,200,200         0 0 1    0,0,0 1 Wood_Crate_001_normal.png Wood_Crate_001_basecolor.png Wood_Crate_001_ambientOcclusion.png

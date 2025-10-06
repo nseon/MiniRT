@@ -27,8 +27,8 @@ void	compute_obj_matrice(t_obj *o)
 	t_mtx4	tbuf;
 
 	set_transform(o, mx_rotation_y(o->y_rot, mx_rotation_z(o->z_rot,
-				mx_rotation_x(o->x_rot, mx_scaling(o->x_size / 2, o->y_size / 2,
-						o->z_size / 2,
+				mx_rotation_x(o->x_rot, mx_scaling(o->x_size, o->y_size,
+						o->z_size,
 						translation(o->pos.x, o->pos.y, o->pos.z, tbuf))))));
 }
 
