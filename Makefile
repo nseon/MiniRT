@@ -234,6 +234,7 @@ SRC += $(addprefix $(GUI_DIR), $(GUI_SRC))
 
 GUI_DIR =		gui/
 GUI_SRC =		gui_init.c \
+				gui_edit_init.c \
 				xor_switcher.c \
 				rt_gui.c \
 				elem_switch.c \

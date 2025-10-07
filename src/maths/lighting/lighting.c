@@ -69,6 +69,7 @@ t_fcolor	light_hit(t_world *w, t_pre_compute *pc, int n)
 	t_fcolor	color;
 	size_t		i;
 	t_amb		amb;
+	t_light		l;
 
 	i = -1;
 	color = fcolor(0, 0, 0);
@@ -82,10 +83,11 @@ t_fcolor	light_hit(t_world *w, t_pre_compute *pc, int n)
 	}
 	while (++i < vct_size(w->lights))
 	{
+		l = w->lights[i];
 		if (w->gparam & SHADOWS)
-			is_in_shadow(w, pc->over_point, w->lights + i);
+			is_in_shadow(w, pc->over_point, &l);
 		color = color_add(color, phong(pc->obj->mat,
-					w->lights[i], pc, w->gparam));
+					l, pc, w->gparam));
 	}
 	return (blend_additives(w, color, pc, n));
 }
