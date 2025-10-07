@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:20:07 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/08/27 16:54:35 by nseon            ###   ########.fr       */
+/*   Updated: 2025/10/06 14:47:31 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,10 @@ t_tuple	tp_cross(t_tuple tp1, t_tuple tp2)
 		0});
 }
 
-void	tp_invert(t_tuple *vec)
+t_tuple	tp_invert(t_tuple *vec)
 {
 	vec->x = -vec->x;
 	vec->y = -vec->y;
 	vec->z = -vec->z;
+	return (*vec);
 }

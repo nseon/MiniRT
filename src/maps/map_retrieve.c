@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   create_normal.c                                    :+:      :+:    :+:   */
+/*   map_retrieve.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 08:42:09 by nseon             #+#    #+#             */
-/*   Updated: 2025/10/03 09:15:45 by nseon            ###   ########.fr       */
+/*   Updated: 2025/10/06 09:35:28 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,12 @@ double	map_to_ao(t_map *map, t_uv uv)
 	int32_t const	y = uv.v * map->infos.h;
 
 	return (map->data[y][x * map->infos.channels] / 255.0);
+}
+
+int8_t	map_to_height(t_map *map, t_uv uv)
+{
+	int32_t const	x = uv.u * map->infos.w;
+	int32_t const	y = uv.v * map->infos.h;
+
+	return (map->data[y][x * map->infos.channels]);
 }

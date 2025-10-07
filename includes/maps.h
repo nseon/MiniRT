@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   normal_maps.h                                      :+:      :+:    :+:   */
+/*   maps.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 16:42:41 by nseon             #+#    #+#             */
-/*   Updated: 2025/10/03 09:15:03 by nseon            ###   ########.fr       */
+/*   Updated: 2025/10/06 09:56:34 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ uint8_t		**alloc_map(png_structp *png, png_infop *info);
 t_tuple		map_to_vct(t_map *map, t_uv uv);
 t_fcolor	map_to_fcol(t_map *map, t_uv uv);
 double		map_to_ao(t_map *map, t_uv uv);
+int8_t		map_to_height(t_map *map, t_uv uv);
 
 int32_t		parse_png_map(char *mapname, uint8_t ***map, t_map_infos *data);
 t_tuple		pertube_normal(t_tuple ojb_norm, t_tuple map_norm);

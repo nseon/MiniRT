@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   materials.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 14:21:58 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/08/13 14:21:58 by pjarnac          ###   ########.fr       */
+/*   Updated: 2025/10/06 10:07:29 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ typedef struct s_material
 	bool		has_ao;
 	t_map		aomap;
 	bool		has_pat;
+	t_map		hmap;
+	bool		has_hat;
 	t_mtx4		uv_transf;
 	t_mtx4		uv_inv_transf;
 	t_pattern	pat;

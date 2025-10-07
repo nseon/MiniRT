@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 08:49:03 by nseon             #+#    #+#             */
-/*   Updated: 2025/10/03 09:16:01 by nseon            ###   ########.fr       */
+/*   Updated: 2025/10/06 09:15:33 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ t_tbn	calcul_tbn(t_tuple ojb_norm)
 t_tuple	pertube_normal(t_tuple ojb_norm, t_tuple map_norm)
 {
 	t_tbn const	tbn = calcul_tbn(ojb_norm);
-	t_tuple		perturbed_norm;
 
 	return (tp_normalize(tp_add(tp_add(tp_mul(tbn.t, map_norm.x),
 				tp_mul(tbn.b, map_norm.y)), tp_mul(tbn.n, map_norm.z)))); 
