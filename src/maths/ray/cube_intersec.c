@@ -23,7 +23,7 @@ static void	check_axis(double ori, double dir, double res[2])
 	double			tmax;
 	int				inv;
 
-	if (dabs(dir) >= EPSILON)
+	if (dabs(dir) >= DEPSILON)
 	{
 		tmin = tmin_num / dir;
 		tmax = tmax_num / dir;

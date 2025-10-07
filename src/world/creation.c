@@ -36,7 +36,7 @@ int32_t	world(t_world *w)
 	}
 	w->back_col = fcolor(0, 0, 0);
 	w->gparam = SPECULAR | DIFFUSE | AMBIENT | SHADOWS | REFLECT | TRANSPARENCY
-		| SS | RENDER;
+		| INDIRECT | SS | RENDER;
 	create_wintersec(w);
 	if (!w->xs.i)
 		return (FATAL);

@@ -43,6 +43,35 @@ static int8_t	parse_gui(t_ctx *ctx)
 	return (SUCCESS);
 }
 
+int32_t	render_gui_elems(t_ctx *ctx, uint32_t cuid)
+{
+	t_guielem	*el;
+
+	el = create_check(&ctx->win, cuid, xor_indirect, ctx);
+	el->label = "Indir. Light";
+	el->id = "indir_light_btn";
+	el->checked = (ctx->gctx.w.gparam & INDIRECT) > 0;
+	el->vx = 20;
+	el->vy = 20;
+	el->w = 15;
+	el->h = 15;
+	el = create_check(&ctx->win, cuid, xor_render, ctx);
+	el->label = "Render";
+	el->id = "render_btn";
+	el->checked = (ctx->gctx.w.gparam & RENDER) > 0;
+	el->vx = 50;
+	el->vy = 95;
+	el->w = 15;
+	el->h = 15;
+	el = create_text_box(&ctx->win, 0);
+	el->id = "state_box";
+	el->vx = 65;
+	el->vy = 10;
+	el->vw = 40;
+	el->vh = 10;
+	return (SUCCESS);
+}
+
 int32_t	render_gui(t_ctx *ctx)
 {
 	t_guielem *const	render_ctn = create_container(&ctx->win, 0);
@@ -52,8 +81,6 @@ int32_t	render_gui(t_ctx *ctx)
 	render_ctn->id = RENDER_CTN_ID;
 	render_ctn->vw = 30;
 	render_ctn->vh = 80;
-	render_ctn->vy = 50;
-	render_ctn->z = 5;
 	render_ctn->hide = true;
 	el = create_check(&ctx->win, cuid, xor_denoise, &ctx->gctx.w.gparam);
 	el->label = "Denoise";
@@ -70,30 +97,7 @@ int32_t	render_gui(t_ctx *ctx)
 	el->vy = 10;
 	el->w = 15;
 	el->h = 15;
-	el = create_check(&ctx->win, cuid, xor_indirect, ctx);
-	el->label = "Indir. Light";
-	el->id = "indir_light_btn";
-	el->checked = (ctx->gctx.w.gparam & INDIRECT) > 0;
-	el->vx = 20;
-	el->vy = 20;
-	el->w = 15;
-	el->h = 15;
-	el = create_check(&ctx->win, cuid, xor_render, ctx);
-	el->label = "Render";
-	el->id = "render_btn";
-	el->checked = (ctx->gctx.w.gparam & INDIRECT) > 0;
-	el->vx = 50;
-	el->vy = 95;
-	el->w = 15;
-	el->h = 15;
-	el = create_text_box(&ctx->win, 0);
-	el->id = "state_box";
-	el->vx = 65;
-	el->vy = 10;
-	el->vw = 40;
-	el->vh = 10;
-	el->txt_color = 0xFFFFFF;
-	return (SUCCESS);
+	return (render_gui_elems(ctx, cuid));
 }
 
 int32_t	edit_gui(t_ctx *ctx)
