@@ -60,6 +60,7 @@ int32_t	parse_png_map(char *mapname, uint8_t ***map, t_map_infos *data)
 	png_structp	png;
 	png_infop	info;
 
+	*map = 0;
 	if (!mapname || open_png(mapname, &png, &info, &file) == -1)
 		return (-1);
 	data->h = png_get_image_height(png, info);
