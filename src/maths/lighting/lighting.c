@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 15:24:02 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/10/06 14:33:30 by nseon            ###   ########.fr       */
+/*   Updated: 2025/10/07 10:31:01 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,12 @@ t_fcolor	indirect_light(t_world *w, t_pre_compute *pc, int n)
 	rcolor = color_at(w, r, n - 3);
 	if (pc->obj->mat.has_pat == true)
 		return (col_scalar(color_mul(rcolor, pattern_at_obj(pc->obj->mat.pat,
-				pc->obj, pc->pos)), 1.0 / (1 + distance * distance)));
+						pc->obj, pc->pos)), 1.0 / (1 + distance * distance)));
 	if (pc->obj->mat.has_texture == true)
-		return (col_scalar(color_mul(rcolor, map_to_fcol(&pc->obj->mat.tmap, pc->uv)),
-			1.0 / (1 + distance * distance)));
+		return (col_scalar(color_mul(rcolor, map_to_fcol(&pc->obj->mat.tmap,
+						pc->uv)), 1.0 / (1 + distance * distance)));
 	return (col_scalar(color_mul(rcolor, pc->obj->mat.col),
-				1.0 / (1 + distance * distance)));
+			1.0 / (1 + distance * distance)));
 }
 
 t_fcolor	blend_additives(t_world *w, t_fcolor col, t_pre_compute *pc, int n)

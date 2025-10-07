@@ -85,7 +85,8 @@ t_pre_compute	pre_compute(t_intersection *i, t_ray r, t_intersections *xs)
 	else
 		pc.inside = false;
 	if (pc.obj->mat.has_nmap)
-		pc.normalv = pertube_normal(pc.normalv, map_to_vct(&pc.obj->mat.nmap, pc.uv));
+		pc.normalv = pertube_normal(pc.normalv, map_to_vct(&pc.obj->mat.nmap,
+					pc.uv));
 	pc.over_point = tp_add(pc.pos, tp_mul(pc.normalv, DEPSILON));
 	pc.under_point = tp_sub(pc.pos, tp_mul(pc.normalv, DEPSILON));
 	pc.reflectv = reflect(r.dir, pc.normalv);

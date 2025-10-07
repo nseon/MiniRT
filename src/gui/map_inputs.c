@@ -3,14 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   map_inputs.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 15:39:48 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/10/06 15:39:48 by pjarnac          ###   ########.fr       */
+/*   Updated: 2025/10/07 10:37:03 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 void	input_nmap(char *str, void *p)
 {
-
 }
