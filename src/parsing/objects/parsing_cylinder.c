@@ -60,8 +60,8 @@ static int32_t	parse_cylinder2(char **split, t_obj *obj)
 	res = parse_double(*(split++), &db);
 	if (res != SUCCESS)
 		return (res);
-	obj->min = -db / 2;
-	obj->max = db / 2;
+	obj->min = -db / 2 / obj->y_size;
+	obj->max = db / 2 / obj->y_size;
 	res = parse_color(*(split++), &obj->mat.col);
 	if (res != SUCCESS)
 		return (res);

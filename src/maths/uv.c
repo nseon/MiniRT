@@ -41,6 +41,8 @@ t_uv	obj_uv(t_obj *o, t_tuple pt)
 		pt = sphere_uv_point(pt);
     else if (o->type == CUBE)
         pt = cube_uv_point(pt);
+	else if (o->type == CYLINDER)
+		pt = cylinder_uv_point(pt);
     mtx_tup_mul2(&pt, o->mat.uv_inv_transf);
 	pt.x = modf(pt.x, &i);
 	pt.z = modf(pt.z, &i);

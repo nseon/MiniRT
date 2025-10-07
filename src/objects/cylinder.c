@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include <float.h>
+#include <tgmath.h>
 
 #include "normals.h"
 #include "objects.h"
@@ -40,4 +41,22 @@ t_tuple	cylinder_normal(t_obj *o, t_tuple pt)
 	if (dis <= 1 && pt.y <= o->min + DEPSILON)
 		return (vector(0, -1, 0));
 	return (vector(pt.x, 0, pt.z));
+}
+
+t_tuple	cylinder_uv_point(t_tuple pt)
+{
+	pt = tp_negate(pt);
+	if (pt.x * pt.x + pt.z * pt.z < 1 - EPSILON)
+	{
+		pt.x = 0.5 + pt.x * -1 / 2;
+		pt.z = 0.5 + pt.z * -1 / 2;
+	}
+	else
+	{
+		pt.x = 0.5 + atan2(pt.z, pt.x) / (M_PI * 2);
+		pt.z = 0.5 + -pt.y / 2;
+	}
+	pt.y = 0;
+	pt.w = 1;
+	return (pt);
 }

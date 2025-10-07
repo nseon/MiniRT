@@ -23,6 +23,7 @@ typedef struct s_uv
 
 t_tuple	cube_uv_point(t_tuple pt);
 t_tuple	sphere_uv_point(t_tuple pt);
+t_tuple	cylinder_uv_point(t_tuple pt);
 t_uv	uv(double u, double v);
 
 #endif
