@@ -81,16 +81,16 @@ void	show_edit(t_ctx *ctx)
 	e = get_by_id(&ctx->win, "tmap_input");
 	e->cb.cb_param = &o->mat;
 	e = get_by_id(&ctx->win, "tmap_check");
-	e->cb.cb_param = &o->mat.has_tmap;
+	e->cb.cb_param = &o->mat;
 	e->checked = o->mat.has_tmap;
 	e = get_by_id(&ctx->win, "nmap_input");
 	e->cb.cb_param = &o->mat;
 	e = get_by_id(&ctx->win, "nmap_check");
-	e->cb.cb_param = &o->mat.has_nmap;
+	e->cb.cb_param = &o->mat;
 	e->checked = o->mat.has_nmap;
 	e = get_by_id(&ctx->win, "aomap_input");
 	e->cb.cb_param = &o->mat;
 	e = get_by_id(&ctx->win, "aomap_check");
-	e->cb.cb_param = &o->mat.has_aomap;
+	e->cb.cb_param = &o->mat;
 	e->checked = o->mat.has_aomap;
 }

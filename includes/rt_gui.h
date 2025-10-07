@@ -36,6 +36,8 @@ void	refrac_switch(float f, void *p);
 void	input_nmap(char *str, void *p);
 void	input_tmap(char *str, void *p);
 void	input_aomap(char *str, void *p);
-void	map_bool(bool b, void *p);
+void	tmap_bool(bool b, void *p);
+void	nmap_bool(bool b, void *p);
+void	aomap_bool(bool b, void *p);
 
 #endif

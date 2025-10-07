@@ -12,9 +12,29 @@
 
 #include "rt_gui.h"
 
-void	map_bool(bool b, void *p)
+void	tmap_bool(bool b, void *p)
 {
-	bool *const	check = p;
+	t_material *const	mat = p;
 
-	*check = b;
+	if (!mat->tmap.data)
+		return ;
+	mat->has_tmap = b;
+}
+
+void	nmap_bool(bool b, void *p)
+{
+	t_material *const	mat = p;
+
+	if (!mat->nmap.data)
+		return ;
+	mat->has_nmap = b;
+}
+
+void	aomap_bool(bool b, void *p)
+{
+	t_material *const	mat = p;
+
+	if (!mat->aomap.data)
+		return ;
+	mat->has_aomap = b;
 }

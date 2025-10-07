@@ -176,7 +176,7 @@ int32_t	edit_gui(t_ctx *ctx)
 	el->vw = 70;
 	el->vh = 5;
 	el->vx = 40;
-	el = create_check(&ctx->win, cuid, map_bool, NULL);
+	el = create_check(&ctx->win, cuid, tmap_bool, NULL);
 	el->label = "";
 	el->id = "tmap_check";
 	el->w = 15;
@@ -190,7 +190,7 @@ int32_t	edit_gui(t_ctx *ctx)
 	el->vw = 70;
 	el->vh = 5;
 	el->vx = 40;
-	el = create_check(&ctx->win, cuid, map_bool, NULL);
+	el = create_check(&ctx->win, cuid, nmap_bool, NULL);
 	el->label = "";
 	el->id = "nmap_check";
 	el->w = 15;
@@ -204,7 +204,7 @@ int32_t	edit_gui(t_ctx *ctx)
 	el->vw = 70;
 	el->vh = 5;
 	el->vx = 40;
-	el = create_check(&ctx->win, cuid, map_bool, NULL);
+	el = create_check(&ctx->win, cuid, aomap_bool, NULL);
 	el->label = "";
 	el->id = "aomap_check";
 	el->w = 15;
