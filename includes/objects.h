@@ -90,11 +90,9 @@ void		set_transform(t_obj *o, t_mtx4 transf);
 t_light		light(t_tuple pos, t_fcolor intensity, t_light_type type);
 void		set_cam_transform(t_camera *cam, t_mtx4 transf);
 void		mul_cam_transform(t_camera *cam, t_mtx4 transf);
-t_fcolor	pattern_at_obj(t_pattern pat, t_obj *o, t_tuple pt);
+t_fcolor	pattern_at_obj(t_pattern pat, t_uv uv);
 void		set_rota_from_dir(t_tuple dir, t_obj *o);
 t_uv		obj_uv(t_obj *o, t_tuple pt);;
-
 void		free_obj(void *p);
-t_fcolor	texture_col(t_material *m, t_obj *o, t_tuple pos);
 
 #endif

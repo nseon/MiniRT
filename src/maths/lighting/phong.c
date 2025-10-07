@@ -23,12 +23,7 @@ t_fcolor	phong(t_material m, t_light light, t_pre_compute *pc,
 	t_fcolor		specular;
 	double			reflect_dot_eye;
 
-	if (m.has_pat)
-		eff_color = color_mul(light.i, pattern_at_obj(m.pat, pc->obj, pc->pos));
-	else if (m.has_tmap)
-		eff_color = map_to_fcol(&m.tmap, pc->uv);
-	else
-		eff_color = color_mul(light.i, m.col);
+	eff_color = color_mul(light.i, obj_color(pc->obj, pc->uv));
 	diffuse = fcolor(0, 0, 0);
 	specular = fcolor(0, 0, 0);
 	if (tp_dot(lightv, pc->normalv) < 0)

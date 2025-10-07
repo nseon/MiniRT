@@ -14,10 +14,11 @@
 
 #include "patterns.h"
 #include "rt_maths.h"
+#include "uv.h"
 
-t_fcolor	checker_at(t_pattern pat, t_tuple pt)
+t_fcolor	checker_at(t_pattern pat, t_uv uv)
 {
-	if ((int)(round(pt.x) + round(pt.y) + round(pt.z)) % 2 == 0)
+	if ((int)(uv.u * 2 + uv.v * 2) % 2 == 0)
 		return (pat.a);
 	return (pat.b);
 }

@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef UV_MAPS_H
-# define UV_MAPS_H
+#ifndef UV_H
+# define UV_H
 
 # include "tuple.h"
 

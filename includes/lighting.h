@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 14:36:31 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/09/04 15:15:43 by nseon            ###   ########.fr       */
+/*   Updated: 2025/10/06 14:33:25 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,5 +49,6 @@ t_fcolor		reflect_color(t_world *w, t_pre_compute *pc, int n);
 t_fcolor		refract_color(t_world *w, t_pre_compute *pc, int n);
 bool			is_in_shadow(t_world *w, t_tuple p, t_light *l);
 double			schlick(t_pre_compute *pc);
+t_fcolor		obj_color(t_obj *o, t_uv uv);
 
 #endif

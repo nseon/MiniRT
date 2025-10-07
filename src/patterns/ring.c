@@ -13,10 +13,11 @@
 #include <math.h>
 
 #include "patterns.h"
+#include "uv.h"
 
-t_fcolor	ring_at(t_pattern pat, t_tuple pt)
+t_fcolor	ring_at(t_pattern pat, t_uv uv)
 {
-	if ((int)floor(sqrt(pt.x * pt.x + pt.z * pt.z)) % 2 == 0)
+	if ((int)floor(sqrt(uv.u * uv.u + uv.v * uv.v)) % 2 == 0)
 		return (pat.a);
 	return (pat.b);
 }

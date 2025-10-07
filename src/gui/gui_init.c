@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   gui_init.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 13:32:28 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/06/02 13:32:28 by pjarnac          ###   ########.fr       */
+/*   Updated: 2025/10/07 10:27:49 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int8_t	parse_gui(t_ctx *ctx)
 	parse_ctn->w = ctx->win.w;
 	parse_ctn->h = ctx->win.h;
 	el = create_txt_input(&ctx->win, get_by_id(&ctx->win,
-		"parse_ctn")->uid, parse, ctx);
+				"parse_ctn")->uid, parse, ctx);
 	el->vw = 30;
 	el->vh = 6;
 	el->z += 1;

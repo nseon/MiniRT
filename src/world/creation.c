@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 11:22:07 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/09/10 13:29:03 by nseon            ###   ########.fr       */
+/*   Updated: 2025/10/07 10:53:30 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int32_t	world(t_world *w)
 	}
 	w->back_col = fcolor(0, 0, 0);
 	w->gparam = SPECULAR | DIFFUSE | AMBIENT | SHADOWS | REFLECT | TRANSPARENCY
-		 | SS | RENDER;
+		| SS | RENDER;
 	create_wintersec(w);
 	if (!w->xs.i)
 		return (FATAL);

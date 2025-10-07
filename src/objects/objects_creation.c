@@ -41,6 +41,15 @@ void	free_obj(void *p)
 		free_map(o->mat.aomap.data, o->mat.aomap.infos.h);
 }
 
+t_fcolor	obj_color(t_obj *o, t_uv uv)
+{
+	if (o->mat.has_pat)
+		return (pattern_at_obj(o->mat.pat, uv));
+	if (o->mat.has_tmap)
+		return (map_to_fcol(&o->mat.tmap, uv));
+	return (o->mat.col);
+}
+
 t_light	light(t_tuple pos, t_fcolor intensity, t_light_type type)
 {
 	return ((t_light){.type = type, .pos = pos, .i = intensity});

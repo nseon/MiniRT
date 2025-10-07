@@ -14,10 +14,11 @@
 
 #include "patterns.h"
 #include "rt_maths.h"
+#include "uv.h"
 
-t_fcolor	stripe_at(t_pattern pat, t_tuple pt)
+t_fcolor	stripe_at(t_pattern pat, t_uv uv)
 {
-	if ((int)floor(pt.x) % 2 == 0)
+	if ((int)floor(uv.u * 2) % 2 == 0)
 		return (pat.a);
 	return (pat.b);
 }

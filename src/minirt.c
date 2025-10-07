@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:22:55 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/10/02 17:50:27 by nseon            ###   ########.fr       */
+/*   Updated: 2025/10/07 10:26:39 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ static int8_t	init(t_ctx *const ctx)
 
 int8_t	set_events(t_ctx *ctx)
 {
-
 	register_keypress(ctx->win.events, cam_translation, ctx);
 	register_keypress(ctx->win.events, cam_height, ctx);
 	register_keypress(ctx->win.events, gui_keys, ctx);

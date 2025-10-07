@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 14:57:28 by nseon             #+#    #+#             */
-/*   Updated: 2025/10/03 08:43:59 by nseon            ###   ########.fr       */
+/*   Updated: 2025/10/07 10:51:45 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,3 @@ int32_t	parse_png_map(char *mapname, uint8_t ***map, t_map_infos *data)
 	destroy_all(file, &png, &info);
 	return (0);
 }
-

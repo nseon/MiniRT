@@ -14,8 +14,7 @@
 # define PATTERNS_H
 
 # include "fcolors.h"
-# include "matrix.h"
-# include "tuple.h"
+# include "uv.h"
 
 typedef enum e_pattern_type
 {
@@ -33,9 +32,9 @@ typedef struct s_pattern
 }	t_pattern;
 
 t_pattern	pattern(t_fcolor a, t_fcolor b, t_pattern_type type);
-t_fcolor	stripe_at(t_pattern pat, t_tuple pt);
-t_fcolor	gradient_at(t_pattern pat, t_tuple pt);
-t_fcolor	ring_at(t_pattern pat, t_tuple pt);
-t_fcolor	checker_at(t_pattern pat, t_tuple pt);
+t_fcolor	stripe_at(t_pattern pat, t_uv uv);
+t_fcolor	gradient_at(t_pattern pat, t_uv uv);
+t_fcolor	ring_at(t_pattern pat, t_uv uv);
+t_fcolor	checker_at(t_pattern pat, t_uv uv);
 
 #endif

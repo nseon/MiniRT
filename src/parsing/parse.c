@@ -11,16 +11,15 @@
 /* ************************************************************************** */
 
 #include <errno.h>
-#include <stdio.h>
 #include <fcntl.h>
+#include <stdio.h>
 #include <string.h>
-#include <unistd.h>
 
 #include "errors.h"
+#include "inputs.h"
 #include "minirt.h"
 #include "neflibx.h"
 #include "parsing.h"
-#include "inputs.h"
 
 void	open_file(char *str, t_ctx *ctx)
 {
@@ -44,11 +43,6 @@ void	draw_file_status(t_ctx *const ctx)
 			vct_strcpy(&txt_box->txt, strerror(ctx->error));
 		else
 			vct_strcpy(&txt_box->txt, INVAL_MAP_MSG);
-	}
-	else if (ctx->file > 0)
-	{
-		// draw_pt.color = GREEN_TXT;
-		// draw_str(&ctx->img, LOADED, draw_pt, 2);
 	}
 }
 

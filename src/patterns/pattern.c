@@ -24,15 +24,15 @@ t_pattern	pattern(t_fcolor a, t_fcolor b, t_pattern_type type)
 	return (pat);
 }
 
-t_fcolor	pattern_at_obj(t_pattern pat, t_obj *o, t_tuple pt)
+t_fcolor	pattern_at_obj(t_pattern pat, t_uv uv)
 {
 	if (pat.type == STRIPE)
-		return (stripe_at(pat, pt));
+		return (stripe_at(pat, uv));
 	if (pat.type == GRADIENT)
-		return (gradient_at(pat, pt));
+		return (gradient_at(pat, uv));
 	if (pat.type == RING)
-		return (ring_at(pat, pt));
+		return (ring_at(pat, uv));
 	if (pat.type == CHECKER)
-		return (checker_at(pat, pt));
+		return (checker_at(pat, uv));
 	return (fcolor(0, 0, 0));
 }
