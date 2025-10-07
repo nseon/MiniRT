@@ -34,17 +34,3 @@ void	refrac_switch(float f, void *p)
 
 	*o = (double)f * 10;
 }
-
-void	pat_a_col_set(void *p)
-{
-	t_ctx *const	ctx = p;
-
-	set_color(ctx, &ctx->gctx.w.selec_o->mat.pat.a);
-}
-
-void	pat_b_col_set(void *p)
-{
-	t_ctx *const	ctx = p;
-
-	set_color(ctx, &ctx->gctx.w.selec_o->mat.pat.b);
-}

@@ -20,6 +20,7 @@
 
 int8_t	set_events(t_ctx *ctx);
 int8_t	init_gui(t_ctx *ctx);
+int32_t	edit_gui(t_ctx *ctx);
 void	test_render(t_ctx *ctx);
 void	keyevent(int keycode, void *p);
 
