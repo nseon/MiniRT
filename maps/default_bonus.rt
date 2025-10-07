@@ -9,8 +9,9 @@ C   -1,5,-40 0,0,1 70
 
 lpt -11,5,-15.5 0.6 255,255,255
 
-cb -1,0,-10 0,0,1 25,0.01,25 25,25,25   0 0 1    0,0,0 1 aerial_rocks_02_nor_gl_4k.png aerial_rocks_02_diff_4k.png aerial_rocks_02_ao_4k.png
-cy -1,3,-10 0,0,1 1 6 10,0,255 0 0 1 0,0,0 1 brick_norm.png brick_base.png brick_ao.png
+cb -1,0,-10 0,0,1 25,25,25 25,25,25   0 0 1    0,0,0 1 aerial_rocks_02_nor_gl_4k.png aerial_rocks_02_diff_4k.png aerial_rocks_02_ao_4k.png
+sp -1,0,-10   7.5  166,240,255 0 0 0
+
 # cb -1,0.5,-10 0,0,1 1,1,1 200,200,200         0 0 1    0,0,0 1 Wood_Crate_001_normal.png Wood_Crate_001_basecolor.png Wood_Crate_001_ambientOcclusion.png
 # cb -1.7,0.5,-10.7 1.3,0,1 1,1,1 200,200,200         0 0 1    0,0,0 1 Wood_Crate_001_normal.png Wood_Crate_001_basecolor.png Wood_Crate_001_ambientOcclusion.png
 # cb -1,1.5,-10.9 1.3,0,1 1,1,1 200,200,200         0 0 1    0,0,0 1 Wood_Crate_001_normal.png Wood_Crate_001_basecolor.png Wood_Crate_001_ambientOcclusion.png
