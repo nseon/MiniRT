@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "maps.h"
+#include "rt_maths.h"
 #include "tuple.h"
 
 t_tbn	calcul_tbn(t_tuple ojb_norm)
@@ -19,7 +20,7 @@ t_tbn	calcul_tbn(t_tuple ojb_norm)
 	t_tuple	up;
 
 	up = vector(0, 1, 0);
-	if (tp_dot(up, ojb_norm) == 1 || tp_dot(up, ojb_norm) == -1)
+	if (dabs(tp_dot(up, ojb_norm)) > 0.95)
 		up = vector(1, 0, 0);
 	tbn.t = tp_normalize(tp_cross(ojb_norm, up));
 	tbn.b = tp_normalize(tp_cross(ojb_norm, tbn.t));

@@ -62,9 +62,9 @@ int32_t	parse_cube(char **split, t_world *w)
 	res = parse_xyz(*(split++), &tp);
 	if (res != SUCCESS)
 		return (res);
-	obj.x_size = tp.x;
-	obj.y_size = tp.y;
-	obj.z_size = tp.z;
+	obj.x_size = tp.x / 2;
+	obj.y_size = tp.y / 2;
+	obj.z_size = tp.z / 2;
 	res = parse_color(*(split++), &obj.mat.col);
 	if (res != SUCCESS)
 		return (res);

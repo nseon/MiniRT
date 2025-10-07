@@ -59,3 +59,19 @@ t_tuple	cube_normal(t_tuple pt)
 		return (vector(0, pt.y, 0));
 	return (vector(0, 0, pt.z));
 }
+
+t_tuple	cube_uv_point(t_tuple pt)
+{
+	double const	max = cube_max(dabs(pt.x), dabs(pt.y), dabs(pt.z), 1);
+    t_tuple         npt;
+
+	if (max == dabs(pt.x))
+	    npt = point(pt.z, 0, pt.y);
+    else if (max == dabs(pt.y))
+        npt = point(pt.x, 0, pt.z);
+    else
+        npt = point(pt.x, 0, pt.y);
+    npt.x = npt.x / 2 + 0.5;
+    npt.z = npt.z / 2 + 0.5;
+    return (npt);
+}

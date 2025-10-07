@@ -34,7 +34,11 @@ void	free_obj(void *p)
 	t_obj *const	o = p;
 
 	if (o->mat.has_nmap)
-		free(o->mat.nmap.data);
+		free_map(o->mat.nmap.data, o->mat.nmap.infos.h);
+	if (o->mat.has_texture)
+		free_map(o->mat.tmap.data, o->mat.tmap.infos.h);
+	if (o->mat.has_ao)
+		free_map(o->mat.aomap.data, o->mat.aomap.infos.h);
 }
 
 t_light	light(t_tuple pos, t_fcolor intensity, t_light_type type)

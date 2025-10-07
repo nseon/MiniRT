@@ -237,6 +237,8 @@ GUI_SRC =		gui_init.c \
 				xor_switcher.c \
 				rt_gui.c \
 				elem_switch.c \
+				map_check.c \
+				map_inputs.c \
 
 # ==========LIBS / INCLUDES============ #
 
@@ -272,7 +274,7 @@ MAKEFLAGS	+=	--no-print-directory
 # ================MODES================ #
 
 MODES		:= debug optimize full-optimize full-optimize-bonus test bonus \
-memsan asan asan-bonus test_asan test_memsan
+memsan asan asan-bonus test_asan test_memsan debug-bonus
 
 MODE_TRACE	:= $(BUILD_DIR).mode_trace
 LAST_MODE	:= $(shell cat $(MODE_TRACE) 2>/dev/null)
@@ -294,6 +296,9 @@ else ifeq ($(MODE), asan)
 else ifeq ($(MODE), asan-bonus)
 	CFLAGS = -g -fsanitize=address -fno-omit-frame-pointer -O1
     LDFLAGS += -fsanitize=address -fno-omit-frame-pointer
+    CPPFLAGS += -DBONUS
+else ifeq ($(MODE), debug-bonus)
+    CFLAGS = -g3
     CPPFLAGS += -DBONUS
 else ifeq ($(MODE), memsan)
  	CFLAGS = -g -fsanitize=memory -fno-omit-frame-pointer -O1
