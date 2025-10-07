@@ -53,7 +53,7 @@ void	set_color(t_ctx *ctx, t_fcolor *col)
 
 void	show_edit(t_ctx *ctx)
 {
-	t_guielem		*slide;
+	t_guielem		*e;
 	t_obj *const	o = ctx->gctx.w.selec_o;
 
 	get_by_id(&ctx->win, EDIT_CTN_ID)->hide = false;
@@ -69,13 +69,28 @@ void	show_edit(t_ctx *ctx)
 		get_by_id(&ctx->win, "col_b_btn")->hide = true;
 		set_color(ctx, &ctx->gctx.w.selec_o->mat.col);
 	}
-	slide = get_by_id(&ctx->win, "refl_slide");
-	slide->cb.cb_param = &o->mat.reflective;
-	slide->value = o->mat.reflective;
-	slide = get_by_id(&ctx->win, "transp_slide");
-	slide->cb.cb_param = &o->mat.transparency;
-	slide->value = o->mat.transparency;
-	slide = get_by_id(&ctx->win, "refrac_slide");
-	slide->cb.cb_param = &o->mat.refractive;
-	slide->value = o->mat.refractive / 10;
+	e = get_by_id(&ctx->win, "refl_slide");
+	e->cb.cb_param = &o->mat.reflective;
+	e->value = o->mat.reflective;
+	e = get_by_id(&ctx->win, "transp_slide");
+	e->cb.cb_param = &o->mat.transparency;
+	e->value = o->mat.transparency;
+	e = get_by_id(&ctx->win, "refrac_slide");
+	e->cb.cb_param = &o->mat.refractive;
+	e->value = o->mat.refractive / 10;
+	e = get_by_id(&ctx->win, "tmap_input");
+	e->cb.cb_param = &o->mat;
+	e = get_by_id(&ctx->win, "tmap_check");
+	e->cb.cb_param = &o->mat.has_tmap;
+	e->checked = o->mat.has_tmap;
+	e = get_by_id(&ctx->win, "nmap_input");
+	e->cb.cb_param = &o->mat;
+	e = get_by_id(&ctx->win, "nmap_check");
+	e->cb.cb_param = &o->mat.has_nmap;
+	e->checked = o->mat.has_nmap;
+	e = get_by_id(&ctx->win, "aomap_input");
+	e->cb.cb_param = &o->mat;
+	e = get_by_id(&ctx->win, "aomap_check");
+	e->cb.cb_param = &o->mat.has_aomap;
+	e->checked = o->mat.has_aomap;
 }

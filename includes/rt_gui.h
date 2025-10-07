@@ -33,5 +33,9 @@ void	pat_b_col_set(void *p);
 void	base_col_set(void *p);
 void	double_switch(float f, void *p);
 void	refrac_switch(float f, void *p);
+void	input_nmap(char *str, void *p);
+void	input_tmap(char *str, void *p);
+void	input_aomap(char *str, void *p);
+void	map_bool(bool b, void *p);
 
 #endif

@@ -24,7 +24,7 @@ void	authorize_cam_move(int keycode, void *args)
 {
 	t_ctx *const	ctx = args;
 
-	if (keycode == XK_Return)
+	if (keycode == XK_Tab)
 	{
 		clear_ss(&ctx->gctx.ss);
 		switch_gui_param(ctx, "render_btn", true);

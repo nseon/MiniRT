@@ -54,9 +54,9 @@ static int32_t	parse_cylinder2(char **split, t_obj *obj)
 	res = parse_double(*(split++), &db);
 	if (res != SUCCESS)
 		return (res);
-	obj->x_size = db;
-	obj->y_size = db;
-	obj->z_size = db;
+	obj->x_size = db / 2;
+	obj->y_size = db / 2;
+	obj->z_size = db / 2;
 	res = parse_double(*(split++), &db);
 	if (res != SUCCESS)
 		return (res);

@@ -25,7 +25,7 @@ t_fcolor	phong(t_material m, t_light light, t_pre_compute *pc,
 
 	if (m.has_pat)
 		eff_color = color_mul(light.i, pattern_at_obj(m.pat, pc->obj, pc->pos));
-	else if (m.has_texture)
+	else if (m.has_tmap)
 		eff_color = map_to_fcol(&m.tmap, pc->uv);
 	else
 		eff_color = color_mul(light.i, m.col);

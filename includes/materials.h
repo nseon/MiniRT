@@ -28,9 +28,9 @@ typedef struct s_material
 	double		refractive;
 	bool		has_nmap;
 	t_map		nmap;
-	bool		has_texture;
+	bool		has_tmap;
 	t_map		tmap;
-	bool		has_ao;
+	bool		has_aomap;
 	t_map		aomap;
 	bool		has_pat;
 	t_mtx4		uv_transf;

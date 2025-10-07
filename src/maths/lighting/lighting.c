@@ -41,7 +41,7 @@ t_fcolor	indirect_light(t_world *w, t_pre_compute *pc, int n)
 	if (pc->obj->mat.has_pat == true)
 		return (col_scalar(color_mul(rcolor, pattern_at_obj(pc->obj->mat.pat,
 				pc->obj, pc->pos)), 1.0 / (1 + distance * distance)));
-	if (pc->obj->mat.has_texture == true)
+	if (pc->obj->mat.has_tmap == true)
 		return (col_scalar(color_mul(rcolor, map_to_fcol(&pc->obj->mat.tmap, pc->uv)),
 			1.0 / (1 + distance * distance)));
 	return (col_scalar(color_mul(rcolor, pc->obj->mat.col),
@@ -82,12 +82,12 @@ t_fcolor	light_hit(t_world *w, t_pre_compute *pc, int n)
 	if (w->gparam & AMBIENT)
 	{
 		amb = w->amb;
-		if (pc->obj->mat.has_ao)
+		if (pc->obj->mat.has_aomap)
 			amb.i *= map_to_ao(&pc->obj->mat.aomap, pc->uv);
 		if (pc->obj->mat.has_pat)
 			color = col_scalar(color_mul(pattern_at_obj(pc->obj->mat.pat,
 							pc->obj, pc->pos), amb.col), amb.i);
-		else if (pc->obj->mat.has_texture)
+		else if (pc->obj->mat.has_tmap)
 			color = col_scalar(color_mul(map_to_fcol(&pc->obj->mat.tmap,
 							pc->uv), amb.col), amb.i);
 		else

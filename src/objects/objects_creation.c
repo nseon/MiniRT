@@ -35,9 +35,9 @@ void	free_obj(void *p)
 
 	if (o->mat.has_nmap)
 		free_map(o->mat.nmap.data, o->mat.nmap.infos.h);
-	if (o->mat.has_texture)
+	if (o->mat.has_tmap)
 		free_map(o->mat.tmap.data, o->mat.tmap.infos.h);
-	if (o->mat.has_ao)
+	if (o->mat.has_aomap)
 		free_map(o->mat.aomap.data, o->mat.aomap.infos.h);
 }
 

@@ -9,3 +9,12 @@
 /*   Updated: 2025/10/06 15:36:39 by pjarnac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "rt_gui.h"
+
+void	map_bool(bool b, void *p)
+{
+	bool *const	check = p;
+
+	*check = b;
+}

@@ -16,6 +16,8 @@
 
 void	free_map(uint8_t **image, int32_t nb_lines)
 {
+	if (!image)
+		return ;
 	while (--nb_lines >= 0)
 		free(image[nb_lines]);
 	free(image);
