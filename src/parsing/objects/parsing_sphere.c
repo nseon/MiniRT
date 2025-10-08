@@ -21,59 +21,54 @@
 
 int32_t	parse_maps(char **split, t_material *m)
 {
-	t_mtx4	tbuf;
-	t_tuple	buf;
-	double	dbuf;
-
 	if (!split[0])
 		return (SUCCESS);
-	if (parse_xyz(*(split++), &buf))
-		return (PARSE_INVAL_LINE);
-	set_uv_transf(m, translation(buf.x, buf.y, buf.z, tbuf));
-	if (parse_double(*(split++), &dbuf))
-		return (PARSE_INVAL_LINE);
-	mul_uv_transf(m, scaling(dbuf, dbuf, dbuf, tbuf));
-	if (parse_png_map(*(split++), &m->nmap.data, &m->nmap.infos) != SUCCESS)
-	{
-		ft_fprintf(2, "Invalid normal map: %s\n", split[-1]);
-		return (PARSE_INVAL_LINE);
-	}
-	m->has_nmap = true;
 	if (parse_png_map(*(split++), &m->tmap.data, &m->tmap.infos) != SUCCESS)
-	{
-		ft_fprintf(2, "Invalid normal map: %s\n", split[-1]);
 		return (PARSE_INVAL_LINE);
-	}
 	m->has_tmap = true;
-	if (parse_png_map(*(split++), &m->aomap.data, &m->aomap.infos) != SUCCESS)
-	{
-		ft_fprintf(2, "Invalid normal map: %s\n", split[-1]);
+	if (!split[0])
+		return (SUCCESS);
+	if (parse_png_map(*(split++), &m->nmap.data, &m->nmap.infos) != SUCCESS)
 		return (PARSE_INVAL_LINE);
-	}
+	m->has_nmap = true;
+	if (!split[0])
+		return (SUCCESS);
+	if (parse_png_map(*(split++), &m->aomap.data, &m->aomap.infos) != SUCCESS)
+		return (PARSE_INVAL_LINE);
 	m->has_aomap = true;
 	return (SUCCESS);
 }
 
 int32_t	parse_pattern(char **split, t_obj *o)
 {
-	t_tuple	buf;
-	t_mtx4	tbuf;
+	double	dbuf;
+	t_tuple	tbuf;
+	t_mtx4	buf;
+	int32_t	res;
 
-	// if (!split[0])
-	// 	return (PARSE_MISSING_FIELD);
-	// if (parse_ptype(*(split++), &o->mat.pat.type) != SUCCESS)
-	// 	return (parse_maps(split, o));
-	// o->mat.has_pat = true;
-	// if (parse_color(*(split++), &o->mat.pat.a) != SUCCESS)
-	// 	return (PARSE_INVAL_LINE);
-	// if (parse_color(*(split++), &o->mat.pat.b) != SUCCESS)
-	// 	return (PARSE_INVAL_LINE);
-	// if (!split[0])
-	// 	return (SUCCESS);
-	return (parse_maps(split, &o->mat));
+	if (!split[0])
+		return (SUCCESS);
+	if (parse_xyz(*(split++), &tbuf))
+		return (PARSE_INVAL_LINE);
+	set_uv_transf(&o->mat, translation(tbuf.x, tbuf.y, tbuf.z, buf));
+	if (parse_double(*(split++), &dbuf))
+		return (PARSE_INVAL_LINE);
+	mul_uv_transf(&o->mat, scaling(dbuf, dbuf, dbuf, buf));
+	res = parse_ptype(*split, &o->mat.pat.type);
+	if (res == PARSE_MISSING_FIELD)
+		return (ft_fprintf(2, "Missing maps field\n"));
+	if (res == PARSE_INVAL_FORMAT)
+		return (parse_maps(split, &o->mat));
+	split++;
+	o->mat.has_pat = true;
+	if (parse_color(*(split++), &o->mat.pat.a) != SUCCESS)
+		return (PARSE_INVAL_LINE);
+	if (parse_color(*(split++), &o->mat.pat.b) != SUCCESS)
+		return (PARSE_INVAL_LINE);
+	return (SUCCESS);
 }
 
-static int32_t	parse_sphere_bonus(char **split, t_obj *o)
+static int32_t	parse_bonus(char **split, t_obj *o)
 {
 	int32_t	res;
 	double	buf;
@@ -120,7 +115,7 @@ int32_t	parse_sphere(char **split, t_world *w)
 	if (res != SUCCESS)
 		return (res);
 	if (BONUS_STATE)
-		if (parse_sphere_bonus(split, &obj) != SUCCESS)
+		if (parse_bonus(split, &obj) != SUCCESS)
 			return (PARSE_INVAL_LINE);
 	res = add_world_obj(w, obj);
 	return (res);

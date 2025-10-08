@@ -67,14 +67,14 @@ void	object_click(int keycode, int x, int y, void *p)
 	t_intersections	xs;
 	t_intersection	*i;
 
-	if (keycode != 1 || (ctx->gctx.w.gparam & MOVING)
+	if (keycode != 3 || (ctx->gctx.w.gparam & MOVING)
 		|| check_click_gui(ctx, x, y))
 		return ;
 	r = ray_for_pixel(ctx->gctx.w.cam, x, y);
 	xs = world_intersec(&ctx->gctx.w, r);
 	i = hit(&xs);
 	ctx->gctx.w.xs.count -= xs.count;
-	if (!i)
+	if ((ctx->gctx.w.gparam & EDIT))
 	{
 		set_edit(ctx, false);
 		set_selected_obj(ctx, NULL);

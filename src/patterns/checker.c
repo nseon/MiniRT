@@ -18,7 +18,7 @@
 
 t_fcolor	checker_at(t_pattern pat, t_uv uv)
 {
-	if ((int)(uv.u * 2 + uv.v * 2) % 2 == 0)
+	if ((int)(floor(uv.u * 8) + floor(uv.v * 8)) % 2 == 0)
 		return (pat.a);
 	return (pat.b);
 }

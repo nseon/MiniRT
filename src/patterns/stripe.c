@@ -18,7 +18,7 @@
 
 t_fcolor	stripe_at(t_pattern pat, t_uv uv)
 {
-	if ((int)floor(uv.u * 2) % 2 == 0)
+	if ((int)floor(uv.u * 8) % 2 == 0)
 		return (pat.a);
 	return (pat.b);
 }

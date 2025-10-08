@@ -17,6 +17,7 @@
 
 #include "tuple.h"
 #include "maps.h"
+#include "lib/libft/src/printf/includes/ft_printf.h"
 
 int32_t	init_png_struct(png_structp *png, png_infop *info)
 {
@@ -62,7 +63,7 @@ int32_t	parse_png_map(char *mapname, uint8_t ***map, t_map_infos *data)
 
 	*map = 0;
 	if (!mapname || open_png(mapname, &png, &info, &file) == -1)
-		return (-1);
+		return (ft_fprintf(2, "Invalid map: %s\n", mapname));
 	data->h = png_get_image_height(png, info);
 	data->w = png_get_image_width(png, info);
 	data->channels = png_get_channels(png, info);
@@ -75,7 +76,7 @@ int32_t	parse_png_map(char *mapname, uint8_t ***map, t_map_infos *data)
 		png_destroy_info_struct(png, &info);
 		png_destroy_read_struct(&png, NULL, NULL);
 		fclose(file);
-		return (-1);
+		return (ft_fprintf(2, "Invalid map: %s\n", mapname));
 	}
 	png_read_image(png, *map);
 	destroy_all(file, &png, &info);
