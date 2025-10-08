@@ -84,10 +84,9 @@ t_fcolor	light_hit(t_world *w, t_pre_compute *pc, int n)
 	while (++i < vct_size(w->lights))
 	{
 		l = w->lights[i];
-		if (w->gparam & SHADOWS)
-			is_in_shadow(w, pc->over_point, &l);
-		color = color_add(color, phong(pc->obj->mat,
-					l, pc, w->gparam));
+		if (!(w->gparam & SHADOWS) || !is_in_shadow(w, pc->over_point, &l))
+			color = color_add(color, phong(pc->obj->mat,
+						l, pc, w->gparam));
 	}
 	return (blend_additives(w, color, pc, n));
 }
