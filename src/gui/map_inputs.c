@@ -10,8 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "errors.h"
-#include "materials.h"
+#ifdef BONUS
+
+# include "errors.h"
+# include "materials.h"
 
 void	input_nmap(char *str, void *p)
 {
@@ -54,3 +56,5 @@ void	input_aomap(char *str, void *p)
 	else
 		mat->has_aomap = true;
 }
+
+#endif

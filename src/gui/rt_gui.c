@@ -14,6 +14,7 @@
 
 #include "minirt.h"
 #include "neflibx.h"
+#include "parsing.h"
 
 void	switch_gui_param(t_ctx *ctx, char *id, bool val)
 {
@@ -88,5 +89,6 @@ void	show_edit(t_ctx *ctx)
 	e = get_by_id(&ctx->win, "refrac_slide");
 	e->cb.cb_param = &o->mat.refractive;
 	e->value = o->mat.refractive / 10;
-	show_map_gui(ctx, o);
+	if (BONUS_STATE)
+		show_map_gui(ctx, o);
 }

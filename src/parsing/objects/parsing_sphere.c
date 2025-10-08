@@ -16,6 +16,8 @@
 #include "parsing.h"
 #include "render.h"
 
+#ifdef BONUS
+
 int32_t	parse_maps(char **split, t_material *m)
 {
 	if (!split[0])
@@ -35,6 +37,17 @@ int32_t	parse_maps(char **split, t_material *m)
 	m->has_aomap = true;
 	return (SUCCESS);
 }
+
+#else
+
+int32_t	parse_maps(char **split, t_material *m)
+{
+	ft_fprintf(2, "Invalid pattern: %s\n", *split);
+	(void)m;
+	return (PARSE_INVAL_LINE);
+}
+
+#endif
 
 int32_t	parse_pattern(char **split, t_obj *o)
 {
