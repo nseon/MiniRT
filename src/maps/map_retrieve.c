@@ -19,8 +19,8 @@
 
 t_tuple	map_to_vct(t_map *map, t_uv uv)
 {
-	int32_t const	x = uv.u * map->infos.w;
-	int32_t const	y = uv.v * map->infos.h;
+	int32_t const	x = uv.u * (map->infos.w - 1);
+	int32_t const	y = uv.v * (map->infos.h - 1);
 
 	return (tp_normalize(vector((map->data[y][x * map->infos.channels] / 255.0)
 			* 2 - 1, (map->data[y][x * map->infos.channels + 1] / 255.0) * 2 - 1
@@ -29,8 +29,8 @@ t_tuple	map_to_vct(t_map *map, t_uv uv)
 
 t_fcolor	map_to_fcol(t_map *map, t_uv uv)
 {
-	int32_t const	x = uv.u * map->infos.w;
-	int32_t const	y = uv.v * map->infos.h;
+	int32_t const	x = uv.u * (map->infos.w - 1);
+	int32_t const	y = uv.v * (map->infos.h - 1);
 
 	return (fcolor((map->data[y][x * map->infos.channels] / 255.0)
 		, (map->data[y][x * map->infos.channels + 1] / 255.0)
@@ -39,16 +39,16 @@ t_fcolor	map_to_fcol(t_map *map, t_uv uv)
 
 double	map_to_ao(t_map *map, t_uv uv)
 {
-	int32_t const	x = uv.u * map->infos.w;
-	int32_t const	y = uv.v * map->infos.h;
+	int32_t const	x = uv.u * (map->infos.w - 1);
+	int32_t const	y = uv.v * (map->infos.h - 1);
 
 	return (map->data[y][x * map->infos.channels] / 255.0);
 }
 
 int8_t	map_to_height(t_map *map, t_uv uv)
 {
-	int32_t const	x = uv.u * map->infos.w;
-	int32_t const	y = uv.v * map->infos.h;
+	int32_t const	x = uv.u * (map->infos.w - 1);
+	int32_t const	y = uv.v * (map->infos.h - 1);
 
 	return (map->data[y][x * map->infos.channels]);
 }
