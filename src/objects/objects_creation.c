@@ -31,10 +31,10 @@ void	set_rota_from_dir(t_tuple dir, t_obj *o)
 
 t_fcolor	obj_color(t_obj *o, t_uv uv)
 {
-	if (o->mat.has_pat)
-		return (pattern_at_obj(o->mat.pat, uv));
 	if (o->mat.has_tmap)
 		return (map_to_fcol(&o->mat.tmap, uv));
+	if (o->mat.has_pat)
+		return (pattern_at_obj(o->mat.pat, uv));
 	return (o->mat.col);
 }
 
