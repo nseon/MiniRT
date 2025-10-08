@@ -255,7 +255,7 @@ INCLUDES	=	$(INCS_DIR) \
 # ===============CONFIGS=============== #
 
 CC			=	cc
-CFLAGS		+=	-Wall -Wextra -Werror
+CFLAGS		+=	-Wall -Wextra -Werror -O1
 CPPFLAGS	+=	$(addprefix -I, $(INCLUDES)) \
 			-MMD -MP
 
@@ -303,9 +303,9 @@ else ifeq ($(MODE), memsan)
 else ifeq ($(MODE), optimize)
 	CFLAGS += -O3
 else ifeq ($(MODE), full-optimize-bonus)
-	CFLAGS = -Ofast -DBONUS
+	CFLAGS = -Ofast -DBONUS -Wall -Werror -Wextra
 else ifeq ($(MODE), full-optimize)
-    CFLAGS = -Ofast 
+    CFLAGS = -Ofast -Wall -Werror -Wextra
 else ifeq ($(MODE), bonus)
 	CFLAGS += -Ofast
 	CPPFLAGS += -DBONUS

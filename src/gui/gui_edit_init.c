@@ -73,7 +73,6 @@ int32_t	edit_color_gui(t_ctx *ctx, uint32_t cuid)
 int32_t	edit_gui(t_ctx *ctx)
 {
 	t_guielem *const	render_ctn = create_container(&ctx->win, 0);
-	t_guielem			*el;
 	const uint32_t		cuid = render_ctn->uid;
 
 	render_ctn->id = EDIT_CTN_ID;

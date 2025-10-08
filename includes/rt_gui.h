@@ -36,5 +36,7 @@ void	input_aomap(char *str, void *p);
 void	tmap_bool(bool b, void *p);
 void	nmap_bool(bool b, void *p);
 void	aomap_bool(bool b, void *p);
+int32_t	edit_aomap_gui(t_ctx *ctx, uint32_t cuid);
+int32_t	edit_tnmap_gui(t_ctx *ctx, uint32_t cuid);
 
 #endif
