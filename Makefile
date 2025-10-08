@@ -6,7 +6,7 @@
 #    By: nseon <nseon@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/19 11:53:22 by pjarnac           #+#    #+#              #
-#    Updated: 2025/10/03 08:50:15 by nseon            ###   ########.fr        #
+#    Updated: 2025/10/08 13:35:04 by nseon            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,13 +59,6 @@ INPUTS_DIR	=		inputs/
 INPUTS_SRC	=		camera.c \
 					move_camera.c \
 
-# ===============DEBUG================= #
-
-SRC += $(addprefix $(DEBUG_DIR), $(DEBUG_SRC))
-
-DEBUG_DIR	=		debug/
-DEBUG_SRC	=		objects.c \
-
 # ===============OBJECTS================= #
 
 SRC += $(addprefix $(OBJECTS_DIR), $(OBJECTS_SRC))
@@ -78,6 +71,7 @@ OBJECTS_SRC	=		objects_creation.c \
 					plane.c \
 					cube.c \
 					cylinder.c \
+					free_obj.c \
 
 # ===============WORLD================= #
 

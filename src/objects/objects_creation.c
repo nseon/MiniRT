@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   objects.c                                          :+:      :+:    :+:   */
+/*   objects_creation.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 19:35:53 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/08/07 19:35:53 by pjarnac          ###   ########.fr       */
+/*   Updated: 2025/10/08 13:34:08 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,18 +27,6 @@ void	set_rota_from_dir(t_tuple dir, t_obj *o)
 {
 	o->y_rot = atan2(dir.z, dir.x);
 	o->z_rot = -asin(dir.y);
-}
-
-void	free_obj(void *p)
-{
-	t_obj *const	o = p;
-
-	if (o->mat.has_nmap)
-		free_map(o->mat.nmap.data, o->mat.nmap.infos.h);
-	if (o->mat.has_tmap)
-		free_map(o->mat.tmap.data, o->mat.tmap.infos.h);
-	if (o->mat.has_aomap)
-		free_map(o->mat.aomap.data, o->mat.aomap.infos.h);
 }
 
 t_fcolor	obj_color(t_obj *o, t_uv uv)

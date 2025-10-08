@@ -6,18 +6,20 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 14:57:28 by nseon             #+#    #+#             */
-/*   Updated: 2025/10/07 10:51:45 by nseon            ###   ########.fr       */
+/*   Updated: 2025/10/08 13:31:31 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdint.h>
-#include <stdlib.h>
-#include <png.h>
+#ifdef BONUS
 
-#include "tuple.h"
-#include "maps.h"
-#include "lib/libft/src/printf/includes/ft_printf.h"
+# include <stdio.h>
+# include <stdint.h>
+# include <stdlib.h>
+# include <png.h>
+
+# include "tuple.h"
+# include "maps.h"
+# include "lib/libft/src/printf/includes/ft_printf.h"
 
 int32_t	init_png_struct(png_structp *png, png_infop *info)
 {
@@ -82,3 +84,5 @@ int32_t	parse_png_map(char *mapname, uint8_t ***map, t_map_infos *data)
 	destroy_all(file, &png, &info);
 	return (0);
 }
+
+#endif

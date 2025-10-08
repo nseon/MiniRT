@@ -6,13 +6,15 @@
 /*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 16:41:29 by nseon             #+#    #+#             */
-/*   Updated: 2025/10/02 10:50:56 by nseon            ###   ########.fr       */
+/*   Updated: 2025/10/08 13:31:38 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <png.h>
-#include <stdint.h>
-#include <stdlib.h>
+#ifdef BONUS
+
+# include <png.h>
+# include <stdint.h>
+# include <stdlib.h>
 
 void	free_map(uint8_t **image, int32_t nb_lines)
 {
@@ -52,3 +54,5 @@ png_bytepp	alloc_map(png_structp *png, png_infop *info)
 	}
 	return (image);
 }
+
+#endif
