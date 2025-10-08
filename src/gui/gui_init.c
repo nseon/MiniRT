@@ -104,6 +104,8 @@ int8_t	init_gui(t_ctx *ctx)
 {
 	int8_t	res;
 
+	if (vct_allocate(&ctx->win.gui_elems, 32) != SUCCESS)
+		return (FATAL);
 	res = parse_gui(ctx);
 	res = render_gui(ctx);
 	res = edit_gui(ctx);

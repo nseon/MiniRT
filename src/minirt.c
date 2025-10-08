@@ -54,7 +54,7 @@ static int8_t	init(t_ctx *const ctx)
 		return (free_init(ctx, 1));
 	if (init_random() != SUCCESS)
 		return (free_init(ctx, 2));
-	if (init_ss(&ctx->gctx, 70) != SUCCESS)
+	if (init_ss(&ctx->gctx, 400) != SUCCESS)
 		return (free_init(ctx, 3));
 	if (init_window(&ctx->win, WIN_W, WIN_H, "MiniRT") != SUCCESS)
 		return (free_init(ctx, 4));
@@ -62,6 +62,8 @@ static int8_t	init(t_ctx *const ctx)
 		return (free_init(ctx, 5));
 	if (world(&ctx->gctx.w) != SUCCESS)
 		return (free_init(ctx, 6));
+	if (init_gui(ctx) != SUCCESS)
+		return (free_init(ctx, 7));
 	return (SUCCESS);
 }
 
@@ -85,7 +87,6 @@ int	main(int c, char **args)
 		return (EXIT_FAILURE);
 	register_loop(ctx.win.events, main_loop, &ctx);
 	register_destroy(ctx.win.events, end_main_loop, &ctx.win);
-	init_gui(&ctx);
 	draw_background(&ctx.img, BACK_COLOR);
 	if (c == 2)
 	{
