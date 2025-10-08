@@ -43,13 +43,17 @@ typedef struct s_tbn
 	t_tuple	n;
 }	t_tbn;
 
-void		free_map(uint8_t **image, int32_t nb_lines);
+# ifdef BONUS
+
 int32_t		destroy_all(FILE *file, png_structp *png, png_infop *info);
 uint8_t		**alloc_map(png_structp *png, png_infop *info);
+
+# endif
+
+void		free_map(uint8_t **image, int32_t nb_lines);
 t_tuple		map_to_vct(t_map *map, t_uv uv);
 t_fcolor	map_to_fcol(t_map *map, t_uv uv);
 double		map_to_ao(t_map *map, t_uv uv);
-int8_t		map_to_height(t_map *map, t_uv uv);
 
 int32_t		parse_png_map(char *mapname, uint8_t ***map, t_map_infos *data);
 t_tuple		pertube_normal(t_tuple ojb_norm, t_tuple map_norm);

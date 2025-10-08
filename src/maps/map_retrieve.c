@@ -44,11 +44,3 @@ double	map_to_ao(t_map *map, t_uv uv)
 
 	return (map->data[y][x * map->infos.channels] / 255.0);
 }
-
-int8_t	map_to_height(t_map *map, t_uv uv)
-{
-	int32_t const	x = uv.u * (map->infos.w - 1);
-	int32_t const	y = uv.v * (map->infos.h - 1);
-
-	return (map->data[y][x * map->infos.channels]);
-}
