@@ -39,7 +39,11 @@ int32_t	world(t_world *w)
 		| INDIRECT | SS | RENDER;
 	create_wintersec(w);
 	if (!w->xs.i)
+	{
+		vct_destroy(w->objs);
+		vct_destroy(w->lights);
 		return (FATAL);
+	}
 	return (SUCCESS);
 }
 
