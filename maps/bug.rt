@@ -9,7 +9,7 @@ C   -1,5,-20 0,0,1 70
 
 lpt -11,5,-15.5 0.6 255,255,255
 
-cb -1,0,-10 0,0,1 25,25,25 255,255,255   0 0 1 0,0,0 1 gradient 128,0,0 0,128,0
+cb -1,0,-10 0,0,1 25,25,25 255,255,255   0 0 1 0,0,0 1 Wood_Crate_001_basecolor.png Wood_Crate_001_normal.png Wood_Crate_001_ambientOcclusion.png
 sp -1,0,-10   7.5  166,240,255 0 0 0     0,0,0 1 gradient 128,0,0 0,128,0
 
 # cb -1,0.5,-10 0,0,1 1,1,1 200,200,200         0 0 1    0,0,0 1 Wood_Crate_001_normal.png Wood_Crate_001_basecolor.png Wood_Crate_001_ambientOcclusion.png
