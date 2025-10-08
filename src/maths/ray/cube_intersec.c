@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cube_intersec.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: nseon <nseon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 09:39:19 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/09/01 09:39:19 by pjarnac          ###   ########.fr       */
+/*   Updated: 2025/10/07 16:34:46 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	check_axis(double ori, double dir, double res[2])
 	double			tmax;
 	int				inv;
 
-	if (dabs(dir) >= DEPSILON)
+	if (dabs(dir) >= DEPSILON / 1000)
 	{
 		tmin = tmin_num / dir;
 		tmax = tmax_num / dir;
