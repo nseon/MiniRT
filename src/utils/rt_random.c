@@ -20,7 +20,7 @@
 #include "tuple.h"
 #include "errors.h"
 
-static uint32_t	g_xor_state;
+static uint64_t	g_xor_state;
 
 int32_t	init_random(void)
 {
@@ -29,7 +29,7 @@ int32_t	init_random(void)
 	fd = open("/dev/urandom", O_RDONLY);
 	if (fd == -1)
 		return (FATAL);
-	if (read(fd, &g_xor_state, 4) == -1)
+	if (read(fd, &g_xor_state, 8) == -1)
 	{
 		close(fd);
 		return (FATAL);
@@ -41,9 +41,9 @@ int32_t	init_random(void)
 double	frandom(int min, int max)
 {
 	g_xor_state ^= g_xor_state << 13;
-	g_xor_state ^= g_xor_state >> 17;
-	g_xor_state ^= g_xor_state << 5;
-	return ((double)g_xor_state / (UINT32_MAX / (max - min)) + min);
+	g_xor_state ^= g_xor_state >> 7;
+	g_xor_state ^= g_xor_state << 17;
+	return ((double)g_xor_state / (UINT64_MAX / (max - min)) + min);
 }
 
 t_tuple	random_vec(void)
