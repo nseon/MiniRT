@@ -11,8 +11,8 @@
 /* ************************************************************************** */
 
 #include "errors.h"
-#include "rt_gui.h"
 #include "neflibx.h"
+#include "rt_gui.h"
 
 int32_t	edit_addi_gui(t_ctx *ctx, uint32_t cuid)
 {
@@ -41,6 +41,8 @@ int32_t	edit_addi_gui(t_ctx *ctx, uint32_t cuid)
 	el->vx = 30;
 	return (SUCCESS);
 }
+
+#ifdef BONUS
 
 int32_t	edit_aomap_gui(t_ctx *ctx, uint32_t cuid)
 {
@@ -97,6 +99,8 @@ int32_t	edit_tnmap_gui(t_ctx *ctx, uint32_t cuid)
 	el->vx = 40;
 	return (SUCCESS);
 }
+
+#endif
 
 int32_t	edit_color_gui(t_ctx *ctx, uint32_t cuid)
 {

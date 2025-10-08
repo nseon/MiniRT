@@ -10,14 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-
 #include "errors.h"
-#include "render.h"
-#include "debug.h"
 #include "lighting.h"
-#include "parsing.h"
 #include "maps.h"
+#include "parsing.h"
+#include "render.h"
 
 int32_t	parse_maps(char **split, t_material *m)
 {
