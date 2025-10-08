@@ -23,6 +23,14 @@
 
 void	open_file(char *str, t_ctx *ctx)
 {
+	int32_t const	len = ft_strlen(str);
+
+	if (len < 3 || ft_strcmp(str + len - 3, ".rt") != 0)
+	{
+		ctx->error = PARSE_INVAL_MAP;
+		ft_fprintf(2, "Invalid file extension, need: .rt\n");
+		return ;
+	}
 	ctx->file = open(str, O_RDWR);
 	if (ctx->file == -1)
 	{

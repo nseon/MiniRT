@@ -77,6 +77,8 @@ void	show_edit(t_ctx *ctx)
 	t_guielem		*e;
 	t_obj *const	o = ctx->gctx.w.selec_o;
 
+	set_color(ctx, &o->mat.col);
+	show_map_gui(ctx, o);
 	get_by_id(&ctx->win, EDIT_CTN_ID)->hide = false;
 	e = get_by_id(&ctx->win, "refl_slide");
 	e->cb.cb_param = &o->mat.reflective;
