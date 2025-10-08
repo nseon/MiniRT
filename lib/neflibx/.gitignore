@@ -1,14 +1,11 @@
-    ### C template
-
-.idea/
-.make/
-miniRT
-.vscode/
-a.out
-*.png
-
+### C template
 # Prerequisites
 *.d
+.idea
+tests
+
+src/crane.xpm
+src/test.c
 
 # Object files
 *.o

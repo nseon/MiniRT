@@ -1,14 +1,10 @@
-    ### C template
-
-.idea/
-.make/
-miniRT
-.vscode/
-a.out
-*.png
-
+### C template
 # Prerequisites
 *.d
+
+*test
+tests/
+.idea/
 
 # Object files
 *.o

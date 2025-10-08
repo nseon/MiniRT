@@ -1,12 +1,18 @@
-    ### C template
+## Mlx related
+Makefile.gen
+/test/mlx-test
 
-.idea/
-.make/
-miniRT
-.vscode/
-a.out
-*.png
+## Editor
+.vscode/*
+*~
+\#*\#
 
+## Other
+.DS_STORE
+
+
+
+## Template from https://github.com/github/gitignore
 # Prerequisites
 *.d
 
@@ -59,4 +65,3 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
-
