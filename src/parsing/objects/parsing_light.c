@@ -22,6 +22,8 @@ int32_t	parse_light(char **split, t_light *light)
 	int32_t	res;
 	double	i;
 
+	if (!light)
+		return (FATAL);
 	res = parse_xyz(split[0], &light->pos);
 	if (res != SUCCESS)
 		return (res);
