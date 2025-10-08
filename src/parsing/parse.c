@@ -70,6 +70,8 @@ void	parse(char *str, void *p)
 		}
 		else
 		{
+			vct_erase(ctx->gctx.w.objs, 0, vct_size(ctx->gctx.w.objs));
+			vct_erase(ctx->gctx.w.lights, 0, vct_size(ctx->gctx.w.lights));
 			ctx->error = PARSE_INVAL_MAP;
 		}
 	}
