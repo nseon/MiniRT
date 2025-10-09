@@ -74,7 +74,7 @@ void	object_click(int keycode, int x, int y, void *p)
 	xs = world_intersec(&ctx->gctx.w, r);
 	i = hit(&xs);
 	ctx->gctx.w.xs.count -= xs.count;
-	if ((ctx->gctx.w.gparam & EDIT))
+	if (!i || (ctx->gctx.w.gparam & EDIT))
 	{
 		set_edit(ctx, false);
 		set_selected_obj(ctx, NULL);
