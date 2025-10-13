@@ -1,20 +1,29 @@
 # bonus parsing: reflective(float) transparency(float) refractive(float)
 
-A   0.1           255,255,255
+A   0.0           255,255,255
 
 bl  115,205,255
 
-C   0,0,0 0,0,1  70
+C   0,0,-45 0,0,1  70
 
 
-lpt 0,0,0 0.7 255,255,255
+lpt 0,6,-10 1 255,230,160
+lpt 2000,700,-10 1 255,255,255
 
-pl 0,-1,0 0,0,1 255,255,255          0 0 0
-pl 3,0,0 0,1,0 255,0,0          0 0 0
-pl -3,0,0 0,1,0 0,255,0          0 0 0
-pl 0,3,0 0,0,1 255,255,255          0 0 0
-pl 0,3,0 1,0,0 255,255,255          0 0 0
+cb 0,-10,-10 0,0,1 30,0.1,30 255,0,0   0 0 1	0,0,0 1	maps/floor_base.png maps/floor_norm.png maps/floor_ao.png
+cb 0,10,-10 0,0,1 30,0.1,30 255,0,0   0 0 1		0,0,0 1	maps/ceiling_base.png maps/ceiling_norm.png maps/ceiling_ao.png
 
+sp 0,6,-10	4  240,196,125 0 0.4 1
+cy 0,9,-10 1,0,0 0.4 2 50,50,50
 
-sp 0,-0.2,1   0.7  40,40,40 0.7 0 1.5
+cb 15.5,0,-22.5 0,0,1 1,20,5 10,64,120   0 0 1		0,0,0 0.5	maps/wall_base.png maps/wall_norm.png maps/wall_ao.png
+cb 15.5,0,2.5 0,0,1 1,20,5 10,64,120   0 0 1		0,0,0 0.5	maps/wall_base.png maps/wall_norm.png maps/wall_ao.png
+cb 15.5,7.5,-10 0,0,1 1,5,20 10,64,120   0 0 1		0,0,0 0.5	maps/wall_base.png maps/wall_norm.png maps/wall_ao.png
+cb 15.5,-7.5,-10 0,0,1 1,5,20 10,64,120   0 0 1		0,0,0 0.5	maps/wall_base.png maps/wall_norm.png maps/wall_ao.png
+
+cb -15,0,-10 0,0,1 0.1,20,30 10,64,120   0 0 1		0,0,0 0.5	maps/wall_base.png maps/wall_norm.png maps/wall_ao.png
+cb 0,0,5 0,0,1 30,20,0.1 10,64,120   0 0 1			0,0,0 0.5	maps/wall_base.png maps/wall_norm.png maps/wall_ao.png
+
+cb 16,0,-10 0,0,1 0.1,10,20 10,64,120   0 0.5 1		0,0,0 0.5	maps/glass_base.png maps/glass_norm.png maps/glass_ao.png
+cb 0,0,5 0,0,1 15,20,0.1 10,64,120   0 0 1			0,0,0 1	maps/stone_base.png maps/stone_norm.png maps/stone_ao.png
 
